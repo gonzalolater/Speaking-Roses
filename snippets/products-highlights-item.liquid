@@ -1,0 +1,67 @@
+{% assign product_title = custom_title %}
+{% if custom_title == blank %}
+  {% assign product_title = productTarget.title %}
+{% endif %}
+{% assign product_description = productTarget.description %}
+{% assign product_metafield = productTarget.metafields.custom.custom_subtitle %}
+{%- assign product_image = custom_image -%}
+{% if custom_image == blank %}
+  {%- assign product_image = productTarget.selected_or_first_available_variant.image
+    | default: productTarget.featured_image
+  -%}
+{% endif %}
+{% assign productURL = productTarget.url %}
+
+<div class="products-highlights__item products_highlights__{{ source }}">
+  {% if productTarget != blank %}
+    <div class="products-highlights__hero-image products-highlights__hero-image--desktop">
+      {{ background_icon }}
+    </div>
+    <div class="products-highlights__hero-image products-highlights__hero-image--tablet-up">
+      {{ background_icon_tablet }}
+    </div>
+    <div class="products-highlights__hero-image products-highlights__hero-image--mobile-up">
+      {{ background_icon_mobile }}
+    </div>
+  {% endif %}
+  <div class="products-highlights__hero-product">
+    <div class="products-highlights__hero-product-content">
+      {% if product_title != blank %}
+        <div class="products-highlights__headline">
+          <h2 class="products-highlights__product-title customHeadline3">
+            {{ product_title }}
+          </h2>
+          {% if short_description != blank and short_description_text != blank %}
+            <p class="products-highlights__short-description">
+              {{ short_description_text }}
+            </p>
+          {% endif %}
+        </div>
+      {% endif %}
+
+     
+      {% if product_image != blank %}
+        <div class="products-highlights__product-image-content">
+          {%-
+            render 'responsive-image' with
+            image: product_image,
+            image_class: 'products-highlights__product-image',
+            active_lazy: lazy_load
+          -%}
+          <span class="grid_hero-image-shadow"></span>
+        </div>
+      {% endif %}
+      {% if toggle_content != blank and toggle_content_label != blank %}
+        <button
+          source="{{ source }}"
+          class="products-highlights__more-details"
+          type="button"
+          name="products-highlights__cta-open"
+          title="open"
+        >
+          {{ toggle_content_label }}
+        </button>
+      {% endif %}
+    </div>
+  </div>
+</div>

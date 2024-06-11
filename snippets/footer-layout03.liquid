@@ -1,0 +1,1106 @@
+<!-- START footer-layout03.liquid (SNIPPET) -->
+<section class="footer">
+  <h3 class="hide">Footer</h3>
+  <footer class="footer__section-wrapper wrapper">
+    <div class="footer__divisor-line"></div>
+    <div class="footer__content-container">
+      <div class="footer__info-container">
+        <div class="footer__logo-wrapper desktop">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'logo_footer' -%}
+              {% assign logo_max_width = block.settings.logo_max_width %}
+              {% assign logo_max_height = block.settings.logo_max_height %}
+              {% assign custom_dimensions = block.settings.choose_custom_dimensions %}
+              <div class="footer__logo">
+                {% if block.settings.enable_svg_logo %}
+                  <a title="{{ block.settings.shop_logo_alt }}" class="footer__logo-image" href="/">
+                    {{- block.settings.logo_svg_html -}}
+                  </a>
+                {% elsif block.settings.logo_url != blank %}
+                  <a title="{{ block.settings.shop_logo_alt }}" class="footer__logo-image" href="/">
+                    {%-
+                      render 'responsive-image' with
+                      image: block.settings.logo_url,
+                      alt: block.settings.logo_url.alt,
+                      width: 100,
+                      lazyload: true
+                    -%}
+                  </a>
+                {% else %}
+                  <a title="{{ block.settings.shop_logo_alt }}" class="footer__logo-image" href="/">
+                    {{- block.settings.shop_logo_alt -}}
+                  </a>
+                {% endif %}
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+
+        <div class="footer__infos">
+          <div class="footer__business-info">
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'infos' -%}
+                {%- if block.settings.enable_email -%}
+                  <a
+                    title="E-mail"
+                    id="ftr-info-mail"
+                    class="footer__business-info-link footer__business-info-email "
+                    href="mailto:{{ settings.text_email }}"
+                    target="_blank"
+                  >
+                    {%- render 'icon-envelope' -%}
+                    <span>{{ settings.text_email }}</span>
+                  </a>
+                {%- endif -%}
+                {%- if block.settings.enable_phone -%}
+                  <a
+                    title="Telephone"
+                    id="ftr-info-tel"
+                    class="footer__business-info-link footer__business-info-tel"
+                    href="tel:{{ settings.text_tel | replace: '+', '' | replace: '(', '' | replace: ')', '' | replace: '-', '' | replace: ' ', '' }}"
+                    target="_blank"
+                  >
+                    {%- render 'icon-phone' -%}
+                    <span>{{ settings.text_tel }}</span>
+                  </a>
+                {%- endif -%}
+                {%- if block.settings.address != blank -%}
+                  <a
+                    title="Adress"
+                    id="ftr-info-adress"
+                    class="footer__business-info-link footer__business-info-address"
+                    href="{%- if block.settings.address_link -%}{{ block.settings.address_link }}{%- else -%}#{%- endif -%}"
+                    target="_blank"
+                  >
+                    {%- render 'icon-pin' -%}
+                    <span>{{ block.settings.address }}</span>
+                  </a>
+                {%- endif -%}
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+
+          <div class="footer__social">
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'social' -%}
+                <div class="footer__social-icons">
+                  {%- case block.settings.social_media -%}
+                    {%- when 'icon-facebook' -%}
+                      {%- assign social_link = settings['link-facebook'] -%}
+                    {%- when 'icon-instagram' -%}
+                      {%- assign social_link = settings['link-instagram'] -%}
+                    {%- when 'icon-pinterest' -%}
+                      {%- assign social_link = settings['link-pinterest'] -%}
+                    {%- when 'icon-snapchat' -%}
+                      {%- assign social_link = settings['link-snapchat'] -%}
+                    {%- when 'icon-tumblr' -%}
+                      {%- assign social_link = settings['link-tumblr'] -%}
+                    {%- when 'icon-twitter' -%}
+                      {%- assign social_link = settings['link-twitter'] -%}
+                    {%- when 'icon-vimeo' -%}
+                      {%- assign social_link = settings['link-vimeo'] -%}
+                    {%- when 'icon-youtube' -%}
+                      {%- assign social_link = settings['link-youtube'] -%}
+                    {%- when 'icon-tiktok' -%}
+                      {%- assign social_link = settings['link-tiktok'] -%}
+                  {%- endcase -%}
+                  <a
+                    title="{{ block.settings.social_media | strip_html | escape }}"
+                    aria-label="ftr-social-{{ block.id }}"
+                    id="ftr-social-{{ block.id }}"
+                    href="{{ social_link | default: '#' }}"
+                    class="footer__social-icons-link"
+                    target="_blank"
+                  >
+                    {%- render 'icon-media-social' with icon: block.settings.social_media -%}
+                  </a>
+                </div>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        </div>
+
+        {%- if section.settings.enable_html_area_1 or section.settings.enable_html_area_2 -%}
+          <div class="footer__custom-html-area desktop">
+            {%- if section.settings.enable_html_area_1 -%}
+              <div class="custom-html">{{ section.settings.footer_html_area_1 }}</div>
+            {%- endif -%}
+            {%- if section.settings.enable_html_area_2 -%}
+              <div class="custom-html">{{ section.settings.footer_html_area_2 }}</div>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </div>
+
+      <div class="footer__menu-container">
+        <div class="footer__menu-wrapper">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'menu_footer' -%}
+              {%- assign menu = linklists[block.settings.menu] -%}
+              {%- assign menu_title = block.settings.title | default: menu.title -%}
+
+              {% if menu != blank %}
+                <nav class="footer__menu-nav">
+                  <div class="footer__menu-title-wrapper">
+                    <h4 class="footer__menu-title">{{ menu_title }}</h4>
+                    {%- render 'icon-arrow-down' -%}
+                  </div>
+
+                  <ul class="footer__menu-list">
+                    {%- for link in menu.links -%}
+                      <li class="footer__menu-list-item">
+                        <a
+                          id="ftr-menu-{{ block.id }}-{{ forloop.index }}"
+                          href="{{ link.url | default: '#' }}"
+                          class="footer__menu-list-item-link"
+                        >
+                          {{ link.title }}
+                        </a>
+                      </li>
+                    {%- endfor -%}
+
+                    {%- if shop.customer_accounts_enabled and block.settings.enable_customer_account -%}
+                      {%- if customer -%}
+                        <li class="footer__menu-list-item">
+                          {%- if customer.first_name != blank -%}
+                            {%- capture first_name -%}{{ customer.first_name }}{%- endcapture -%}
+                            <a href="/account" class="footer__menu-list-item-link">
+                              {{- 'layout.customer.logged_in_as_html' | t: first_name: first_name -}}
+                            </a>
+                          {%- else -%}
+                            <a href="/account">{{ 'layout.customer.account' | t }}</a>
+                          {%- endif -%}
+                        </li>
+                        <li class="footer__menu-list-item">
+                          <a
+                            href="/account/logout"
+                            class="footer__menu-list-item-link"
+                            id="customer_logout_link-{{ section.id }}"
+                          >
+                            {{- 'layout.customer.log_out' | t -}}
+                          </a>
+                        </li>
+                      {%- else -%}
+                        <li class="footer__menu-list-item">
+                          <a
+                            href="/account/login"
+                            class="footer__menu-list-item-link"
+                            id="customer_login_link-{{ section.id }}"
+                          >
+                            {{- 'layout.customer.log_in' | t -}}
+                          </a>
+                        </li>
+                        <li class="footer__menu-list-item">
+                          <a
+                            href="/account/register"
+                            class="footer__menu-list-item-link"
+                            id="customer_register_link-{{ section.id }}"
+                          >
+                            {{- 'layout.customer.create_account' | t -}}
+                          </a>
+                        </li>
+                      {%- endif -%}
+                    {%- endif -%}
+                  </ul>
+                </nav>
+              {%- endif -%}
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+
+        <div class="footer__credits desktop">
+          <p class="footer__copyright" id="copyright">
+            Copyright &copy; {{ 'now' | date: '%Y' }}
+            <a id="CopyrightReserved" href="/" class="footer__copyright-link">{{ shop.name }}</a>.
+            {{ section.settings.text_post_copy_right }}. All rights reserved.
+          </p>
+
+          <div class="footer__trust-badges-wrapper">
+            <div class="footer__trust-badges">
+              {%- for block in section.blocks -%}
+                {%- if block.type == 'trust_badges_footer' -%}
+                  <div class="footer__trust-badge-image" id="trust-badges-img{{ block.id }}">
+                    {% if block.settings.enable_img_trust_badge %}
+                      {%-
+                        render 'responsive-image' with
+                        image: block.settings.img_trust_badges_footer,
+                        width: 250,
+                        lazyload: true
+                      -%}
+                    {% elsif block.settings.enable_custom_trust_badge_svg %}
+                      {{ block.settings.custom_trust_badge_svg_html }}
+                    {% else %}
+                      {%- assign snippet_icon_trust_badge = 'icon-'
+                        | append: block.settings.svg_trust_badge
+                        | append: '.svg'
+                      -%}
+                      <img
+                        width="60"
+                        height="60"
+                        id="trust-badge-footer-{{ block.id }}"
+                        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                        data-src="{{ snippet_icon_trust_badge | asset_url }}"
+                        alt="{{ block.settings.svg_trust_badge | escape | replace: "-" , " " | capitalize | default: 'Image without description.' }}"
+                        data-class="LazyLoad"
+                      >
+                    {%- endif -%}
+                  </div>
+
+                  <style type="lazyload_int">
+                    {% if block.settings.enable_img_trust_badge %}
+                      #trust-badges-img{{ block.id }} img{
+                        {%- if block.settings.choose_trust_badges_dimensions == 'height' -%}
+                          height:{{ block.settings.trust_badge_image_height }}px;
+                        {%- else -%}
+                          height: auto;
+                          width:{{ block.settings.trust_badge_image_width }}px;
+                        {%- endif -%}
+                      }
+                    {% else %}
+                      #trust-badge-footer-{{ block.id }} {
+                        {%- if block.settings.choose_trust_badges_dimensions == 'height' -%}
+                          height:{{ block.settings.trust_badge_image_height }}px;
+                        {%- else -%}
+                          height: auto;
+                          width:{{ block.settings.trust_badge_image_width }}px;
+                        {%- endif -%}
+                      }
+                    {% endif %}
+                  </style>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer__newsletter-popular-widget-container">
+        <div class="footer__logo-wrapper no-desktop">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'logo_footer' -%}
+              {% assign logo_max_width = block.settings.logo_max_width %}
+              {% assign logo_max_height = block.settings.logo_max_height %}
+              {% assign custom_dimensions = block.settings.choose_custom_dimensions %}
+              <div class="footer__logo">
+                {% if block.settings.enable_svg_logo %}
+                  <a title="{{ block.settings.shop_logo_alt }}" class="footer__logo-image" href="/">
+                    {{- block.settings.logo_svg_html -}}
+                  </a>
+                {% elsif block.settings.logo_url != blank %}
+                  <a title="{{ block.settings.shop_logo_alt }}" class="footer__logo-image" href="/">
+                    {%-
+                      render 'responsive-image' with
+                      image: block.settings.logo_url,
+                      alt: block.settings.logo_url.alt,
+                      width: 100,
+                      lazyload: true
+                    -%}
+                  </a>
+                {% else %}
+                  <a title="{{ block.settings.shop_logo_alt }}" class="footer__logo-image" href="/">
+                    {{- block.settings.shop_logo_alt -}}
+                  </a>
+                {% endif %}
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'newsletter' -%}
+            {%- if block.settings.footer_newsletter_enable -%}
+              <div class="footer__newsletter-wrapper">
+                <div class="footer__newsletter">
+                  {%- if block.settings.select_newsletter == 'klaviyo' and settings.enable_klaviyo_id -%}
+                    {%- render "newsletter-form-klaviyo" with settings: settings, klaviyo_id: settings.klaviyo_id, section_id: section.id -%}
+                  {%- elsif block.settings.select_newsletter == 'newsletter-default' -%}
+                    {%- render 'newsletter-form', section_id: section.id -%}
+                  {%- elsif block.settings.select_newsletter == 'newsletter-custom' -%}
+                    <div class="custom-html">{{ settings.custom_newsletter_html }}</div>
+                  {%- endif -%}
+                </div>
+              </div>
+            {%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
+
+        <div class="footer__popular-widget-wrapper">
+          {%- if section.settings.collection_title != blank -%}
+            <h4 class="footer__popular-widget-title">{{ section.settings.collection_title }}</h4>
+          {%- endif -%}
+          <div class="footer__popular-widget-image-wrapper">
+            {% assign popular_widget_count = 0 %}
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'popular_collection' -%}
+                {% assign popular_widget_count = popular_widget_count | plus: 1 %}
+                <a
+                  title="{{ block.settings.text_editable | strip_html | escape }}"
+                  id="ftr-pop_col-link-{{ block.id }}"
+                  href="{{ block.settings.link_popular_collection | default: '#' }}"
+                  class="footer__popular-widget-link"
+                >
+                  {%
+                    render 'responsive-image' with
+                    image: block.settings.url_popular_collection,
+                    class: "footer__popular-widget-image",
+                    width: 300,
+                    lazyload: true
+                  %}
+                  {% if block.settings.text_editable != blank %}
+                    <span class="footer__popular-widget-text">{{ block.settings.text_editable }}</span>
+                  {% endif %}
+                </a>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        </div>
+      </div>
+
+      {%- if section.settings.enable_html_area_1 or section.settings.enable_html_area_2 -%}
+        <div class="footer__custom-html-area no-desktop">
+          {%- if section.settings.enable_html_area_1 -%}
+            <div class="custom-html">{{ section.settings.footer_html_area_1 }}</div>
+          {%- endif -%}
+          {%- if section.settings.enable_html_area_2 -%}
+            <div class="custom-html">{{ section.settings.footer_html_area_2 }}</div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+    <div class="footer__credits no-desktop">
+      <p class="footer__copyright" id="copyright-no-desktop">
+        Copyright &copy; {{ 'now' | date: '%Y' }}
+        <a id="CopyrightReserved-no-desktop" href="/" class="footer__copyright-link">{{ shop.name }}</a>.
+        {{ section.settings.text_post_copy_right }}
+      </p>
+
+      <div class="footer__trust-badges-wrapper">
+        <div class="footer__trust-badges">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'trust_badges_footer' -%}
+              {%- if block.settings.enable_img_trust_badge -%}
+                {%- assign trustBadgeHeight = block.settings.trust_badge_image_height -%}
+              {%- endif -%}
+
+              <div class="footer__trust-badge-image" id="trust-badges-img{{ block.id }}">
+                {% if block.settings.enable_img_trust_badge %}
+                  {%
+                    render 'responsive-image' with
+                    image: block.settings.img_trust_badges_footer,
+                    width: 250,
+                    lazyload: true
+                  %}
+                {% elsif block.settings.enable_custom_trust_badge_svg %}
+                  {{ block.settings.custom_trust_badge_svg_html }}
+                {% else %}
+                  {%- assign snippet_icon_trust_badge = 'icon-'
+                    | append: block.settings.svg_trust_badge
+                    | append: '.svg'
+                  -%}
+                  <img
+                    width="60"
+                    height="60"
+                    id="trust-badge-footer-{{ block.id }}"
+                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                    data-src="{{ snippet_icon_trust_badge | asset_url }}"
+                    alt="{{ block.settings.svg_trust_badge | escape | replace: "-" , " " | capitalize | default: 'Image without description.' }}"
+                    data-class="LazyLoad"
+                  >
+                {%- endif -%}
+              </div>
+
+              <style>
+                #trust-badges-img{{ block.id }} img,
+                #trust-badges-img{{ block.id }} svg {
+                  {%- if block.settings.choose_trust_badges_dimensions == 'height' -%}
+                    height:{{ block.settings.trust_badge_image_height }}px;
+                    width: auto;
+                  {%- else -%}
+                    height: auto;
+                    width:{{ block.settings.trust_badge_image_width }}px;
+                  {%- endif -%}
+                }
+              </style>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  </footer>
+</section>
+
+<script type="lazyload_int">
+  setTimeout(function () {
+    window.SectionFooter = (function () {
+      function SectionFooter() {
+        this._run();
+      }
+      SectionFooter.prototype = {
+        _run: function () {
+          if (window.innerWidth < 1020) $('.footer__menu-nav').addClass('clickable');
+          else $('.footer__menu-nav').removeClass('clickable');
+
+          $(window).resize(function () {
+            if (window.innerWidth < 1020) {
+              $('.footer__menu-nav').addClass('clickable');
+              $('.footer__menu-list').hide();
+            } else {
+              $('.footer__menu-nav').removeClass('clickable');
+              $('.footer__menu-list').show();
+            }
+          });
+
+          $('.footer__menu-nav').click(function () {
+            if (window.innerWidth < 1020 && $(this).hasClass('clickable')) {
+              $('.footer__menu-list').stop().slideUp();
+
+              $('.footer__menu-nav').each((index, elem) => {
+                const target_index = $('.footer__menu-nav').index($(this)[0]);
+                if(target_index !== index) { elem.querySelector('h4').classList.remove('row-rotate'); }
+              });
+
+              if ($('.footer__menu-list', this).is(':visible')) {
+                $('.footer__menu-list', this).stop().slideUp();
+                $('.footer__menu-title', this).removeClass('row-rotate');
+              } else {
+                $('.footer__menu-title', this).addClass('row-rotate');
+                $('.footer__menu-list', this).stop().slideDown();
+                $(this).siblings().children('.footer__menu-title').removeClass('row-rotate');
+              }
+            }
+          });
+        },
+
+        onLoad: function () {
+          this._run();
+        },
+
+        onPagehide: function () {},
+      };
+      return new SectionFooter();
+    })();
+  });
+</script>
+
+<style scoped>
+  {%- assign isBiggerThanTabletThreshold = false -%}
+  {%- assign isBiggerThanMobileThreshold = false -%}
+  {%- for block in section.blocks -%}
+    {%- if block.type == 'trust_badges_footer' -%}
+      {%- if block.settings.trust_badge_image_height > 140 or block.settings.trust_badge_image_width > 140 -%}
+        {%- assign isBiggerThanTabletThreshold = true -%}
+      {%- elsif block.settings.trust_badge_image_height > 70 or block.settings.trust_badge_image_width > 70 -%}
+        {%- assign isBiggerThanMobileThreshold = true -%}
+      {%- endif -%}
+    {%- endif -%}
+  {%- endfor -%}
+  .footer {
+    background-color: {{ section.settings.background_color }}
+  }
+
+  .footer__section-wrapper {
+    width: calc(100% - 170px);
+    padding: 41px 0;
+    margin: 0 auto;
+  }
+
+  .footer__divisor-line {
+    width: 100%;
+    height: 2px;
+    background-color: {{ section.settings.border_color }};
+  }
+
+  .footer__content-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 16px 20px;
+  }
+
+  .footer__info-container {
+    width: 19%;
+  }
+
+  .footer__logo-wrapper {
+    display: inline-block;
+    margin-bottom: 15px;
+  }
+
+  .footer__logo-image img,
+  .footer__logo-image svg {
+    {% if custom_dimensions == "width" %}
+      width: 100%;
+      height: auto;
+      max-width: {{ logo_max_width }}px;
+    {% else %}
+      width: auto;
+      height: {{ logo_max_height }}px;
+    {% endif %}
+  }
+
+  .footer__business-info {
+    margin-bottom: 15px;
+  }
+
+  .footer__business-info-link {
+    display: flex;
+    align-items: center;
+    color: {{ section.settings.font_color }};
+    font-size: {{ section.settings.font_size_itens_footer }}px;
+  }
+
+  .footer__business-info-link:not(:last-child) {
+    margin-bottom: 15px;
+  }
+
+  .footer__business-info-link svg {
+    min-width: 12px;
+    width: 12px;
+    height: 12px;
+    margin-right: 5px;
+    stroke: {{ section.settings.font_color }};
+  }
+
+  .footer__business-info-address svg {
+    fill: {{ section.settings.font_color }};
+  }
+
+  .footer__business-info:not(.footer__business-info-address) svg path {
+    {% comment %} stroke: {{ section.settings.font_color }}; {% endcomment %}
+  }
+
+  .footer__social {
+    display: flex;
+    gap: 10px;
+  }
+
+  .footer__social-icons {
+    display: inline-block;
+  }
+
+  .footer__social-icons-link svg {
+    min-width: 15px;
+    width: 15px;
+    height: 15px;
+  }
+
+  .footer__social-icons-link svg,
+  .footer__social-icons-link svg path {
+    fill: {{ section.settings.social_color }};
+  }
+
+  .footer__menu-wrapper {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  .footer__menu-title-wrapper {
+    display: flex;
+    align-items: center;
+  }
+
+  .footer__menu-title {
+    width: unset;
+    font-size: {{ section.settings.font_size_title_footer }}px;
+    color: {{ section.settings.title_font_color }};
+    line-height: 1.7;
+  }
+
+  .footer__menu-title-wrapper svg {
+    display: none;
+    margin-left: 12px;
+    min-width: 16px;
+    width: 16px;
+    height: 16px;
+    transition-duration: .3s;
+    fill: {{ section.settings.title_font_color }};
+  }
+    
+  .footer__menu-nav .footer__menu-title.row-rotate + svg {
+    transform: rotate(-180deg);
+  }
+
+  .footer__menu-list {
+    margin-top: 25px;
+  }
+
+  .footer__menu-list-item {
+    list-style-type: none;
+    margin-bottom: 20px;
+  }
+
+  .footer__menu-list-item-link {
+    font-size: {{ section.settings.font_size_itens_footer }}px;
+    color: {{ section.settings.font_color }};
+  }
+
+  .footer__menu-container {
+    width: 34%;
+    margin-left: 5px;
+  }
+
+  .footer__copyright,
+  .footer__copyright-link {
+    color: {{ section.settings.font_color }};
+    font-size: {{ section.settings.font_size_itens_footer }}px;
+  }
+
+  .footer__trust-badges {
+    gap: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+  }
+
+  .footer__custom-html-area {
+    display: flex;
+    gap: 20px;
+  }
+
+  .footer__custom-html-area .custom-html {
+    width: 100%;
+  }
+
+  .footer__store-info {
+    display: flex;
+  }
+
+  .footer__newsletter-popular-widget-container {
+    width: 38%;
+  }
+
+  .footer .footer__newsletter-wrapper {
+    margin-bottom: 18px;
+  }
+
+  .footer__newsletter .news_letter_title,
+  .footer__popular-widget-title {
+    color: {{ section.settings.title_font_color }};
+    font-size: {{ section.settings.font_size_title_footer }}px;
+    margin-bottom: 15px;
+  }
+
+  .footer__newsletter .news_letter_title {
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+  .footer__newsletter .email-signup-form {
+    margin-bottom: 0;
+  }
+
+  .footer__newsletter .klaviyo_inputs_wrapper {
+    width: 100%;
+    display: flex;
+    border-radius: 8px;
+    background: white;
+  }
+
+  .footer__newsletter .klaviyo_field_group {
+    width: 50%;
+    margin-right: 0;
+  }
+
+  .footer__newsletter .klaviyo_field_group input[type=email] {
+    height: 44px;
+    border: none;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    padding: 10px;
+  }
+
+  .footer__newsletter .klaviyo_form_actions {
+    width: 50%;
+  }
+
+  .footer__newsletter .newsletter-klaviyo .email-signup-form .klaviyo_form_actions .klaviyo_submit_button {
+    border-radius: 8px;
+  }
+
+  .footer__popular-widget-title {
+    text-transform: {{ section.settings.text_transform_pop_headline }};
+    text-align: center;
+  }
+
+  .footer__popular-widget-image-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    gap: 2.5%;
+  }
+
+  .footer__popular-widget-link {
+    float: left;
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 8px;
+    aspect-ratio: .83;
+    /*
+    width: {{ 100 | divided_by: popular_widget_count | minus: 2 }}%;
+    padding-top: {{ 100 | divided_by: popular_widget_count | plus: 10 }}%;
+    */
+  }
+
+  .footer__popular-widget-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .footer__popular-widget-text {
+    background-color: {{ section.settings.popular_collection_background }};
+    color: {{ section.settings.popular_collection_text }};
+    text-transform: {{ section.settings.text_transform_pop_itens_footer }};
+    font-size: {{ section.settings.font_size_pop_itens_footer }}px;
+    position: absolute;
+    text-align: center;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    line-height: 13px;
+    padding: 3px;
+  }
+
+  .footer__credits {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .footer__credits.no-desktop {
+    padding: 0 5%;
+  }
+
+  .footer__copyright, .footer__trust-badges-wrapper {
+    margin-top: 20px;
+    width: 100%;
+  }
+
+  @media (max-width: 1019px) {
+    .footer__section-wrapper {
+      padding: 20px 0;
+    }
+
+    .footer__divisor-line {
+      display: none;
+    }
+
+    .footer__content-container {
+      flex-wrap: wrap;
+      padding: 0;
+      border-top: 0;
+      justify-content: center;
+    }
+
+    .footer__menu-container,
+    .footer__info-container,
+    body .footer__custom-html-area {
+      width: 27%;
+      margin-top: 33px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .footer__info-container {
+      order: 1;
+    }
+
+    body .footer__logo-wrapper {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+
+    .footer .footer__business-info-link {
+      gap: 5px;
+    }
+
+    .footer .footer__business-info-link:not(:last-child) {
+      margin-bottom: 20px;
+    }
+
+    .footer__business-info-link svg {
+      width: 14px;
+      height: 12px;
+      margin-right: 0;
+      margin-left: 0;
+      margin-top: 3px;
+    }
+
+    .footer .footer__business-info-link span {
+      font-size: 13px;
+    }
+
+    .footer__menu-container {
+      order: 2;
+      margin-left: 5px;
+      padding-left: 48px;
+      justify-content: flex-start;
+    }
+
+    .footer__menu-wrapper {
+      flex-direction: column;
+      gap: 14px;
+      justify-content: initial;
+    }
+
+    .footer__menu-list {
+      display: none;
+      width: 100%;
+      margin: 25px auto;
+    }
+
+    .footer__menu-title-wrapper {
+      cursor: pointer;
+      justify-content: center;
+    }
+
+    .footer__menu-title-wrapper svg {
+      display: block;
+    }
+
+    .footer__menu-list-item {
+      text-align: center;
+    }
+
+    .footer__menu-list-item-link {
+      word-break: break-word;
+    }
+
+    .footer__social {
+      justify-content: center;
+    }
+
+    .footer__custom-html-area {
+      order: 3;
+    }
+
+    .footer__menu-title,
+    .footer__newsletter .news_letter_title,
+    .footer__popular-widget-title {
+      font-size: {{ section.settings.font_size_title_footer_tablet }}px;
+    }
+
+    .footer__business-info-link,
+    .footer__menu-list-item-link,
+    .footer__copyright,
+    .footer__copyright-link {
+      font-size: {{ section.settings.font_size_itens_footer_tablet }}px;
+    }
+
+    .footer__newsletter-popular-widget-container {
+      order: 0;
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      padding: 11px 50px 16px;
+      border-bottom: 2px solid {{ section.settings.border_color }};
+    }
+
+    .footer .footer__logo-wrapper.no-desktop {
+      margin-bottom: 9px;
+    }
+
+    .footer .footer__newsletter-wrapper {
+      margin: 0;
+      width: 45%;
+    }
+
+    .footer .footer__newsletter .news_letter_title {
+      margin-bottom: 8px;
+    }
+
+    .footer__newsletter-wrapper,
+    .footer__popular-widget-wrapper {
+      width: 45%;
+    }
+
+    .footer__newsletter .newsletter-klaviyo .email-signup-form .klaviyo_form_actions .klaviyo_submit_button,
+    .footer__newsletter .klaviyo_field_group input[type=email] {
+      height: 100%;
+    }
+
+    .footer__newsletter .klaviyo_condensed_styling {
+      margin-bottom: 0;
+    }
+
+    .footer__popular-widget-wrapper {
+      width: 45%;
+    }
+
+    .footer__newsletter .klaviyo_field_group {
+      width: 55%;
+    }
+
+    .footer__newsletter .klaviyo_form_actions {
+      width: 45%;
+      margin-left: auto;
+    }
+
+    .footer__newsletter .klaviyo_button_footer {
+      font-weight: 500;
+    }
+
+    .footer .footer__popular-widget-title {
+      margin-bottom: 9px;
+    }
+
+    .footer__popular-widget-link {
+      aspect-ratio: .73;
+    }
+
+    .footer__popular-widget-text {
+      font-size: {{ section.settings.font_size_pop_itens_footer_tablet }}px;
+    }
+
+    body .footer .footer__copyright {
+      margin-top: 18px;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    {%- if isBiggerThanTabletThreshold -%}
+      .footer__trust-badges {
+        gap: 0 10px;
+        display: grid;
+        grid-template-columns: repeat(2, auto);
+      }
+    {%- else -%}
+      .footer__trust-badges {
+        gap: 3px;
+        justify-content: center;
+      }
+    {%- endif -%}
+  }
+
+  @media (max-width: 767px) {
+    .footer__section-wrapper {
+      padding: 20px 0;
+    }
+
+    .footer__info-container {
+      order: 2;
+      border-bottom: 1px solid {{ section.settings.border_color }};
+      border-top: 1px solid {{ section.settings.border_color }};
+    }
+
+    .footer .footer__logo {
+      margin: 0;
+    }
+
+    body .footer__logo-image img,
+    .footer__logo-image svg {
+      max-width: 110px;
+    }
+
+    .footer__menu-container {
+      order: 1;
+      margin: 0;
+      justify-content: center;
+    }
+
+    .footer__menu-wrapper {
+      align-items: center;
+      gap: 2px;
+    }
+
+    .footer__menu-container,
+    .footer__info-container,
+    body .footer__custom-html-area {
+      width: 100%;
+      margin-top: 0;
+      padding: 9px 0 12px;
+    }
+
+    .footer__menu-title,
+    .footer__newsletter .news_letter_title,
+    .footer__popular-widget-title {
+      font-size: {{ section.settings.font_size_title_footer_mobile }}px;
+    }
+
+    .footer__business-info-link,
+    .footer__menu-list-item-link,
+    .footer__copyright,
+    .footer__copyright-link {
+      font-size: {{ section.settings.font_size_itens_footer_mobile}}px;
+    }
+
+    {%- if isBiggerThanMobileThreshold -%}
+      .footer__trust-badges {
+        gap: 0 10px;
+        display: grid;
+        grid-template-columns: repeat(2, auto);
+      }
+    {%- else -%}
+      .footer__trust-badges {
+        gap: 3px;
+        justify-content: space-evenly;
+      }
+    {%- endif -%}
+
+    .footer__newsletter-popular-widget-container {
+      padding: 0 23px 22px;
+      gap: 22px;
+      border-width: 1px;
+    }
+
+    .footer__logo-wrapper.no-desktop {
+      margin-bottom: 9px;
+    }
+
+    .footer .footer__newsletter-wrapper,
+    .footer__popular-widget-wrapper {
+      width: 100%;
+    }
+
+    .footer__newsletter .newsletter-klaviyo .email-signup-form .klaviyo_form_actions .klaviyo_submit_button,
+    .footer__newsletter .klaviyo_field_group input[type=email] {
+      height: 100%;
+    }
+
+    .footer__newsletter-wrapper .klaviyo_field_group {
+      width: 60%;
+    }
+
+    .footer__newsletter-wrapper .klaviyo_form_actions {
+      width: 40%;
+      margin-left: auto;
+    }
+
+    .footer__newsletter-wrapper .klaviyo_submit_button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .template-product .shopify-section.cta-block .call-to-action:not(.call-to-action.first-cta) {
+      margin-top: 44px;
+    }
+
+    {% if popular_widget_count == 4 %}
+      {% assign popular_widget_count = 3 %}
+      .footer__popular-widget-link:last-child {
+        display: none;
+      }
+
+      .footer__popular-widget-link {
+        width: {{ 100 | divided_by: popular_widget_count | minus: 2 }}%;
+        padding-top: {{ 100 | divided_by: popular_widget_count | plus: 10 }}%;
+      }
+    {% endif %}
+
+    .footer__popular-widget-text {
+      font-size: {{ section.settings.font_size_pop_itens_footer_mobile }}px;
+    }
+
+    .footer__credits.no-desktop {
+      padding: 9px 5% 12px;
+    }
+  }
+</style>

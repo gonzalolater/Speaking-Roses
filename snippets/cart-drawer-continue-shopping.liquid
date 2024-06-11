@@ -1,0 +1,40 @@
+<!-- start cart-drawer-continue-shopping.liquid (SNIPPET) -->
+
+{% assign continue_shipping_class = 'cart-drawer__continue-shipping' %}
+
+{% if section.settings.enable_button_style == true %}
+  {% assign continue_shipping_class = 'cart-drawer__button-link' %}
+{% endif %}
+
+{% assign continue_shopping_action_class = '' %}
+{% if section.settings.action_link_continue_shopping == 'close' %}
+  {% assign continue_shopping_action_class = 'cart-drawer__button--close-drawer' %}
+{% endif %}
+
+{% assign cart_drawer_links_class = '' %}
+{% if section.settings.enable_continue_shopping and section.settings.enable_view_cart %}
+  {% assign cart_drawer_links_class = 'cart-drawer__links--sb' %}
+{% endif %}
+
+<div class="cart-drawer__links {{ cart_drawer_links_class }}">
+  {% if section.settings.enable_continue_shopping %}
+    <a
+      id="cart-continue-shopping"
+      href="{{ section.settings.href_continue_shopping | default: '#' }}"
+      title="{{- section.settings.text_continue_shopping | escape -}}"
+      class="{{ continue_shipping_class }} {{ continue_shopping_action_class }}"
+    >
+      {{- section.settings.text_continue_shopping -}}
+    </a>
+  {% endif %}
+
+  {% if section.settings.enable_view_cart %}
+    <a
+      href="{{ routes.cart_url }}"
+      title="{{- section.settings.text_view_cart | escape -}}"
+      class="{{ continue_shipping_class }}"
+    >
+      {{- section.settings.text_view_cart -}}
+    </a>
+  {% endif %}
+</div>

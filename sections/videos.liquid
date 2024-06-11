@@ -1,0 +1,470 @@
+<!-- start videos.liquid (SECTION) -->
+<section
+  id="video-slider-{{ section.id }}"
+  data-slider="{{ section.id }}"
+  data-section-type="video"
+  class="section-videos__wrapper wrapper {{ section.settings.video_custom_class }}"
+>
+  {%- if section.settings.enable_section_title and section.settings.section_title != blank -%}
+    <h2 class="section-videos__title section-title">{{ section.settings.section_title }}</h2>
+  {%- endif -%}
+
+  <div
+    class="section-videos__container {% if section.settings.enable_videos_slider %} section-videos__slider-container {% endif %} {{ section.settings.custom_class }}"
+    style="{% if section.settings.enable_full_width %} max-width: 100%; {% else %} max-width: 560px;{% endif %}"
+  >
+    {%- for block in section.blocks -%}
+      {%- if 'video' == block.type -%}
+        {%- assign show_videos = false -%}
+        {%- if block.settings.enable_video_by_tag -%}
+          {%- if product.tags contains block.settings.tag_name -%}
+            {%- assign show_videos = true -%}
+          {%- endif -%}
+        {%- else -%}
+          {%- assign show_videos = true -%}
+        {%- endif -%}
+
+        {%- if show_videos == true -%}
+          {%- assign url = block.settings.video_url -%}
+          <div
+            class="dynamic-video"
+            style="{% if section.settings.enable_full_width %} max-width: 100%; {% else %} max-width: 560px;{% endif %}"
+          >
+            {% if section.settings.enable_videos_title and block.settings.title != blank %}
+              <h3 class="section-videos__video-title">{{ block.settings.title }}</h3>
+            {% endif %}
+
+            {% if url %}
+              {%- assign platform = '' -%}
+              
+              {%- if url contains 'youtube' or url contains 'youtu.be' -%}
+                {%- assign platform = 'youtube' -%}
+                {%- if url contains 'youtu.be' -%}
+                  {%- assign videoID = url | split: '/' | last -%}
+                {%- elsif url contains '&' -%}
+                  {%- assign videoID = url | split: '?v=' | last | split: '&' | first -%}
+                {%- elsif url contains 'embed' -%}
+                  {%- assign videoID = url | split: 'embed/' | last -%}
+                {%- else -%}
+                  {%- assign videoID = url | split: '?v=' | last -%}
+                {%- endif -%}
+              {%- elsif url contains 'vimeo' -%}
+                {%- assign platform = 'vimeo' -%}
+              {%- endif -%}
+              
+              {% if platform == 'youtube' %}
+                <div class="youtube-player" data-id="{{- videoID -}}"></div>
+              {% else %}
+                {% if section.settings.enable_videos_slider %}
+                  {%- assign vimeoHeight = '296.33' -%}
+                {% else %}
+                  {%- assign vimeoHeight = '315' -%}
+                {% endif %}
+
+                <div class="section-videos__video" data-video="{{ platform }}">
+                  <iframelazy
+                    class="{{ platform }}"
+                    data-class="LazyLoad"
+                    data-video-url="{{ url }}"
+                    loading="lazy"
+                    width="100%"
+                    height="315"
+                    src="{{- url -}}"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen
+                  ></iframelazy>
+                </div>
+              {% endif %}
+            {%- elsif block.settings.video_upload != blank -%}
+              <div class="section-videos__video" data-video="uploaded">
+                {%- assign videoUpload = block.settings.video_upload.sources | last -%}
+
+                <videolazy
+                  controls
+                  controlsList="nodownload"
+                  data-video-url="{{ videoUpload.url }}"
+                  loading="lazy"
+                  width="100%"
+                  data-src="{{- videoUpload.url -}}"
+                  data-class="LazyLoad"
+                  frameborder="0"
+                  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen
+                ></videolazy>
+              </div>
+            {%- else -%}
+              <div class="section-videos__video">
+                {{ 'image' | placeholder_svg_tag }}
+              </div>
+            {%- endif -%}
+            
+            {% if section.settings.enable_videos_description and block.settings.video_description != blank %}
+              <p class="section-videos__video-description">{{ block.settings.video_description }}</p>
+            {% endif %}
+          </div>
+        {% endif %}
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+</section>
+
+<style scoped>
+  #shopify-section-{{ section.id }} {
+    {% if section.settings.enable_custom_margins_paddings %}
+      margin-top: {{ section.settings.custom-margin-top }}px;
+      margin-bottom: {{ section.settings.custom-margin-bottom }}px;
+      padding-top: {{ section.settings.custom-padding-top }}px;
+      padding-bottom: {{ section.settings.custom-padding-bottom }}px;
+    {% else %}
+      margin: 20px 0;
+    {% endif %}
+  }
+
+  #shopify-section-{{ section.id }} .section-videos__container {
+    {% if section.settings.enable_videos_slider %}
+      gap: 10px;
+    {% else %}
+      flex-direction: column;
+      gap: 20px;
+    {% endif %}
+  }
+
+ .section-videos__slider-container .slick-arrow {
+    font-size: 20px;
+  }
+
+ .section-videos__slider-container > .dynamic-video:not(:first-child) {
+    display: none;
+  }
+
+  .section-videos__container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+  }
+
+  .section-videos__container,
+  .section-videos__container .dynamic-video {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .section-videos__container .youtube-player {
+    margin: 10px 0;
+  }
+
+  .section-videos__video {
+    margin: 10px 0;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    padding-top: 56.25%;
+  }
+
+  .section-videos__video iframe,
+  .section-videos__video video,
+  .section-videos__video svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .slick-list,
+  .slick-track {
+    position: relative;
+    display: block;
+  }
+  
+  .slick-loading .slick-slide,
+  .slick-loading .slick-track {
+    visibility: hidden;
+  }
+  
+  .slick-slider {
+    box-sizing: border-box;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+    -khtml-user-select: none;
+    -ms-touch-action: pan-y;
+    touch-action: pan-y;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  .slick-list {
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .slick-list:focus {
+    outline: 0;
+  }
+  
+  .slick-list.dragging {
+    cursor: pointer;
+  }
+  
+  .slick-slider .slick-list,
+  .slick-slider .slick-track {
+    -webkit-transform: translate3d(0, 0, 0);
+    -moz-transform: translate3d(0, 0, 0);
+    -ms-transform: translate3d(0, 0, 0);
+    -o-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+  
+  .slick-track {
+    top: 0;
+    left: 0;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .slick-track:after,
+  .slick-track:before {
+    display: table;
+    content: '';
+  }
+  
+  .slick-track:after {
+    clear: both;
+  }
+  
+  .slick-slide {
+    float: left;
+    height: 100%;
+    min-height: 1px;
+  }
+  
+  [dir=rtl] .slick-slide {
+    float: right;
+  }
+  
+  .slick-slide img {
+    display: block;
+    width: 100%;
+    margin: 0 auto;
+  }
+  
+  .slick-slide.slick-loading img {
+    display: none;
+  }
+  
+  .slick-slide.dragging img {
+    pointer-events: none;
+  }
+  
+  .slick-initialized .slick-slide {
+    display: block;
+  }
+  
+  .slick-vertical .slick-track .slick-slide {
+    height: auto;
+    display: block;
+  }
+  
+  .slick-arrow {
+    background: transparent;
+  }
+  
+  .slick-arrow.slick-hidden {
+    display: none;
+  }
+  
+  .center-slick-track .draggable .slick-track{
+    transform: translate3d(0px, 0px, 0px)!important;
+  }  
+</style>
+
+<script type="lazyload_int">
+  setTimeout(function () {
+    window.SectionVideoSlider = (function () {
+      function SectionVideoSlider() {
+        this._run();
+      }
+
+      SectionVideoSlider.prototype = {
+        onSelect: function () {
+          this._run();
+        },
+
+        _run: function () {
+          $('.section-videos__slider-container').slick({
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            prevArrow: '<button type="button" class="slick-prev">&lang;</button>',
+            nextArrow: '<button type="button" class="slick-next">&rang;</button>',
+            infinite: true,
+          });
+        },
+      };
+
+      return new SectionVideoSlider();
+    })();
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Videos",
+  "class": "videos-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "General Settings"
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom Class",
+      "info": "Custom class to apply css styles for specific sections"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_custom_margins_paddings",
+      "label": "Enable Custom Margins and Paddings",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "custom-margin-top",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Margin Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "custom-margin-bottom",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Margin Bottom",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "custom-padding-top",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "custom-padding-bottom",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 0
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_section_title",
+      "label": "Enable Section Title",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Section Title",
+      "default": "Videos",
+      "placeholder": "Section title"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_videos_title",
+      "label": "Enable Videos Title",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_videos_description",
+      "label": "Enable Videos Description",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_videos_slider",
+      "label": "Enable Videos Slider",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_full_width",
+      "label": "Videos Full Width",
+      "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Video",
+      "type": "video",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Video Title",
+          "default": "Video Title"
+        },
+        {
+          "type": "video_url",
+          "id": "video_url",
+          "label": "Link Vimeo or YouTube",
+          "accept": ["youtube", "vimeo"],
+          "info": "Example Vimeo: https://player.vimeo.com/video/ID_HERE Example YouTube: https://www.youtube.com/ID_HERE"
+        },
+        {
+          "type": "video",
+          "id": "video_upload",
+          "label": "Video Upload"
+        },
+        {
+          "type": "textarea",
+          "id": "video_description",
+          "label": "Video Description",
+          "default": "Text Example"
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_video_by_tag",
+          "label": "Enable Video By Tag"
+        },
+        {
+          "type": "text",
+          "id": "tag_name",
+          "label": "Product Video Tag",
+          "info": "Only show video on product pages with these tags."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "category": "Video",
+      "name": "Videos",
+      "blocks": [
+        {
+          "type": "video"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

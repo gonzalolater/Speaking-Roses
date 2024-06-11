@@ -1,0 +1,52 @@
+<!-- start cart-drawer-reviews.liquid (SNIPPET) -->
+
+<div class="cart-drawer__reviews">
+  {% if section.settings.section_reviews_title != blank %}
+    <h2 class="cart-drawer__reviews-title">{{- section.settings.section_reviews_title -}}</h2>
+  {%- endif -%}
+
+  <ul class="cart-drawer__reviews-list">
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'review' -%}
+        {%- assign image = block.settings.product_image_cart -%}
+
+        <li class="cart-drawer__review-item">
+          {%- if image != blank -%}
+            <span class="cart-drawer__review-image-wrapper">
+              <img
+                src="{{- image | image_url: width: 50, height: 50 -}}"
+                alt="{{- block.settings.author_review_cart | escape -}}"
+                class="cart-drawer__review-image"
+              >
+            </span>
+          {%- endif -%}
+
+          <span class="cart-drawer__review-content-wrapper">
+            {% if block.settings.author_review_cart != blank %}
+              <span class="cart-drawer__review-title">{{- block.settings.author_review_cart -}}</span>
+            {% endif %}
+
+            {% if block.settings.date_review_cart != blank %}
+              <span class="cart-drawer__review-date">{{- block.settings.date_review_cart -}}</span>
+            {% endif %}
+
+            <span class="cart-drawer__review-stars">
+              {% for stars in (1..10) limit: block.settings.amount_of_stars_review %}
+                {% render 'icon-cart-review-star' %} 
+              {% endfor %}
+              <span class="cart-reviews__reviews-stars-text">{{ block.settings.stars_text_review }}</span>
+            </span>
+
+            {% if block.settings.headline_review_cart != blank %}
+              <span class="cart-drawer__review-headline">{{- block.settings.headline_review_cart -}}</span>
+            {% endif %}
+            
+            {% if block.settings.content_review_cart != blank %}
+              <span class="cart-drawer__review-content">{{- block.settings.content_review_cart -}}</span>
+            {% endif %}
+          </span>
+        </li>
+      {%- endif -%}
+    {%- endfor -%}
+  </ul>
+</div>

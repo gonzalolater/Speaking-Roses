@@ -1,0 +1,233 @@
+<!-- start image-with-accordion.liquid (SNIPPET) -->
+<style scoped>
+  #shopify-section-{{ section.id }} {
+    {% if section.settings.enable_custom_margins_paddings %}
+      margin-top: {{ section.settings.custom-margin-top }}px;
+      margin-bottom: {{ section.settings.custom-margin-bottom }}px;
+      padding-top: {{ section.settings.custom-padding-top }}px;
+      padding-bottom: {{ section.settings.custom-padding-bottom }}px;
+    {% else %}
+      margin: 20px 0;
+    {% endif %}
+  }
+  .image-whith-accordion .accordion-header svg{
+    width: 15px;
+  }
+  #shopify-section-{{ section.id }} .accordion.active .accordion-content{
+    display: block;
+    visibility: visible;
+    opacity: 1;
+    height: auto;
+    transition: ease all 0.5s;
+  }
+  #shopify-section-{{ section.id }} .accordion .accordion-content{
+    visibility: hidden;
+    opacity: 0;
+    height: 0;
+  }    
+  .image-whith-accordion_content{
+    display: flex;
+    align-items: center;
+    gap: 4%;
+  }
+  .image-whith-accordion_image{
+    width: 55%;
+  }
+  .image-whith-accordion_image img{
+    border-radius: 10px;
+  }
+  .image-whith-accordion_accordion{
+    width: 50%;
+  }
+  .accordion-content{
+    width: 90%;
+    margin: auto;
+    margin: 5px auto;
+  }
+  .accordion-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 5px 0;
+  }
+  .image-whith-accordion .accordion{
+    width: 89%;
+    border-bottom: 1px solid #DDE0E5;
+    line-height: 2;
+  }
+  .image-whith-accordion .accordion .accordion-header:after{
+    content: " ";
+    background-image: url("{{ 'Iconplus.svg' | asset_url }}");
+    width: 20px; 
+    height: 20px;
+    background-repeat: no-repeat;
+    cursor: pointer;
+  }
+  .image-whith-accordion .accordion.active .accordion-header:after{
+    content: " ";
+    background-image: url("{{ 'Iconminus.svg' | asset_url }}");
+    width: 20px;
+    height: 20px;
+    background-repeat: no-repeat;
+    cursor: pointer;
+  }
+</style>
+
+<section class="image-whith-accordion {{ section.settings.custom_class }}">
+  <div class="wrapper">
+    <div class="image-whith-accordion_content">
+      <div class="image-whith-accordion_image">
+        {% if section.settings.image != blank %}
+          {%- render 'responsive-image' with 
+            image: section.settings.image,
+            lazyload: enable_lazy,
+            width: 600,
+            no_wrap: true,
+            alt: section.settings.image.alt -%}
+        {% else %}
+          {%- render 'responsive-image' with 
+            placeholder: 'collection-1',
+            width: 600
+          -%}
+        {% endif %}
+      </div>
+      <div class="image-whith-accordion_accordion">
+        <h1 class="image-whith-accordion__title">{{ section.settings.title }}</h1>
+        {%- assign temp_index = 1 -%}
+        {%- for block in section.blocks -%}
+          <div class="accordion {% if temp_index == 1 %} active {% endif %}">
+            <div class="accordion-header">{{- block.settings.title_column -}}</div>
+            <div class="accordion-content">
+              <p>{{ block.settings.content_column }}</p>
+            </div>
+          </div>
+          {%- assign temp_index = temp_index | plus: 1 -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</section>
+<script type="lazyload_int">
+  $(document).ready(function() {
+    $('.accordion').click(function() {
+      $(this).toggleClass('active').siblings().removeClass('active');
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Image Whith Accordion",
+  "class": "image-whith-accordion",
+  "settings": [
+    {
+      "type": "header",
+      "content": "General Settings"
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom Class",
+      "info": "Custom class to apply css styles for specific sections"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_custom_margins_paddings",
+      "label": "Enable Custom Margins and Paddings",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "custom-margin-top",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Margin Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "custom-margin-bottom",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Margin Bottom",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "custom-padding-top",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "custom-padding-bottom",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 0
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "Accordion Title"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_lazy",
+      "label": "Enable Lazy Load",
+      "info": "If this is the first section of the homepage, you have to keep this field unchecked for Google Pagespeed score improvements.",
+      "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Row",
+      "type": "text_column",
+      "settings": [
+        {
+          "type": "richtext",
+          "label": "Title",
+          "id": "title_column",
+          "default": "<h3>Row Title</h3>"
+        },
+        {
+          "type": "richtext",
+          "label": "Content",
+          "id": "content_column",
+          "default": "<p>Row Content</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image Whith Accordion",
+      "category": "Image Whith Accordion",
+      "blocks": [
+        {
+          "type": "text_column"
+        },
+        {
+          "type": "text_column"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

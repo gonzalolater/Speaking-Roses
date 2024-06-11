@@ -1,0 +1,166 @@
+<!-- start swatch_collection.liquid (SNIPPET) -->
+<div class="swatch swatch-standard">
+  <div class="swatch-type swatch-type-collection">
+    <div class="swatch-elements-wrapper">
+      {%- if type == 'color' -%}
+        {%- render 'swatch_color_collection' with custom_colors: settings.enable_custom_colors, swatch_index: swatch_index, prod: prod -%}
+      {%- elsif type == 'size' -%}
+        {%- render 'swatch_standard_collection' with swatch_index: swatch_index, prod: prod -%}
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+<style>
+
+  
+
+  .swatch-element.swatch-element-color {
+    position: relative;
+  }
+
+  .swatch-standard input:checked + .swatch-value + .swatch-value-checked,
+  .swatch-style input:checked + .swatch-value + .swatch-value-checked {
+    background: var(--swatch_checked-color);
+    border-radius: 100%;
+    display: flex;
+    height: 15px;
+    position: absolute;
+    right: 0;
+
+    transform: translate(50%, -50%);
+    width: 15px;
+    z-index: 1;
+  }
+
+  .swatch.swatch-standard {
+    position: relative;
+    width: 100%;
+    padding: 0 8px 0 0;
+  }
+
+  .swatch .swatch-elements-wrapper,
+  .swatch .swatch-type {
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+
+  .swatch .swatch-type,
+  .swatch .swatch-elements-wrapper {
+    display: flex;
+  }
+
+  .swatch .swatch-type .swatch-elements-wrapper,
+  .swatch .swatch-type .swatch-elements-wrapper {
+    justify-content: flex-start;
+    gap: 5px;
+  }
+
+  span.swatch-value.color,
+  .item-single span.swatch-value.color {
+    height: 100%;
+    padding: 0;
+    min-width: unset;
+    min-height: unset;
+    display: inline-flex;
+    justify-content: center;
+    align-content: center;
+    line-height: 1.7;
+    cursor: pointer;
+    position: relative;
+    background: center center/cover no-repeat #ddd;
+    border: 1px solid #ccc;
+    color: #000;
+    text-align: center;
+    padding: 9px 9px;
+    height: 100%;
+    width: auto;
+  }
+
+  .swatch .swatch-value {
+    display: inline-flex;
+    justify-content: center;
+    align-content: center;
+    line-height: 1.7;
+    cursor: pointer;
+    position: relative;
+    background: center center/cover no-repeat #ddd;
+    border: 1px solid #ccc;
+    color: #000;
+    text-align: center;
+    padding: 2px 10px;
+    height: 100%;
+    width: auto;
+  }
+
+  .swatch-standard .swatch-value-checked {
+    display: none;
+    pointer-events: none;
+    margin-top: 0px;
+  }
+
+  .swatch-element .swatch-value:hover + .swatch-value-checked {
+    display: flex;
+  }
+
+  .swatch-standard .swatch-value-checked {
+    display: none;
+    pointer-events: none;
+    margin-top: 4px;
+  }
+
+  span.swatch-value-checked,
+  span.swatch-value-checked.color {
+    display: none;
+    color: var(--colorCollectionSwatchCheck);
+    position: absolute;
+    transform: translate(50%, -50%);
+    background: var(--colorCollectionSwatch);
+    width: 0.8em;
+    height: 0.8em;
+    border-radius: 100%;
+    z-index: 1;
+    top: 0;
+    left: 4px;
+  }
+
+  span.swatch-value-checked.size:after {
+    content: '\2713';
+    color: var(--iconCheckmarkChecked);
+    font-size: 12px;
+    width: 9px;
+    font-weight: 800;
+    top: -3px;
+    position: relative;
+    right: -2px;
+  }
+
+  span.swatch-value-checked.color:after {
+     content: '\2713';
+     color: var(--iconCheckmarkChecked);
+     font-size: 12px;
+     width: 9px;
+     font-weight: 800;
+     position: absolute;
+     top: -2px;
+     left: 2px;
+ }
+
+ html .round span.swatch-value.color {
+     border-radius: 100%;
+     margin-top: 0px;
+ }
+
+  span.swatch-value-circle-checked:after,
+  span.swatch-value-color-circle-checked:after {
+    content: '\2713';
+    color: var(--iconCheckmarkChecked);
+    font-size: 10px;
+    width: 9px;
+    font-weight: 800;
+    top: -1px;
+    position: relative;
+    right: -2px;
+  }
+</style>

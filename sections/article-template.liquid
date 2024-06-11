@@ -1,0 +1,1237 @@
+<!-- start article.liquid (TEMPLATE) -->
+{%- if comment.status == 'pending' -%}
+  {%- assign number_of_comments = article.comments_count | plus: 1 -%}
+{%- else -%}
+  {%- assign number_of_comments = article.comments_count -%}
+{%- endif -%}
+
+{% comment %} Start Shopify ID styles{% endcomment %}
+<style>
+  #shopify-section-{{ section.id }} {
+    {% if section.settings.enable_custom_margins_paddings %}
+      margin-top: {{ section.settings.custom-margin-top }}px;
+      margin-bottom: {{ section.settings.custom-margin-bottom }}px;
+      padding-top: {{ section.settings.custom-padding-top }}px;
+      padding-bottom: {{ section.settings.custom-padding-bottom }}px;
+    {% else %}
+      margin: 20px 0;
+    {% endif %}
+  }
+
+  #shopify-section-{{ section.id }} .section-title {
+    text-transform: {{ section.settings.section_title_text_transform }};
+  }
+
+  #shopify-section-{{ section.id }} .section-header h1 {
+    font-size: {{ section.settings.article_title_fontsize }}px;
+    font-weight: 500;
+    line-height: 36px;
+  }
+
+  #shopify-section-{{ section.id }} .section-header p {
+    {% if section.settings.display_author %}
+      display: block;
+    {% else %}
+      display: none;
+    {% endif %}
+  }
+
+  @media (max-width: 1019px) {
+    #shopify-section-{{ section.id }} .section-header h1 {
+      font-size: {{ section.settings.article_title_fontsize_tablet }}px;
+    }
+  }
+  
+  @media (max-width: 767px) {
+    #shopify-section-{{ section.id }} .section-header h1 {
+      font-size: {{ section.settings.article_title_fontsize_mobile }}px;
+    }
+  }
+</style>
+{% comment %} End Shopify ID styles{% endcomment %}
+
+<style scoped>
+  {%- if section.settings.enable_sidebar == false -%}
+    .article-section{
+      width: 100%;
+    }
+  {% endif %}
+  .breadcrumbs, 
+  .article-wrapper {
+    padding: 0;
+  }
+  .article__section-wrapper {
+    display: flex;
+    justify-content: space-between;
+  }
+  .article__content {
+    margin-top: 26px;
+  }
+  .article__content .breadcrumbs__separator svg {
+    width: 19.6px;
+    height: 16px;
+    transform: scale(1.8);
+    padding-top: 3.5px;
+  }
+  .article__content .breadcrumbs__item {
+    letter-spacing: 0px;
+  }
+  .article__top-image {
+    width: 95px;
+    margin: 28px 0 25px 3px;
+  }
+  .article__top-image img, 
+  .article__top-image svg{
+    max-width: 100%;
+  }
+  {% comment %} .sidebar_list_item a {
+    font-size: 18px;
+    letter-spacing: 0.03px;
+    line-height: 1.38;
+  } {% endcomment %}
+  .template-blog h1 {
+    margin-bottom: 20px;
+  }
+  .homepage_blog_posts .content-wrapper article{
+    display: flex;
+  }
+  .homepage_blog_posts .content-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .homepage_blog_posts .content-wrapper .post {
+    margin: 19px 0 0;
+  }
+  .homepage_blog_posts .content-wrapper .post .date {
+    margin-bottom: 10px;
+    color: #888;
+  }
+  .homepage_blog_posts .content-wrapper .post .blog_post_title {
+    text-transform: uppercase;
+  }
+  .homepage_blog_posts .content-wrapper .post .blog_post_content {
+    margin-bottom: 10px;
+  }
+  .homepage_blog_posts .content-wrapper .post .blog_post_link {
+    color: var(--color-link);
+  }
+  .homepage_blog_posts .content-wrapper .half {
+    width: 47%;
+  }
+  .homepage_blog_posts .content-wrapper .third {
+    width: 30%;
+  }
+  .homepage_blog_posts .content-wrapper .third+.third,
+  .homepage_blog_posts .content-wrapper .half:nth-of-type(2n) {
+    margin-left: 2%;
+  }
+  .homepage_blog_posts .content-wrapper .img-post-home img {
+    width: 100%;
+  }
+  .homepage_blog_posts .content-wrapper .post-content-home {
+    width: 100%;
+  }
+  .homepage_blog_posts .content-wrapper .img-post-home {
+    width: 30%;
+    float: left;
+    padding-right: 20px;
+    margin-bottom: 20px;
+  }
+  .template-article .main-content .blog-sidebar {
+    position: static;
+    width: 100%;
+    background-color: #fff;
+    float: left;
+  }
+  .template-article .article_img {
+    width: 100%;
+    height: auto;
+    margin-bottom: 26px;
+  }
+  .template-article .article_img img {
+    max-width: 100%;
+    max-height: 100%;
+  }
+  .article-contect .article__body li {
+    margin: 0 0 17px;
+  }
+  .article-section {
+    width: 91%;
+    float: left;
+  }
+  .grid.blog-grid {
+    width: 100%;
+    display: flex;
+    gap: 90px;
+  }
+  .article-contect {
+    margin: 26px 0 0 0;
+  }
+  .article-contect .article__body {
+    line-height: 1.3;
+    font-size: 18px;
+  }
+  .article-contect .article__body br {
+    display: none;
+  }
+  .article-contect .article__body h2 {
+    font-size: 30px;
+    margin: 17.9px 0 19px;
+    letter-spacing: -0.3px;
+  }
+  .article-contect .article__body h3 {
+    font-size: 24px;
+    margin-bottom: 18px;
+  }
+  .article-contect .article__body h4 {
+    margin: 0px 0 15.5px;
+    transform: translateY(-2px);
+  }
+  .article-contect .article__body p {
+    margin-bottom: 16.3px;
+  }
+  .article-contect .article__body ul {
+    padding-left: 27px;
+    margin-bottom: 17.7px;
+  }
+  .article-contect .article__body ul ::marker {
+    font-size: 15px;
+  }
+  .left {
+    float: left !important;
+  }
+  .right {
+    float: right !important;
+  }
+  .single-post {
+    padding-top: 60%;
+    display: flex;
+    position: relative;
+    height: 0;
+    margin-bottom: 10px;
+  }
+  .single-post img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-height: 100%;
+    max-width: 100%;
+  }
+  .sidebarrow3 .news_letter_title {
+    display: none;
+  }
+  .buttons-prev-next-wrapper {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    padding: 3px 0 119px;
+  }
+  .buttons-prev-next-wrapper .left,
+  .buttons-prev-next-wrapper .right,
+  .buttons-prev-next-wrapper a {
+    color: var(--color-link);
+  }
+  .buttons-prev-next-wrapper .left:hover,
+  .buttons-prev-next-wrapper .right:hover,
+  .buttons-prev-next-wrapper a:hover,
+  .buttons-prev-next-wrapper .left:active,
+  .buttons-prev-next-wrapper .right:active,
+  .buttons-prev-next-wrapper a:active {
+    opacity: 0.8;
+  }
+  .buttons-prev-next-wrapper .left span {
+    font-size: 15px;
+  }
+  {% unless blog.next_article %}
+    .buttons-prev-next-wrapper {
+      justify-content: center;
+    }
+
+    .buttons-prev-next-wrapper .left {
+      display: flex;
+      padding-right: 11px;
+    }
+
+    .buttons-prev-next-wrapper .left span {
+      font-size: 17px;
+      transform: translate(2px, -3px) scale(1, 1.3);
+    }
+
+    .buttons-prev-next-wrapper a{
+      font-size: 14px;
+      font-weight: 300;
+      line-height: 150%;
+      letter-spacing: 0.49px;
+      margin-left: 12px;
+    }
+  {% endunless %}
+  .template-article .section-title {
+    text-align: left;
+    padding-bottom: 0;
+  }
+  .wrapper-new-comment {
+    margin: 10px 0;
+    width: 100%;
+    clear: both;
+  }
+  .wrapper-comments {
+    margin-bottom: 0;
+    width: 100%;
+  }
+  .comments-container .coments-body {
+    padding: 15px 0;
+    border-bottom: 1px solid #dfdfdf;
+  }
+  .new-comment-success {
+    text-align: center;
+  }
+  .template-article .main-content .form-new-comment-input,
+  .template-article .main-content input[type="email"] {
+    border: 1px solid #dfdfdf;
+  }
+  .new-comments-author,
+  .new-comments-email,
+  .new-comments {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+  }
+  .new-comments-author,
+  .new-comments-email {
+    padding-bottom: 10px;
+    width: 49%;
+  }
+  .new-comments-author label,
+  .new-comments-email label {
+    margin-right: 5px;
+  }
+  .form-new-comment {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  .new-comments {
+    width: 100%;
+  }
+  .new-comments .form-new-comment-input.form-commet-area {
+    height: 100px;
+    padding: 8px 9px;
+    resize: none;
+  }
+  .form-new-comment-input.form-author {
+    padding: 8px 9px;
+    height: 37px;
+  }
+  .comment-info {
+    margin: 10px 0;
+  }
+  .comment-info .comment-author,
+  .comment-info .comment-author time {
+    font-size: 14px;
+  }
+  body .form-new-comment-input.form-email {
+    margin-right: 5px;
+    border-radius: 0 !important;
+  }
+  .blogbutton {
+    width: 140px;
+    margin: 15px 0;
+    box-shadow: rgba(0, 0, 0, 0.51) 1px 1px 1px;
+    color: var(--buttonColortextBlog);
+    font-weight: normal;
+    text-align: center;
+    line-height: 24px;
+    border-radius: 0px;
+    background: var(--buttonColorBackgroundBlog);
+    border-width: 1px;
+    border-style: solid;
+    border-color: white;
+    border-image: none 100% 1 0 stretch;
+    padding: 7px 15px;
+    transition: ease all 300ms;
+  }
+  .blogbutton:hover,
+  .blogbutton:active {
+    background-color: var(--buttonHoverColorBackgroundBlog);
+    color: var(--buttonTextColorHoverBlog);
+    cursor: pointer;
+  }
+  .new-comment-error {
+    color: #651818;
+    border: 1px solid #d20000;
+    background-color: #fff8f8;
+    margin-bottom: 10px;
+    padding: 1rem 1.3rem;
+    text-align: left;
+    width: 100%;
+  }
+  .new-comment-success {
+    border: 1px solid #1f873d;
+    background-color: #f8fff9;
+    color: #1f873d;
+    display: block;
+    margin-bottom: 10px;
+    width: 100%;
+  }
+  .icon-error {
+    fill: #d20000;
+    width: 0.86667em;
+    height: 0.86667em;
+    margin-top: 0.1em;
+    flex-shrink: 0;
+  }
+  .template-article .main-content input.input--error,
+  .template-article .main-content select.input--error,
+  .template-article .main-content .input--error.disclosure__toggle,
+  .template-article .main-content textarea.input--error {
+    border-color: #d20000;
+    background-color: #fff8f8;
+    color: #d20000;
+  }
+  path.icon-error__symbol {
+    fill: #fff;
+  }
+  .template-blog .blog-grid a {
+    color: var(--color-link);
+  }
+  .template-blog .main-content .blog-grid .article {
+    width: 100%;
+    float: left;
+    margin-bottom: 50px;
+  }
+  .template-blog .main-content input[type="email"] {
+    width: 100%;
+    border: 1px solid #f4f4f4;
+    height: 37px;
+    border-radius: 3px 0 0 3px;
+    padding: 8px 9px;
+  }
+  .template-blog .main-content input#subscribe {
+    height: 37px;
+    border-radius: 0 3px 3px 0px;
+    border: 1px solid #fff;
+    font-size: 12px;
+    font-weight: bold;
+    background-color: var(--buttonBackgroundColorBlog);
+    color: var(--newsButtonTextColorBlog);
+  }
+  .template-blog .main-content input#subscribe:hover,
+  .template-blog .main-content input#subscribe:active {
+    background-color: var(--buttonBackgroundHoverColorBlog);
+  }
+  .template-blog .main-content p.news_letter_title {
+    display: none;
+  }
+  .template-blog .main-content .grid__item {
+    border-right: none;
+  }
+  .template-blog .main-content .grid__item .paginate {
+    width: 100%;
+    padding-top: 15px;
+    margin: 30px 0;
+    float: left;
+    display: flex;
+    justify-content: center;
+    padding: 15px 0 0;
+    border-top: 1px solid #e5e5e5;
+  }
+  .template-blog .main-content .grid__item .paginate span {
+    border: 1px solid #dfdfdf;
+    background: transparent;
+    margin: 0;
+    width: 30px;
+    height: 30px;
+  }
+  .template-blog .main-content .grid__item .paginate span+span {
+    margin-left: 5px;
+  }
+  .template-blog .main-content .grid__item .paginate span.current {
+    background: #eee;
+  }
+  .template-blog .main-content .grid__item .paginate span,
+  .template-blog .main-content .grid__item .paginate a {
+    color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .template-blog .main-content .grid__item .paginate a {
+    width: 100%;
+    height: 100%;
+  }
+  .template-blog .main-content .blog-sidebar {
+    position: static;
+    width: 100%;
+    background-color: #fff;
+    float: left;
+  }
+  .template-blog .main-content .article_img {
+    width: 25%;
+    float: left;
+    padding-right: 20px;
+  }
+  .template-blog .main-content .article_img img {
+    width: 100%;
+  }
+  .template-blog .main-content .article_info {
+    width: 75%;
+    float: left;
+    line-height: 1.6;
+    color: var(--colorFontBlog);
+    font-weight: 300;
+  }
+  .template-blog .main-content .article_info .entry-title {
+    font-weight: normal;
+    margin: 0 0 0.5rem;
+    text-transform: uppercase;
+    line-height: 1.4;
+    font-weight: bold;
+  }
+  .template-blog .main-content .article_info .entry-title a {
+    color: var(--colorFontBlog);
+  }
+  .template-blog .main-content .blogbutton {
+    width: 140px;
+    margin: 15px 0;
+    box-shadow: rgba(0, 0, 0, 0.51) 1px 1px 1px;
+    color: var(--buttonColortextBlog);
+    font-weight: normal;
+    text-align: center;
+    line-height: 24px;
+    border-radius: 0px;
+    background: var(--buttonColorBackgroundBlog);
+    border-width: 1px;
+    border-style: solid;
+    border-color: white;
+    border-image: none 100% 1 0 stretch;
+    padding: 7px 15px;
+    transition: ease all 300ms;
+  }
+  .template-blog .main-content .blogbutton:hover,
+  .template-blog .main-content .blogbutton:active {
+    background-color: var(--buttonHoverColorBackgroundBlog);
+    color: var(--buttonTextColorHoverBlog);
+    cursor: pointer;
+  }
+  .template-blog .count-comments {
+    color: var(--colorFontBlog);
+    font-weight: bold;
+    text-decoration: underline;
+  }
+  .clearfix {
+    zoom: 1;
+  }
+  .clearfix:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  @media (max-width: 1019px) {
+    .article-contect .article__body li {
+      margin: 0 0 20.5px;
+      font-size: 18px;
+    }
+    .article__section-wrapper {
+      display: block;
+      margin-top: 20px;
+      padding: 0 17px 40px;
+    }
+
+    .article__content {
+      margin-top: 20px;
+    }
+
+    .article__section-wrapper .breadcrumbs {
+      padding: 0 4px;
+    }
+
+    .article__section-wrapper .breadcrumbs__separator {
+      margin-right: 1px;
+    }
+
+    .article__section-wrapper .breadcrumbs__separator svg {
+      width: 16px;
+      height: 10px;
+      padding-top: 0;
+      transform: scale(2.4);
+      position: relative;
+      right: 0;
+      bottom: 1px;
+    }
+
+    .article-wrapper.grid.blog-grid {
+      flex-direction: column;
+      padding: 0 2.7px;
+      gap: 0;
+    }
+
+    .article-section {
+      width: 100%;
+    }
+
+    .article__top-image {
+      width: 96px;
+      margin: 34px 0 33px 3px;
+    }
+
+    .article-contect {
+      margin: 26px 0 0 0;
+    }
+
+    .template-article .article_img {
+      width: 100%;
+      height: 490px;
+      margin: 25px 0 26px 0;
+    }
+
+    .template-article .article_img img {
+      width: 100%;
+    }
+
+    .article-contect .article__body h2 {
+      font-size: 28px;
+      margin: 31px 0;
+      letter-spacing: -0.3px;
+    }
+
+    .article-contect .article__body h3 {
+      letter-spacing: -0.3px;
+      margin-bottom: 22px;
+    }
+
+    .article-contect .article__body h4 {
+      font-size: 20px;
+      margin: 26px 0 15px;
+      transform: translateY(0px);
+    }
+
+    .article-contect .article__body p {
+      font-size: 18px;
+      margin-bottom: 21.7px;
+    }
+
+    .article-contect .article__body img {
+      width: 100%;
+      height: 490px;
+      margin-top: 5px;
+      margin-bottom: 6px;
+    }
+
+    .article-contect .article__body ul {
+      margin-bottom: 17.3px;
+      line-height: 1.3;
+      font-size: 18px;
+    }
+
+    .article-contect .article__body ul:last-child {
+      margin-bottom: 0;
+      transform: translateY(-6.1px);
+    }
+
+    .article-contect .article__body ul ::marker {
+      font-size: 14px;
+    }
+
+    .article-contect .article__body ul p {
+      line-height: 1.09;
+    }
+
+    .article-contect .article__body ul span {
+      font-size: 18px;
+    }
+
+    .buttons-prev-next-wrapper {
+      padding: 0px 3px 6.2px 0;
+    }
+
+    {% unless blog.next_article %}
+
+      .buttons-prev-next-wrapper .left {
+        padding-right: 0;
+      }
+
+      .buttons-prev-next-wrapper .left span {
+        font-size: 15px;
+        line-height: 1;
+        transform: translate(0.8px, -0.3px) scale(1.1);
+      }
+
+      .buttons-prev-next-wrapper a {
+        padding-right: 4px;
+        line-height: 1.2;
+      }
+    {% endunless %}
+  }
+  @media (max-width: 767px) {
+    .article-contect .article__body li {
+      margin: 0 0 17.3px;
+      font-size: 14px;
+    }
+    .article__section-wrapper{
+      padding-bottom: 20px;
+    }
+
+    .article__content {
+      margin-top: 22px;
+    }
+
+    .article__section-wrapper .breadcrumbs {
+      padding: 0 3px;
+    }
+
+    .article__section-wrapper .breadcrumbs__separator {
+      margin-right: 0;
+    }
+    
+    .article__section-wrapper .breadcrumbs__separator svg {
+      width: 12px;
+      height: 7px;
+      padding-top: 0;
+      transform: scale(2.6);
+      position: relative;
+      right: 0;
+      bottom: 0px;
+    }
+
+    .article__top-image {
+      width: 78px;
+      margin: 20px 0 17px 0px;
+      transform: translateX(-4px);
+    }
+
+    .article-contect {
+      margin: 0;
+    }
+
+    .template-article .article_img {
+      height: auto;
+      margin: 7px 0 12px 0;
+    }
+
+    .article-contect .article__body p {
+      font-size: 14px;
+      margin-bottom: 10.3px;
+      line-height: 1.07;
+    }
+
+    .article-contect .article__body ul p {
+      line-height: 1.06;
+    }
+
+    .article-contect .article__body h2 {
+      font-size: 24px;
+      margin: 17px 0 11.5px;
+      letter-spacing: -0.2px;
+    }
+
+    .article-contect .article__body h3 {
+      font-size: 22px;
+      letter-spacing: 0.4px;
+      margin-bottom: 11px;
+    }
+
+    .article-contect .article__body h4 {
+      margin: 19px 0 10px;
+    }
+
+    .article-contect .article__body img {
+      margin-top: 1px;
+      margin-bottom: 4px;
+      height: auto;
+    }
+
+    .article-contect .article__body ul:last-child {
+      margin-bottom: 19px;
+      transform: unset;
+    }
+
+    .article-contect .article__body ul {
+      line-height: 1.06;
+      margin-bottom: 17.8px;
+      margin-top: 17px;
+    }
+
+    .buttons-prev-next-wrapper {
+      padding: 7px 6px 29px 0;
+    }
+
+    {% unless blog.next_article %}
+
+      .buttons-prev-next-wrapper .left {
+        padding-right: 0;
+      }
+
+      .buttons-prev-next-wrapper .left span {
+        font-size: 15px;
+        transform: translate(-0.7px, -0.7px) scale(1.1);
+      }
+
+      .buttons-prev-next-wrapper .left a {
+        margin-left: 11px;
+        padding-right: 0px;
+      }
+    {% endunless %}
+  }
+</style>
+
+<div class="wrapper article__section-wrapper">
+  <div class="article__content">
+    {%- if settings.enable_breadcrumbs_blog_post -%}
+      {%- render 'breadcrumb' -%}
+    {%- endif -%}
+
+    {% if section.settings.display_image_above_article %}
+      <div class="article__top-image">
+        {% if section.settings.image_above_article != blank %}
+          {% assign image = section.settings.image_above_article | image_url %}
+        {% else %}
+          {% assign image = 'established_at.png' | asset_url %}
+        {% endif %}
+        <img
+          src="{{ image }}"
+        />
+      </div>
+    {% endif %}
+    
+    <div class="article-wrapper  grid blog-grid">
+      <div class="article-section">
+        <article class="article">
+          <header class="section-header">
+            <div class="section-header__left">
+              <h1>{{ article.title }}</h1>
+              {%- capture author -%}
+                <strong>
+                  {%- if settings.author_custom != blank -%}
+                    {{ settings.author_custom }}
+                  {%- else -%}
+                    {{ article.author }}
+                  {%- endif -%}
+                </strong>
+              {%- endcapture -%}
+  
+              {%- unless settings.article_hide_date -%}
+                {%- capture date -%}<time datetime="{{ article.published_at | date: '%Y-%m-%d' }}">{{ article.published_at | date: format: 'month_day_year' }}</time>{%- endcapture -%}
+                <p>{{ 'blogs.article.author_on_date_html' | t: author: author, date: date }}</p>
+              {%- else -%}
+                <p>{{ 'blogs.article.only_author_name_html' | t: author: author }}</p>
+              {%- endunless -%}
+            </div>
+          </header>
+          <div class="article-contect">
+            <div class="article_img">
+              {%- if article.image -%}
+                {% assign image_id = 'article-' | append: forloop.index %}
+                {%- render 'responsive-image',
+                  id: image_id,
+                  image: article.image,
+                  lazyload: false,
+                  width: 900,
+                  no_wrap: true,
+                  alt: article.image.alt
+                -%}
+              {%- endif -%}
+            </div>
+            <div class="rte article__body">
+              {{ article.content }}
+            </div>
+          </div>
+  
+          {% if blog.comments_enabled? and settings.enable_blogs_comments %}
+            {% if number_of_comments > 0 %}
+              <div class="wrapper-comments">
+                <h2 class="section-title">{{ 'blogs.comments.comments_with_count' | t: count: number_of_comments }}</h2>
+                {% paginate article.comments by 5 %}
+                  <div class="comments-container">
+                    {% if comment.status == 'pending' %}
+                      <div id="{{ comment.id }}" class="coments-body">
+                        <div class="comments-container">
+                          {{ comment.content }}
+                        </div>
+                        <div class="comment-info">
+                          <span class="comment-author">
+                            {{- comment.author | capitalize | prepend: ' ' | prepend: '&mdash;' | append: ',' }}
+                            {{ comment.created_at | time_tag: format: 'date' -}}
+                          </span>
+                        </div>
+                      </div>
+                    {% endif %}
+                    {% for comment in article.comments %}
+                      <div id="{{ comment.id }}" class="coments-body">
+                        <div class="comments-container">
+                          {{ comment.content }}
+                        </div>
+                        <div class="comment-info">
+                          <span class="comment-author">
+                            {{- comment.author | capitalize | prepend: ' ' | prepend: '&mdash;' | append: ',' }}
+                            {{ comment.created_at | time_tag: format: 'date' -}}
+                          </span>
+                        </div>
+                      </div>
+                    {% endfor %}
+                    {%- if paginate.pages > 1 -%}
+                      {% render 'pagination', paginate: paginate %}
+                    {%- endif -%}
+                  </div>
+                {% endpaginate %}
+              </div>
+            {% endif %}
+            <div class="wrapper-new-comment">
+              {% form 'new_comment', article %}
+                {%- assign formId = 'CommentForm' -%}
+                <h2 class="section-title">{{ 'blogs.comments.title' | t }}</h2>
+  
+                {%- assign post_message = 'blogs.comments.success' -%}
+                {%- if blog.moderated? and comment.status == 'pending' -%}
+                  {%- assign post_message = 'blogs.comments.success_moderated' -%}
+                {%- elsif comment.status == 'unapproved' or comment.status == 'spam' -%}
+                  {%- assign post_message = 'blogs.comments.unapproved' -%}
+                {%- endif -%}
+  
+                {% render 'form-status', form: form, form_id: formId, success_message: post_message %}
+  
+                <div class="form-new-comment">
+                  <div class="new-comments-author">
+                    <label for="{{ formId }}-author">{{ 'blogs.comments.name' | t }}</label>
+                    <input
+                      type="text"
+                      name="comment[author]"
+                      id="{{ formId }}-author"
+                      class="form-new-comment-input form-author{% if form.errors contains 'author' %} input--error{% endif %}"
+                      value="{{ form.author }}"
+                      {% if form.errors contains 'author' %}
+                        aria-invalid="true" aria-describedby="{{ formId}}-author-error"
+                      {% endif %}
+                    >
+                    {% if form.errors contains 'author' %}
+                      <span id="{{ formId }}-author-error" class="input-error-message">
+                        <span class="visually-hidden">{{ 'general.accessibility.error' | t }} </span>
+                        {% render 'icon-error' %}
+                        <span>
+                          {{- 'blogs.comments.name' | t }}
+                          {{ form.errors.messages.author }}.</span
+                        >
+                      </span>
+                    {% endif %}
+                  </div>
+                  <div class="new-comments-email">
+                    <label for="{{ formId }}-email">{{ 'blogs.comments.email' | t }}</label>
+                    <input
+                      type="email"
+                      name="comment[email]"
+                      id="{{ formId }}-email"
+                      class="form-new-comment-input form-email{% if form.errors contains 'email' %} input--error{% endif %}"
+                      value="{{ form.email }}"
+                      autocorrect="off"
+                      autocapitalize="off"
+                      {% if form.errors contains 'email' %}
+                        aria-invalid="true" aria-describedby="{{ formId}}-email-error"
+                      {% endif %}
+                    >
+                    {% if form.errors contains 'email' %}
+                      <span id="{{ formId }}-email-error" class="input-error-message">
+                        <span class="visually-hidden">{{ 'general.accessibility.error' | t }} </span>
+                        {% render 'icon-error' %}
+                        <span>
+                          {{- form.errors.translated_fields.email | capitalize }}
+                          {{ form.errors.messages.email }}.</span
+                        >
+                      </span>
+                    {% endif %}
+                  </div>
+                  <div class="new-comments">
+                    <label for="{{ formId }}-body">{{ 'blogs.comments.message' | t }}</label>
+                    <textarea
+                      name="comment[body]"
+                      id="{{ formId }}-body"
+                      class="form-new-comment-input form-commet-area{% if form.errors contains 'body' %} input--error{% endif %}"
+                      {% if form.errors contains 'body' %}
+                        aria-invalid="true" aria-describedby="{{ formId}}-body-error"
+                      {% endif -%}
+                    >{{ form.body }}</textarea>
+                    {% if form.errors contains 'body' %}
+                      <span id="{{ formId }}-body-error" class="input-error-message">
+                        <span class="visually-hidden">{{ 'general.accessibility.error' | t }} </span>
+                        {% render 'icon-error' %}
+                        <span>
+                          {{- 'blogs.comments.message' | t }}
+                          {{ form.errors.messages.body }}.</span
+                        >
+                      </span>
+                    {% endif %}
+                  </div>
+                </div>
+  
+                {% if blog.moderated? %}
+                  <p class="fine-print">{{ 'blogs.comments.moderated' | t }}</p>
+                {% endif %}
+  
+                <input type="submit" class="btn blogbutton" value="{{ 'blogs.comments.post' | t }}">
+              {% endform %}
+            </div>
+          {% endif %}
+        </article>
+  
+        {%- if blog.next_article or blog.previous_article -%}
+          <div class="buttons-prev-next-wrapper">
+            {%- if blog.previous_article -%}
+              <span id="buttons-prev-left" class="left">
+                <span id="buttons-prev-left__arrow">&larr;</span> 
+                {{ 'blogs.article.older_post' | t | link_to: blog.previous_article }}
+              </span>
+            {%- endif -%}
+            {%- if blog.next_article -%}
+              <span id="buttons-prev-right" class="right">
+                {{ 'blogs.article.newer_post' | t | link_to: blog.next_article }} &rarr;
+              </span>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </div>
+      
+      {%- if section.settings.enable_sidebar -%}
+        <aside class="grid__item large--one-quarter sidebar">
+          {%- render 'blog-sidebars' -%}
+        </aside>
+      {%- endif -%}
+    </div>    
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Article Template",
+  "class": "article-template",
+  "settings": [
+    {
+      "type": "header",
+      "content": "General Settings"
+    },
+    {
+      "type": "checkbox",
+      "label": "Enable custom margins and paddings",
+      "id": "enable_custom_margins_paddings",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "custom-margin-top",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Margin Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "custom-margin-bottom",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Margin Bottom",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "custom-padding-top",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "custom-padding-bottom",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 0
+    },
+    {
+      "type": "checkbox",
+      "label": "Display image above article",
+      "id": "display_image_above_article",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "label": "Image",
+      "id": "image_above_article"
+    },
+    {
+      "type": "header",
+      "content": "Font"
+    },
+    {
+      "type": "range",
+      "id": "article_title_fontsize",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Article Title fontsize",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "article_title_fontsize_tablet",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Article Title fontsize on Tablet",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "article_title_fontsize_mobile",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Article Title fontsize on Tablet",
+      "default": 28
+    },
+    {
+      "type": "header",
+      "content": "Article"
+    },
+    {
+      "type": "checkbox",
+      "label": "Display author",
+      "id": "display_author",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Sidebar"
+    },
+    {
+      "type": "range",
+      "id": "sidebar_width",
+      "min": 200,
+      "max": 300,
+      "step": 1,
+      "unit": "px",
+      "label": "Sidebar width",
+      "default": 240
+    },
+    {
+      "type": "checkbox",
+      "label": "Enable Sidebar",
+      "id": "enable_sidebar",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "label": "Sidebar Left",
+      "id": "sidebar_left"
+    },
+    {
+      "type": "checkbox",
+      "label": "Fixed Sidebar",
+      "id": "fixed_sidebar"
+    },
+    {
+      "type": "select",
+      "id": "sidebar_text_align",
+      "label": "Sidebar Text Alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "recent_posts",
+      "name": "Recent Posts",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "header",
+          "content": "Recent Posts"
+        }
+      ]
+    },
+    {
+      "type": "categories",
+      "name": "Categories",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "header",
+          "content": "Categories"
+        },
+        {
+          "type": "textarea",
+          "id": "filter_by_tags",
+          "label": "Filter Categories By Tag",
+          "placeholder": "Type the tags",
+          "info": "Separate tags handle with ( ; )."
+        }
+      ]
+    },
+    {
+      "type": "newsletter",
+      "name": "Newsletter Widget ",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "header",
+          "content": "Newsletter Widget "
+        },
+        {
+          "type": "text",
+          "id": "sidebar_title",
+          "label": "Newsletter Widget Title",
+          "placeholder": "Newsletter Widget Title"
+        },
+        {
+          "type": "textarea",
+          "id": "sidebar_text",
+          "label": "Newsletter Widget Text",
+          "default": "Ready to find out more about our new, and upcoming products? Sign up below. "
+        },
+        {
+          "type": "select",
+          "id": "select_newsletter",
+          "label": "Newsletter Manager",
+          "info": "Klaviyo only will work if enabled, check it on Newsletter",
+          "options": [
+            {
+              "label": "Klaviyo",
+              "value": "klaviyo"
+            },
+            {
+              "label": "Default Shopify Form",
+              "value": "newsletter-default"
+            },
+            {
+              "label": "Custom Newsletter",
+              "value": "newsletter-custom"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

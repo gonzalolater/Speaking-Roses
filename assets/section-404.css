@@ -1,0 +1,23 @@
+.template-404 .main-content {
+	width: 100%;
+	float: left;
+	padding-top: 40px;
+}
+.template-404 .main-content .section-collection-list,
+.template-404 .main-content .section-slide-promotional {
+	margin-top: 40px;
+}
+.template-404 .main-content .section-collection-list .section-title,
+.template-404 .main-content .section-slide-promotional .section-title {
+	display: block;
+	padding-top: 0;
+}
+.template-404 .footer-section {
+	float: left;
+}
+.template-404 .content-p {
+	margin-bottom: 30px;
+}
+.template-404 .sld-promotional {
+	margin-bottom: 40px;
+}

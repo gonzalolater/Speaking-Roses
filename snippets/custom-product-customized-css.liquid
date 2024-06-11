@@ -1,0 +1,453 @@
+<!-- snippets/custom-product-customized-css -->
+{%- capture product_customized_css -%}
+  <style>
+    {% comment %} General CSS {% endcomment %}
+    .text-center {
+      text-align: center!important;
+    }
+    .position-absolute {
+      position: absolute!important;
+    }
+    .position-relative {
+      position: relative!important;
+    }
+    .btn-primary {
+      background: #A84F65;
+      color: #fff;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 16.6px 2px 16.5px 1px;
+      font-size: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+    .btn-primary:hover,
+    .btn-primary:active {
+      background: #787878;
+    }
+
+    {% comment %} Product Page - STEP 1 {% endcomment %}
+    .template-product #srPreviewSection #srPreviewContainer{
+      border: unset!important;
+    }
+    .template-product.customized .breadcrumbs{
+      display: flex;
+    }
+    #srPWProgressFill, #srLWProgressFill{
+      
+    }
+    .template-product .product-name h1 {
+      font-family: 'Lato';
+      letter-spacing: -0.1px;
+      font-size: 29px;
+      margin: 0 0 10px;
+      line-height: 1;
+      color: #1E293B;
+    }
+    .template-product .short-description {
+      font-size: 16px;
+      letter-spacing: 0.15px;
+      margin: 0 0 13px;
+      color: #4B4B4B;
+    }
+    .template-product .srPriceSection {
+      margin: 0 0 13px;
+      color: #4B4B4B;
+    } 
+    .template-product .srPriceSection .srPrice {
+      color: #CE0000;
+      font-size: 24px;
+      display: block;
+    }
+    .template-product .product-customized__content,
+    .template-product .product-customized__content .row {
+      width: 100%;
+    }
+    .template-product .product-customized__content {
+      margin: 0 auto;
+    }
+    .template-product .product-customized__content #srPreviewBackground {
+      height: 100%;
+      background-repeat: no-repeat;
+    }
+    .template-product #srTextInputSection p,
+    .template-product #srFontSection p,
+    .template-product #srStep1 p,
+    .template-product #srPreviewMessage,
+    .template-product #srNext1 + div {
+      display: none !important;
+    }
+    .template-product #srPreviewText {
+      font-family: inherit;
+    }
+    .template-product .product-customized__content .row,
+    .template-product .product-customized__content #srRoseColorSelect {
+      display: flex;
+      justify-content: space-between;
+    }
+    .template-product .product-customized__content .row .col-sm-6:not(.product-view){
+      width: 50%;
+    }
+    .template-product .product-customized__content .row .col-sm-6.product-view{
+      width: 48%;
+      padding: 25px 0 0 2px;
+    }
+    .template-product .product-view #srRoseSection{
+      width: 46%;
+    }
+    .template-product .product-view #srStep1 h3{
+      color: #4B4B4B;
+    }
+    .template-product #srRoseColorSelect img {
+      border: 1px solid #a8a8a8;
+      width: 18.5%;
+      border-radius: 50%;
+      aspect-ratio: 1/1;
+    }
+    .template-product .product-customized__content .col-sm-4 {
+      margin-right: 3%;
+    }
+    .template-product .product-customized__content .col-sm-8 {
+      flex: 1;
+      width: 100%;
+    }
+    .template-product #srNext1 {
+      width: 100%;
+      margin: 14px 0 2px;
+      max-width: 564px;
+      border-radius: 9px;
+      padding: 17.6px 2px 17.6px 1px;
+      letter-spacing: 0px;
+    }
+    #srNext1 {
+      color: transparent;
+      position: relative;
+    }
+    #srNext1:before {
+      content: 'Select packaging in the next step';
+      pointer-events: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      color: #fff;
+      padding: 17px 0;
+    }
+    .template-product #srTextInputSection,
+    .template-product #srFontSection {
+      display: inline-block;
+    }
+    .template-product #srTextInput {
+      background-color: #fff;
+      border: 1px solid #aaa;
+      border-radius: 4px;
+      height: 30.5px;
+      letter-spacing: -0.1px;
+      font-size: 14px;
+      color: #555555BD;
+    }
+    .template-product #srFontSection {
+      max-width: 100%;
+      margin-left: 10px;
+      transform: translate(0px,-0.7px);
+    }
+    .template-product #srStep1 h3 {
+      font-size: 20px;
+      margin: 0 0 6px;
+    }
+    .template-product #srFontSection h3 {
+      font-size: 16px;
+      transform: translate(0.5px, -1.2px);
+    }
+    .template-product .select2-container .select2-selection--single {
+      height: 31px !important;
+      border-radius: 6px;
+      background-color: #d9d9d9;
+    }
+    .template-product #select2-srFontSelect-container {
+      padding-top: 0;
+      font-size: 16px;
+    }
+    .template-product .select2-container--default .select2-selection--single .select2-selection__arrow {
+      top: 3px;
+    }
+    .template-product #srTextInputSection h3 {
+      margin: 0 0 4px;
+    }
+    .template-product #srContentTypeSelect {
+      display: flex;
+      gap: 1%;
+      margin: 0 0 13px;
+    }
+    .template-product #srLogoInputSection,
+    .template-product #srPictureInputSection{
+      margin: 0 0 13px;
+    }
+    .template-product #srStep1,
+    .template-product #srStep2 {
+      max-width: 564px;
+    }
+    .template-product .srContentTypeItem {
+      margin: 0;
+    }
+    .template-product .srContentTypeItem {
+      width: 32.1%;
+    }
+    .template-product .srContentTypePreviewUnselected {
+      padding: 0;
+      line-height: 27px;
+      border-radius: 5px;
+      height: 34.5px;
+      width: 100%;
+      border: 1px solid #000;
+      color: #000;
+      font-weight: 300;
+      font-size: 14px;
+      padding: 3.5px 2px 10px 0
+    }
+    .template-product .srInkColorPreviewSelected,
+    .template-product #srRoseColorSelect img.selected,
+    .template-product .srContentTypePreviewSelected {
+      color: #A84F65;
+      border: 1px solid #A84F65;
+    }
+    .template-product #srRoseSection {
+      margin: 0 0 13px;
+    }
+    .template-product .srInkColorItem {
+      margin: 0;
+    }
+    .template-product .srInkColorPreview {
+      width: 45px;
+      height: 45px;
+    }
+    .template-product .srInkColorPreviewSelected {
+      border: 1px solid #A84F65;
+    }
+    .template-product #srInkColorSelect {
+      padding: 0 2.5px 0;
+      display: flex;
+      gap: 17px;
+    }
+    .template-product .srInkColorLabel,
+    .template-product .srInkColorLabelSelected {
+      color: #000;
+      font-weight: normal;
+    }
+    .template-product .srInkColorLabel {
+      padding-top: 2px;
+      letter-spacing: 0.4px;
+      padding: 2px 0 0 0;
+      font-size: 12px;
+    }
+
+    {% comment %} Product Page - STEP 2 {% endcomment %}
+    .template-product #srQuantitySection {
+      margin: 0 0 17.5px;
+    }
+    .template-product #srQuantitySection h3 {
+      font-size: 16px;
+      line-height: 21px;
+    }
+    .template-product .srQtyOption{
+      padding: 8px;
+    }
+    .template-product .srQtyOptionSelected {
+      border: solid 1px #7cd9e2;
+      outline: solid 1px #7cd9e2;
+    }
+    .template-product #srQuantitySection p {
+      font-size: 12px;
+      line-height: 14px;
+      margin: 0 0 3px;
+    }
+    .template-product #srQuantitySelect {
+      border-radius: 5px;
+      height: 26px;
+      min-width: 40px;
+      font-size: 16px;
+    }
+    .template-product #srMediaExperienceSection {
+      margin: 0 0 15.3px;
+    }
+    .template-product #srMediaExperienceSection h3 {
+      font-size: 16px;
+    }
+    .template-product #srMediaExperienceSection p {
+      font-size: 12px;
+      line-height: 18px;
+      margin: 0 0 8.5px;
+    }
+    .template-product #srMediaExperienceSelect {
+      width: 100%;
+      max-width: 480px;
+      height: 34.5px;
+      border-radius: 6px;
+      padding: 0 5px 0;
+      font-size: 14.02px;
+      letter-spacing: 0;
+    }
+    .template-product #srCardMessageSection {
+      margin: 0 0 15px;
+    }
+    .template-product #srCardMessageSection h3 {
+      font-size: 16px;
+    }
+    .template-product #srCardMessageSection p {
+      font-size: 12px;
+      line-height: 18px;
+      margin: 0 0 7px;
+    }
+    .template-product #srCardMessageInput {
+      width: 100%;
+      max-width: 480px;
+      height: 49px;
+      border-radius: 4px;
+      resize: vertical;
+      padding: 5px 7px;
+      font-size: 16px;
+    }
+    .template-product #srStep2 > div:not([id]) {
+      display: flex;
+      gap: 10px;
+    }
+    .template-product #srStep2 > div:not([id]) .button-wrapper-content {
+      flex: 1;
+      max-width: 353.3px;
+    }
+    .template-product #srStep2 > div:not([id]) button {
+      border-radius: 9px;
+    }
+    .template-product #srBack2 {
+      background: #fff;
+      color: #595959;
+      border: 1px solid #595959;
+      height: 59px;
+      padding: 0 15px;
+    }
+    .template-product #srBack2 + div {
+      font-size: 14px;
+      display: none;
+    }
+
+    .template-product #srStep1 h3,
+    .template-product #srContentTypeSelect,
+    .template-product #srRoseSection,
+    .template-product #srInkColorSelect {
+      width: 90%;
+    }
+    .template-product #srTextInputSection {
+      width: calc(84.7% - 110px);
+      margin: 0 0 15px;
+    }
+    .template-product #srFontSection {
+      width: 100px;
+    }
+
+
+    {% comment %} Responsive 768px {% endcomment %}
+    @media (max-width: 1019px) {
+      .template-product .product-customized__content .row{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      .template-product .product-customized__content .mb-5 .row .col-sm-6{
+        width: 100%;
+      }
+      .template-product #srStep1, .template-product #srStep2{
+        max-width: 100%;
+      }
+      .template-product .srQtyOption{
+        font-size: 16px;
+      }
+      .template-product #srBack2 {
+        height: 55px;
+      }
+      .template-product #srStep2 > div:not([id]) button,
+      .template-product #srPreviewSection .mt-1 {
+        font-size: 16px;
+      }
+      .template-product #srPreviewSection .mt-1 {
+        margin: 4px 0 0;
+      }
+      .template-product #srNext1 {
+        margin: 20px 0 12px;
+        font-size: 16px;
+        max-width: 100%;
+      }
+      .template-product #srRoseSection {
+        width: 100%;
+      }
+      .template-product #srContentTypeSelect{
+        width: calc(84.7% - 110px);
+        gap: 2%;
+      }
+      .template-product #srFontSection {
+        width: 30%;
+        margin-left: 0px;
+      }
+      .template-product #srTextInputSection {
+        width: 68%;
+        margin: 0 0 13px;
+      }
+      .template-product #srFontSection h3{
+        font-size: 20px;
+      }
+      .template-product .product-customized__content .row .col-sm-6.product-view{
+        padding: 0px 0 0 2px;
+      }
+    }
+
+    {% comment %} Responsive 768px {% endcomment %}
+    @media (max-width: 767px) {
+      .template-product .product-customized__content .row, 
+      .template-product .product-customized__content #srRoseColorSelect {
+        flex-wrap: wrap;
+      }
+      .template-product .product-customized__content .col-sm-4 {
+        margin: 0;
+        width: 100%;
+      }
+      .template-product #srStep1 {
+        margin: 13px 0 0;
+      }
+      .template-product .srPriceSection h4 {
+        font-size: 25px;
+        margin: 0 0 5px;
+      }
+      .template-product #srStep1 h3 {
+        line-height: 1.1;
+        font-size: 18px;
+      }
+      .template-product .srQtyOption{
+        margin-right: 7px;
+      }
+      .template-product #srContentTypeSelect,
+      .template-product .product-customized__content #srRoseColorSelect {
+        gap: 2%;
+      }
+      .template-product .srContentTypeItem {
+        width: 32%;
+      }
+      .template-product .srContentTypePreviewUnselected {
+        width: 100%;
+      }
+      .template-product .product-name h1 {
+        margin: 10px 0 10px;
+        line-height: 1;
+      }
+      .template-product #srRoseColorSelect img {
+        width: 23.5%;
+      }
+      .template-product #srNext1 {
+        font-size: 14px;
+        margin: 10px 0 15px;
+      }
+    }
+  </style>
+{%- endcapture -%}
+{{- product_customized_css | strip_newlines | replace: '    ', ' ' | replace: '   ', ' ' | replace: '  ', ' ' -}}

@@ -1,0 +1,73 @@
+<!-- start shipping-bar-sections (SNIPPETS) -->
+
+<div class="shipping-bar__section-item">
+  {%- if block.settings.enable_svg_icon_left -%}
+    {%- if block.settings['shipping-bar_icon-left-section-svg'] != blank -%}
+      {{ block.settings['shipping-bar_icon-left-section-svg'] }}
+    {%- endif -%}
+  {%- else -%}
+    {%- assign image = block.settings['shipping-bar_icon-left-section'] -%}
+
+    {%- if image != blank -%}
+      {%- render 'responsive-image',
+        id: 'shipping_bar1',
+        image: image,
+        class: 'shipping-bar__section-image no-mobile',
+        no_wrap: true,
+        alt: image.alt,
+        width: 50
+      -%}
+    {%- endif -%}
+  {%- endif -%}
+  {{- block.settings['shipping-bar_text-left-section'] -}}
+</div>
+
+<div class="shipping-bar__section-item">
+  {%- if block.settings.enable_svg_icon_middle -%}
+    {%- if block.settings['shipping-bar_icon-middle-section-svg'] != blank -%}
+      {{ block.settings['shipping-bar_icon-middle-section-svg'] }}
+    {%- endif -%}
+  {%- else -%}
+    {%- assign image = block.settings['shipping-bar_icon-middle-section'] -%}
+
+    {%- if image != blank -%}
+      {%- render 'responsive-image',
+        id_prefix: 'shipping_bar2',
+        image: image,
+        class: 'shipping-bar__section-image no-mobile',
+        no_wrap: true,
+        alt: image.alt,
+        width: 50
+      -%}
+    {%- endif -%}
+  {%- endif -%}
+  {{- block.settings['shipping-bar_text-middle-section'] -}}
+</div>
+
+<div class="shipping-bar__section-item">
+  {%- if block.settings.enable_svg_icon_right -%}
+    {%- if block.settings['shipping-bar_icon-right-section-svg'] != blank -%}
+      {{ block.settings['shipping-bar_icon-right-section-svg'] }}
+    {%- endif -%}
+  {%- else -%}
+    {%- assign image = block.settings['shipping-bar_icon-right-section'] -%}
+
+    {%- if image != blank -%}
+      {%- render 'responsive-image',
+        id_prefix: 'shipping_bar3',
+        image: image,
+        class: 'shipping-bar__section-image no-mobile',
+        no_wrap: true,
+        alt: image.alt,
+        width: 50
+      -%}
+    {%- endif -%}
+  {%- endif -%}
+  {{- block.settings['shipping-bar_text-right-section'] -}}
+</div>
+
+<style scoped>
+  :root {
+    --shipping-bar-items-line-color: {{- block.settings.line_color -}};
+  }
+</style>

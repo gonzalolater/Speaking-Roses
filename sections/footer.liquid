@@ -1,0 +1,623 @@
+<!-- START footer.liquid (SECTION) -->
+{%- if section.settings.layout_select == 'layout01' -%}
+  {%- render 'footer-layout01' -%}
+{%- elsif section.settings.layout_select == 'layout02' -%}
+  {%- render 'footer-layout02' -%}
+{%- elsif section.settings.layout_select == 'layout03' -%}
+  {%- render 'footer-layout03' -%}
+{%- else -%}
+  {%- render 'custom-footer-layout04' -%}
+{%- endif -%}
+
+
+
+{% schema %}
+  {
+    "name": "Footer (Sitewide)",
+    "class": "footer-section",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Layout Settings"
+      },
+      {
+        "type": "select",
+        "id": "layout_select",
+        "label": "Select Footer Layout",
+        "options": [
+          {
+            "value": "layout01",
+            "label": "Layout 01"
+          }, {
+            "value": "layout02",
+            "label": "Layout 02"
+          }, {
+            "value": "layout03",
+            "label": "Layout 03"
+          }, {
+            "value": "layout04",
+            "label": "Layout 04"
+          }
+        ],
+        "default": "layout01"
+      },
+      {
+        "type": "header",
+        "content": "Colors"
+      },
+      {
+        "type": "color",
+        "id": "background_color",
+        "label": "Background Color",
+        "default": "#006ba2"
+      }, {
+        "type": "color",
+        "id": "border_color",
+        "label": "Border Color",
+        "default": "#fff"
+      }, {
+        "type": "color",
+        "id": "title_font_color",
+        "label": "Title Font Color",
+        "default": "#000"
+      }, {
+        "type": "color",
+        "id": "font_color",
+        "label": "Text Font Color",
+        "default": "#fff"
+      }, {
+        "type": "color",
+        "id": "popular_collection_text",
+        "label": "Popular Widgets Text Color",
+        "default": "#fff"
+      }, {
+        "type": "color",
+        "id": "popular_collection_background",
+        "label": "Popular Widgets Text Background Color",
+        "default": "#000"
+      }, {
+        "type": "color",
+        "id": "social_color",
+        "label": "Social Icons Color",
+        "default": "#fff"
+      }, 
+      {
+        "type": "checkbox",
+        "id": "enable_pc_background_opacity",
+        "label": "Popular Widgets Text Background Color Opacity",
+        "default": false
+      },
+      {
+        "type": "header",
+        "content": "General"
+      }, {
+        "type": "paragraph",
+        "content": "Headline Font Size"
+      }, {
+        "type": "range",
+        "id": "font_size_title_footer",
+        "min": 10,
+        "max": 24,
+        "step": 1,
+        "unit": "px",
+        "label": "Headline Font Size on Desktop",
+        "default": 14
+      }, {
+        "type": "range",
+        "id": "font_size_title_footer_tablet",
+        "min": 10,
+        "max": 22,
+        "step": 1,
+        "unit": "px",
+        "label": "Headline Font Size on Tablet",
+        "default": 14
+      }, {
+        "type": "range",
+        "id": "font_size_title_footer_mobile",
+        "min": 10,
+        "max": 18,
+        "step": 1,
+        "unit": "px",
+        "label": "Headline Font Size on Mobile",
+        "default": 14
+      }, {
+        "type": "paragraph",
+        "content": "Body Copy Font Size"
+      }, {
+        "type": "range",
+        "id": "font_size_itens_footer",
+        "min": 12,
+        "max": 18,
+        "step": 1,
+        "unit": "px",
+        "label": "Body Copy Font Size on Desktop",
+        "default": 12
+      }, {
+        "type": "range",
+        "id": "font_size_itens_footer_tablet",
+        "min": 12,
+        "max": 18,
+        "step": 1,
+        "unit": "px",
+        "label": "Body Copy Font Size on Tablet",
+        "default": 12
+      }, {
+        "type": "range",
+        "id": "font_size_itens_footer_mobile",
+        "min": 12,
+        "max": 18,
+        "step": 1,
+        "unit": "px",
+        "label": "Body Copy Font Size on Mobile",
+        "default": 12
+      }, {
+        "type": "text",
+        "id": "text_post_copy_right",
+        "label": "Copyright Text",
+        "default": "All Right Reserved.",
+        "placeholder": "Copyright Text"
+      }, {
+        "type": "select",
+        "id": "position_social_and_info",
+        "label": "Position Social Icons And Business Info",
+        "options": [
+          {
+            "label": "Left",
+            "value": "left"
+          }, {
+            "label": "Right",
+            "value": "right"
+          }
+        ],
+        "info": "Only works in Standard Layout"
+      }, {
+        "type": "header",
+        "content": "Popular Collections"
+      }, {
+        "type": "text",
+        "id": "collection_title",
+        "label": "Popular Widgets Headline",
+        "default": "Popular Collections"
+      }, {
+        "type": "select",
+        "id": "text_transform_pop_headline",
+        "label": "Headline Text Transform",
+        "options": [
+          {
+            "label": "Capitalize",
+            "value": "capitalize"
+          }, {
+            "label": "Lowercase",
+            "value": "lowercase"
+          }, {
+            "label": "Uppercase",
+            "value": "uppercase"
+          }
+        ],
+        "default": "uppercase"
+      }, {
+        "type": "paragraph",
+        "content": "Popular Collections Items"
+      }, {
+        "type": "range",
+        "id": "font_size_pop_itens_footer",
+        "min": 8,
+        "max": 16,
+        "step": 1,
+        "unit": "px",
+        "label": "Desktop Font Size",
+        "default": 12
+      }, {
+        "type": "range",
+        "id": "font_size_pop_itens_footer_tablet",
+        "min": 8,
+        "max": 16,
+        "step": 1,
+        "unit": "px",
+        "label": "Tablet Font Size",
+        "default": 12
+      }, {
+        "type": "range",
+        "id": "font_size_pop_itens_footer_mobile",
+        "min": 8,
+        "max": 16,
+        "step": 1,
+        "unit": "px",
+        "label": "Mobile Font Size",
+        "default": 12
+      }, {
+        "type": "select",
+        "id": "text_transform_pop_itens_footer",
+        "label": "Text Transform",
+        "options": [
+          {
+            "label": "Capitalize",
+            "value": "capitalize"
+          }, {
+            "label": "Lowercase",
+            "value": "lowercase"
+          }, {
+            "label": "Uppercase",
+            "value": "uppercase"
+          }
+        ]
+      }, {
+        "type": "header",
+        "content": "Custom HTML"
+      }, {
+        "type": "checkbox",
+        "id": "enable_html_area_1",
+        "label": "Enable HTML Area 1"
+      }, {
+        "type": "html",
+        "id": "footer_html_area_1",
+        "label": "Custom HTML 1"
+      }, {
+        "type": "checkbox",
+        "id": "enable_html_area_2",
+        "label": "Enable HTML Area 2"
+      }, {
+        "type": "html",
+        "id": "footer_html_area_2",
+        "label": "Custom HTML 2"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "infos",
+        "name": "Business Info",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "header",
+            "content": "Phone Number & Email",
+            "info": "Please insert the social media link on ‘Theme Settings’ -> ‘Store Info"
+          },
+          {
+            "type": "checkbox",
+            "id": "enable_phone",
+            "label": "Display Phone Number"
+          },
+          {
+            "type": "checkbox",
+            "id": "enable_email",
+            "label": "Display Email"
+          },
+          {
+            "type": "header",
+            "content": "Address"
+          }, {
+            "type": "text",
+            "id": "address",
+            "label": "Address",
+            "default": "123 Main St. Los Angeles"
+          }, {
+            "type": "text",
+            "id": "address_link",
+            "label": "Address Link",
+            "placeholder": "Adress link"
+          }
+        ]
+      },
+      {
+        "type": "social",
+        "name": "Social Icons",
+        "settings": [
+          {
+            "type": "select",
+            "id": "social_media",
+            "label": "Choose Social Media",
+            "info": "Please insert the social media link on ‘Theme Settings’ -> Store Info",
+            "options": [
+              {
+                "label": "Facebook",
+                "value": "icon-facebook"
+              },
+              {
+                "label": "Instagram",
+                "value": "icon-instagram"
+              },
+              {
+                "label": "Twitter",
+                "value": "icon-twitter"
+              },
+              {
+                "label": "Youtube",
+                "value": "icon-youtube"
+              }, {
+                "label": "Pinterest",
+                "value": "icon-pinterest"
+              }, {
+                "label": "Snapchat",
+                "value": "icon-snapchat"
+              }, {
+                "label": "Tumblr",
+                "value": "icon-tumblr"
+              }, {
+                "label": "Vimeo",
+                "value": "icon-vimeo"
+              }, {
+                "label": "Tiktok",
+                "value": "icon-tiktok"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "newsletter",
+        "name": "Newsletter Hack",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "checkbox",
+            "id": "footer_newsletter_enable",
+            "label": "Show Newsletter Field",
+            "default": true
+          }, {
+            "type": "select",
+            "id": "select_newsletter",
+            "label": "Newsletter Manager",
+            "info": "Klaviyo only will work if enabled, check it on Newsletter",
+            "options": [
+              {
+                "label": "Klaviyo",
+                "value": "klaviyo"
+              }, {
+                "label": "Default Shopify Form",
+                "value": "newsletter-default"
+              }, {
+                "label": "Custom Newsletter",
+                "value": "newsletter-custom"
+              }
+            ]
+          }, {
+            "type": "color",
+            "id": "newsletter_hack_border_color",
+            "label": "Newsletter Hack Border Color",
+            "default": "transparent",
+            "info": "Only works on Layout 04"
+          }
+        ]
+      },
+      {
+        "type": "popular_collection",
+        "name": "Popular Widget",
+        "limit": 4,
+        "settings": [
+          {
+            "type": "text",
+            "id": "text_editable",
+            "label": "Widget Text",
+            "default": "Example"
+          }, {
+            "type": "url",
+            "id": "link_popular_collection",
+            "label": "Widget Link"
+          }, {
+            "type": "image_picker",
+            "id": "url_popular_collection",
+            "label": "Widget Image",
+            "info": "300x300 pixels"
+          }
+        ]
+      }, {
+        "type": "menu_footer",
+        "name": "Menu",
+        "limit": 3,
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Menu Title",
+            "default": "Menu Title",
+            "placeholder": "Menu title"
+          }, {
+            "type": "link_list",
+            "id": "menu",
+            "label": "Select Menu"
+          }, {
+            "type": "checkbox",
+            "id": "enable_customer_account",
+            "label": "Enable Login Account Here",
+            "default": false
+          }
+        ]
+      }, {
+        "type": "logo_footer",
+        "name": "Footer Logo",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "logo_url",
+            "label": "Select Logo"
+          },
+          {
+            "type": "checkbox",
+            "id": "enable_svg_logo",
+            "label": "Enable SVG Logo",
+            "default": false
+          },
+          {
+            "type": "html",
+            "id": "logo_svg_html",
+            "label": "Custom SVG Logo"
+          },
+          {
+            "type": "text",
+            "id": "shop_logo_alt",
+            "label": "Logo Alt Text"
+          }, 
+          {
+            "type": "select",
+            "id": "choose_custom_dimensions",
+            "label": "Choose Custom Dimensions",
+            "options": [
+              {
+                "label": "Custom Logo Max-Width",
+                "value": "width"
+              }, {
+                "label": "Custom Logo Max-Height",
+                "value": "height"
+              }
+            ],
+            "default": "width"
+          }, 
+          {
+            "type": "range",
+            "id": "logo_max_width",
+            "min": 50,
+            "max": 250,
+            "step": 10,
+            "unit": "px",
+            "label": "Custom Logo Max-Width",
+            "default": 200
+          }, 
+          {
+            "type": "range",
+            "id": "logo_max_height",
+            "min": 20,
+            "max": 500,
+            "step": 10,
+            "unit": "px",
+            "label": "Custom Logo Max-Height",
+            "default": 90
+          }
+        ]
+      }, {
+        "type": "trust_badges_footer",
+        "name": "Trust Badges",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Block Title",
+            "placeholder": "Block title"
+          },
+          {
+            "type": "select",
+            "id": "svg_trust_badge",
+            "label": "Choose SVG Trust Badge",
+            "options": [
+              {
+                "value": "amazon",
+                "label": "Amazon"
+              },
+              {
+                "value": "amex",
+                "label": "Amex"
+              },
+              {
+                "value": "apple-pay",
+                "label": "Apple Pay"
+              },
+              {
+                "value": "bitcoin",
+                "label": "Bitcoin"
+              }, {
+                "value": "discover",
+                "label": "Discover"
+              }, {
+                "value": "diners-club",
+                "label": "Diners Club"
+              }, {
+                "value": "google-pay",
+                "label": "Google Pay"
+              }, {
+                "value": "jcb",
+                "label": "JCB"
+              }, {
+                "value": "master",
+                "label": "Master"
+              }, {
+                "value": "paypal",
+                "label": "Paypal - Badge"
+              }, {
+                "value": "old-paypal",
+                "label": "Pay Pal (Old Icon)"
+              }, {
+                "value": "porteg",
+                "label": "Porteg"
+              }, {
+                "value": "sezzle",
+                "label": "Sezzle"
+              }, {
+                "value": "shopify",
+                "label": "Shopify"
+              }, {
+                "value": "shopify-pay",
+                "label": "Shopify Pay"
+              }, {
+                "value": "shopify-secure-black",
+                "label": "Shopify Secure Black Icon"
+              }, {
+                "value": "shopify-secure-white",
+                "label": "Shopify Secure White Icon"
+              }, {
+                "value": "venmo",
+                "label": "Venmo"
+              }, {
+                "value": "visa",
+                "label": "Visa"
+              }
+            ]
+          },
+          {
+            "type": "checkbox",
+            "id": "enable_custom_trust_badge_svg",
+            "label": "Enable Custom SVG Trust Badges",
+            "default": false
+          },
+          {
+            "type": "html",
+            "id": "custom_trust_badge_svg_html",
+            "label": "Custom SVG Trust Badges"
+          }, {
+            "type": "checkbox",
+            "id": "enable_img_trust_badge",
+            "label": "Enable Trust Badge Image",
+            "default": false
+          }, {
+            "type": "image_picker",
+            "id": "img_trust_badges_footer",
+            "label": "Trust Badges Image",
+            "info": "55x35"
+          }, {
+            "type": "select",
+            "id": "choose_trust_badges_dimensions",
+            "label": "Choose Trust Badge Dimensions",
+            "options": [
+              {
+                "label": "Trust Badge Height",
+                "value": "height"
+              }, {
+                "label": "Trust Badge Width",
+                "value": "width"
+              }
+            ],
+            "default": "height"
+          }, {
+            "type": "range",
+            "id": "trust_badge_image_height",
+            "min": 35,
+            "max": 205,
+            "step": 10,
+            "unit": "px",
+            "label": "Image Height",
+            "default": 35
+          }, {
+            "type": "range",
+            "id": "trust_badge_image_width",
+            "min": 35,
+            "max": 205,
+            "step": 10,
+            "unit": "px",
+            "label": "Image Width",
+            "default": 35
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

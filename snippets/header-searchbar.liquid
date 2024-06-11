@@ -1,0 +1,43 @@
+<!-- start header-searchbar (SNIPPET) -->
+<div class="{% if mobile %}mobile{% else %}no-mobile{% endif %} header__search__form__wrapper">
+  <form id="search-form" action="/search" method="get" class="header__search__form">
+    <input type="hidden" name="type" value="product,{{ settings.enable_products_pages_article }}">
+    <input
+      class="header__search__input"
+      aria-label="search-text"
+      type="text"
+      class="search-text"
+      name="q"
+      id="Search-{{ search_id }}"
+      value="{{ search.terms | escape }}"
+      placeholder="{{ section.settings.header_searchbar_placeholder }}"
+      required
+    >
+
+    <button id="SearchButton-{{ search_id }}" type="submit" class="button">{{ 'general.search.submit' | t }}</button>
+
+    <!-- start search-suggestions -->
+    <div
+      class="search-results-wrapper{% if settings.enable_page_post_suggestion %} w-80 {% endif %}"
+      style="display: none;"
+    >
+      <div class="close-suggestions"><span class="search__terms"></span> {% render 'icon-close' %}</div>
+
+      <div class="suggestion-half-to-half-flex">
+        <div class="search-results {% if settings.enable_page_post_suggestion == false %} w-100 {% endif %}"></div>
+        {% if settings.enable_page_post_suggestion %}
+          <div class="search-content-container">
+            <div class="search-results-pages-wrapper">
+              <p class="search-section-title">Pages & Posts</p>
+              <div class="search-results-pages"></div>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="search-link-wrapper"></div>
+    </div>
+  </form>
+</div>
+
+{%- render 'search-suggestions' -%}

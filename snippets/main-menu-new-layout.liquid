@@ -1,0 +1,63 @@
+<!-- start main-menu-new-layout.liquid (SNIPPET) -->
+<nav class="main-menu">
+  <h3 class="hide">Main Menu</h3>
+
+  <ul class="main-menu__list list--parent">
+    {%- for item in linklists[section.settings.menu].links -%}
+      {%- assign parent_item_index = forloop.index -%}
+
+      <li class="main-menu__list-item">
+        <a
+          id="hdr-nav-menu-{{ parent_item_index }}"
+          href="{{ item.url | default: '#' }}"
+          class="main-menu__item-anchor"
+        >
+          {{- item.title }}
+          {%- if item.links != blank -%}
+            {%- render 'icon-arrow-down' -%}
+          {%- endif -%}
+        </a>
+        {%- if item.links != blank -%}
+          <ul class="main-menu__list list--child">
+            {%- for child_item in item.links -%}
+              {%- assign child_item_index = forloop.index -%}
+              <li class="main-menu__list-item">
+                {%- if child_item.links != blank -%}
+                  <a
+                    id="hdr-nav-menu-{{ parent_item_index }}-{{ child_item_index }}"
+                    href="{{ child_item.url | default: '#' }}"
+                    class="main-menu__item-anchor"
+                  >
+                    {{- child_item.title }}
+                    {%- render 'icon-arrow-down' -%}
+                  </a>
+                  <ul class="main-menu__list list--grandchild">
+                    {%- for grandchild_item in child_item.links -%}
+                      <li class="main-menu__list-item">
+                        <a
+                          id="hdr-nav-menu-{{ parent_item_index }}-{{ child_item_index }}-{{ forloop.index }}"
+                          href="{{ grandchild_item.url | default: '#' }}"
+                          class="main-menu__item-anchor"
+                        >
+                          {{- grandchild_item.title -}}
+                        </a>
+                      </li>
+                    {%- endfor -%}
+                  </ul>
+                {%- else -%}
+                  <a
+                    id="hdr-nav-menu-{{ parent_item_index }}-{{ child_item_index }}"
+                    href="{{ child_item.url | default: '#' }}"
+                    class="main-menu__item-anchor"
+                  >
+                    {{- child_item.title -}}
+                  </a>
+                {%- endif -%}
+              </li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+      </li>
+    {%- endfor -%}
+  </ul>
+</nav>

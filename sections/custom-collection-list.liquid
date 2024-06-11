@@ -1,0 +1,588 @@
+<!-- start custom-collection-list.liquid (SECTION) -->
+<style>
+  #shopify-section-{{ section.id }} {
+    {% if section.settings.enable_custom_margins_paddings %}
+      margin-top: {{ section.settings.custom-margin-top }}px;
+      margin-bottom: {{ section.settings.custom-margin-bottom }}px;
+      padding-top: {{ section.settings.custom-padding-top }}px;
+      padding-bottom: {{ section.settings.custom-padding-bottom }}px;
+    {% else %}
+      margin: 20px 0;
+    {% endif %}
+    background-color: {{ section.settings.bg_color_collection_list }};
+  }
+
+  .shopify-section.banner + #shopify-section-{{ section.id }} {
+    top: {{ section.settings.top_margin_featured | times: -1 }}px;
+    position: relative;
+    {% if section.settings.enable_custom_margins_paddings %}
+      margin-bottom: {{ section.settings.top_margin_featured | times: -1 | plus: section.settings.custom-margin-bottom }}px;
+    {% else %}
+      margin-bottom: {{ section.settings.top_margin_featured | times: -1 | plus: 20 }}px;
+    {% endif %}
+  }
+
+  #shopify-section-{{ section.id }} .new-collection-list__title {
+    text-transform: {{ section.settings.text_transform_title }};
+    color: {{ section.settings.headline_color_collection_list }}
+  }
+
+  #shopify-section-{{ section.id }} .new-collection-list__image-wrapper {
+    border-radius: {{ section.settings.border_radius_collection_list }}px;
+  }
+
+  #shopify-section-{{ section.id }} .new-collection-list__item-title {
+    color: {{ section.settings.text_color_collection_list }};
+    text-transform: {{ section.settings.collection_title_text_transform }};
+    font-size: {{ section.settings.collection_font_size_desktop }}px;
+    text-shadow: 1px 1px 1px #000;
+  }
+
+  {% if section.settings.enable_zoom_collection_list %}
+    #shopify-section-{{ section.id }} .new-collection-list__image {
+      transform: scale(1.01);
+      transition: transform 1s cubic-bezier(.215,.61,.355,1);
+    }
+    #shopify-section-{{ section.id }} .new-collection-list__item:hover .new-collection-list__image {
+      transform: scale(1.06);
+    }
+  {% endif %}
+
+  {% if section.settings.enable_border_collection_list %}
+    #shopify-section-{{ section.id }} .new-collection-list__image-wrapper {
+      border: {{ section.settings.border_width_collection_list }}px solid;
+      border-color: {{ section.settings.border_color_collection_list }};
+    }
+  {% endif %}
+
+  /* slider css*/
+  .slick-list,
+  .slick-slider,
+  .slick-track {
+    position: relative;
+    display: block;
+  }
+
+  .slick-list .slick-track {
+    top: 0;
+    left: 0;
+    margin: 0;
+  }
+
+  .slick-loading .slick-slide,
+  .slick-loading .slick-track {
+    visibility: hidden;
+  }
+
+  .slick-list {
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .slick-list.dragging {
+    cursor: pointer;
+  }
+
+  .slick-slide {
+    float: left;
+    height: 100%;
+    min-height: 1px;
+  }
+
+  .new-collection-list__list .slick-arrow {
+    width: 55px;
+    height: 55px;
+    position: absolute;
+    top: 41%;
+    border-radius: 50%;
+    z-index: 9;
+    background: rgba(255, 255, 255, 0.66);
+    backdrop-filter: blur(2.5px);
+  }
+
+  .new-collection-list__list .slick-arrow:before {
+    content: '';
+    width: 100%;
+    height: 100%;
+    display: inline-block;
+    background-image: url("{{ 'icon-arrow-left.svg' | asset_url }}");
+    background-size: 30%;
+    background-position: center center;
+    background-repeat: no-repeat;
+  }
+
+  .new-collection-list__list .slick-prev-slider {
+    left: 2.5%;
+    transform: rotate(180deg);
+  }
+
+  .new-collection-list__list .slick-next-slider {
+    right: 2.5%;
+    
+  }
+  /* end slider css*/
+
+  .new-collection-list__wrapper {
+    width: 100%;
+    max-width: 1215px;
+    margin: 0 auto 15px;
+    padding: 0 22px 1px;
+  }
+
+  .new-collection-list__item {
+    width: 100%;
+  }
+
+  .new-collection-list__item:nth-child(n+{{ section.settings.collection_per_row_desktop | plus: 2 }}) {
+    display: none;
+  }
+
+  .new-collection-list__list {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .new-collection-list__link {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  .new-collection-list__image-wrapper {
+    position: relative;
+    padding-top: 133.383%;
+    overflow: hidden;
+    width: 90%;
+    margin: 0 auto
+  }
+
+  .new-collection-list__image {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+  }
+
+  .new-collection-list__item-title {
+    width: 100%;
+    display: block;
+    position: absolute;
+    bottom: 20px;
+    text-align: center;
+    text-shadow: 1px 1px 8px #000000;
+  }
+
+  @media (max-width: 1019px) {
+    #shopify-section-{{ section.id }} .new-collection-list__item-title {
+      font-size: {{ section.settings.collection_font_size_tablet }}px;
+    }
+    .new-collection-list__image-wrapper {
+      padding-top: 137%;
+      width: 91%;
+    }
+
+    .new-collection-list__list .slick-arrow {
+      top: 44%;
+    }
+
+    .new-collection-list__list .slick-prev-slider {
+      left: 6%;
+    }
+  
+    .new-collection-list__list .slick-next-slider {
+      right: 6%;
+    }
+    
+  }
+  @media (max-width: 767px) {
+    #shopify-section-{{ section.id }} .new-collection-list__item-title {
+      font-size: {{ section.settings.collection_font_size_mobile }}px;
+    }
+    .new-collection-list__item:nth-child(n+{{ section.settings.collection_per_row_mobile | plus: 1 }}) {
+      display: none;
+    }
+
+    .new-collection-list__image-wrapper {
+      padding-top: 133%;
+      width: 89%;
+    }
+
+    .new-collection-list__list .slick-arrow {
+      width: 36px;
+      height: 36px;
+      border: 1px solid #ffffff80;
+    }
+
+    .new-collection-list__list .slick-arrow:before {
+      width: 100%;
+      height: 100%;
+    }
+
+    .new-collection-list__list .slick-arrow {
+      top: 43%;
+    }
+
+    .new-collection-list__list .slick-prev-slider {
+      left: 4%;
+    }
+  
+    .new-collection-list__list .slick-next-slider {
+      right: 4%;
+    }
+  }
+</style>
+
+<section class="new-collection-list__wrapper {{ section.settings.custom_class | handleize }}">
+  {%- if section.settings.title != blank -%}
+    <h2 class="new-collection-list__title section-title">{{- section.settings.title -}}</h2>
+  {%- endif -%}
+
+  <div class="new-collection-list__list">
+    {% for block in section.blocks %}
+      {% if block.type == 'collection' %}
+        {%- assign item = collections[block.settings.collection] -%}
+        {%- assign title = block.settings.collection_title | default: item.title -%}
+        {%- assign image = block.settings.collection_image | default: item.image -%}
+
+        <div class="new-collection-list__item">
+          <div class="new-collection-list__image-wrapper">
+            <a href="{{- item.url | default: '#' -}}" class="new-collection-list__link" title="{{- title | escape -}}">
+              {%-
+                render 'responsive-image' with
+                image: image,
+                class: 'new-collection-list__image',
+                width: 300,
+                height: 345,
+              -%}
+
+              {% if title != blank %}
+                <span class="new-collection-list__item-title">{{ title }}</span>
+              {% endif %}
+            </a>
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</section>
+
+<script type="lazyload_int">
+  function collectionSlider() {
+    $('.new-collection-list__list').slick({
+      infinite: true,
+      slidesToShow: {{ section.settings.collection_per_row_desktop }},
+      slidesToScroll: 1,
+      centerMode: true,
+      variableWidth: true,
+      centerPadding: '180px',
+      prevArrow: '<button type="button" class="slick-prev-slider"></button>',
+      nextArrow: '<button type="button" class="slick-next-slider"></button>',
+      responsive: [
+        {
+          breakpoint: 1020,
+          settings: {
+            centerPadding: '20px',
+          }
+        },
+        {
+          breakpoint: 768,
+          settings: {
+            slidesToShow: {{ section.settings.collection_per_row_mobile }},
+            centerPadding: '62px',
+          }
+        }
+      ]
+    });
+  };  
+
+  collectionSlider();
+
+  document.addEventListener("shopify:section:select", collectionSlider);
+</script>
+
+{% schema %}
+{
+  "name": "New Collection List",
+  "class": "section-new-collection-list",
+  "settings": [
+    {
+      "type": "header",
+      "content": "General Settings"
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom Class",
+      "info": "Custom class to apply css styles for specific sections"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_custom_margins_paddings",
+      "label": "Enable Custom Margins and Paddings",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "custom-margin-top",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Margin Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "custom-margin-bottom",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Margin Bottom",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "custom-padding-top",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "custom-padding-bottom",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_zoom_collection_list",
+      "label": "Enable Zoom Effect",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_border_collection_list",
+      "label": "Enable Border",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "border_width_collection_list",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "unit": "px",
+      "label": "Border Width",
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "border_radius_collection_list",
+      "min": 0,
+      "max": 30,
+      "step": 5,
+      "unit": "px",
+      "label": "Border Radius",
+      "default": 15
+    },
+    {
+      "type": "color",
+      "id": "bg_color_collection_list",
+      "label": "Collections Background Color",
+      "default": "#FFF"
+    },
+    {
+      "type": "color",
+      "id": "border_color_collection_list",
+      "label": "Collections Border Color",
+      "default": "#444"
+    },
+    {
+      "type": "color",
+      "id": "text_color_collection_list",
+      "label": "Collections Text Color",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "headline_color_collection_list",
+      "label": "Collections Headline Color",
+      "default": "#000"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Headline Text",
+      "default": "Collection List"
+    },
+    {
+      "type": "select",
+      "id": "text_transform_title",
+      "label": "Headline Text Transform",
+      "options": [
+        {
+          "value": "none",
+          "label": "Same as Input"
+        },
+        {
+          "value": "capitalize",
+          "label": "Capitalize"
+        },
+        {
+          "value": "uppercase",
+          "label": "Uppercase"
+        }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "range",
+      "id": "collection_font_size_desktop",
+      "label": "Collections Font Size Desktop",
+      "unit": "px",
+      "default": 24,
+      "min": 12,
+      "max": 30
+    },
+    {
+      "type": "range",
+      "id": "collection_font_size_tablet",
+      "label": "Collections Font Size Tablet",
+      "unit": "px",
+      "default": 24,
+      "min": 12,
+      "max": 30
+    },
+    {
+      "type": "range",
+      "id": "collection_font_size_mobile",
+      "label": "Collections Font Size Mobile",
+      "unit": "px",
+      "default": 24,
+      "min": 12,
+      "max": 30
+    },
+    {
+      "type": "select",
+      "id": "collection_title_text_transform",
+      "label": "Collection Title Text Transform ",
+      "default": "uppercase",
+      "options": [
+        {
+          "value": "uppercase",
+          "label": "Uppercase"
+        },
+        {
+          "value": "capitalize",
+          "label": "Capitalize"
+        },
+        {
+          "value": "lowercase",
+          "label": "Lowercase"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "top_margin_featured",
+      "info": "Only works if section above is the banner",
+      "min": 0,
+      "max": 500,
+      "step": 5,
+      "unit": "px",
+      "label": "Position On/Off Banner",
+      "default": 0
+    },
+    {
+      "id": "collection_per_row_desktop",
+      "label": "Collections Per Row on Desktop",
+      "type": "select",
+      "options": [
+        {
+          "label": "4 collections",
+          "value": "4"
+        },
+        {
+          "label": "3 collections",
+          "value": "3"
+        }
+      ],
+      "default": "3"
+    },
+    {
+      "id": "collection_per_row_mobile",
+      "label": "Collections Per Row on Mobile",
+      "type": "select",
+      "options": [
+        {
+          "label": "2 collections",
+          "value": "2"
+        },
+        {
+          "label": "1 collection",
+          "value": "1"
+        }
+      ],
+      "default": "1"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Collection",
+      "settings": [
+        {
+          "label": "Collection",
+          "id": "collection",
+          "type": "collection"
+        },
+        {
+          "label": "Collection Image",
+          "id": "collection_image",
+          "type": "image_picker",
+          "info": "Size: 400x400"
+        },
+        {
+          "label": "Text Title",
+          "id": "collection_title",
+          "type": "text"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "New Collection List",
+      "category": "Collection",
+      "blocks": [
+        {
+          "type": "collection"
+        },
+        {
+          "type": "collection"
+        },
+        {
+          "type": "collection"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

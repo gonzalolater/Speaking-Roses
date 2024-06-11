@@ -1,0 +1,147 @@
+<!-- start page.contact.liquid (SECTION) -->
+<div class="wrapper">
+  <div class="contact-wrapper">
+    <h1 class="contact-title">{{ page.title }}</h1>
+
+    <div class="rte">
+      {{ page.content }}
+    </div>
+    {%- form 'contact' -%}
+      {%- if form.posted_successfully? -%}
+        <p class="form-success">
+          {{ 'contact.form.post_success' | t }}
+        </p>
+      {%- endif -%}
+
+      {{ form.errors | default_errors }}
+      <input
+        type="text"
+        name="contact[first_name]"
+        id="ContactFormFirstName"
+        class="all-width half-width position-left"
+        placeholder="{{ 'contact.form.first_name' | t }}"
+        value="{% if form[first_name] %}{{ form[first_name] }}{% elsif customer %}{{ customer.first_name }}{% endif %}"
+        required
+      >
+
+      <input
+        type="text"
+        name="contact[last_name]"
+        id="ContactFormLastName"
+        class="all-width  half-width position-right"
+        placeholder="{{ 'contact.form.last_name' | t }}"
+        value="{% if form[last_name] %}{{ form[last_name] }}{% elsif customer %}{{ customer.last_name }}{% endif %}"
+        required
+      >
+
+      <input
+        type="email"
+        name="contact[email]"
+        id="ContactFormEmail"
+        placeholder="{{ 'contact.form.email' | t }}"
+        class="all-width half-width position-left"
+        value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+        spellcheck="false"
+        autocomplete="off"
+        autocapitalize="off"
+        required
+      >
+
+      <input
+        type="tel"
+        name="contact[phone]"
+        id="ContactFormPhone"
+        placeholder="{{ 'contact.form.phone' | t }}"
+        class="all-width half-width position-right"
+        value="{% if form[phone] %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}"
+        pattern="[0-9\-]*"
+        required
+      >
+
+      <textarea
+        rows="10"
+        name="contact[body]"
+        id="ContactFormMessage"
+        placeholder="{{ 'contact.form.message' | t }}"
+        class="all-width"
+        required
+      >
+            {%- if form.body -%}
+              {{- form.body -}}
+            {%- endif -%}
+          </textarea>
+      <input
+        type="submit"
+        id="id-button"
+        name="{{ 'contact.form.send' | t }}"
+        class="buttom-change-id contact-button half-width position-right"
+        value="{{ 'contact.form.send' | t }}"
+      >
+    {%- endform -%}
+  </div>
+</div>
+<style scoped>
+  .contact-wrapper {
+    margin: 10px auto 55px;
+    padding: 10px;
+    width: 50%;
+  }
+  .contact-wrapper .form-success {
+    background: #dfd;
+    border: 1px solid #7a7;
+    padding: 10px;
+    margin-bottom: 10px;
+    max-width: initial;
+  }
+  .contact-wrapper .errors {
+    background: #fdd;
+    border: 1px solid #eaa;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  .contact-wrapper .errors ul {
+    display: block;
+    padding-left: 20px;
+  }
+  .contact-wrapper .contact-title {
+    margin-bottom: 10px;
+  }
+  .contact-wrapper .all-width {
+    width: 100%;
+    border: 1px solid #e5e5e5;
+    border-radius: 3px;
+    padding: 8px 10px;
+    margin-bottom: 10px;
+  }
+  .contact-wrapper .half-width {
+    width: 49.5%;
+  }
+  .contact-wrapper .position-left {
+    float: left;
+  }
+  .contact-wrapper .position-right {
+    float: right;
+  }
+  .contact-wrapper .contact-button {
+    padding: 10px;
+    font-weight: 700;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: var(--color-secondary-buttons);
+    color: var(--color-secondary-buttons-text);
+    border: none;
+    font-size: 1rem;
+    text-transform: uppercase;
+  }
+  .contact-wrapper .contact-button:hover,
+  .contact-wrapper .contact-button:active {
+    background-color: var(--color-secondary-buttons-hover);
+    color: var(--color-secondary-buttons-text-hover);
+  }
+</style>
+

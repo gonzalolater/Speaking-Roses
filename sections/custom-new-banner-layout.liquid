@@ -1,0 +1,2442 @@
+<!-- start custom-new-banner-layout.liquid (SECTION) -->
+{%- assign enable_lazy = section.settings.enable_lazy_load | default: false -%}
+{%- assign title_desktop = section.settings.main_banner_headline_size -%}
+{%- assign title_tablet = section.settings.main_banner_headline_size_tablet -%}
+{%- assign title_mobile = section.settings.main_banner_headline_size_mobile -%}
+{%- assign subtitle_desktop = section.settings.main_banner_sub_headline_size -%}
+{%- assign subtitle_tablet = section.settings.main_banner_sub_headline_size_tablet -%}
+{%- assign subtitle_mobile = section.settings.main_banner_sub_headline_size_mobile -%}
+{%- assign upper_headline_desktop = section.settings.main_banner_upper_headline_size -%}
+{%- assign upper_headline_tablet = section.settings.main_banner_upper_headline_size_tablet -%}
+
+{% capture block_reviews %}
+  {% for block in section.blocks %}
+    {% if block.settings.review_content != blank and block.type == 'reviews' %}
+      <div class="new-banner__block-reviews custom-review-{{ forloop.index }}-{{ section.id }} {% if block.settings.block_review_mobile == false %}no-mobile{% endif %}">
+        <div class="new-banner__block-reviews__head">
+          {% if block.settings.review_image != blank %}
+            <div class="new-banner__block-reviews__author-img">
+              {%- render 'responsive-image' with
+                image: block.settings.review_image,
+                lazyload: enable_lazy,
+                width: 200,
+                no_wrap: true, 
+                alt: block.settings.review_image.alt
+              -%}
+            </div>
+          {% endif %}
+          <div class="new-banner__block-reviews__infos">
+            <p class="new-banner__block-reviews__name">{{ block.settings.review_name }}</p>
+            <div class="new-banner__block-reviews__stars">
+              {%- for i in (1..block.settings.review_stars) -%}
+                <svg width="12" height="11" viewBox="0 0 12 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M6 0L7.34708 4.1459H11.7063L8.17963 6.7082L9.52671 10.8541L6 8.2918L2.47329 10.8541L3.82037 6.7082L0.293661 4.1459H4.65292L6 0Z" fill="{{ section.settings.color_review_stars }}"/>
+                </svg>
+              {%- endfor -%}
+            </div>
+          </div>
+        </div>
+        <div class="new-banner__block-reviews__content">
+          {{ block.settings.review_content }}
+        </div>
+      </div>
+    {% endif %}
+  {% endfor %}
+{% endcapture %}
+
+{% capture new-banner_content %}
+  <section id="new-banner-layout" class="shopify-section new-banner new-banner__homepage-style-1 {{ section.settings.custom_class }}">
+    {%- assign imageDesktop = section.settings.homepage_banner_style_1 -%}
+    {%- assign paddingTopDesktop = imageDesktop.height | plus: 0.0 | divided_by: imageDesktop.width | times: 100.0 -%}
+    {%- assign imageTablet = section.settings.tablet_banner_style_1 -%}
+    {%- assign paddingTopTablet = imageTablet.height | plus: 0.0 | divided_by: imageTablet.width | times: 100.0 -%}
+    {%- assign imageMobile = section.settings.mobile_banner_style_1 -%}
+    {%- assign paddingTopMobile = imageMobile.height | plus: 0.0 | divided_by: imageMobile.width | times: 100.0 -%}
+
+    {%- if section.settings.homepage_banner_style_1 == blank -%}
+      {%- assign paddingTopDesktop = 40 -%} 
+    {%- endif -%}
+
+    {%- if imageTablet == blank -%}
+      {%- assign paddingTopTablet = 50 -%}
+    {%- endif -%}
+
+    {%- if section.settings.mobile_banner_style_1 == blank -%}
+      {%- assign paddingTopMobile = 55 -%}
+    {%- endif -%}
+
+    {%- assign image_desktop_width = 1800 -%}
+    {%- assign image_desktop_height = 1000 -%}
+    {%- if imageDesktop == blank -%}
+      {%- assign image_desktop_height = image_desktop_width -%}
+    {%- endif -%}
+
+    <div class="new-banner__banner-img {% if section.settings.enable_custom_banner_height == false %}new-banner__banner-padding-top-desktop{% endif %}{% if section.settings.enable_custom_banner_height == false %} new-banner__banner-padding-top-tablet{% endif %}{% if section.settings.enable_custom_banner_height == false %} new-banner__banner-padding-top-mobile{% endif %}">
+      {%- if section.settings.homepage_banner_style_1.alt != blank -%}
+        {%- assign image_alt = section.settings.homepage_banner_style_1.alt | strip_html | escape -%}
+      {%- elsif section.settings.main_banner_title != blank -%}
+        {%- assign image_alt = section.settings.main_banner_title | strip_html | escape -%}
+      {%- else -%}
+        {%- assign image_alt = "Image without description." -%}
+      {%- endif -%}
+
+      <picture>
+        {%- assign desktop_widths = '1500,1400,1300,1200,1100,1000,900,800' | split: ',' -%}
+        {%- assign tablet_widths = '1200,1100,1000,900,800,700' | split: ',' -%}
+        {%- assign mobile_widths = '700,600,500,400' | split: ',' -%}
+        {%- assign default_image = section.settings.homepage_banner_style_1 -%}
+
+        {% if default_image != blank %}
+          <source class="new-banner__banner-image-desktop" media="(min-width: 1020px)" {% if enable_lazy %}data-{% endif %}srcset="
+            {%- for desktop_width in desktop_widths -%} https:{{ default_image | image_url: width: desktop_width }} {{ desktop_width }}w, {%- endfor -%}" data-class="LazyLoad"
+          />
+        {% else %}
+          <source class="new-banner__banner-image-desktop" media="(min-width: 1020px)" {% if enable_lazy %}data-{% endif %}srcset="
+            {%- for desktop_width in desktop_widths -%} https:{{ 'default-banner-placeholder.png' | asset_img_url: '1440x506' }} {{ desktop_width }}w, {%- endfor -%}" data-class="LazyLoad"
+          />
+        {% endif %}
+
+        {%- if imageTablet != blank -%}
+          {%- assign default_image = imageTablet -%}
+          <source class="new-banner__banner-image-tablet" media="(min-width: 768px)" {% if enable_lazy %}data-{% endif %}srcset="
+            {%- for tablet_width in tablet_widths -%} https:{{ default_image | image_url: width: tablet_width }} {{ tablet_width }}w, {%- endfor -%}" data-class="LazyLoad"
+          />
+        {%- else -%}
+          <source class="new-banner__banner-image-tablet" media="(min-width: 768px)" {% if enable_lazy %}data-{% endif %}srcset="
+            {%- for tablet_width in tablet_widths -%} https:{{ 'default-banner-placeholder-tablet.png' | asset_img_url: '768x280' }} {{ tablet_width }}w, {%- endfor -%}" data-class="LazyLoad"
+          />
+        {%- endif -%}
+
+        {%- if imageMobile != blank -%}
+          {%- assign default_image = imageMobile -%}
+          <source class="new-banner__banner-image-mobile" media="(max-width: 767px)" {% if enable_lazy %}data-{% endif %}srcset="
+            {%- for mobile_width in mobile_widths -%} https:{{ default_image | image_url: width: mobile_width }} {{ mobile_width }}w, {%- endfor -%}" data-class="LazyLoad"
+          />
+        {%- else -%}
+          <source class="new-banner__banner-image-mobile" media="(max-width: 767px)" {% if enable_lazy %}data-{% endif %}srcset="
+            {%- for mobile_width in mobile_widths -%} https:{{ 'default-banner-placeholder-mobile.png' | asset_img_url: '375x269' }} {{ mobile_width }}w, {%- endfor -%}" data-class="LazyLoad"
+          />
+        {%- endif -%}
+        
+        <img class="new-banner__banner-image" width="{{ image_desktop_width }}" height="{{ image_desktop_height }}"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" alt="Banner" loading="lazy"/>
+      </picture>
+
+      {%- if section.settings.main_banner_title != "" -%}
+        <div class="new-banner__banner-titles {% unless section.settings.enable_floating_headline %} new-banner__banner-titles--desktop{% endunless %} {% unless section.settings.enable_floating_headline_tablet %} new-banner__banner-titles--tablet{% endunless %} {% unless section.settings.enable_floating_headline_mobile %} new-banner__banner-titles--mobile{% endunless %}">
+          {% if section.settings.enable_upper_banner_title %}
+            <div class="new-banner__upper-headline">
+              <p>{{ section.settings.upper_banner_title }}</p>
+              <svg width="66" height="12" viewBox="0 0 66 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M5.4579 0.549805L7.03297 4.28668L10.9003 4.72203L8.00476 7.45088L8.80576 11.4501L5.44131 9.39964L2.06902 11.4362L2.88516 7.44L0 4.6993L3.86877 4.28006L5.4579 0.549805Z" fill="#DAD4D4"/>
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M19.0834 0.549805L20.6585 4.28668L24.5258 4.72203L21.6302 7.45088L22.4313 11.4501L19.0668 9.39964L15.6945 11.4362L16.5107 7.44L13.6255 4.6993L17.4943 4.28006L19.0834 0.549805Z" fill="#DAD4D4"/>
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M32.7089 0.549805L34.2839 4.28668L38.1513 4.72203L35.2557 7.45088L36.0567 11.4501L32.6923 9.39964L29.32 11.4362L30.1361 7.44L27.251 4.6993L31.1197 4.28006L32.7089 0.549805Z" fill="#DAD4D4"/>
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M46.3344 0.549805L47.9094 4.28668L51.7768 4.72203L48.8812 7.45088L49.6822 11.4501L46.3178 9.39964L42.9455 11.4362L43.7616 7.44L40.8765 4.6993L44.7452 4.28006L46.3344 0.549805Z" fill="#DAD4D4"/>
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M59.9594 0.549805L61.5344 4.28668L65.4018 4.72203L62.5062 7.45088L63.3072 11.4501L59.9428 9.39964L56.5705 11.4362L57.3866 7.44L54.5015 4.6993L58.3702 4.28006L59.9594 0.549805Z" fill="#DAD4D4"/>
+              </svg>
+            </div>
+          {% endif %}
+          <div class="new-banner__banner-title">{{ section.settings.main_banner_title }}</div>
+          <div class="new-banner__banner-sub-title">{{ section.settings.main_banner_sub_title }}</div>
+          {%- if section.settings.enable_button_headline -%}
+            <a style="position: static;transform: unset;" class="new-banner__banner-titles-new-button" title="{{ section.settings.label_button_headline | strip_html | escape }}"  href="{{ section.settings.link_button_headline | default: '#' }}">
+              {{ section.settings.label_button_headline }}
+            </a>
+            <div style="
+                clear: both;
+                padding-top: 10px;
+                padding-left: 26px;
+            ">
+            	<div style="
+            		/* clear: both; */
+            		width: 110px;
+            		height: 35px;
+            		background-color: #ffffffaa;
+            		border-radius: 5px;
+            		background-image: url(https://cdn.shopify.com/s/files/1/0593/2892/1759/files/icono-risk-free.png?v=1715892743);
+            		background-size: cover;
+                background-position: center;
+            	"></div>
+            </div>
+
+          {%- endif -%}
+        </div>
+      {%- else -%}
+        <h2 class="hide" style="top:{{ section.settings.vasta_title_vertical_position }}%; left:{{ section.settings.vasta_title_horizontal_position }}%">{{ shop.name }}</h2>
+        <div class="new-banner__banner-titles">
+          <div class="new-banner__banner-sub-title" >{{ section.settings.main_banner_sub_title }}</div>
+        </div>
+      {%- endif -%}        
+
+      {%- assign count = 0 -%}
+      <div class="new-banner__slider-buttons" id="CallToAction-{{ section.id }}">
+        {%- for block in section.blocks -%}
+          {%- if "select" == block.type -%}
+            <style>
+              .new-banner__banner__button--{{ forloop.index }}-{{ section.id }} {
+                {{ block.settings.custom_html }}
+              }
+            </style>
+
+            {%- assign count = count | plus: 1 -%}
+            {% if block.settings.enable_helper_text %}<div class="new-banner__helper-text__content new-banner__helper-text__content-{{ forloop.index }}-{{ section.id }}">{% endif %}
+              {% if block.settings.enable_button_link %}
+                <a {% if block.settings.enable_helper_text == false %}id="new-banner__Banner1Btn-{{ forloop.index }}-{{ section.id }}"{% else %} style="position: static;transform: unset;"{% endif %}
+                  class="new-banner__banner__button--{{ forloop.index }}-{{ section.id }}
+                  {% if block.settings.show_mobile_buttons == false %} no-mobile {% endif %} 
+                  btn btn-v {{ block.settings.vasta_buttons_hover_effect }} btn-v--{{ block.id }}" 
+                  title="{{ block.settings.linktext | strip_html | escape }}" 
+                  href="{{ block.settings.link | default: '#' }}"
+                >
+                  {{ block.settings.linktext }}
+                </a>
+              {% else %}
+                <span {% if block.settings.enable_helper_text == false %}id="new-banner__Banner1Btn-{{ forloop.index }}-{{ section.id }}"{% else %} style="position: static;transform: unset;"{% endif %}
+                  class="new-banner__banner__button--{{ forloop.index }}-{{ section.id }} new-banner__banner__button--no-link
+                  {% if block.settings.show_mobile_buttons == false %} no-mobile {% endif %} 
+                  btn btn-v {{ block.settings.vasta_buttons_hover_effect }} btn-v--{{ block.id }}" 
+                  title="{{ block.settings.linktext | strip_html | escape }}" 
+                  href="{{ block.settings.link | default: '#' }}"
+                >
+                  {{ block.settings.linktext }}
+                </span>
+              {% endif %}
+              {% if block.settings.enable_helper_text %}
+                <span class="new-banner__custom__help-text {% if block.settings.show_mobile_buttons == false %} no-mobile {% endif %}">
+                  {{ block.settings.helper_text }}
+                </span>
+              {% endif %}
+            {% if block.settings.enable_helper_text %}</div>{% endif %}
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+      {{ block_reviews }}
+    </div>
+  </section>
+{% endcapture %}
+
+{% if section.settings.full_with_banne1 %}
+  {{ new-banner_content }}
+{% else %}
+  <div class="wrapper">
+    {{ new-banner_content }}
+  </div>
+{% endif %}
+
+<style scoped>
+  :root {
+    --banner-title-color:{{ section.settings.banner_titcolor }};
+    --banner-sub-title-color:{{ section.settings.banner_sub_titcolor }};
+  }
+  #shopify-section-{{ section.id }} {
+    {% if section.settings.enable_custom_margins_paddings %}
+      margin-top: {{ section.settings.custom-margin-top }}px;
+      margin-bottom: {{ section.settings.custom-margin-bottom }}px;
+      padding-top: {{ section.settings.custom-padding-top }}px;
+      padding-bottom: {{ section.settings.custom-padding-bottom }}px;
+    {% else %}
+      margin: 20px 0;
+    {% endif %}
+  }
+  #shopify-section-{{ section.id }} .wrapper{
+    padding-top: 0px;
+    padding-bottom: 60px;
+  }
+  #shopify-section-{{ section.id }} .new-banner__block-reviews__name {
+    font-size: {{ section.settings.block_review_author_font_size_desktop }}px;
+    margin-bottom: 3px;
+  }
+  #shopify-section-{{ section.id }} .new-banner__block-reviews__content {
+    text-align: center;
+    font-family: var(--auxiliarFont);
+    font-style: normal;
+    font-weight: 300;
+    font-size: {{ section.settings.block_review_font_size_desktop }}px;
+    line-height: 120%;
+  }
+  #shopify-section-{{ section.id }} .new-banner__banner-titles-new-button {
+    display: flex;
+    margin: auto;
+    max-width: {{ section.settings.vasta_new_button_max_width_desktop }}px;
+    width: 100%;
+    padding: 10px;
+    font-size: {{ section.settings.banner_font_size_new_button }}px;
+    justify-content: center;
+    cursor: pointer;
+    {% unless section.settings.vasta_headline_align == 'center' %}
+      float: {{ section.settings.vasta_headline_align }};
+    {% endunless %}
+    background-color: {{ section.settings.vasta_buttons_color_1 }};
+    color: {{ section.settings.vasta_buttons_text_color_1 }};
+    {% unless section.settings.vasta_border_color_1 == section.settings.vasta_buttons_color_1 or section.settings.vasta_border_color_1 == 'rgba(0,0,0,0)' %}
+      border: 3px solid {{ section.settings.vasta_border_color_1 }};
+    {% endunless %}
+    {% if section.settings.enable_button_radius %}
+      border-radius: {{ section.settings.button_radius }}px;
+    {% endif %}
+    letter-spacing: normal;
+  }
+  #shopify-section-{{ section.id }} .new-banner__banner-titles-new-button:hover {
+    background-color: {{ section.settings.vasta_buttons_hover_color_1 }};
+    color: {{ section.settings.vasta_buttons_hover_text_color_1 }};
+    {% unless section.settings.vasta_border_color_1_hover == 'rgba(0,0,0,0)' %}
+      border: 3px solid {{ section.settings.vasta_border_color_1_hover }};
+    {% endunless %}
+  }
+  #shopify-section-{{ section.id }} .new-banner__homepage-style-1 {
+    display: block;
+  }
+  #shopify-section-{{ section.id }} .new-banner__homepage-style-1.new-banner .new-banner__slider-buttons .btn-v {
+    padding: 10px;
+  }
+  #shopify-section-{{ section.id }} .new-banner__homepage-style-1.new-banner .new-banner__banner-titles{
+    left: {{ section.settings.vasta_title_horizontal_position }}%;
+    top: {{ section.settings.vasta_title_vertical_position }}%;
+    text-transform: {{ section.settings.text_transform }};
+    {%- if section.settings.enable_max_width -%}
+      max-width: {{ section.settings.new_banner_headline_width }}%;
+    {%- endif -%}
+  }
+  #shopify-section-{{ section.id }} .new-banner__banner-title__static  {
+    text-align: {{ section.settings.vasta_headline_align }};
+    position: static;
+    transform: unset;
+  }
+  #shopify-section-{{ section.id }} .new-banner__homepage-style-1.new-banner .new-banner__banner-title__static.new-banner__banner-titles  {
+    padding: 25px 0 35px;
+  }
+  #shopify-section-{{ section.id }} .new-banner__homepage-style-1.new-banner .new-banner__banner-titles .new-banner__banner-title,
+  #shopify-section-{{ section.id }} .new-banner__homepage-style-1.new-banner .new-banner__banner-titles .new-banner__banner-title *{
+    color:{{ section.settings.banner_titcolor }};
+    font-size: min(50px, calc({{ title_tablet }}px + ({{ title_desktop }} - {{ title_tablet }}) * ((100vw - 768px) / (1440 - 768))));
+    text-align: {{ section.settings.vasta_headline_align }};
+    font-weight: 700;
+  }
+  #shopify-section-{{ section.id }} .new-banner__homepage-style-1.new-banner .new-banner__banner-titles .new-banner__banner-title span {
+    color: #D97281;
+    font-family: 'Luxia', sans-serif;
+  }  
+  #shopify-section-{{ section.id }} .new-banner__homepage-style-1.new-banner .new-banner__banner-titles .new-banner__banner-sub-title,
+  #shopify-section-{{ section.id }} .new-banner__homepage-style-1.new-banner .new-banner__banner-titles .new-banner__banner-sub-title *{
+    font-size: calc({{ subtitle_tablet }}px + ({{ subtitle_desktop }} - {{ subtitle_tablet }}) * ((100vw - 768px) / (1440 - 768)));
+    
+    color:{{ section.settings.banner_sub_titcolor }};
+    text-align: {{ section.settings.vasta_headline_align }};
+    line-height: 120%;
+  }
+  #shopify-section-{{ section.id }} .custom-banner--dashed .new-banner__banner-titles .new-banner__banner-sub-title {
+    font-weight: 400;
+  }
+  #shopify-section-{{ section.id }} .new-banner__banner-titles .new-banner__upper-headline {
+    color: {{ section.settings.banner_upper_titcolor }};
+    font-size: calc({{ upper_headline_tablet }}px + ({{ upper_headline_desktop }} - {{ upper_headline_tablet }}) * ((100vw - 768px) / (1440 - 768)));
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    letter-spacing: 0.4px;
+    {% if section.settings.vasta_headline_align == 'center' %}
+      justify-content: center;
+    {% elsif section.settings.vasta_headline_align == 'left' %}
+      justify-content: flex-start;
+    {% else %}
+      justify-content: flex-end;
+    {% endif %}
+}
+  #shopify-section-{{ section.id }} .btn-v,
+  #shopify-section-{{ section.id }} .new-banner__custom__help-text {
+    font-size:{{ section.settings.banner_font_size_button }}px;
+    line-height:87.8%;
+  }
+  #shopify-section-{{ section.id }} .new-banner__homepage-style-1 .new-banner__banner-img.new-banner__banner-padding-top-desktop{
+    padding-top: {{ paddingTopDesktop }}%;
+  }
+  #shopify-section-{{ section.id }} .new-banner__homepage-style-1.new-banner .new-banner__banner-titles{
+    z-index: 1;
+    height: auto;
+  }
+  #shopify-section-{{ section.id }} .new-banner__block-reviews {
+    width: {{ section.settings.block_review_desktop_width }}px;
+  }
+
+  {% for block in section.blocks %}
+    #shopify-section-{{ section.id }} .custom-review-{{ forloop.index }}-{{ section.id }} {
+      position: absolute;      
+      {% if block.settings.enable_align_by_right %}
+        right: {{ block.settings.review_position_x }}%;
+      {% else %}
+        left: {{ block.settings.review_position_x }}%;
+      {% endif %}
+      
+      {% if block.settings.enable_align_by_bottom %}
+        bottom: {{ block.settings.review_position_y }}%;
+      {% else %}
+        top: {{ block.settings.review_position_y }}%;
+      {% endif %}
+      
+      --color-author-name: {{ block.settings.color_author_name }};
+      --color-review-stars: {{ block.settings.color_review_stars }};
+      --color-review-content: {{ block.settings.color_review_content }};
+    }
+    #shopify-section-{{ section.id }} .custom-review-{{ forloop.index }}-{{ section.id }} .new-banner__block-reviews__name {
+      color: var(--color-author-name);
+    }
+    #shopify-section-{{ section.id }} .custom-review-{{ forloop.index }}-{{ section.id }} .new-banner__block-reviews__stars svg {
+      fill: var(--color-review-stars);
+    }
+    #shopify-section-{{ section.id }} .custom-review-{{ forloop.index }}-{{ section.id }} .new-banner__block-reviews__content {
+      color: var(--color-review-content);
+    }
+    #shopify-section-{{ section.id }} #new-banner__Banner1Btn-{{ forloop.index }}-{{ section.id }},
+    #shopify-section-{{ section.id }} .new-banner__helper-text__content-{{ forloop.index }}-{{ section.id }} {
+      {% if block.settings.vasta_button_horizontal_position <= 15 %}
+        left: 15%;
+        {% else %}
+        left: calc({{ block.settings.vasta_button_horizontal_position }}% - 15%);
+      {% endif %}
+      {% if block.settings.vasta_button_vertical_position <= 15 %}
+        top: 15%;
+        {% else %}
+        top: calc({{ block.settings.vasta_button_vertical_position }}% - 15%);
+      {% endif %}
+    }
+    #shopify-section-{{ section.id }} .new-banner__banner__button--{{ forloop.index }}-{{ section.id }} {
+      height:{{ block.settings.vasta_button_height }}px;
+      text-transform: {{ block.settings.button_text_transform }};
+      max-width: {{ block.settings.vasta_button_max_width_desktop }}px;
+      line-height:{{ section.settings.banner_font_size_button }}px;
+      padding: 10px;
+      font-weight: 500;
+      {% if block.settings.enable_button_link %}
+      cursor: pointer;
+      {% else %}
+      cursor: auto;
+      {% endif %}
+      background-color: {{ block.settings.vasta_buttons_block_color_1 }};
+      color: {{ block.settings.vasta_buttons_text_block_color_1 }};
+      {% unless block.settings.vasta_border_block_color_1 == block.settings.vasta_buttons_block_color_1 or block.settings.vasta_border_block_color_1 == 'rgba(0,0,0,0)' %}
+        border: 3px solid {{ block.settings.vasta_border_block_color_1 }};
+      {% endunless %}
+
+      {% if block.settings.enable_block_button_radius %}
+        border-radius: {{ block.settings.block_button_radius }}px;
+      {% endif %}
+
+      {% if section.settings.vasta_buttons_hover_effect == 'none' %}
+        transition: unset;
+      {% endif %}
+      letter-spacing: normal;
+    }
+    #shopify-section-{{ section.id }} .new-banner__helper-text__content {
+      display: flex;
+      position: absolute;
+      align-items: center;
+    }
+    #shopify-section-{{ section.id }} .new-banner__helper-text__content-{{ forloop.index }}-{{ section.id }} {
+      flex-direction: {{ block.settings.helper_text_direction }};
+    }
+    #shopify-section-{{ section.id }} .btn-v--{{ block.id }}:hover,
+    #shopify-section-{{ section.id }} .btn-v--{{ block.id }}:active {
+      background-color: {{ block.settings.vasta_buttons_block_hover_color_1 }};
+      color: {{ block.settings.vasta_buttons_block_text_hover_color_1 }};
+      border: 3px solid {{ block.settings.vasta_border_block_color_1_hover }};
+    }
+  {% endfor %}
+  {% if section.settings.enable_custom_banner_height %}
+    #shopify-section-{{ section.id }} .new-banner__homepage-style-1 .new-banner__banner-img {
+      overflow: hidden;
+      display: flex;
+      height: 0;
+      padding-top: {{ section.settings.banner_max_height }}px;
+      top: 0;
+      left: 0;
+      width: 100%;
+      position: relative;
+    }
+    #shopify-section-{{ section.id }} .new-banner__homepage-style-1 .new-banner__banner-img img {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        max-width: 100%;
+        width: 100%;
+        object-fit: cover;
+        height: 100%;
+    }
+    @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+      #shopify-section-{{ section.id }} .new-banner__homepage-style-1 .new-banner__banner-img img {
+        height: auto;
+      }
+    }
+    @media (max-width: 1019px) {
+      #shopify-section-{{ section.id }} .new-banner__block-reviews__name {
+        font-size: {{ section.settings.block_review_author_font_size_tablet }}px;
+      }
+      #shopify-section-{{ section.id }} .new-banner__homepage-style-1 .new-banner__banner-img {
+        padding-top: {{ section.settings.banner_max_height_tablet }}px;
+      }
+    }
+    @media (max-width: 767px) {
+      #shopify-section-{{ section.id }} .new-banner__block-reviews__name {
+        font-size: {{ section.settings.block_review_author_font_size_mobile }}px;
+      }
+      #shopify-section-{{ section.id }} .new-banner__homepage-style-1 .new-banner__banner-img {
+        padding-top: {{ section.settings.banner_max_height_mobile }}px;
+      }
+    }
+  {% endif %}
+  {% if section.settings.enable_custom_width %}
+    body #shopify-section-{{ section.id }} .new-banner__homepage-style-1.new-banner .new-banner__banner-img {
+      width: {{ section.settings.custom_width_desktop }}%;
+    }
+    body #shopify-section-{{ section.id }} .new-banner__homepage-style-1.new-banner .new-banner__banner-img .new-banner__banner-image {
+      position: static;
+    }
+    body #shopify-section-{{ section.id }} .new-banner__homepage-style-1 .new-banner__banner-img.new-banner__banner-padding-top-desktop {
+      padding-top: 0;
+    }
+    #shopify-section-{{ section.id }} .custom-text__blocks-content {
+      display: flex;
+      width: 100%;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 28px 20px;
+    }
+    {% for block in section.blocks %}
+      #shopify-section-{{ section.id }} .block__text--{{ forloop.index }}-{{ section.id }} {
+        text-align: {{ block.settings.block_custom_text_align }};
+        text-transform: {{ block.settings.block_custom_text_transform }};
+        width: {{ block.settings.block_custom_text_width }}%;
+        transform: unset;
+      }
+    {% endfor %}
+    {% if section.settings.enable_floating_custom_text %}
+        #shopify-section-{{ section.id }} .block__text {
+          position: absolute;
+        }
+        {% for block in section.blocks %}
+          #shopify-section-{{ section.id }} .block__text--{{ forloop.index }}-{{ section.id }} {
+            left: {{ block.settings.text_block_position_x }}%;
+            top: {{ block.settings.text_block_position_y }}%;
+            transform: translatex(-50%);
+          }
+        {% endfor %}
+    {% else %}
+      #shopify-section-{{ section.id }} .block__text {
+        position: static;
+      }
+    {% endif %}
+    #shopify-section-{{ section.id }} .block__headline {
+      font-size: {{ section.settings.block_text_font_size_desktop_headline }}px;
+      line-height: 1;
+      font-weight:600;
+      color: {{ section.settings.block_text_headline_color }};
+      text-transform: uppdercase;
+    }
+    #shopify-section-{{ section.id }} .block__text_content {
+      font-size: {{ section.settings.block_text_font_size_desktop_content }}px;
+      font-weight: 300;
+      font-family: var(--auxiliarFont);
+      color: {{ section.settings.block_text_color }};
+      line-height: 24px;
+    }
+    #shopify-section-{{ section.id }} .block__headline +  .block__text_content {
+      margin-top: 8px;
+    }
+    @media screen and (max-width: 1019px) {
+      #shopify-section-{{ section.id }} .custom-text__blocks-content--tablet {
+        padding-top: 20px;
+      }
+      {% for block in section.blocks %}
+        #shopify-section-{{ section.id }} .block__text--{{ forloop.index }}-{{ section.id }} {
+          width: {{ block.settings.block_custom_text_width_tablet }}%;
+          text-align: {{ block.settings.block_custom_text_align_tablet }};
+        }
+      {% endfor %}
+      {% if section.settings.enable_floating_custom_text_tablet %}
+          #shopify-section-{{ section.id }} .block__text {
+            position: absolute;
+          }
+          {% for block in section.blocks %}
+            #shopify-section-{{ section.id }} .block__text--{{ forloop.index }}-{{ section.id }} {
+              left: {{ block.settings.tablet_text_block_position_x }}%;
+              top: {{ block.settings.tablet_text_block_position_y }}%;
+            }
+          {% endfor %}
+      {% else %}
+        #shopify-section-{{ section.id }} .block__text {
+          transform: unset;
+          position: static;
+        }
+      {% endif %}
+      body #shopify-section-{{ section.id }} .new-banner__homepage-style-1.new-banner .new-banner__banner-img {
+        width: {{ section.settings.custom_width_tablet }}%;
+      }
+      body #shopify-section-{{ section.id }} .new-banner__homepage-style-1 .new-banner__banner-img.new-banner__banner-padding-top-tablet {
+        padding-top: 0;
+      }
+      #shopify-section-{{ section.id }} .block__headline {
+        font-size: {{ section.settings.block_text_font_size_tablet_headline }}px;
+      }
+      #shopify-section-{{ section.id }} .block__text_content {
+        font-size: {{ section.settings.block_text_font_size_tablet_content }}px;
+      }
+    }
+    @media screen and (max-width: 767px) {
+      {% for block in section.blocks %}
+        #shopify-section-{{ section.id }} .block__text--{{ forloop.index }}-{{ section.id }} {
+          width: {{ block.settings.block_custom_text_width_mobile }}%;
+          text-align: {{ block.settings.block_custom_text_align_mobile }};
+        }
+      {% endfor %}
+      {% if section.settings.enable_floating_custom_text_mobile %}
+        #shopify-section-{{ section.id }} .block__text {
+          position: absolute;
+        }
+        {% for block in section.blocks %}
+          #shopify-section-{{ section.id }} .block__text--{{ forloop.index }}-{{ section.id }} {
+            left: {{ block.settings.mobile_text_block_position_x }}%;
+            top: {{ block.settings.mobile_text_block_position_y }}%;
+          }
+        {% endfor %}
+      {% else %}
+          #shopify-section-{{ section.id }} .block__text {
+            transform: unset;
+            position: static;
+          }
+      {% endif %}
+      body #shopify-section-{{ section.id }} .new-banner__homepage-style-1.new-banner .new-banner__banner-img {
+        width: {{ section.settings.custom_width_mobile }}%;
+      }
+      body #shopify-section-{{ section.id }} .new-banner__homepage-style-1 .new-banner__banner-img.new-banner__banner-padding-top-mobile {
+        padding-top: 0;
+      }
+      #shopify-section-{{ section.id }} .block__headline {
+        font-size: {{ section.settings.block_text_font_size_mobile_headline }}px;
+        line-height: 87.8%;
+        margin-bottom: 5px;
+      }
+      #shopify-section-{{ section.id }} .block__headline + .block__text_content {
+        margin-top: 0;
+      }
+      #shopify-section-{{ section.id }} .block__text_content {
+        font-size: {{ section.settings.block_text_font_size_mobile_content }}px;
+        line-height: 120%;
+      }
+    }
+  {% endif %}
+
+  .new-banner__homepage-style-1.new-banner .new-banner__slider-buttons .btn-v.effect_1:hover,
+  .new-banner__homepage-style-1.new-banner .new-banner__slider-buttons .btn-v.effect_1:active {
+  	background-color: var(--vasta-buttons-hover-color, #fff);
+  }
+  .new-banner__homepage-style-1.new-banner .new-banner__slider-buttons .btn-v.effect_1:hover:before,
+  .new-banner__homepage-style-1.new-banner .new-banner__slider-buttons .btn-v.effect_1:active:before {
+  	-webkit-transform: scaleX(1);
+  	transform: scaleX(1);
+  }
+  .new-banner__homepage-style-1.new-banner .new-banner__slider-buttons .btn-v.effect_1:before {
+  	content: "";
+  	position: absolute;
+  	z-index: -1;
+  	top: 0;
+  	bottom: 0;
+  	background-color: var(--vasta-buttons-hover-color, #fff);
+  	border-color: var(--vasta-buttons-hover-color, #006ba2);
+  	transform: scaleX(0);
+  	transition: cubic-bezier(0, 0.24, 0.84, 1.09) all 0.3s;
+  }
+  .new-banner__block-reviews__head + .new-banner__block-reviews__content {
+      margin-top: 12px;
+  }
+  .new-banner__block-reviews__author-img img {
+      width: 100%;
+      height: 100%;
+      max-width: 100%;
+  }
+  .new-banner__block-reviews__author-img {
+      width: 50px;
+      height: 50px;
+      position: relative;
+  }
+  .new-banner__block-reviews__stars svg {
+      width: 12px;
+      height: 12px;
+  }
+  .new-banner__custom__help-text {
+      margin: 6px;
+  }
+  .new-banner__block-reviews__name {
+    font-size: 16px;
+    line-height: 87.8%;
+  }
+  .btn-v {
+    position: absolute;
+    display: inline-block;
+    cursor: pointer;
+    padding: 15px;
+    letter-spacing: 1px;
+    text-align: center;
+    font-weight: 700;
+    transition: all 0.3s;
+  }
+  .new-banner__homepage-style-1.new-banner .new-banner__slider-buttons {
+    height: 100%;
+    position: absolute;
+    top: 0;
+  }
+  .new-banner__homepage-style-1.new-banner .new-banner__slider-buttons img{
+    width: 100%;
+  }
+  .new-banner__homepage-style-1.new-banner .new-banner__slider-buttons,
+  .new-banner__homepage-style-1.new-banner .new-banner__slider-buttons a {
+    display: block;
+    width: 100%;
+  }
+  .new-banner__homepage-style-1.new-banner .new-banner__slider-buttons a,
+  .new-banner__homepage-style-1.new-banner .new-banner__slider-buttons:before {
+    position: absolute;
+  }
+  .new-banner__homepage-style-1.new-banner .new-banner__slider-buttons .btn-v {
+    display: flex;
+    height: 71px;
+    font-size: 22px;
+    transform: translate(-50%, -50%);
+    overflow: hidden;
+    padding: 1px 0 0 0;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+  }
+  .new-banner__homepage-style-1.new-banner .new-banner__slider-buttons .btn-v.btn-2,
+  .new-banner__homepage-style-1.new-banner .new-banner__slider-buttons .btn-v:before {
+    right: 0;
+    left: 0;
+  }
+  .new-banner__homepage-style-1.new-banner .new-banner__slider-buttons .btn-v.btn-1 {
+    left: 10%;
+  }
+  .new-banner__homepage-style-1.new-banner .new-banner__slider-buttons .btn-v.btn-2 {
+    bottom: 45%;
+    margin: 0 auto;
+  }
+  .new-banner__homepage-style-1.new-banner .new-banner__slider-buttons .btn-v.btn-3 {
+    right: 10%;
+  }
+  .new-banner__homepage-style-1.new-banner .new-banner__banner-img {
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+  .new-banner__homepage-style-1.new-banner .new-banner__banner-img .main-mobile-link {
+    float: left;
+    width: 100%;
+    height: 100%;
+  }
+  .new-banner__homepage-style-1.new-banner .new-banner__banner-img .new-banner__banner-image {
+    position: absolute;
+    width: 100%;
+    top: 0;
+    height: auto;
+    object-fit: cover;
+  }
+  .new-banner__homepage-style-1.new-banner .new-banner__banner-titles {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    padding: 10px 0 0 20px;
+    text-align: center;
+    width: 60%;
+    list-style-position: inside;
+  }
+  .new-banner__homepage-style-1.new-banner .new-banner__banner-sub-title ul {
+    list-style-position: inside;
+  }
+  .new-banner__homepage-style-1.new-banner .new-banner__banner-sub-title ul li:before {
+    content: "";
+    margin-right: -0.8rem;
+  }
+  .new-banner {
+    float: left;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+  .new-banner .new-banner__banner-img {
+    margin: 0 auto;
+  }
+  .new-banner .new-banner__banner-img img {
+    width: 100%;
+  }
+  .block__text {
+    border-bottom: 1px solid #000;
+    padding-bottom: 10px;
+  }
+  .item_block__text--1,
+  .item_block__text--2,
+  .item_block__text--3{
+    text-align:left;
+  }
+  .item_block__text--4,
+  .item_block__text--5,
+  .item_block__text--6{
+    text-align:right;
+  }
+  .new-banner__block-reviews__head {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+  }
+  .new-banner__block-reviews__infos {
+    text-align: left;
+  }
+  .new-banner__homepage-style-1.new-banner .new-banner__banner-titles .new-banner__banner-sub-title{
+    margin: 15px 0 30px;
+  }
+  /**@media queries**/
+
+  @media screen and (max-width: 1019px) {
+    #shopify-section-{{ section.id }} .new-banner__block-reviews__content {
+      font-size: {{ section.settings.block_review_font_size_tablet }}px;
+      line-height: 120%;
+    }
+    .new-banner__block-reviews__name {
+      font-size: 14px;
+      line-height: 120%;
+    }
+  }
+  @media screen and (max-width: 767px) {
+    #shopify-section-{{ section.id }} .new-banner__block-reviews__content {
+      font-size: {{ section.settings.block_review_font_size_mobile }}px;
+      line-height: 120%;
+    }
+    .new-banner__block-reviews__name {
+      font-size: 12px;
+      line-height: 100%;
+    }
+    #shopify-section-{{ section.id }} .wrapper{
+      padding-top: 30px;
+      padding-bottom: 30px;
+    }
+  }
+  @media screen and (max-width: 1019px) {
+    #shopify-section-{{ section.id }} .new-banner__block-reviews {
+      width: {{ section.settings.block_review_tablet_width }}px;
+    }
+    {% for block in section.blocks %}
+      #shopify-section-{{ section.id }} .custom-review-{{ forloop.index }}-{{ section.id }} {
+        position: absolute;
+        {% if block.settings.enable_align_by_right %}
+          right: {{ block.settings.tablet_review_position_x }}%;
+        {% else %}
+          left: {{ block.settings.tablet_review_position_x }}%;
+        {% endif %}
+        
+        {% if block.settings.enable_align_by_bottom %}
+          bottom: {{ block.settings.tablet_review_position_y }}%;
+        {% else %}
+          top: {{ block.settings.tablet_review_position_y }}%;
+        {% endif %}
+    }
+  {% endfor %} 
+  }
+  @media screen and (max-width: 767px) {
+    #shopify-section-{{ section.id }} .new-banner__block-reviews__content {
+      font-size: {{ section.settings.block_review_font_size_mobile }}px;
+      line-height: 120%;
+    }
+    #shopify-section-{{ section.id }} .new-banner__block-reviews__name {
+      margin-bottom: 4px;
+      line-height: 100%;
+    }
+    #shopify-section-{{ section.id }} .wrapper{
+      padding-top: 30px;
+      padding-bottom: 30px;
+    }
+    #shopify-section-{{ section.id }} .new-banner__block-reviews {
+      width: {{ section.settings.block_review_mobile_width }}px;
+    }
+    {% for block in section.blocks %}
+      #shopify-section-{{ section.id }} .custom-review-{{ forloop.index }}-{{ section.id }} {
+        position: absolute;
+        transform: translate(-50%, -50%);
+        {% if block.settings.enable_align_by_right %}
+          right: {{ block.settings.mobile_review_position_x }}%;
+        {% else %}
+          left: {{ block.settings.mobile_review_position_x }}%;
+        {% endif %}
+        
+        {% if block.settings.enable_align_by_bottom %}
+          bottom: {{ block.settings.mobile_review_position_y }}%;
+        {% else %}
+          top: {{ block.settings.mobile_review_position_y }}%;
+        {% endif %}
+      }
+    {% endfor %}
+
+  }
+  @media screen and (min-width: 767px) {
+    #shopify-section-{{ section.id }} .new-banner__homepage-style-1.new-banner .new-banner__slider-buttons .btn-v {
+      padding: 10px;
+    }
+    #shopify-section-{{ section.id }} .new-banner__homepage-style-1.new-banner .new-banner__slider-buttons .btn-v.{{ section.settings.vasta_buttons_hover_effect }}:hover,
+    #shopify-section-{{ section.id }} .new-banner__homepage-style-1.new-banner .new-banner__slider-buttons .btn-v.{{ section.settings.vasta_buttons_hover_effect }}:active {
+      background-color: {{ section.settings.vasta_buttons_hover_color_1 }};
+      color: {{ section.settings.vasta_buttons_hover_text_color_1 }};
+    }
+    #shopify-section-{{ section.id }} .new-banner__homepage-style-1.new-banner .new-banner__slider-buttons .btn-v.effect_1:before{
+      background-color: {{ section.settings.vasta_buttons_hover_color_1 }};
+    }
+  }
+  @media screen and (min-width: 1020px) {
+    #shopify-section-{{ section.id }} .new-banner__homepage-style-1.new-banner .new-banner__banner-titles .new-banner__banner-sub-title {
+      font-weight: 300;
+    }
+    #shopify-section-{{ section.id }} .custom-banner--dashed .new-banner__banner-titles .new-banner__banner-sub-title {
+      margin-top: 0 !important;
+    }
+    #shopify-section-{{ section.id }} .new-banner__homepage-style-1.new-banner .new-banner__banner-titles.new-banner__banner-titles--desktop,
+    #shopify-section-{{ section.id }} .new-banner__homepage-style-1.new-banner .new-banner__banner-title__static.new-banner__banner-titles-no-floating--desktop {
+      display: none;
+    }
+  }
+  @media (min-width: 768px) and (max-width: 1019px) {
+    #shopify-section-{{ section.id }} .new-banner__homepage-style-1.new-banner .new-banner__banner-titles.new-banner__banner-titles--tablet,
+    #shopify-section-{{ section.id }} .new-banner__homepage-style-1.new-banner .new-banner__homepage-style-1.new-banner .new-banner__banner-title__static.new-banner__banner-titles-no-floating--tablet {
+      display: none;
+    }
+  }
+  @media (max-width: 1019px) {
+    #shopify-section-{{ section.id }} .new-banner__homepage-style-1.new-banner .new-banner__banner-title__static.new-banner__banner-titles {
+      padding-bottom: 20px;
+    }
+    #shopify-section-{{ section.id }} .new-banner__homepage-style-1.new-banner .new-banner__banner-titles{
+      left: {{ section.settings.vasta_title_horizontal_position_tablet }}%;
+      top: {{ section.settings.vasta_title_vertical_position_tablet }}%;
+      width: {{ section.settings.banner_tablet_width }}%;
+      padding: 0;
+    }
+    #shopify-section-{{ section.id }} .new-banner__homepage-style-1 .new-banner__banner-img.new-banner__banner-padding-top-tablet {
+      padding-top: {{ paddingTopTablet }}%;
+    }
+    #shopify-section-{{ section.id }} .custom-banner--dashed .new-banner__banner-titles .new-banner__banner-sub-title {
+      font-weight: 500;
+    }
+    .new-banner__banner-titles .new-banner__banner-title + .new-banner__banner-titles .new-banner__banner-sub-title {
+      margin-top: 5px;
+    }
+    #shopify-section-{{ section.id }} .new-banner__banner-titles .new-banner__upper-headline p {
+      font-size: {{ section.settings.main_banner_upper_headline_size_tablet }}px;
+    }    
+    #shopify-section-{{ section.id }} .new-banner__banner-titles-new-button {
+      font-size: {{ section.settings.banner_font_size_new_button_tablet }}px;
+    }
+    #shopify-section-{{ section.id }} .btn-v,
+    #shopify-section-{{ section.id }} .new-banner__custom__help-text  {
+      font-size:{{ section.settings.banner_font_size_button_tablet }}px;
+      line-height: 120%;
+    }
+    #shopify-section-{{ section.id }}.new-banner__custom__help-text {
+      margin: 0;
+    }
+    {% for block in section.blocks %}
+
+      #shopify-section-{{ section.id }} #new-banner__Banner1Btn-{{ forloop.index }}-{{ section.id }},
+      #shopify-section-{{ section.id }} .new-banner__helper-text__content-{{ forloop.index }}-{{ section.id }} {
+        {% if block.settings.vasta_button_horizontal_position <= 2 %}
+          left: 2%;
+          {% else %}
+          left: calc({{ block.settings.vasta_button_horizontal_position }}% - 2%);
+        {% endif %}
+        {% if block.settings.vasta_button_vertical_position <= 2 %}
+          top: 2%;
+          {% else %}
+          top: calc({{ block.settings.vasta_button_vertical_position }}% - 2%);
+        {% endif %}
+      }
+
+      #shopify-section-{{ section.id }} .new-banner__banner__button--{{ forloop.index }}-{{ section.id }} {
+          max-width: {{ block.settings.vasta_button_max_width_tablet }}px;
+          height:{{ block.settings.vasta_button_height_tablet }}px;
+      }
+    {% endfor %}
+    .new-banner__homepage-style-1.new-banner .new-banner__slider-buttons .btn-v {
+      height: 60px;
+      line-height: calc(60px - 6px);
+      font-size: 15px;
+    }
+    .new-banner__slider-buttons a {
+      max-width: 195px;
+      width: 184px;
+      height: 58px;
+      line-height: calc(58px - 6px);
+      font-size: 0.75rem;
+    }
+    .new-banner__slider-buttons a:first-child,
+    .new-banner__slider-buttons a:last-child {
+      top: 50%;
+    }
+    .new-banner__slider-buttons a:first-child,
+    .new-banner__slider-buttons a:last-child {
+      top: 50%;
+    }
+    .new-banner__slider-buttons a:nth-child(2) {
+      top: 50%;
+    }
+  }
+  @media(max-width: 767px) {
+    #shopify-section-{{ section.id }} .new-banner__homepage-style-1.new-banner .new-banner__banner-titles.new-banner__banner-titles--mobile,
+    #shopify-section-{{ section.id }} .new-banner__homepage-style-1.new-banner .new-banner__banner-title__static.new-banner__banner-titles-no-floating--mobile {
+      display: none;
+    }
+    {% for block in section.blocks %}
+      #shopify-section-{{ section.id }} .new-banner__helper-text__content-{{ forloop.index }}-{{ section.id }} {
+        height:{{ block.settings.vasta_button_height_mobile }}px;
+        max-width: {{ block.settings.vasta_button_max_width }}px;
+      }
+      #shopify-section-{{ section.id }} #new-banner__Banner1Btn-{{ forloop.index }}-{{ section.id }},
+      #shopify-section-{{ section.id }} .new-banner__helper-text__content-{{ forloop.index }}-{{ section.id }} {
+        {% if block.settings.vasta_button_horizontal_position <= 2 %}
+          left: 2%;
+          {% else %}
+          left: calc({{ block.settings.vasta_button_horizontal_position }}% - 2%);
+        {% endif %}
+        {% if block.settings.vasta_button_vertical_position <= 2 %}
+          top: 2%;
+          {% else %}
+          top: calc({{ block.settings.vasta_button_vertical_position }}% - 2%);
+        {% endif %}
+      }
+      #shopify-section-{{ section.id }} .new-banner__banner__button--{{ forloop.index }}-{{ section.id }} {
+        max-width: {{ block.settings.vasta_button_max_width }}px;
+        height:{{ block.settings.vasta_button_height_mobile }}px;
+        padding: 5px;
+      }
+    {% endfor %}
+    #shopify-section-{{ section.id }} {
+      --custom-text-x:{{ section.settings.custom_text_mobile_x }}%;
+      --custom-text-y:{{ section.settings.custom_text_mobile_y }}%;
+      --custom-text-font-size: {{ section.settings.custom_text_mobile }};
+    }
+    #shopify-section-{{ section.id }} .new-banner__homepage-style-1.new-banner .new-banner__banner-titles{
+      left: {{ section.settings.vasta_title_horizontal_position_mobile }}%;
+      top: {{ section.settings.vasta_title_vertical_position_mobile }}%;
+      width: {{ section.settings.banner_mobile_width }}%;
+    }
+    #shopify-section-{{ section.id }} .new-banner__homepage-style-1.new-banner .new-banner__banner-titles .new-banner__banner-title,
+    #shopify-section-{{ section.id }} .new-banner__homepage-style-1.new-banner .new-banner__banner-titles .new-banner__banner-title *{
+      font-size: calc({{ title_mobile }}px + ({{ title_tablet }} - {{ title_mobile }}) * ((100vw - 375px) / (767 - 375)));
+    }
+    #shopify-section-{{ section.id }} .new-banner__homepage-style-1.new-banner .new-banner__banner-titles .new-banner__banner-sub-title,
+    #shopify-section-{{ section.id }} .new-banner__homepage-style-1.new-banner .new-banner__banner-titles .new-banner__banner-sub-title *{
+      font-size: {{ section.settings.main_banner_sub_headline_size_mobile | divided_by: 16.0 }}rem;
+    }
+    #shopify-section-{{ section.id }} .new-banner__banner-titles .new-banner__upper-headline {
+      gap: 15px;
+      font-size: {{ section.settings.main_banner_upper_headline_size_mobile }}px;
+      {% if section.settings.vasta_headline_align_mobile == 'center' %}
+        justify-content: center;
+      {% elsif section.settings.vasta_headline_align == 'left' %}
+        justify-content: flex-start;
+      {% else %}
+        justify-content: flex-end;
+      {% endif %}
+    }
+    {%- if section.settings.mobile_banner_style_1 != blank -%}
+    #shopify-section-{{ section.id }} .new-banner__homepage-style-1 .new-banner__banner-img.new-banner__banner-padding-top-mobile{
+      padding-top: {{ paddingTopMobile }}%;
+    }
+    {% endif %}
+    #shopify-section-{{ section.id }} .btn-v,
+    #shopify-section-{{ section.id }} .new-banner__custom__help-text {
+      font-size:{{ section.settings.banner_font_size_button_mobile }}px;
+      line-height: 100%;
+    }
+    #shopify-section-{{ section.id }} .btn-v {
+      {% if section.settings.enable_button_radius %}
+        border-radius: {{ section.settings.button_radius | divided_by: 2 }}px;
+      {% endif %}
+    }
+    .new-banner__homepage-style-1.new-banner .new-banner__slider-buttons .btn-v {
+      height: 50px;
+      line-height: calc(50px - 6px);
+      font-size: 14px;
+      margin: 0 auto;
+    }
+
+    #shopify-section-{{ section.id }} .new-banner__homepage-style-1.new-banner .new-banner__banner-titles .new-banner__banner-title,
+    #shopify-section-{{ section.id }} .new-banner__homepage-style-1.new-banner .new-banner__banner-titles .new-banner__banner-title *,
+    #shopify-section-{{ section.id }} .new-banner__homepage-style-1.new-banner .new-banner__banner-titles .new-banner__banner-sub-title,
+    #shopify-section-{{ section.id }} .new-banner__homepage-style-1.new-banner .new-banner__banner-titles .new-banner__banner-sub-title *{
+      text-align: {{ section.settings.vasta_headline_align_mobile }};
+    }
+
+    #shopify-section-{{ section.id }} .new-banner .new-banner__banner-titles-new-button {
+      font-size: {{ section.settings.banner_font_size_new_button_mobile }}px;
+      float: none;
+      {% if section.settings.vasta_headline_align_mobile == 'center' %}
+        margin: 0 auto;
+      {% elsif section.settings.vasta_headline_align_mobile == 'left' %}
+        margin-left: 0;
+      {% else %}
+        margin-right: 0;
+      {% endif %}
+    }
+  }
+  @media (max-width: 479px) {
+    .new-banner__homepage-style-1.new-banner .new-banner__slider-buttons .btn-v {
+      height: 45px;
+      line-height: calc(45px - 6px);
+      font-size: 12px;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "New Banner Layout",
+  "class": "banner",
+  "max_blocks": 50,
+  "settings": [
+    {
+      "type": "header",
+      "content": "General Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_custom_margins_paddings",
+      "label": "Enable Custom Margins and Paddings",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "custom-margin-top",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "label": "Margin Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "custom-margin-bottom",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "label": "Margin Bottom",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "custom-padding-top",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "custom-padding-bottom",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 0
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom Class",
+      "info": "Custom class to apply css styles for specific sections"
+    },
+    {
+      "type": "image_picker",
+      "id": "homepage_banner_style_1",
+      "label": "Banner Image Desktop",
+      "info": "1440x500"
+    },
+    {
+      "type": "image_picker",
+      "id": "tablet_banner_style_1",
+      "label": "Banner Image Tablet",
+      "info": "1019x500"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_banner_style_1",
+      "label": "Banner Mobile Image",
+      "info": "750x300"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_custom_banner_height",
+      "label": "Enable Custom Banner Height",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "banner_max_height",
+      "min": 200,
+      "max": 800,
+      "step": 10,
+      "unit": "px",
+      "label": "Desktop Banner Height",
+      "default": 500
+    },
+    {
+      "type": "range",
+      "id": "banner_max_height_tablet",
+      "min": 200,
+      "max": 800,
+      "step": 10,
+      "unit": "px",
+      "label": "Tablet Banner Height",
+      "default": 430
+    },
+    {
+      "type": "range",
+      "id": "banner_max_height_mobile",
+      "min": 50,
+      "max": 800,
+      "step": 10,
+      "unit": "px",
+      "label": "Mobile Banner Height",
+      "default": 210
+    },
+    {
+      "type": "checkbox",
+      "id": "full_with_banne1",
+      "label": "Full Width",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Custom Width"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_custom_width",
+      "label": "Enable Custom Width",
+      "info": "If enabled, the Custom Banner Height will not work.",
+      "default": false
+    },
+    {
+      "type": "paragraph",
+      "content": "Desktop"
+    },
+    {
+      "type": "range",
+      "id": "custom_width_desktop",
+      "min": 1,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Custom Width",
+      "default": 50
+    },
+    {
+      "type": "paragraph",
+      "content": "Tablet"
+    },
+    {
+      "type": "range",
+      "id": "custom_width_tablet",
+      "min": 1,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Custom Width",
+      "default": 50
+    },
+    {
+      "type": "paragraph",
+      "content": "Mobile"
+    },
+    {
+      "type": "range",
+      "id": "custom_width_mobile",
+      "min": 1,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Custom Width",
+      "default": 50
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_lazy_load",
+      "label": "Enable Lazy Load",
+      "info": "If this is the first section of the homepage, you have to keep this field unchecked for Google Pagespeed score improvements.",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Headline"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_upper_banner_title",
+      "label": "Enable Upper Headline text",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "upper_banner_title",
+      "label": "Upper Headline Text",
+      "default": "Upper Headline Example",
+      "placeholder": "Upper Headline text"
+    },
+    {
+      "type": "richtext",
+      "id": "main_banner_title",
+      "label": "Headline Text"
+    },
+    {
+      "type": "richtext",
+      "id": "main_banner_sub_title",
+      "label": "Sub Headline Text"
+    },
+    {
+      "type": "select",
+      "id": "vasta_headline_align",
+      "label": "Headline Alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "vasta_headline_align_mobile",
+      "label": "Headline Alignment on Mobile",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "text_transform",
+      "label": "Headline Transform",
+      "options": [
+        {
+          "value": "capitalize",
+          "label": "Capitalize"
+        },
+        {
+          "value": "lowercase",
+          "label": "Lowercase"
+        },
+        {
+          "value": "uppercase",
+          "label": "Uppercase"
+        },
+        {
+          "value": "initial",
+          "label": "Original"
+        }
+      ],
+      "default": "initial"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_max_width",
+      "label": "Enable Headline Background Max Width",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "new_banner_headline_width",
+      "label": "Headline Background Max Width",
+      "unit": "%",
+      "min": 20,
+      "max": 100,
+      "step": 2, 
+      "default": 40
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_button_headline",
+      "label": "Enable Headline Aligned Button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "label_button_headline",
+      "label": "Button Text",
+      "default": "Lorem ipsum"
+    },
+    {
+      "type": "url",
+      "id": "link_button_headline",
+      "label": "Button Link"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_button_radius",
+      "label": "Enable rounded button"
+    },
+    {
+      "type": "range",
+      "id": "button_radius",
+      "min": 5,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "label": "Rounded button border",
+      "default": 5
+    },
+    {
+      "type": "range",
+      "id": "banner_font_size_new_button",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Headline Button Font Size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "banner_font_size_new_button_tablet",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Headline Button Font Size on Tablet",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "banner_font_size_new_button_mobile",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Headline Button Font Size on Mobile",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "vasta_new_button_max_width_desktop",
+      "min": 100,
+      "max": 300,
+      "step": 2,
+      "unit": "px",
+      "label": "Button Max Width on Desktop",
+      "default": 170
+    },
+    {
+      "type": "header",
+      "content": "Headline Font Size"
+    },
+    {
+      "type": "header",
+      "content": "Desktop"
+    },
+    {
+      "type": "range",
+      "id": "main_banner_upper_headline_size",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Upper Headline Font Size on Desktop",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "main_banner_headline_size",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Headline Font Size on Desktop",
+      "default": 26
+    },
+    {
+      "type": "range",
+      "id": "main_banner_sub_headline_size",
+      "min": 10,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Sub Headline Font Size on Desktop",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Tablet"
+    },
+    {
+      "type": "range",
+      "id": "main_banner_upper_headline_size_tablet",
+      "min": 10,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Upper Headline Font Size on Tablet",
+      "default": 26
+    },
+    {
+      "type": "range",
+      "id": "main_banner_headline_size_tablet",
+      "min": 10,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Headline Font Size on Tablet",
+      "default": 26
+    },
+    {
+      "type": "range",
+      "id": "main_banner_sub_headline_size_tablet",
+      "min": 10,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Sub Headline Font Size on Tablet",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Mobile"
+    },
+    {
+      "type": "range",
+      "id": "main_banner_upper_headline_size_mobile",
+      "min": 10,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "label": "Upper Headline Font Size on Mobile",
+      "default": 26
+    },
+    {
+      "type": "range",
+      "id": "main_banner_headline_size_mobile",
+      "min": 10,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "label": "Headline Font Size on Mobile",
+      "default": 26
+    },
+    {
+      "type": "range",
+      "id": "main_banner_sub_headline_size_mobile",
+      "min": 10,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "label": "Sub Headline Font Size on Mobile",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Floating Headline"
+    },
+    {
+      "type": "paragraph",
+      "content": "Enable the floating headline below to desktop, tablet or mobile. To configure the positioning of headline horizontally and vertically, access the \"Headline Position\" below, otherwise it will be at the top of the banner"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_floating_headline",
+      "label": "Enable Headline on Desktop",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_floating_headline_tablet",
+      "label": "Enable Headline on Tablet",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_floating_headline_mobile",
+      "label": "Enable Headline on Mobile",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Headline Position"
+    },
+    {
+      "type": "header",
+      "content": "Desktop"
+    },
+    {
+      "type": "range",
+      "id": "vasta_title_horizontal_position",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Desktop Horizontal Headline Position",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "vasta_title_vertical_position",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Desktop Vertical Headline Position",
+      "default": 30
+    },
+    {
+      "type": "header",
+      "content": "Tablet"
+    },
+    {
+      "type": "range",
+      "id": "vasta_title_horizontal_position_tablet",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Tablet Horizontal Headline Position",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "vasta_title_vertical_position_tablet",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Tablet Vertical Headline Position",
+      "default": 30
+    },
+    {
+      "type": "header",
+      "content": "Mobile"
+    },
+    {
+      "type": "range",
+      "id": "vasta_title_horizontal_position_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Mobile Horizontal Headline Position",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "vasta_title_vertical_position_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Mobile Vertical Headline Position",
+      "default": 30
+    },
+    {
+      "type": "header",
+      "content": "Text Box Size"
+    },
+    {
+      "type": "range",
+      "id": "banner_tablet_width",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Banner Text Content Width For Tablet",
+      "info": "Only works on tablet resolution",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "banner_mobile_width",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Banner Text Content Width For Mobile",
+      "info": "Only works on mobile resolution",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "banner_mobile_height",
+      "min": 0,
+      "max": 300,
+      "step": 10,
+      "unit": "px",
+      "label": "Banner Text Content Height",
+      "info": "Only works on mobile resolution",
+      "default": 200
+    },
+    {
+      "type": "header",
+      "content": "Block Review Width"
+    },
+    {
+      "type": "range",
+      "id": "block_review_desktop_width",
+      "min": 200,
+      "max": 400,
+      "step": 2,
+      "unit": "px",
+      "label": "Block Review Width For Desktop",
+      "info": "Only works on desktop resolution",
+      "default": 200
+    },
+    {
+      "type": "range",
+      "id": "block_review_tablet_width",
+      "min": 120,
+      "max": 320,
+      "step": 2,
+      "unit": "px",
+      "label": "Block Review Width For Tablet",
+      "info": "Only works on tablet resolution",
+      "default": 200
+    },
+    {
+      "type": "range",
+      "id": "block_review_mobile_width",
+      "min": 190,
+      "max": 350,
+      "step": 2,
+      "unit": "px",
+      "label": "Block Review Width For Mobile",
+      "info": "Only works on mobile resolution",
+      "default": 200
+    },
+    {
+      "type": "header",
+      "content": "Block Review Font Size"
+    },
+    {
+      "type": "paragraph",
+      "content": "Desktop"
+    },
+    {
+      "type": "range",
+      "id": "block_review_author_font_size_desktop",
+      "min": 10,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Author's Name Font Size Desktop",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "block_review_font_size_desktop",
+      "min": 10,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Review Font Size Desktop",
+      "default": 26
+    },
+    {
+      "type": "paragraph",
+      "content": "Tablet"
+    },
+    {
+      "type": "range",
+      "id": "block_review_author_font_size_tablet",
+      "min": 10,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Author's name Font Size Tablet",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "block_review_font_size_tablet",
+      "min": 10,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Review Font Size Tablet",
+      "default": 20
+    },
+    {
+      "type": "paragraph",
+      "content": "Mobile"
+    },
+    {
+      "type": "range",
+      "id": "block_review_author_font_size_mobile",
+      "min": 10,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Author's name Font Size Mobile",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "block_review_font_size_mobile",
+      "min": 10,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "label": "Review Font Size Mobile",
+      "default": 26
+    },
+    {
+      "type": "header",
+      "content": "Block Buttons"
+    },
+    {
+      "type": "range",
+      "id": "banner_font_size_button",
+      "min": 10,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "label": "Button Font Size",
+      "default": 46
+    },
+    {
+      "type": "range",
+      "id": "banner_font_size_button_tablet",
+      "min": 10,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "label": "Button Font Size Tablet",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "banner_font_size_button_mobile",
+      "min": 10,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "label": "Button Font Size Mobile",
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "paragraph",
+      "content": "Button"
+    },
+    {
+      "type": "color",
+      "id": "vasta_buttons_color_1",
+      "label": "Button Background Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "vasta_buttons_text_color_1",
+      "label": "Button Text Color",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "vasta_border_color_1",
+      "label": "Button Border Color",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "vasta_border_color_1_hover",
+      "label": "Button Hover Border Color",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "vasta_buttons_hover_color_1",
+      "label": "Button Hover Background Color",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "vasta_buttons_hover_text_color_1",
+      "label": "Button Hover Text Color",
+      "default": "#000"
+    },
+    {
+      "type": "paragraph",
+      "content": "Headline"
+    },
+    {
+      "type": "color",
+      "id": "banner_upper_titcolor",
+      "label": "Upper Headline Text Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "banner_titcolor",
+      "label": "Headline Text Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "banner_sub_titcolor",
+      "label": "Sub Headline Text Color",
+      "default": "#000000"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "select",
+      "name": "Block Button",
+      "settings": [
+        {
+          "type": "header",
+          "content": "General Settings"
+        },
+        {
+          "id": "custom_html",
+          "type": "html",
+          "label": "Custom css",
+          "info": "Write CSS attributes with !important. Ex: background-color:#f00!important"
+        },
+        {
+          "id": "linktext",
+          "type": "text",
+          "label": "Button Text",
+          "default": "Click Here"
+        },
+        {
+          "type": "select",
+          "id": "button_text_transform",
+          "label": "Button Text Transform",
+          "default": "capitalize",
+          "options": [
+            {
+              "value": "none",
+              "label": "Same as imput"
+            },
+            {
+              "value": "uppercase",
+              "label": "Uppercase"
+            },
+            {
+              "value": "capitalize",
+              "label": "Capitalize"
+            },
+            {
+              "value": "lowercase",
+              "label": "Lowercase"
+            }
+          ]
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_button_link",
+          "label": "Enable Button link",
+          "default": false
+        },
+        {
+          "id": "link",
+          "type": "url",
+          "label": "Button Link"
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_helper_text",
+          "label": "Enable Helper text",
+          "info": "Use the button with a helper text. If this is enabled, text will be shown with the button. You will be able to set the alignment of these elements."
+        },
+        {
+          "id": "helper_text",
+          "type": "text",
+          "label": "Helper Text",
+          "default": "Helper Text"
+        },
+        {
+          "type": "select",
+          "id": "helper_text_direction",
+          "label": "Helper text direction",
+          "options": [
+            {
+              "label": "Right",
+              "value": "reverse"
+            },
+            {
+              "label": "Left",
+              "value": "row-reverse"
+            },
+            {
+              "label": "Above",
+              "value": "column-reverse"
+            },
+            {
+              "label": "Below",
+              "value": "column"
+            }
+          ]
+        },
+        {
+          "type": "select",
+          "id": "vasta_buttons_hover_effect",
+          "label": "Button Hover Effect",
+          "options": [
+            {
+              "value": "none",
+              "label": "None"
+            },
+            {
+              "value": "effect_1",
+              "label": "Curtain"
+            },
+            {
+              "value": "effect_2",
+              "label": "Fade"
+            }
+          ],
+          "default": "none"
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_block_button_radius",
+          "label": "Enable rounded button"
+        },
+        {
+          "type": "range",
+          "id": "block_button_radius",
+          "min": 10,
+          "max": 40,
+          "step": 1,
+          "unit": "px",
+          "label": "Rounded button border",
+          "default": 10
+        },
+        {
+          "type": "header",
+          "content": "Position"
+        },
+        {
+          "type": "header",
+          "content": "Desktop"
+        },
+        {
+          "type": "range",
+          "id": "vasta_button_horizontal_position",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Button Horizontal Position on Desktop",
+          "default": 50
+        },
+        {
+          "type": "range",
+          "id": "vasta_button_vertical_position",
+          "min": 10,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Button Vertical Position on Desktop",
+          "default": 15
+        },
+        {
+          "type": "header",
+          "content": "Tablet"
+        },
+        {
+          "type": "range",
+          "id": "vasta_button_horizontal_position_tablet",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Button Horizontal Position on Tablet",
+          "default": 50
+        },
+        {
+          "type": "range",
+          "id": "vasta_button_vertical_position_tablet",
+          "min": 10,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Button Vertical Position on Tablet",
+          "default": 15
+        },
+        {
+          "type": "header",
+          "content": "Mobile"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_mobile_buttons",
+          "label": "Show Button On Mobile",
+          "default": false,
+          "info": "This option enable this button on mobile banner."
+        },
+        {
+          "type": "range",
+          "id": "vasta_button_horizontal_position_mobile",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Button Horizontal Position on Mobile",
+          "default": 50
+        },
+        {
+          "type": "range",
+          "id": "vasta_button_vertical_position_mobile",
+          "min": 10,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Button Vertical Position on Mobile",
+          "default": 15
+        },
+        {
+          "type": "header",
+          "content": "Dimension"
+        },
+        {
+          "type": "header",
+          "content": "Desktop"
+        },
+        {
+          "type": "range",
+          "id": "vasta_button_height",
+          "min": 20,
+          "max": 100,
+          "step": 2,
+          "unit": "px",
+          "label": "Button Height on Desktop",
+          "default": 70
+        },
+        {
+          "type": "range",
+          "id": "vasta_button_max_width_desktop",
+          "min": 100,
+          "max": 300,
+          "step": 2,
+          "unit": "px",
+          "label": "Button Max Width on Desktop",
+          "default": 200
+        },
+        {
+          "type": "header",
+          "content": "Tablet"
+        },
+        {
+          "type": "range",
+          "id": "vasta_button_height_tablet",
+          "min": 20,
+          "max": 100,
+          "step": 2,
+          "unit": "px",
+          "label": "Button Height on Tablet",
+          "default": 50
+        },
+        {
+          "type": "range",
+          "id": "vasta_button_max_width_tablet",
+          "min": 10,
+          "max": 200,
+          "step": 2,
+          "unit": "px",
+          "label": "Button Max Width on Tablet",
+          "default": 100
+        },
+        {
+          "type": "header",
+          "content": "Mobile"
+        },
+        {
+          "type": "range",
+          "id": "vasta_button_height_mobile",
+          "min": 10,
+          "max": 100,
+          "step": 2,
+          "unit": "px",
+          "label": "Button Height on Mobile",
+          "default": 50
+        },
+        {
+          "type": "range",
+          "id": "vasta_button_max_width",
+          "min": 10,
+          "max": 200,
+          "step": 2,
+          "unit": "px",
+          "label": "Button Max Width on Mobile",
+          "default": 100
+        },
+        {
+          "type": "header",
+          "content": "Colors"
+        },
+        {
+          "type": "color",
+          "id": "vasta_buttons_block_color_1",
+          "label": "Button Background Color",
+          "default": "#000"
+        },
+        {
+          "type": "color",
+          "id": "vasta_buttons_text_block_color_1",
+          "label": "Button Text Color",
+          "default": "#fff"
+        },
+        {
+          "type": "color",
+          "id": "vasta_border_block_color_1",
+          "label": "Button Border Color",
+          "default": "#fff"
+        },
+        {
+          "type": "color",
+          "id": "vasta_border_block_color_1_hover",
+          "label": "Button Hover Border Color",
+          "default": "#fff"
+        },
+        {
+          "type": "color",
+          "id": "vasta_buttons_block_hover_color_1",
+          "label": "Button Hover Background Color",
+          "default": "#fff"
+        },
+        {
+          "type": "color",
+          "id": "vasta_buttons_block_text_hover_color_1",
+          "label": "Button Hover Text Color",
+          "default": "#000"
+        }
+      ]
+    },
+    {
+      "type": "reviews",
+      "name": "Reviews",
+      "settings": [
+        {
+          "type": "header",
+          "content": "General Settings"
+        },
+        {
+          "type": "checkbox",
+          "id": "block_review_mobile",
+          "label": "Show Mobile",
+          "default": false
+        },
+        {
+          "id": "review_name",
+          "type": "text",
+          "label": "Author Name"
+        },
+        {
+          "type": "image_picker",
+          "id": "review_image",
+          "label": "Author Image"
+        },
+        {
+          "type": "text",
+          "id": "review_content",
+          "label": "Review Text"
+        },
+        {
+          "type": "select",
+          "id": "review_stars",
+          "label": "Reviews Stars",
+          "options": [
+            {
+              "value": "1",
+              "label": "1"
+            },
+            {
+              "value": "2",
+              "label": "2"
+            },
+            {
+              "value": "3",
+              "label": "3"
+            },
+            {
+              "value": "4",
+              "label": "4"
+            },
+            {
+              "value": "5",
+              "label": "5"
+            }
+          ]
+        },
+        {
+          "type": "header",
+          "content": "Position"
+        },
+        {
+          "type": "header",
+          "content": "Desktop"
+        },
+        {
+          "id": "enable_align_by_right",
+          "type": "checkbox",
+          "default": false,
+          "label": "Align horizontally based on the right margin"
+        },        
+        {
+          "id": "enable_align_by_bottom",
+          "type": "checkbox",
+          "default": false,
+          "label": "Align vertically based on the bottom margin"
+        },
+        {
+          "type": "range",
+          "id": "review_position_x",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Position Horizontal",
+          "default": 10
+        },
+        {
+          "type": "range",
+          "id": "review_position_y",
+          "label": "Position Vertical",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "default": 10
+        },
+        {
+          "type": "header",
+          "content": "Tablet"
+        },
+        {
+          "id": "enable_align_by_right_tablet",
+          "type": "checkbox",
+          "default": false,
+          "label": "Align horizontally based on the right margin on Tablet"
+        },
+        {
+          "id": "enable_align_by_bottom_tablet",
+          "type": "checkbox",
+          "default": false,
+          "label": "Align vertically based on the bottom margin on Tablet"
+        },
+        {
+          "type": "range",
+          "id": "tablet_review_position_x",
+          "label": "Position Horizontal",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "default": 10
+        },
+        {
+          "type": "range",
+          "id": "tablet_review_position_y",
+          "label": "Position Vertical",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "default": 10
+        },
+        {
+          "type": "header",
+          "content": "Mobile"
+        },
+        {
+          "id": "enable_align_by_right_mobile",
+          "type": "checkbox",
+          "default": false,
+          "label": "Align horizontally based on the right margin on Mobile"
+        },
+        {
+          "id": "enable_align_by_bottom_mobile",
+          "type": "checkbox",
+          "default": false,
+          "label": "Align vertically based on the bottom margin on Mobile"
+        },
+        {
+          "type": "range",
+          "id": "mobile_review_position_x",
+          "label": "Position Horizontal",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "default": 10
+        },
+        {
+          "type": "range",
+          "id": "mobile_review_position_y",
+          "label": "Position Vertical",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "default": 10
+        },
+        {
+          "type": "header",
+          "content": "Colors"
+        },
+        {
+          "type": "color",
+          "id": "color_author_name",
+          "label": "Author Name",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "color_review_stars",
+          "label": "Review Stars",
+          "default": "#ECB42E"
+        },
+        {
+          "type": "color",
+          "id": "color_review_content",
+          "label": "Review Content",
+          "default": "#ffffff"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "New Banner Layout",
+      "category": "Banner"
+    }
+  ]
+}
+{% endschema %}
+<!-- end custom-new-banner-layout.liquid -->

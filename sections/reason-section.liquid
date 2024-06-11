@@ -1,0 +1,72 @@
+<!-- sections/reason-section -->
+
+{% assign reasons_title = section.settings.title_section_text %}
+{% assign reasons_image = section.settings.image_reason %}
+
+<div class="wrapper">
+  <div class="reasons">
+    {% if reasons_title != blank %}
+      <h2 class="reasons__title">{{ reasons_title }}</h2>
+    {% endif %}
+
+    {%- if reasons_image != blank -%}
+      {% assign image_crop = section.settings.image_size %}
+      {% assign reasons_image_alt = reasons_image.alt | default: reasons_title | strip_html | escape %}
+
+      <img
+        src="{{ reasons_image | image_url: width: image_crop }}"
+        alt="{{ reasons_image_alt }}"
+        class="reasons__image"
+        loading="lazy"
+        width="{{ image_crop }}"
+        height="{{ image_crop | divided_by: reasons_image.aspect_ratio | round: 0 }}"
+      >
+    {%- endif -%}
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Reasons Section",
+  "class": "reasons-section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enabled_section",
+      "label": "Enable Section",
+      "default": true
+    },
+    {
+      "type": "text",
+      "label": "Title",
+      "id": "title_section_text"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_reason",
+      "label": "Image Reason",
+      "info": "560x280"
+    },
+    {
+      "type": "range",
+      "id": "image_size",
+      "label": "Image Size",
+      "max": 500,
+      "min": 100,
+      "step": 5,
+      "default": 375
+    }
+  ]
+}
+{% endschema %}
+
+<style>
+  #shopify-section-{{ section.id }} .reasons__image {
+    max-width: {{ image_crop }}px;
+  }
+</style>
+
+<style>
+  .reasons__image {
+    width: 100%;
+  }
+</style>

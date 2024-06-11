@@ -1,0 +1,43 @@
+<!-- start swatch-style.liquid (SNIPPET) -->
+
+{% assign i = swatch_index | plus: 0 | minus: 1 %}
+
+{%- for val in values -%}
+  {%- assign value = val | replace: '"', '&quot;' | replace: "'", '&apos;' -%}
+
+  <label
+    id="prod-swatch-style-{{ handle }}-{{ swatch_index }}"
+    class="swatch-element swatch-element-color {% if type == 'style' %}swatch-style-option{% endif %} {% if settings.swatch_round_style_product_page %} round {% endif %}"
+    data-swatch="{{ value }}"
+  >
+    <input
+      type="radio"
+      id="jq-swatch-style-element-{{ forloop.index }}-{{ swatch_index }}"
+      class="swatch-variant-value jq-swatch-element"
+      value="{{ value }}"
+      data-swatch-index="{{ swatch_index }}"
+      name="swatch_element_style_option_{{ swatch_index }}"
+      {% if swatch_index > 1 and settings.enable_out_of_stock_button == false %}
+        disabled
+      {% endif %}
+
+      {% if value == variant.options[i] %}
+        checked
+      {% endif %}
+      required
+    >
+
+    {%- assign css_value = val | handle -%}
+    {%- assign bg_image_css_value = css_value | append: '.jpg' | file_img_url: '120x' -%}
+    <span
+      class="lazybg {%if custom_colors %} {{ value | handle }}-custom-color {%endif%}swatch-value swatch-background-{{css_value}} {{ value | handle }}"
+      style="background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=);"
+      data-style="background-color: {{ css_value }}; background-image: url('{{ bg_image_css_value }}');"
+    ></span>
+    <span
+      class="{% if settings.swatch_round_style_product_page %}swatch-value-circle-checked{% else %}swatch-value-checked{% endif %}"
+    >
+    </span>
+    <span class="tooltip">{{ value }}</span>
+  </label>
+{%- endfor -%}

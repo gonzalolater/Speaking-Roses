@@ -1,0 +1,23 @@
+<!-- start header-icon-cart-new-layout.liquid (SNIPPETS) -->
+{%- if section.settings.enable_custom_icon_cart_svg == false
+  and section.settings.enable_img_custom_icon_cart == false
+-%}
+  <div class="header__item-cart-svg">
+    {%- render 'icon-cart' -%}
+  </div>
+{%- elsif section.settings.enable_custom_icon_cart_svg -%}
+  <div class="header__item-cart-custom">
+    {{ section.settings.custom_icon_cart_svg_html }}
+  </div>
+{%- elsif section.settings.enable_img_custom_icon_cart -%}
+  <div class="header__item-cart-custom">
+    {%-
+      render 'responsive-image' with
+      image: section.settings.img_icon_cart,
+      width: 200,
+      lazyload: false,
+      no_wrap: true,
+      alt: 'Cart Icon'
+    -%}
+  </div>
+{%- endif -%}

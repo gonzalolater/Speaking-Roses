@@ -1,0 +1,566 @@
+<section class="wrapper {{ section.settings.custom_class }}">
+    {%- if section.settings.headline_text != blank -%}
+        <h2 class="comparator-content__title section-title">{{- section.settings.headline_text -}}</h2>
+    {%- endif -%}
+    <ul class="comparator">
+        <li class="comparator__column">
+            <div class="comparator__column--line comparator__column--title-one">
+                <h3 class="comparator__column--titles">{{ section.settings.title_column_1 }}</h3>
+            </div>
+            <div class="comparator__column--line comparator__column--title-two">
+                <h3 class="comparator__column--titles">{{ section.settings.title_column_2 }}</h3>
+            </div>
+            <div class="comparator__column--line comparator__column--title-three">
+                <h3 class="comparator__column--titles">{{ section.settings.title_column_3 }}</h3>
+            </div>
+        </li>
+        {%- for block in section.blocks -%}
+            <li class="comparator__column comparator__column--one">
+                <div class="comparator__column--line comparator__column-one--{{ block.id }}">
+                    {%- render 'icon-check-comparator' -%}
+                    <p>{{ block.settings.option_text }}</p>
+                </div>
+                <div class="comparator__column--line comparator__column-two--{{ block.id }}">
+                    {% if block.settings.select_comparator_column_2 == 'check' %}
+                        {%- render 'icon-check-comparator' -%}
+                    {% else %}
+                        {%- render 'icon-uncheck-comparator' -%}
+                    {% endif %}
+                </div>
+                <div class="comparator__column--line comparator__column-three--{{ block.id }}">
+                    {% if block.settings.select_comparator_column_3 == 'check' %}
+                        {%- render 'icon-check-comparator' -%}
+                    {% else %}
+                        {%- render 'icon-uncheck-comparator' -%}
+                    {% endif %}
+                </div>
+            </li>
+        {%- endfor -%}
+    </ul>
+</section>
+
+<style>
+#shopify-section-{{ section.id }} {
+    {% if section.settings.enable_custom_margins_paddings %}
+        margin-top: {{ section.settings.custom-margin-top }}px;
+        margin-bottom: {{ section.settings.custom-margin-bottom }}px;
+        padding-top: {{ section.settings.custom-padding-top }}px;
+        padding-bottom: {{ section.settings.custom-padding-bottom }}px;
+    {% else %}
+        margin: 20px 0;
+    {% endif %}
+}
+#shopify-section-{{ section.id }} .comparator__column--check {
+    stroke: {{ section.settings.color_icon_check}};
+}
+#shopify-section-{{ section.id }} .comparator__column--uncheck {
+    stroke: {{ section.settings.color_icon_uncheck }};
+}
+#shopify-section-{{ section.id }} .comparator__column--title-one h3{
+    color: {{ section.settings.color_title_1 }};
+}
+#shopify-section-{{ section.id }} .comparator__column--title-two h3{
+    color: {{ section.settings.color_title_2 }};
+}
+#shopify-section-{{ section.id }} .comparator__column--title-three h3{
+    color: {{ section.settings.color_title_3 }};
+}
+#shopify-section-{{ section.id }} .comparator__column--titles {
+    font-size: {{ section.settings.comparator_font_size_titles_desktop }}px;
+    text-transform: {{ section.settings.comparator_text_transform }};
+}
+#shopify-section-{{ section.id }} .comparator__column--title-one {
+    background: {{ section.settings.background_color_1 }};
+    min-width: 140px;
+}
+#shopify-section-{{ section.id }} .comparator__column--title-two {
+    background: {{ section.settings.background_color_2 }};
+}
+#shopify-section-{{ section.id }} .comparator__column--title-three {
+    background: {{ section.settings.background_color_3 }};
+}
+#shopify-section-{{ section.id }} .comparator-content__title {
+    color: {{ section.settings.headline_text_color }};
+    text-transform: {{ section.settings.headline_text_transform }};
+}
+{%- for block in section.blocks -%}
+    #shopify-section-{{ section.id }} .comparator__column-one--{{ block.id }} {
+        font-size: {{ block.settings.comparator_font_size_text_block_desktop }}px;
+        text-transform: {{ block.settings.comparator_text_transform_block }};
+        background: {{ block.settings.background_color_block_1 }};
+        color: {{ block.settings.color_text_block }};
+        min-width: 140px;
+        justify-content: inherit;
+    }
+    #shopify-section-{{ section.id }} .comparator__column-two--{{ block.id }} {
+        background: {{ block.settings.background_color_block_2 }};
+    }
+    #shopify-section-{{ section.id }} .comparator__column-three--{{ block.id }} {
+        background: {{ block.settings.background_color_block_3 }};
+    }
+{%- endfor -%}
+.section-title {
+    display: block;
+    padding: 35px 0;
+    text-align: center;
+    width: 100%;
+}
+.comparator {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    max-width: 1174.5px;
+    margin: 0 auto;
+}
+.comparator__column {
+    display: flex;
+    list-style: none;
+    width: 100%;
+}
+
+.comparator__column--line {
+    width: 33.33%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 24px;
+}
+
+.comparator__column--one .comparator__column--line {
+    padding: 26px;
+}
+
+.comparator__column--one .comparator__column--line:first-child {
+    padding: 26px 24px 26px 60px;
+}
+
+.comparator__column--line svg{
+    width: 30px;
+}
+@media (max-width: 1019px) {
+    #shopify-section-{{ section.id }} .comparator__column--titles {
+        font-size: {{ section.settings.comparator_font_size_titles_tablet }}px;
+    }
+    {%- for block in section.blocks -%}
+        #shopify-section-{{ section.id }} .comparator__column-one--{{ block.id }} p {
+            font-size: {{ block.settings.comparator_font_size_text_block_tablet }}px;
+        }
+    {%- endfor -%}
+    .comparator__column--one .comparator__column--line:first-child {
+        padding: 26px 15px 26px 15px;
+    }
+    .comparator__column--line svg{
+        width: 20px;
+    }
+}
+@media (max-width: 767px) {
+    #shopify-section-{{ section.id }} .comparator__column--titles {
+        font-size: {{ section.settings.comparator_font_size_titles_mobile }}px;
+    }
+    {%- for block in section.blocks -%}
+        #shopify-section-{{ section.id }} .comparator__column-one--{{ block.id }} p {
+            font-size: {{ block.settings.comparator_font_size_text_block_mobile }}px;
+        }
+    {%- endfor -%}
+
+    .comparator__column--line {
+        width: 22%;
+        padding: 22px 10px;
+    }
+
+    .comparator__column--line:first-child {
+        width: 56%;
+    }
+
+    .comparator__column--one .comparator__column--line {
+        padding: 22px 10px;
+    }
+
+    .comparator__column--line.comparator__column--title-one {
+        padding: 25px 40px;
+    }
+
+    .comparator__column--one .comparator__column--line:first-child {
+        padding: 21px 15px 21px 15px;
+    }
+}
+</style>
+
+
+{% schema %}
+{
+  "name": "Options Comparator",
+  "class": "banner-dynamic-content",
+  "max_blocks": 10,
+  "settings": [
+    {
+        "type": "header",
+        "content": "Custom Settings"
+    },
+    {
+        "type": "text",
+        "id": "custom_class",
+        "label": "Custom Class",
+        "info": "Custom class to apply css styles for specific sections"
+    },
+    {
+        "type": "checkbox",
+        "id": "enable_custom_margins_paddings",
+        "label": "Enable Custom Margins and Paddings",
+        "default": false
+    },
+    {
+        "type": "range",
+        "id": "custom-margin-top",
+        "min": 0,
+        "max": 50,
+        "step": 1,
+        "unit": "px",
+        "label": "Margin Top",
+        "default": 0
+    },
+    {
+        "type": "range",
+        "id": "custom-margin-bottom",
+        "min": 0,
+        "max": 50,
+        "step": 1,
+        "unit": "px",
+        "label": "Margin Bottom",
+        "default": 0
+    },
+    {
+        "type": "range",
+        "id": "custom-padding-top",
+        "min": 0,
+        "max": 50,
+        "step": 1,
+        "unit": "px",
+        "label": "Padding Top",
+        "default": 0
+    },
+    {
+        "type": "range",
+        "id": "custom-padding-bottom",
+        "min": 0,
+        "max": 50,
+        "step": 1,
+        "unit": "px",
+        "label": "Padding Bottom",
+        "default": 0
+    },
+    {
+        "type": "header",
+        "content": "Headline"
+    },
+    {
+        "type": "text",
+        "id": "headline_text",
+        "label": "Headline Text",
+        "default": "Headline"
+    },
+    {
+        "type": "select",
+        "id": "headline_text_transform",
+        "label": "Headline Transform",
+        "options": [
+            {
+            "value": "capitalize",
+            "label": "Capitalize"
+            },
+            {
+            "value": "lowercase",
+            "label": "Lowercase"
+            },
+            {
+            "value": "uppercase",
+            "label": "Uppercase"
+            },
+            {
+            "value": "none",
+            "label": "Original"
+            }
+    ],
+        "default": "none"
+    },
+    {
+        "type": "color",
+        "id": "headline_text_color",
+        "label": "Headline Text Color",
+        "default": "#000000"
+    },
+    {
+        "type": "header",
+        "content": "Titles"
+    },
+    {
+        "id": "title_column_1",
+        "type": "text",
+        "label": "Title Column 1",
+        "default": "Option 1"
+    },
+    {
+        "id": "title_column_2",
+        "type": "text",
+        "label": "Title Column 2",
+        "default": "Option 2"
+    },
+    {
+        "id": "title_column_3",
+        "type": "text",
+        "label": "Title Column 3",
+        "default": "Option 3"
+    },
+    {
+        "type": "range",
+        "id": "comparator_font_size_titles_desktop",
+        "min": 12,
+        "max": 32,
+        "step": 1,
+        "unit": "px",
+        "label": "Titles Font Size Desktop",
+        "default": 20
+    },
+    {
+        "type": "range",
+        "id": "comparator_font_size_titles_tablet",
+        "min": 12,
+        "max": 32,
+        "step": 1,
+        "unit": "px",
+        "label": "Titles Font Size Tablet",
+        "default": 18
+    },
+    {
+        "type": "range",
+        "id": "comparator_font_size_titles_mobile",
+        "min": 12,
+        "max": 32,
+        "step": 1,
+        "unit": "px",
+        "label": "Titles Font Size Mobile",
+        "default": 16
+    },
+    {
+        "type": "select",
+        "id": "comparator_text_transform",
+        "label": "Titles Transform",
+        "options": [
+          {
+            "value": "capitalize",
+            "label": "Capitalize"
+          },
+          {
+            "value": "lowercase",
+            "label": "Lowercase"
+          },
+          {
+            "value": "uppercase",
+            "label": "Uppercase"
+          },
+          {
+            "value": "none",
+            "label": "Original"
+          }
+        ],
+        "default": "none"
+    },
+    {
+        "type": "header",
+        "content": "Colors"
+    },
+    {
+        "type": "color",
+        "id": "background_color_1",
+        "label": "Column 1 Background Color",
+        "default": "#626262"
+    },
+    {
+        "type": "color",
+        "id": "background_color_2",
+        "label": "Column 2 Background Color",
+        "default": "#F6F6F6"
+    },
+    {
+        "type": "color",
+        "id": "background_color_3",
+        "label": "Column 3 Background Color",
+        "default": "#F6F6F6"
+    },
+    {
+        "type": "color",
+        "id": "color_icon_check",
+        "label": "Color Icon Check",
+        "default": "#1FC776"
+    },
+    {
+        "type": "color",
+        "id": "color_icon_uncheck",
+        "label": "Color Icon Uncheck",
+        "default": "#D10000"
+    },
+    {
+        "type": "color",
+        "id": "color_title_1",
+        "label": "Color Title 1",
+        "default": "#ffffff"
+    },
+    {
+        "type": "color",
+        "id": "color_title_2",
+        "label": "Color Title 2",
+        "default": "#000000"
+    },
+    {
+        "type": "color",
+        "id": "color_title_3",
+        "label": "Color Title 3",
+        "default": "#000000"
+    }
+  ],
+  "blocks": [
+    {
+        "type": "text",
+        "name": "Option",
+        "settings": [
+            {
+                "id": "option_text",
+                "type": "text",
+                "label": "Text Column",
+                "default": "Text Column"
+            },
+            {
+                "type": "range",
+                "id": "comparator_font_size_text_block_desktop",
+                "min": 12,
+                "max": 28,
+                "step": 1,
+                "unit": "px",
+                "label": "Text Font Size Desktop",
+                "default": 20
+            },
+            {
+                "type": "range",
+                "id": "comparator_font_size_text_block_tablet",
+                "min": 12,
+                "max": 28,
+                "step": 1,
+                "unit": "px",
+                "label": "Text Font Size Tablet",
+                "default": 18
+            },
+            {
+                "type": "range",
+                "id": "comparator_font_size_text_block_mobile",
+                "min": 12,
+                "max": 28,
+                "step": 1,
+                "unit": "px",
+                "label": "Text Font Size Mobile",
+                "default": 16
+            },
+            {
+                "type": "select",
+                "id": "comparator_text_transform_block",
+                "label": "Text Transform",
+                "options": [
+                  {
+                    "value": "capitalize",
+                    "label": "Capitalize"
+                  },
+                  {
+                    "value": "lowercase",
+                    "label": "Lowercase"
+                  },
+                  {
+                    "value": "uppercase",
+                    "label": "Uppercase"
+                  },
+                  {
+                    "value": "none",
+                    "label": "Original"
+                  }
+                ],
+                "default": "none"
+            },
+            {
+                "type": "header",
+                "content": "Select comparator icon"
+            },
+            {
+                "type": "select",
+                "id": "select_comparator_column_2",
+                "label": "Select Comparator Icon Column 2",
+                "options": [
+                  {
+                    "label": "Check",
+                    "value": "check"
+                  }, 
+                  {
+                    "label": "Uncheck",
+                    "value": "uncheck"
+                  }
+                ]
+            },
+            {
+                "type": "select",
+                "id": "select_comparator_column_3",
+                "label": "Select Comparator Icon Column 3",
+                "options": [
+                  {
+                    "label": "Check",
+                    "value": "check"
+                  }, 
+                  {
+                    "label": "Uncheck",
+                    "value": "uncheck"
+                  }
+                ]
+            },
+            {
+                "type": "header",
+                "content": "Colors"
+            },
+            {
+                "type": "color",
+                "id": "background_color_block_1",
+                "label": "Column 1 Background Color",
+                "default": "#FFFFFF"
+            },
+            {
+                "type": "color",
+                "id": "background_color_block_2",
+                "label": "Column 2 Background Color",
+                "default": "#FFFFFF"
+            },
+            {
+                "type": "color",
+                "id": "background_color_block_3",
+                "label": "Column 3 Background Color",
+                "default": "#FFFFFF"
+            },
+            {
+                "type": "color",
+                "id": "color_text_block",
+                "label": "Text Color",
+                "default": "#000000"
+            }
+        ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Options Comparator",
+      "category": "Options Comparator",
+      "blocks": [
+        {
+            "type": "text"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

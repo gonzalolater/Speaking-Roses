@@ -1,0 +1,183 @@
+<!-- start custom-customized-swatch.liquid (SNIPPET) -->
+{%- capture customized_swatch_css -%}
+  <style>
+    .swatch__step,
+    .swatch__steps-header,
+    .swatch__step-number {
+      display: flex;
+    }
+    .swatch__step-label,
+    .swatch__step-description,
+    .swatch__step-arrow {
+      display: block;
+      line-height: 1.2;
+    }
+    .swatch__step-number,
+    .swatch__step-label,
+    .swatch__step-description {
+      color: #323238;
+    }
+    .swatch__step-number,
+    .swatch__step-label {
+      font-size: 20px;
+      font-weight: bold;
+    }
+    .swatch__steps-header {
+      width: 100%;
+      max-width: 480px;
+    }
+    .swatch__step {
+      flex: 0 0 auto;
+      margin: 0 auto 15px;
+      padding: 0 20px 7px 0;
+      border-bottom: 1px solid #e8e8e8;
+      position: relative;
+      text-decoration: none;
+    }
+    .swatch__step[data-step="1"] {
+      width: 250px;
+    }
+    .swatch__step[data-step="2"] {
+      padding-left: 43px;
+    }
+    .swatch__step-number {
+      align-items: center;
+      width: 51.5px;
+      height: 51.5px;
+      justify-content: center;
+      border-radius: 100%;
+      border: 1px solid #9f9f9f;
+      margin-right: 14.67px;
+      color: #9f9f9f;
+    }
+    .swatch__step--active {
+      border-bottom-color: #898989;
+    }
+    .swatch__step--active .swatch__step-number {
+      background-color: #565656;
+      color: #fff;
+      border-color: transparent;
+    }
+    .swatch__step-label {
+      text-transform: uppercase;
+      margin: 4.5px 0 5px;
+    }
+    .swatch__step-description {
+      font-size: 12px;
+    }
+    .swatch__step-arrow {
+      width: 11px;
+      height: 11px;
+      border-style: solid;
+      border-color: #9f9f9f;
+      border-width: 2.4px 2.4px 0 0;
+      position: absolute;
+      top: 20px;
+      right: 7.3px;
+      transform: rotate(45deg);
+    }
+  </style>
+{%- endcapture -%}
+{{- customized_swatch_css | strip_newlines | replace: '    ', ' ' | replace: '   ', ' ' | replace: '  ', ' ' -}}
+
+{% assign variant = product.selected_or_first_available_variant %}
+
+<div class="swatch__steps-header">
+  <a href="#" title="Step 1" class="swatch__step swatch__step--active" data-step="1">
+    <span class="swatch__step-number">1</span>
+    <span class="swatch__step-wrapper">
+      <span class="swatch__step-label">Step 1</span>
+      <span class="swatch__step-description">Lorem ipsum dolor sit</span>
+    </span>
+    <span class="swatch__step-arrow"></span>
+  </a>
+
+  <a href="#" title="Step 1" class="swatch__step" data-step="2">
+    <span class="swatch__step-number">2</span>
+    <span class="swatch__step-wrapper">
+      <span class="swatch__step-label">Step 2</span>
+      <span class="swatch__step-description">Lorem ipsum dolor sit</span>
+    </span>
+  </a>
+</div>
+
+<div id="product-swatch" class="swatch swatch-standard" data-section-type="swatch">
+  {%- if product.variants.size > 1 -%}
+      {%- for product_option in product.options_with_values -%}
+            {%- assign swatch_index = forloop.index -%}
+            {%- assign option_name = product_option.name | downcase -%}
+
+            <div class="swatch-type {{ product_option.name | handle }}" data-type="{{ product_option.name }}" data-index="{{ forloop.index }}">
+                <label class="product-form-label">{% if section.settings.font_bold_enabled %}<strong>{% endif %}{{ product_option.name }}{% if section.settings.font_bold_enabled %}</strong>{% endif %}</label>
+                <div class="swatch-elements-options">
+                    <div class="swatch-elements-wrapper {% if settings.product_disabled_swatch %}dropdown-option{% endif %}">
+                      {%- unless settings.product_disabled_swatch -%}
+                        {%- assign option_name = product_option.name | downcase -%}
+
+                        {%- if option_name contains 'color' -%}
+                          {%- render 'swatch-color' with values: product_option.values, title_standard: 'Swatch Color', swatch_index: swatch_index, type: "color", variant: variant -%}
+                        {%- elsif option_name contains 'style' -%}
+                          {%- render 'swatch-style' with values: product_option.values, title_standard: 'Swatch Style', swatch_index: swatch_index, type: "style", variant: variant -%}
+                        {%- else  -%}
+                          {%- render 'swatch-standard' with values: product_option.values, title_standard: 'Swatch Standard', swatch_index: swatch_index, variant: variant -%}
+                        {%- endif -%}
+                      {%- else -%}
+                        {%- render 'select-swatch' with values: product_option.values, swatch_index: swatch_index, title_standard: product_option.name -%}
+                      {%- endunless -%}
+                    </div>
+                </div>
+            </div>
+      {%- endfor -%}
+
+      {% comment %} Extended Swatch {% endcomment %}
+      {%- render 'custom-customized-swatch-extended' -%}
+  {%- endif -%}
+
+  {%- render 'size-chart-link' -%}
+
+  <select id="all-product-variants" name="id" class="product-variant all-variant hide" data-productid="{{ product.id }}">
+    {%- for variant in product.variants -%}
+      {% if variant.available or settings.enable_out_of_stock_button == true %}
+        <option {% if variant.selected %} selected {% endif %}
+            value="{{ variant.id }}"
+            data-available="{{ variant.available }}"
+            data-options="{{ variant.options | join: ',' | escape }}"
+            data-sku="{{ variant.sku }}"
+            data-price="{{ variant.price }}"
+            data-variant-inventory = "{{ variant.inventory_management }}"
+            data-inventory_policy = "{{ variant.inventory_policy }} "
+            data-inventory="{% if variant.inventory_policy == 'continue' or variant.inventory_management == blank %} -1 {% else %}{{ variant.inventory_quantity }}{% endif %}"
+            data-compare-at-price="{{ variant.compare_at_price }}"
+            data-image="{{ variant.image.src | split: '?' | first }}"
+            data-image-position="{{ variant.featured_media.position | default: 0 }}">
+                {{ variant.title | escape }} / {{ variant.price | money }}
+        </option>
+      {% endif %}
+    {%- endfor -%}
+  </select>
+</div>
+
+<style scoped>
+  :root{
+      --swatch_checked-color: {{ settings.swatch_checked-color }};
+  }
+</style>
+
+{% comment %} Scripts {% endcomment %}
+<script>
+  (function(){
+    'use strict';
+
+    document.querySelectorAll('.swatch__step').forEach(function(swatchStep){
+      swatchStep.addEventListener('click', function(e){
+        e.preventDefault();
+
+        document.querySelectorAll('.swatch__step').forEach(function(el){
+          el.classList.remove('swatch__step--active');
+        });
+
+        this.classList.add('swatch__step--active');
+      });
+    });
+  })();
+</script>

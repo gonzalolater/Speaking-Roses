@@ -1,0 +1,789 @@
+<!-- start reviews.liquid (SECTION) -->
+<style>
+  #shopify-section-{{ section.id }} {
+    {% if section.settings.enable_custom_margins_paddings %}
+      margin-top: {{ section.settings.custom-margin-top }}px;
+      margin-bottom: {{ section.settings.custom-margin-bottom }}px;
+      padding-top: {{ section.settings.custom-padding-top }}px;
+      padding-bottom: {{ section.settings.custom-padding-bottom }}px;
+    {% else %}
+      margin: 20px 0;
+    {% endif %}
+  }
+  #shopify-section-{{ section.id }} .reviews__slick-content .reviews__image-athor img{
+    border-radius: 50%;
+    top: 0;
+    left: 20%;
+  }
+  #shopify-section-{{ section.id }} .slick-track {
+    display: flex;
+  }
+  #shopify-section-{{ section.id }} .slick-slide img{
+    margin: unset;
+  }
+  .reviews__image-product{
+    margin-left: 60px;
+    display: flex;
+  }
+  .reviews__img a{
+    color: #000;
+  }
+  .reviews__slick-content .reviews__author{
+    display: flex;
+    justify-content: space-between;
+  }
+  .reviews__slick-content .reviews__name-author{
+    display: flex;
+    flex-direction: column;
+    text-align: start;
+    justify-content: center;
+    margin-left: 10px;
+  }
+  .reviews__slick-content .reviews__name-author span{
+    color: #4CAF50;
+    font-size: 13px;
+    margin-top: 5px;
+  }
+  .reviews__slick-content .reviews__name-author strong{
+    font-size: 16px;
+    margin-top: 5px;
+  }
+  .reviews .reviews__text-reviews {
+    line-height: 25px;
+    text-align: start;
+    margin: 10px 0 10px 60px;
+  }
+  .reviews .reviews__section-title{
+    font-size: {{section.settings.review_headline_size}}px;
+    text-align: center;
+    margin: 10px auto 75px;
+    line-height: 1;
+    padding-left: 1.6px;
+  }
+  .reviews .reviews__text-reviews strong{
+    font-size: {{section.settings.review_title_size}}px;
+    color: {{section.settings.text_color_title_review}};
+  }
+  .reviews .reviews__text-reviews p{
+    font-size: {{section.settings.review_content_size}}px;
+    color: {{section.settings.text_color_content_review}};
+    margin-top: 10px;
+    font-style: italic;
+  }
+  .reviews__slick-content .reviews__img{
+    align-items: flex-start;
+  }
+  .reviews__slick-content{
+    border-bottom: 1px solid #dfdfdf;
+  }
+  .reviews .reviews__content .reviews__image-athor img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    filter: brightness(70%);
+  }
+  .reviews .reviews__author-content{
+    display: flex;
+  }
+  .reviews .reviews__star-reviews{
+    margin: auto 0;
+    margin-right: 40px;
+  }
+  .reviews .reviews__content .reviews__image-product img {
+    max-width: 60px;
+    max-height: 60px;
+    object-fit: cover;
+  }
+  .reviews .reviews__content,
+  .reviews .reviews__img,
+  .reviews .slick-list {
+    display: flex;
+  }
+  .reviews .reviews__star-reviews svg,
+  .reviews .reviews__star-reviews i {
+    display: inline-block;
+  }
+  .reviews .reviews__star-reviews i,
+  .reviews .slick-list {
+    text-align: center;
+  }
+  .reviews .reviews__content {
+    float: left;
+    width: 100%;
+    padding: 61px 0;
+  }
+  .reviews .reviews__date {
+    font-style: italic;
+    margin-bottom: 15px;
+    font-size: var(--smallFont);
+  }
+  .reviews .reviews__star-reviews svg {
+    height: 16px;
+    width: 16px;
+    fill: #f9c52c;
+  }
+  .reviews .slick-initialized .slick-slide {
+    padding: 0 20px;
+  }
+  .reviews__image-product .slick-slide > .img-slider.active  {
+    width: 1100px;
+    max-width: 90%;
+  }
+  .modal .slider_modal .slick-slide img{
+    max-width: 500px;
+    max-height: 500px;
+  }
+  .modal{
+    position: fixed;
+    width: 100%;
+    visibility: hidden;
+    opacity: 0;
+    top: 20%;
+    left: 0;
+    z-index: 1;
+    transition: ease all 0.8s;
+  }
+  .close-modal{
+    position: fixed;
+    background: rgba(0, 0, 0, 0.4);
+    width: 100%;
+    height: 100%;
+    visibility: hidden;
+    opacity: 0;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    transition: ease all 0.8s;
+  }
+  .close-modal.active {
+    visibility: visible;
+    opacity: 1;
+  }
+  .modal.active {
+    visibility: visible;
+    opacity: 1;
+  }
+  .modal.active .slider_modal{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+  }
+  #shopify-section-{{ section.id }} .slider_modal .slick-slide img{
+    margin: auto;
+  }
+  .slider_modal img{
+    margin: 0 auto;
+  }
+  .slider_modal .slick-arrow{
+    font-size: 40px;
+    width: 20px;
+    color: #000;
+    background: transparent;
+  }
+  .reviews__image-product img:nth-child(n+3) {
+    display: none;
+  }
+  .qtd_img{
+    position: relative;
+    transform: translateX(-40px);
+    color: #fff;
+    font-weight: 500;
+    margin: auto 0;
+  }
+  .reviews__image-product img:nth-child(2){
+    position: relative;
+    filter: brightness(0.8);
+    background-color: rgba(0,0,0,0.1);
+  }
+  .modal-open{
+    overflow:hidden;
+  }
+  .reviews__swatch{
+    display: flex;
+    justify-content: space-between;
+    margin: 15px 0 20px 60px;
+  }
+  .reviews__swatch span{
+    text-align: left;
+    font-size: 14px;
+  }
+  .reviews__swatch p{
+    color: #4CAF50;
+    font-size: 12px;
+    width: 50%;
+  }
+  .reviews__slick-slider:not(.slick-initialized) {
+    display: flex;
+  }
+  .reviews__slick-slider:not(.slick-initialized) .reviews__slick-content:nth-of-type(n+3){
+    display: none;
+  }
+
+  @media (max-width: 1019px) {
+    .reviews .reviews__content {
+      padding: 0;
+    }
+
+    .reviews .reviews__section-title {
+      width: 75%;
+      line-height: 1.2;
+      letter-spacing: 0.4px;
+      font-size: {{ section.settings.review_headline_size_tablet }}px;
+      padding-right: 4px;
+      margin: 20px auto 0px;
+    }
+  }
+  @media (max-width: 767px) {
+    .reviews .reviews__content {
+      padding: 0 0 28px;
+    }
+    .reviews .reviews__section-title {
+      letter-spacing: 0;
+      font-size: {{ section.settings.review_headline_size_mobile }}px;
+      padding-right: 1px;
+    }
+    .reviews .slick-initialized .slick-slide {
+      padding: 0;
+    }
+  }
+</style>
+
+<section data-section-type="reviews" id="slider-reviews__{{ section.id }}" data-slider="{{ section.id }}" class="{{ section.settings.custom_class }}">
+  <h3 class="hide">Reviews</h3>
+  <div class="reviews__content">
+    <div class="wrapper flow-hidden">
+      {%- if section.settings.title != blank -%}
+        <h2 class="reviews__section-title section-title">{{ section.settings.title | escape }}</h2>
+      {%- endif -%}
+
+      <div
+        id="slider-{{ section.id }}"
+        class="reviews__slick-slider"
+        data-autoplay="{{ section.settings.slider_autoplay }}"
+        data-speed="{{ section.settings.slider_speed }}"
+      >
+        {%- for block in section.blocks -%}
+          {%- if 'select' == block.type -%}
+            <div class="reviews__slick-content" {{ block.shopify_attributes }}>
+              <div class="reviews__author">
+                {%- if block.settings.author_review != blank -%}
+                  <div class="reviews__author-content">
+                    <div class="reviews__image-athor">
+                      {%-
+                        render 'responsive-image' with
+                        image: block.settings.author_image,
+                        width: 50,
+                        height: 50,
+                        alt: block.settings.author_image.alt,
+                        lazyload: true,
+                        no_wrap: true,
+                      -%}
+                    </div>
+
+                    <div class="reviews__name-author">
+                      <strong>{{ block.settings.author_review }}</strong>
+                      <span> Verified Buyer </span>
+                    </div>
+                  </div>
+                {%- endif -%}
+
+                <div class="reviews__star-reviews">
+                  {%- for i in (1..block.settings.stars_review) -%}
+                    {%- render 'icon-star' -%}
+                  {%- endfor -%}
+                </div>
+              </div>
+              <div class="reviews__text-reviews">
+                {%- if block.settings.title_review != blank -%}
+                  <strong class="reviews__title">{{ block.settings.title_review }}</strong>
+                {%- endif -%}
+                {{ block.settings.content_review }}
+              </div>
+
+              {%- if block.settings.date_review != blank -%}
+                <div class="reviews__date">
+                  {{ block.settings.date_review }}
+                </div>
+              {%- endif -%}
+
+              <div class="reviews__image-product">
+                {%- if block.settings.product != blank -%}
+                  {%- assign item = all_products[block.settings.product] -%}
+                  {%- assign img = block.settings.product_image | default: item -%}
+
+                  {%- if img != blank -%}
+                    {%- for img in item.images -%}
+                      {%-
+                        render 'responsive-image' with
+                        image: img,
+                        width: 600,
+                        height: 600,
+                        alt: image_alt,
+                        lazyload: true,
+                        no_wrap: true,
+                      -%}
+                    {%- endfor -%}
+
+                    <span class="qtd_img">+{{ item.images.size | minus: 1 }}</span>
+                  {%- endif -%}
+
+                {%- elsif block.settings.product_image != blank -%}
+                  <div class="reviews__img">
+                    <a
+                      title="{{ block.settings.title_review | strip_html | escape }}"
+                      id="ReviewsLink-{{ forloop.index }}"
+                      {%- if block.settings.link_product_review != blank -%}
+                        href="{{ block.settings.link_product_review | default: '#' }}"
+                      {% endif %}
+                    >
+                      {%- assign image_id_prefix = 'reviews__img' | append: forloop.index -%}
+
+                      {%- if block.settings.product_image != blank -%}
+                        {% assign image = block.settings.product_image %}
+                      {% else %}
+                        {%- assign product_temp = all_products[block.settings.product] -%}
+                        {%- assign image = product_temp.featured_image -%}
+                      {% endif %}
+
+                      {%- if image.alt != blank -%}
+                        {%- assign image_alt = image.alt | strip_html | escape -%}
+                      {%- elsif block.settings.title_review != blank -%}
+                        {%- assign image_alt = block.settings.title_review | strip_html | escape -%}
+                      {%- else -%}
+                        {%- assign image_alt = 'Image without description.' -%}
+                      {%- endif -%}
+                      {%- if image != blank -%}
+                        {%- render 'responsive-image',
+                          id: image_id_prefix,
+                          image: image,
+                          lazyload: true,
+                          width: 500,
+                          no_wrap: true,
+                          alt: image_alt
+                        -%}
+                      {%- endif -%}
+                      {{ block.settings.product_review }}
+                    </a>
+                  </div>
+                {%- endif -%}
+              </div>
+              <div class="reviews__swatch">
+                <span> {{ block.settings.swatch_review }} </span>
+                <p>✔ Recommended</p>
+              </div>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="close-modal"></div>
+
+<div class="modal">
+  <div class="slider_modal wrapper">
+    <img
+      data-class="LazyLoad"
+      src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAABhGlDQ1BJQ0MgcHJvZmlsZQAAKJF9kT1Iw0AcxV9Ta0UqDkYQcchQnSyIijhqFYpQIdQKrTqYXPohNGlIUlwcBdeCgx+LVQcXZ10dXAVB8APE0clJ0UVK/F9SaBHrwXE/3t173L0DhFqJ6XbHGKAbjpVKxKVMdkUKvyKETojoh6gw25yV5STajq97BPh6F+NZ7c/9OXq0nM2AgEQ8w0zLIV4nntp0TM77xCIrKhrxOfGoRRckfuS66vMb54LHAs8UrXRqjlgklgotrLYwK1o68SRxVNMNyhcyPmuctzjrpQpr3JO/MJIzlpe4TnMICSxgETIkqKhgAyU4iNFqkGIjRfvxNv5Bzy+TSyXXBhg55lGGDsXzg//B727t/MS4nxSJA6EX1/0YBsK7QL3qut/Hrls/AYLPwJXR9JdrwPQn6dWmFj0CereBi+umpu4BlzvAwJOpWIonBWkK+TzwfkbflAX6boHuVb+3xj5OH4A0dZW8AQ4OgZECZa+1eXdXa2//nmn09wMjG3KHDOS4EQAAAAlwSFlzAAAuIwAALiMBeKU/dgAAAAd0SU1FB+YFBhQWEhVMTaAAAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAADElEQVQI12O4f/8+AAU+Ap5GJPuHAAAAAElFTkSuQmCC"
+      alt="Review Modal Image"
+      loading="lazy"
+      width="1"
+      height="1"
+    >
+  </div>
+</div>
+
+<script type="lazyload_int">
+  setTimeout(function () {
+    window.SectionReviews = (function () {
+      function SectionReviews() {
+        this.settings = {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+          autoplay: true,
+          autoplaySpeed: 2000,
+          arrows: false,
+          responsive: [
+            {
+              breakpoint: 1019,
+              settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1,
+              },
+            },
+          ],
+        };
+
+        this._run();
+      }
+
+      SectionReviews.prototype = {
+        onLoad: function () {
+          this._run();
+        },
+
+        _run: function () {
+          var slider,
+            autoplay,
+            autoplaySpeed,
+            settings = this.settings;
+
+          jQuery('[id^="slider-reviews__"]').each(function () {
+            slider = '#slider-' + $(this).data('slider');
+
+            autoplay = jQuery(slider).data('autoplay');
+            autoplaySpeed = jQuery(slider).data('speed');
+
+            if (typeof autoplay !== 'undefined' && autoplay != true && autoplay != false) {
+              autoplay = true;
+            }
+
+            if (typeof autoplaySpeed !== 'undefined' && autoplaySpeed < 800 && autoplaySpeed > 3000) {
+              autoplaySpeed = 800;
+            }
+
+            settings.autoplay = autoplay;
+            settings.autoplaySpeed = autoplaySpeed;
+
+            jQuery(slider).not('.slick-initialized').slick(settings);
+          });
+        },
+      };
+      return new SectionReviews();
+    })();
+
+    var colecoes = document.getElementsByClassName('reviews__image-product');
+    var modal_content_original = document.querySelector('.slider_modal');
+
+    for (var i = 0; i < colecoes.length; i++) {
+      colecoes[i].addEventListener('click', function () {
+        modal_content_original.innerText = '';
+        var imagens = this.getElementsByTagName('img');
+
+        for (var j = 0; j < imagens.length; j++) {
+          var imagem = imagens[j].cloneNode(true);
+
+          const div = document.createElement('div');
+          div.appendChild(imagem);
+
+          modal_content_original.appendChild(div);
+        }
+      });
+    }
+
+    $('.reviews__image-product > img').click(function () {
+      $('.modal').addClass('active');
+      $('.close-modal').addClass('active');
+      $('.template-index').addClass('modal-open');
+      setTimeout(function () {
+        $('.slider_modal').slick({
+          infinite: true,
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          prevArrow: '<button type="button" class="slick-prev">&lang;</button>',
+          nextArrow: '<button type="button" class="slick-next">&rang;</button>',
+        });
+      });
+    });
+
+    $('.close-modal').click(function () {
+      $('.modal').removeClass('active');
+      $('.close-modal').removeClass('active');
+      $('.template-index').removeClass('modal-open');
+      $('.slider_modal').slick('unslick');
+      $('.slider_modal').empty();
+    });
+
+    $('.reviews__img  img').click(function () {
+      $(this).toggleClass('open');
+      $('.modal').addClass('active');
+      $('.close-modal').addClass('active');
+      $('.template-index').addClass('modal-open');
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Reviews",
+  "class": "reviews reviews__sm-desktop reviews__tablet reviews__mobile reviews__sm-mobile",
+  "settings": [
+    {
+      "type": "header",
+      "content": "General Settings"
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom Class",
+      "info": "Custom class to apply css styles for specific sections"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_custom_margins_paddings",
+      "label": "Enable Custom Margins and Paddings",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "custom-margin-top",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Margin Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "custom-margin-bottom",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Margin Bottom",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "custom-padding-top",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "custom-padding-bottom",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 0
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_reviews",
+      "label": "Enable Reviews",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Headline Text",
+      "default": "Let Our Customers Speak For Us",
+      "placeholder": "Type headline text"
+    },
+    {
+      "type": "header",
+      "content": "Font Settings"
+    },
+    {
+      "type": "range",
+      "id": "review_headline_size",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Headline Font Size",
+      "default": 26
+    },
+    {
+      "type": "range",
+      "id": "review_headline_size_tablet",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Headline Font Size on Tablet",
+      "default": 26
+    },
+    {
+      "type": "range",
+      "id": "review_headline_size_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Headline Font Sizeon Mobile",
+      "default": 26
+    },
+    {
+      "type": "range",
+      "id": "review_title_size",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Title Review Font Size",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "review_content_size",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Content Review Font Size",
+      "default": 14
+    },
+    {
+      "type": "header",
+      "content": "Color Settings"
+    },
+    {
+      "type": "color",
+      "id": "text_color_title_review",
+      "label": "Text Color Title Review",
+      "default": "#000"
+    },
+    {
+      "type": "color",
+      "id": "text_color_content_review",
+      "label": "Text Color Content Review",
+      "default": "#777"
+    },
+    {
+      "type": "header",
+      "content": "Slider Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "slider_autoplay",
+      "label": "Slider Autoplay",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "slider_speed",
+      "label": "Slider Speed",
+      "min": 800,
+      "max": 3000,
+      "step": 100,
+      "unit": "s",
+      "default": 800,
+      "info": "Transition time in milliseconds."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "select",
+      "name": "Testimonial",
+      "settings": [
+        {
+          "type": "select",
+          "id": "stars_review",
+          "label": "Review Rating",
+          "default": "5",
+          "options": [
+            {
+              "label": "1",
+              "value": "1"
+            },
+            {
+              "label": "2",
+              "value": "2"
+            },
+            {
+              "label": "3",
+              "value": "3"
+            },
+            {
+              "label": "4",
+              "value": "4"
+            },
+            {
+              "label": "5",
+              "value": "5"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "title_review",
+          "label": "Review Title",
+          "default": "Title Example",
+          "placeholder": "Title of the review"
+        },
+        {
+          "type": "richtext",
+          "id": "content_review",
+          "default": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque id maximus nunc, eu accumsan velit. Curabitur nec ligula quis dui auctor varius ut sit amet libero. Fusce eget sapien nec neque convallis pulvinar. Aliquam rutrum rhoncus mollis. Vivamus id risus a ligula gravida vestibulum sit amet in est. Ut eget vehicula nulla.</p>",
+          "label": "Review Content"
+        },
+        {
+          "type": "image_picker",
+          "id": "author_image",
+          "label": "Author Image",
+          "info": "50x50"
+        },
+        {
+          "type": "text",
+          "id": "author_review",
+          "label": "Review Author",
+          "default": "John Doe",
+          "placeholder": "Author of the review"
+        },
+        {
+          "type": "text",
+          "id": "date_review",
+          "default": "MM/DD/YYYY",
+          "label": "Review Publication Date",
+          "placeholder": "Date of the review"
+        },
+        {
+          "type": "image_picker",
+          "id": "product_image",
+          "label": "Review Image",
+          "info": "200x200"
+        },
+        {
+          "type": "text",
+          "id": "product_review",
+          "label": "Product Title",
+          "default": "Product Title",
+          "placeholder": "Product title"
+        },
+        {
+          "type": "text",
+          "id": "swatch_review",
+          "label": "Swatch Text",
+          "default": "Color: Navy | Size: M"
+        },
+        {
+          "type": "text",
+          "id": "link_product_review",
+          "label": "Product Link",
+          "placeholder": "Product URL"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Reviews",
+      "category": "Reviews",
+      "blocks": [
+        {
+          "type": "select"
+        },
+        {
+          "type": "select"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

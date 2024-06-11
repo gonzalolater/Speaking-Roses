@@ -1,0 +1,220 @@
+{%- assign general_font_url = settings.general_font | font_url -%}
+{%- assign copy_body_font_url = settings.copy_body_font | font_url -%}
+{%- assign copy_bold_body_font_url = settings.copy_bold_body_font | font_url -%}
+
+{%- if general_font_url != blank -%}
+  <link rel="preload" href="{{ general_font_url }}" as="font" crossorigin>
+{%- endif -%}
+
+{%- if copy_body_font_url != blank -%}
+  <link rel="preload" href="{{ copy_body_font_url }}" as="font" crossorigin>
+{%- endif -%}
+
+{%- if copy_bold_body_font_url != blank -%}
+  <link rel="preload" href="{{ copy_bold_body_font_url }}" as="font" crossorigin>
+{%- endif -%}
+
+<style scoped>
+  {{ settings.general_font | font_face: font_display: 'swap' }}
+  {{ settings.copy_body_font | font_face: font_display: 'swap' }}
+  {{ settings.copy_bold_body_font | font_face: font_display: 'swap' }}
+
+  :root {
+    --color-link: {{ settings.color_link }};
+    --color-sale: {{ settings.color_sale }};
+    --color-price: {{ settings.color_price }};
+    --color-secondary-buttons: {{ settings.color_secondary_buttons }};
+    --color-secondary-buttons-text: {{ settings.color_secondary_buttons_text }};
+    --color-secondary-buttons-hover: {{ settings.color_secondary_buttons_hover }};
+    --color-secondary-buttons-text-hover: {{ settings.color_secondary_buttons_text_hover }};
+    --newsletter-submit-color: {{ settings.newsletter_button_color }};
+    --newsletter-submit-hover: {{ settings.newsletter_button_color_hover }};
+    --newsletter-submit-text-color: {{ settings.newsletter_text_color }};
+    --newsletter-submit-text-color-hover: {{ settings.newsletter_text_color_hover }};
+    --size-chart-color: {{ settings.size_chart_color }};
+    --color-disabled: #000000;
+    --color-disabled-border: #000000;
+    --color-error: #ff6d6d;
+    --color-error-bg: #ffffff;
+    --color-success: #000000;
+    --color-success-bg: #000000;
+    --transition-duration: 250ms;
+    --transition-timing: ease-in-out;
+    --grid-medium: 46.85rem;
+    --grid-large: 61.85rem;
+    --grid-widescreen: 87.5rem;
+    --grid-max-width: 73.75rem;
+    --grid-gutter: 30px;
+    --small: 'small';
+    --medium: 'medium';
+    --medium-down: 'medium-down';
+    --medium-up: 'medium-up';
+    --large: 'large';
+    --large-down: 'large-down';
+    --large-up: 'large-up';
+    --widescreen: 'widescreen';
+    --breakpoints: (
+      --small '(max-width: #{--grid-medium - 1})',
+      --medium '(min-width: #{--grid-medium}) and (max-width: #{--grid-large - 1})',
+      --medium-down '(max-width: #{--grid-large - 1})',
+      --medium-up '(min-width: #{--grid-medium})',
+      --large '(min-width: #{--grid-large}) and (max-width: #{--grid-widescreen - 1})',
+      --large-down '(max-width: #{--grid-widescreen - 1})',
+      --large-up '(min-width: #{--grid-large})',
+      --widescreen '(min-width: #{--grid-widescreen})'
+    );
+    --headerFont: {{ settings.general_font.family }};
+    --copyBodyFont: {{ settings.copy_body_font.family }};
+    --h1Size: {{ settings.typography_h1_font_size }}px;
+    --h1SizeTablet: {{ settings.typography_h1_font_size_tablet }}px;
+    --h1SizeMobile: {{ settings.typography_h1_font_size_mobile }}px;
+    --h1Color: {{ settings.color_h1 }};
+    --h2Size: {{ settings.typography_h2_font_size }}px;
+    --h2SizeTablet: {{ settings.typography_h2_font_size_tablet }}px;
+    --h2SizeMobile: {{ settings.typography_h2_font_size_mobile }}px;
+    --h2Color: {{ settings.color_h2 }};
+    --h3Size: {{ settings.typography_h3_font_size }}px;
+    --h3SizeTablet: {{ settings.typography_h3_font_size_tablet }}px;
+    --h3SizeMobile: {{ settings.typography_h3_font_size_mobile }}px;
+    --h3Color: {{ settings.color_h3 }};
+    --h4Size: {{ settings.typography_h4_font_size }}px;
+    --h4SizeTablet: {{ settings.typography_h4_font_size_tablet }}px;
+    --h4SizeMobile: {{ settings.typography_h4_font_size_mobile }}px;
+    --h4Color: {{ settings.color_h4 }};
+    --h5Size: {{ settings.typography_h5_font_size }}px;
+    --h5SizeTablet: {{ settings.typography_h5_font_size_tablet }}px;
+    --h5SizeMobile: {{ settings.typography_h5_font_size_mobile }}px;
+    --h5Color: {{ settings.color_h5 }};
+    --h6Size: {{ settings.typography_h6_font_size }}px;
+    --h6SizeTablet: {{ settings.typography_h6_font_size_tablet }}px;
+    --h6SizeMobile: {{ settings.typography_h6_font_size_mobile }}px;
+    --h6Color: {{ settings.color_h6 }};
+    --copy_body: {{ settings.vasta_copy_body }}px;
+    --copy_body_tablet: {{ settings.vasta_copy_body_tablet }}px;
+    --copy_body_mobile: {{ settings.vasta_copy_body_mobile }}px;
+    --titleReview: {{ settings.vasta_copy_body }};
+    --titleReviewTablet: {{ settings.vasta_copy_body }};
+    --titleReviewMobile: {{ settings.vasta_copy_body }};
+    --smallFont: {{ settings.vasta_copy_body }};
+    --wrapperWidth: {{ settings.vasta_wrapper_width }}px;
+    --tagBadgeBackgroundColor : {{ settings.product_tag_badge_color }};
+    --tagBadgeTextColor: {{ settings.product_tag_badge_text_color }};
+    --tagBadgePosition: {{ settings.position_product_tag_badge }};
+    --tagBadgeTextSize: {{ settings.product_badge_text_size }}px;
+    --tagBadgeTextSmallSize: {{ settings.product_badge_text_size }}px;
+    --productTitleTransform: {{ settings.product_page_product_title_text_transform }};
+    --ProductComparePriceFontSize: {{ settings.product_compare_price_font_size }}px;
+    --AddToCartFontSize: {{ settings.add_to_cart_font_size }}px;
+    --AddToCartTextTransform: {{ settings.add_to_cart_text_transform }};
+    --AddToCartBorderRadius: {{ settings.add_to_cart_radius }}px;
+    --AddToCartTextColor: {{ settings.product_add_to_cart_text_color }};
+    --AddToCartTextColorHover: {{ settings.product_add_to_cart_text_color_hover }};
+    --ProductTitleFontSize: {{ settings.product_title_font_size }}px;
+    --ProductSubtitleFontSize: {{ settings.product_subtitle_font_size }}px;
+    --ProductTitleFontSizeTablet: {{ settings.product_title_font_size_tablet }}px;
+    --ProductSubtitleFontSizeTablet: {{ settings.product_subtitle_font_size_tablet }}px;
+    --ProductTitleFontSizeMobile: {{ settings.product_title_font_size_mobile }}px;
+    --ProductSubtitleFontSizeMobile: {{ settings.product_subtitle_font_size_mobile }}px;
+    --ProductPriceFontSize: {{ settings.product_price_font_size }}px;
+    --ProductPriceFontSizeTablet: {{ settings.product_price_font_size_tablet }}px;
+    --ProductPriceFontSizeMobile: {{ settings.product_price_font_size_mobile }}px;
+    --product_info_mobile_direction: {{ settings.product_info_mobile_direction }};
+    --AddToCartFontWeight: {{ settings.add_to_cart_text_bold }};
+    --AddToCartBackground: {{ settings.product_add_to_cart_bakground }};
+    --AddToCartBackgroundHover: {{ settings.product_add_to_cart_background_hover }};
+    --SocialShareTitleColor: {{ settings.social_share_title_color }};
+    --SocialShareColor: {{ settings.social_share_color }};
+    --colorGiftBorder: {{ settings.color_gift_cart_border }};
+    --color_out_of_stock_label: {{ settings.color_out_of_stock_label }};
+    --select-icon: url({{ 'icon-arrow-down.png' | asset_img_url: '30x' }});
+    --iconCheckmarkChecked: {{settings.swatch_checked_color_icon}};
+
+    {% if settings.select_variant_button_background == blank %}
+      --SelectVariantButtonBackground: #ff0000;
+    {% else %}
+      --SelectVariantButtonBackground: {{ settings.select_variant_button_background }};
+    {% endif %}
+
+    {% if settings.select_variant_button_background == blank %}
+      --SelectVariantButtonText: #fff;
+    {% else %}
+      --SelectVariantButtonText: {{ settings.select_variant_button_text }};
+    {% endif %}
+
+    --collectionListBackgroundColor: {{ settings.collection_list_background_color }};
+    --collectionListFontColor: {{ settings.collection_list_font_color }};
+    --collectionNoProductMessageFontSize: {{ settings.collection_text_no_products_font_size }}px;
+    --colorCollectionSwatch: {{ settings.check_color_collection_swatch }};
+    --colorCollectionSwatchCheck: {{ settings.check_color_collection_swatch_svg }};
+    --collectionTitleTextTransform: {{ settings.collection_page_product_title_text_transform }};
+    --colorSubCollection: {{ settings.color_sub_collection }};
+    --colorCollectionProductTitle: {{ settings.product_title_color_collection }};
+    --sizeDescription: {{ settings.description_size }}px;
+    --collectionEnabledFilterSticky: {{ settings.collection_enabled_filter_sticky }};
+    --collectionProductPriceSize: {{ settings.collection_product_price_font_size }}px;
+    --collectionProductComparePriceSize: {{ settings.collection_product_compare_price_font_size }}px;
+    --NoItemsFontSize: {{ settings.collection_text_no_products_font_size }};
+
+    {% if settings.select_variant_button_background == blank %}
+      --colorSeemore: 24px;
+    {% else %}
+      --colorSeemore: {{ settings.desc_seemore-color }}px;
+    {% endif %}
+
+    {% if settings.select_variant_button_background == blank %}
+      --colorDescription: 24px;
+    {% else %}
+      --colorDescription: {{ settings.desc_seemore-color }}px;
+    {% endif %}
+
+    --colorFontButtonCart: {{ settings.color_font_button_cart }};
+    --colorItemTitlecart: {{ settings.color_cartitem }};
+    --colorPhoneNumber: {{ settings.color_phn }};
+    --blogTitleTransform: {{ settings.blog_tittle_transform }};
+    --colorFontBlog: {{ settings.color_font_blog }};
+    --buttonBackgroundColorBlog: {{ settings.button_background_color_blog }};
+    --buttonBackgroundHoverColorBlog: {{ settings.button_background_hover_color_blog }};
+    --buttonBorderColorBlog: {{ settings.button_border_color_blog }};
+    --buttonBorderHoverColorBlog: {{ settings.button_border_hover_color_blog }};
+    --buttonTextHoverColorBlog: {{ settings.button_text_hover_color_blog }};
+    --newsBackgroundColorBlog: {{ settings.news_background_color_blog }};
+    --newsTextColorBlog: {{ settings.news_text_color_blog }};
+    --newsButtonTextColorBlog: {{ settings.news_text_button_color }};
+    --buttonColortextBlog: {{ settings.button_color_text_blog }};
+    --buttonTextColorHoverBlog: {{ settings.button_color_text_hover_blog }};
+    --ColorTexBartBlog: {{ settings.color_bar_text_blog }};
+    --backgroundTitleBlog: {{ settings.background_title_blog }};
+    --buttonColorBackgroundBlog: {{ settings.button_color_background_blog }};
+    --buttonHoverColorBackgroundBlog: {{ settings.button_hover_color_background_blog }};
+    --sidebarTextColor: {{ settings.sidebar_text_color }};
+    --breadcrumbFontSize: {{ settings.bredcrumb_font_size }}px;
+    --breadcrumbFontSizeTablet: {{ settings.bredcrumb_font_size_tablet }}px;
+    --breadcrumbFontSizeMobile: {{ settings.bredcrumb_font_size_mobile }}px;
+    --breadcrumbtextcolor: {{ settings.breadcrumb_text_color }};
+    --breadcrumbtextstyle: {{ settings.breadcrumb_text_style }};
+    --breadcrumbLinkColor: {{ settings.breadcrumb_color }};
+    --progressATCBackgroundColor: {{ settings.product_atc_background_color }};
+    --thankYouTextColor: {{ settings.thank_you_text_color }};
+    --CouponTextColor: {{ settings.coupon_text_color }};
+    --thankYouBackground: {{ settings.coupon_text_background_color }};
+    --stock_warning_background_color: {{ settings.stock_warning_background_color }};
+    --stock_warning_text_color: {{ settings.stock_warning_text_color }};
+    --out_of_stock_text_color: {{ settings.out_of_stock_text_color }};
+    --out_of_stock_background_color: {{ settings.out_of_stock_background_color }};
+    --yousave-color: {{ settings.you_save_color }};
+    --product-slider-width: {{ settings.product_slider_width }}%;
+
+    {%- if settings.product_info_mobile_direction == 'left' -%}
+    --product-info-alignment: flex-start;
+    {%- elsif settings.product_info_mobile_direction == 'center' -%}
+    --product-info-alignment: center;
+    {%- endif -%}
+
+    --tooltip-size: {{ settings.tooltip_size | default: 70 }}px;
+    --iconCheckmarkChecked: #fff;
+    --colorTitleSearchSuggestion: {{ settings.color_title_search_suggestion }};
+    --colorTextSearchSuggestion: {{ settings.color_text_search_suggestion }};
+  }
+</style>
+
+{%- render 'theme-css' -%}

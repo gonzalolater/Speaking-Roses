@@ -1,0 +1,1932 @@
+<!-- sections/products-highlights.liquid -->
+<style>
+      
+  /*Section custom css variables*/
+
+  {%- assign iconsPerRowDesktop = 0 -%}
+  {%- case section.settings.vasta_badges_size -%}
+    {%- when 1 -%}
+      {%- assign iconsPerRowDesktop = 100 -%}
+    {%- when 2 -%}
+      {%- assign iconsPerRowDesktop = 50 -%}
+    {%- when 3 -%}
+      {%- assign iconsPerRowDesktop =  33 -%}
+    {%- when 4 -%}
+      {%- assign iconsPerRowDesktop = 25 -%}
+    {%- when 5 -%}
+      {%- assign iconsPerRowDesktop = 20 -%}
+    {%- else -%}
+      {%- assign iconsPerRowDesktop = 15.9 -%}
+  {%- endcase -%}
+
+  {%- assign iconsPerRowTablet = 0 -%}
+  {%- case section.settings.vasta_badges_size_tablet -%}
+    {%- when 1 -%}
+      {%- assign iconsPerRowTablet = 100 -%}
+    {%- when 2 -%}
+      {%- assign iconsPerRowTablet = 35 -%}
+    {%- when 3 -%}
+      {%- assign iconsPerRowTablet =  33 -%}
+    {%- when 4 -%}
+      {%- assign iconsPerRowTablet = 25 -%}
+    {%- when 5 -%}
+      {%- assign iconsPerRowTablet = 20 -%}
+    {%- else -%}
+      {%- assign iconsPerRowTablet = 16.6 -%}
+  {%- endcase -%}
+
+  {%- assign iconsPerRowMobile = 0 -%}
+  {%- case section.settings.vasta_badges_size_mobile -%}
+    {%- when 1 -%}
+      {%- assign iconsPerRowMobile = 100 -%}
+    {%- when 2 -%}
+      {%- assign iconsPerRowMobile = 50 -%}
+    {%- when 3 -%}
+      {%- assign iconsPerRowMobile =  33 -%}
+    {%- when 4 -%}
+      {%- assign iconsPerRowMobile = 25 -%}
+    {%- when 5 -%}
+      {%- assign iconsPerRowMobile = 20 -%}
+    {%- else -%}
+      {%- assign iconsPerRowMobile = 16.6 -%}
+  {%- endcase -%}
+
+  #shopify-section-{{ section.id }} {
+      {% if section.settings.enable_custom_margins_paddings %}
+        margin-top: {{ section.settings.custom-margin-top }}px;
+        margin-bottom: {{ section.settings.custom-margin-bottom }}px;
+        padding-top: {{ section.settings.custom-padding-top }}px;
+        padding-bottom: {{ section.settings.custom-padding-bottom }}px;
+      {% else %}
+        margin: 20px 0;
+      {% endif %}
+      {% if section.settings.product1 != blank %}
+      --background-color1: {{ section.settings.product1_background }};
+      {% endif %}
+      {% if section.settings.product2 != blank %}
+      --background-color2: {{ section.settings.product2_background }};
+      {% endif %}
+      --products-highlights--title: {{ section.settings.title_color }};
+      --products-highlights--texts: {{ section.settings.text_color }};
+      --products-highlights--links: {{ section.settings.links }};
+      --product-title-font-size__desktop: {{ section.settings.product_title_font_size_desktop }}px;
+      --product-title-font-size__tablet: {{ section.settings.product_title_font_size_tablet }}px;
+      --product-title-font-size__mobile: {{ section.settings.product_title_font_size_mobile }}px;
+      --short-description-font-size__desktop: {{ section.settings.short_description_font_size_desktop }}px;
+      --short-description-font-size__tablet: {{ section.settings.short_description_font_size_tablet }}px;
+      --short-description-font-size__mobile: {{ section.settings.short_description_font_size_mobile }}px;
+      --button-link-background: {{ section.settings.color_button_link_background }};
+      --button-link-text: {{ section.settings.color_button_link_text }};
+      --button-link-font-size__desktop: {{ section.settings.font_size_button_link_desktop }}px;
+      --button-link-font-size__tablet: {{ section.settings.font_size_button_link_tablet }}px;
+      --button-link-font-size__mobile: {{ section.settings.font_size_button_link_mobile }}px;
+      --button-link-background-hover: {{ section.settings.color_hover_button_link_background }};
+      --button-link-text-hover: {{ section.settings.color_hover_button_link_text }};
+      --button-link-x:{{ section.settings.button_link_desktop_x }}%;
+      --button-link-y:{{ section.settings.button_link_desktop_y }}%;
+      --drawer-left-button-background-color: {{ section.settings.color_left_button_background }};
+      --drawer-left-button-font-color: {{ section.settings.color_left_button_font }};
+      --drawer-left-button-background-color-hover: {{ section.settings.color_left_button_background_hover }};
+      --drawer-left-button-font-color-hover: {{ section.settings.color_left_button_font_hover }};
+      --drawer-right-button-background-color: {{ section.settings.color_right_button_background }};
+      --drawer-right-button-font-color: {{ section.settings.color_right_button_font }};
+      --drawer-right-button-background-color-hover: {{ section.settings.color_right_button_background_hover }};
+      --drawer-right-button-font-color-hover: {{ section.settings.color_right_button_font_hover }};
+      --product1-background-badge-background: {{ section.settings.product1_badge_background }};
+      --product1-background-badge-label: {{ section.settings.product1_badge_label }};
+      --product2-background-badge-background: {{ section.settings.product2_badge_background }};
+      --product2-background-badge-label: {{ section.settings.product2_badge_label }};
+      --drawer-description-height: {{ section.settings.drawer_description_height }}px;
+      --drawer-description-height-tablet: {{ section.settings.drawer_description_height_tablet }}px;
+      --drawer-description-height-mobile: {{ section.settings.drawer_description_height_mobile }}px;
+  }
+  #shopify-section-{{ section.id }} .products-highlights__uvps {
+      display: flex;
+      align-items: baseline;
+      justify-content: flex-start;
+      flex-wrap: wrap;
+      width: 100%;
+  }
+  #shopify-section-{{ section.id }} .products-highlights__uvps-content {
+      display: flex;
+      flex-direction: {{ section.settings.icons_text_direction }}!important;
+      align-items: center;
+      justify-content: center;
+  }
+  #shopify-section-{{ section.id }} .uvp-text-container {
+      margin: 5px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+  }
+
+  #shopify-section-{{ section.id }} .products-highlights__uvps-title {
+      font-weight: 400;
+      text-align: center;
+      line-height: 16px;
+      font-size: 12px;
+      max-width: 80px;
+      width: auto;
+      word-break: break-word;
+  }
+
+  #shopify-section-{{ section.id }} .products-highlights__uvps-text {
+      font-size: 10px;
+      line-height: 10px;
+  }
+  #shopify-section-{{ section.id }} .products-highlights__uvps-content svg,
+  #shopify-section-{{ section.id }} .products-highlights__uvps-content img {
+      height: 40px;
+      width: 40px;
+  }
+  #shopify-section-{{ section.id }} .products-highlights__uvps-content svg,
+  #shopify-section-{{ section.id }} .products-highlights__uvps-content path {
+        fill:{{ section.settings.icons_color }};
+  }
+
+  .products-highlights {
+    position: relative;
+  }
+
+  .products-highlights__wrapper {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    z-index: 1;
+  }
+
+  .products_highlights__product-1 {
+    background-color: var(--background-color1);
+  }
+
+  .products_highlights__product-2 {
+    background-color: var(--background-color2);
+  }
+
+  .products-highlights__title {
+    padding: 21px 0 20px;
+    color: #000;
+  }
+
+  .products-highlights__product-title.customHeadline3 {
+    color: var(--products-highlights--title);
+    letter-spacing: 0;
+  }
+
+  .products-highlights__cta-content {
+    position: absolute;
+    text-align: center;
+    z-index: 1;
+    top: var(--button-link-y);
+    left: var(--button-link-x);
+  }
+
+  .products-highlights__cta-content:not(.products-highlights__info-content--floating) {
+    transform: translatex(-50%);
+  }
+
+  .products-highlights__content,
+  .products-highlights__drawer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .products-highlights__item {
+    position: relative;
+    padding: 66px 0 64px;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    width: 50%;
+    height: 100%;
+  }
+
+  .products-highlights__content:not(.content--two-products) .products-highlights__item {
+    justify-content: center;
+  }
+
+  .products-highlights__item.products_highlights__product-1 {
+    justify-content: flex-end;
+  }
+
+  .products-highlights__hero-product {
+    position: relative;
+    width: auto;
+    height: 100%;
+    display: flex;
+  }
+
+  .products-highlights__hero-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .products-highlights__hero-image--desktop {
+    display: flex;
+  }
+
+  .products-highlights__hero-image--tablet-up {
+    display: none;
+  }
+
+  .products-highlights__hero-image--mobile-up {
+    display: none;
+  }
+
+  .products-highlights__content.content--two-products .products_highlights__product-1 .products-highlights__hero-product {
+    margin-right: 121px; /*16.8%*/
+  }
+
+  .products-highlights__content.content--two-products .products_highlights__product-2 .products-highlights__hero-product {
+    margin-left: 123.2px; /*17.1%*/
+  }
+
+  .products-highlights__product-title {
+    font-weight: 600;
+    font-size: var(--product-title-font-size__desktop);
+    line-height: 34px;
+  }
+
+  .products-highlights__metafield {
+    color: var(--products-highlights--title);
+    font-size: 16px;
+    line-height: 120%;
+  }
+
+  .products-highlights__more-details {
+    background: unset;
+    text-decoration: underline;
+    color: var(--products-highlights--links);
+    cursor: pointer;
+    font-size: var(--button-link-font-size__desktop);
+    line-height: 18px;
+  }
+
+  .products-highlights__cta-link {
+    background: var(--drawer-left-button-background-color);
+    font-family: var(--headerFont);
+    border: 2px solid var(--drawer-left-button-font-color);
+    color: var(--drawer-left-button-font-color);
+    width: 166px;
+    transition: .2s;
+  }
+  .products-highlights__cta-link,
+  .products-highlights__add-to-cart {
+    font-family: var(--headerFont);
+    line-height: 14px;
+    border-radius: 32px;
+    font-size: 16px;
+    text-align: center;
+    transition: .2s;
+  }
+
+  .products-highlights__add-to-cart {
+    background-color: var(--drawer-right-button-background-color);
+    border: 2px solid transparent;
+    color: var(--drawer-right-button-font-color);
+    padding: 0 15px;
+    height: 34px;
+    width: 130px;
+  }
+
+  .products-highlights__add-to-cart:disabled {
+    color: #a1a1a1;
+    background-color: #fafafa; 
+    cursor: default;
+  }
+
+  .products-highlights__add-to-cart:not(:disabled):hover {
+    border-color: var(--drawer-right-button-font-color-hover);
+    background-color: var(--drawer-right-button-background-color-hover);
+    color: var(--drawer-right-button-font-color-hover);
+  }
+
+  .products-highlights__cta-link span {
+    font-family: inherit;
+  }
+
+  .products-highlights__cta-link:hover {
+    background: var(--drawer-left-button-background-color-hover);
+    color: var(--drawer-left-button-font-color-hover);
+  }
+
+  .products-highlights__cta-link:hover:before {
+    background: var(--button-link-background-hover);
+    color: var(--button-link-text-hover);
+    border-radius: 32px;
+    transform: scale(1.2);
+  }
+
+  .products-highlights__cta-link-text {
+    line-height: 15px;
+    display: inline-block;
+    font-weight: 400;
+    font-size: 15px;
+  }
+
+  .products-highlights__hero-product-content,
+  .products-highlights__hero-product {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    text-align: center;
+    gap: 15px;
+  }
+  
+  .products-highlights__hero-product-content {
+    gap: 20px;
+  }
+
+  .products-highlights-drawer-item .products-highlights__hero-product-content {
+    display: flex; 
+    gap: 20px; 
+    margin-top: 50px
+  }
+
+  .products-highlights__headline {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-width: 90%;
+    text-align: center;
+  }
+
+  .products-highlights__short-description {
+    color: var(--products-highlights--title);
+    font-size: var(--short-description-font-size__desktop);
+  }
+
+
+  .products-highlights__product-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+  }
+
+  .products-highlights__product-image-content,
+  .products-highlights__product-image-content img {
+    border: 1px solid {{ section.settings.product_image_border_color }};
+    border-radius: 8px 8px 10px 10px;
+  }
+
+  .products-highlights__product-image-content {
+    width: 281px;
+    height: 304px;
+  }
+
+  .products-highlights__product-image-content img {
+    width: 100%;
+  }
+
+  .products-highlights__drawer {
+    flex-wrap: wrap;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .products-highlights__action {
+    position: absolute;
+    top: 38px;
+    z-index: 2;
+  }
+
+  .products-highlights-drawer-item__product-1 .products-highlights__action {
+    right: 48px;
+  }
+
+  .products-highlights-drawer-item__product-2 .products-highlights__action {
+    left: 48px;
+  }
+
+  .products-highlights__close {
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    background: transparent;
+    width: 25px;
+    height: 25px;
+  }
+
+  .products-highlights__close svg {
+    pointer-events: none;
+    width: 100%;
+    height: 100%;
+  }
+
+  .products-highlights-drawer-item {
+    display: flex;
+    flex: 1 1 100%;
+    height: 544px;
+    padding: 0 10% 0 5%;
+    position: absolute;
+    width: 93%;
+    max-width: 1184px;
+    top: 0;
+    z-index: 2;
+  }
+  .products-highlights-drawer-item.products-highlights-drawer-item__product-1 {
+    flex-direction: row;
+    padding-left: 101px;
+  }
+  .products-highlights-drawer-item.products-highlights-drawer-item__product-2 {
+    flex-direction: row-reverse;
+    padding-right: 101px;
+  }
+
+  .products-highlights-drawer-item__product-1 {
+    background-color: var(--background-color1);
+    left: -100%;
+    transition: left 0.5s cubic-bezier(0.82, 0.085, 0.395, 0.895);
+  }
+
+  .products-highlights-drawer-item__product-2 {
+    background-color: var(--background-color2);
+    right: -100%;
+    transition: right 0.5s cubic-bezier(0.82, 0.085, 0.395, 0.895);
+  }
+
+  .products-highlights-drawer-item__product-1[open] {
+    left: 0;
+  }
+
+  .products-highlights-drawer-item__product-2[open] {
+    right: 0;
+  }
+
+  .products-highlights__drawer .products-highlights__hero-image-content {
+    height: 100%;
+    position: relative;
+    max-width: 437px;
+    width: 25%;
+  }
+
+  .products-highlights__info-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .products-highlights__info-content--floating {
+    position: absolute;
+    top: 115px;
+    overflow: hidden;
+    width: 50%;
+    max-width: 536px;
+  }
+
+  .products-highlights-drawer-item__product-1 .products-highlights__info-content--floating {
+    right: 168px;
+    padding-left: 16%;
+  }
+
+  .products-highlights-drawer-item__product-2 .products-highlights__info-content--floating {
+    left: 159px;
+    padding-right: 16%;
+  }
+
+  .products-highlights__description,
+  .products-highlights__custom-description {
+    color: var(--products-highlights--texts);
+    font-weight: 400;
+    font-family: var(--auxiliarFont);
+    width: 100%;
+    font-size: 0.975rem;
+    margin-top: 20px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -moz-line-clamp: 4;
+    -o-line-clamp: 4;
+    line-clamp: 4;
+    -webkit-box-orient: vertical;
+    -o-box-orient: vertical;
+    -moz-box-orient: vertical;
+    box-orient: vertical;
+  }
+
+ .products-highlights__link {
+    margin: 15px 0 20px;
+    display: flex;
+    gap: 20px;
+  }
+
+  .products-highlights__link--mobile {
+    display: none;
+  }
+
+  .products-highlights__drawer .products-highlights__cta-link {
+    max-width: 130px;
+    width: 130px;
+    padding: 7px;
+    font-size: 16px;
+    line-height: 16px;
+    height: 34px;
+  }
+
+  .products-highlights__badge {
+    position: absolute;
+    bottom: 61px;
+    padding: 8.5px;
+    text-align: center;
+    min-width: 250px;
+    visibility: hidden;
+  }
+
+  .products-highlights-drawer-item__product-1[open] .products-highlights__badge {
+    right: -93px;
+    border-radius: 32px 0 0 32px;
+    visibility: visible;
+  }
+
+  .products-highlights-drawer-item__product-2[open] .products-highlights__badge {
+    left: -94px;
+    border-radius: 0 32px 32px 0;
+    visibility: visible;
+  }
+  .products-highlights-drawer-item__product-2[open] .products-highlights__badge-label {
+    margin-left: 64px;
+  }
+
+  .products-highlights__badge-label {
+    display: block;
+    max-width: 140px;
+    margin-left: 10px;
+    font-weight: 500;
+  }
+
+  .products-highlights__badge-product-1 {
+    background: var(--product1-background-badge-background);
+    color: var(--product1-background-badge-label);
+  }
+
+  .products-highlights__badge-product-2 {
+    background: var(--product2-background-badge-background);
+    color: var(--product2-background-badge-label);
+  }
+  .products-highlights__add-to-cart--mobile {
+    display: none;
+  }
+
+  @media screen and (min-width: 1280px) {
+    .products-highlights-drawer-item {
+      max-width: 100%;
+    }
+    .products-highlights__info-content--floating {
+      width: 100%;
+      max-width: 60%;
+    }
+  }
+  @media screen and (max-width: 1019px) {
+    .products-highlights__hero-image--desktop {
+      display: none;
+    }
+    .products-highlights__hero-image--tablet-up {
+      display: flex;
+    }
+
+    .products-highlights__product-image-content {
+      width: 221.288px;
+      height: 239.4px;
+    }
+    .products-highlights__content.content--two-products .products_highlights__product-1 .products-highlights__hero-product {
+      margin-right: 7%;
+    }
+    .products-highlights__content.content--two-products .products_highlights__product-2 .products-highlights__hero-product {
+      margin-left: 7%;
+    }
+    .products-highlights-drawer-item {
+      padding: 0;
+      height: 465px;
+      width: 100%;
+      justify-content: space-evenly;
+      padding-bottom: 80px;
+    }
+    .products-highlights__drawer .products-highlights__hero-image-content {
+      position: static;
+      max-width: 100%;
+    }
+    .products-highlights-drawer-item.products-highlights-drawer-item__product-1 {
+      padding-left: 0;
+    }
+    .products-highlights-drawer-item.products-highlights-drawer-item__product-2 {
+      padding-right: 0;
+    }
+    .products-highlights__hero-image--tablet-up,
+    .products-highlights__hero-image--tablet-up svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+    .products-highlights__info-content--floating {
+      position: static;
+      max-width: 50%;
+    }
+    .products-highlights-drawer-item__product-2 .products-highlights__info-content--floating {
+      padding-right: 0;
+    }
+    
+    .products-highlights-drawer-item__product-2 .products-highlights__action {
+      right: 11px;
+      left: 22px;
+      top: 44px;
+    }
+    .products-highlights-drawer-item__product-2[open] .products-highlights__badge {
+      left: 0;
+      background-color: ;
+    }
+    .products-highlights-drawer-item__product-1[open] .products-highlights__badge {
+      right: 0;
+    }
+    .products-highlights__metafield {
+      font-size: 14px;
+      line-height: 87.8%;
+    }
+    .products-highlights__item {
+      padding: 45px 0 40px;
+    }
+    .products-highlights__hero-product-content {
+      margin-top: 0
+    }
+    .products-highlights__product-title + .products-highlights__metafield {
+      margin-top: 3px;
+    }
+    .products-highlights__product-title {
+      font-size: var(--product-title-font-size__tablet);
+      line-height: 1.3;
+    }
+    .products-highlights__short-description {
+      font-size: var(--short-description-font-size__tablet);
+    }
+    .products-highlights__badge {
+      bottom: 47px;
+      min-width: 199px;
+      width: 199px;
+    }
+    .products-highlights__badge-label {
+      font-size: 14px;
+      line-height: 87.8%;
+      padding: 0 10px;
+    }
+    .products-highlights__link,
+    .products-highlights__link + .products-highlights__uvps {
+      margin-top: 23px;
+    }
+    .products-highlights__drawer .products-highlights__cta-link,
+    .products-highlights__add-to-cart {
+      max-width: 150px;
+      width: 120px;
+      height: 30px;
+      font-size: 14px;
+      line-height: 120%;
+      padding: 5px;
+    }
+    .products-highlights__cta-link-text {
+      text-align: center;
+      letter-spacing: -0.02em;
+      font-size: 14px;
+      line-height: 87.8%;
+    }
+    .products-highlights__more-details {
+      margin-top: 0;
+      line-height: 120%;
+      font-size: var(--button-link-font-size__tablet);
+    }
+    .products-highlights__product-image {
+      width: 100%;
+      height: 100%;
+    }
+    .products-highlights-drawer-item__product-1 .products-highlights__info-content--floating {
+      padding-left: 0;
+    }
+    .products-highlights__info-content {
+      gap: 0;
+      justify-content: center;
+    }
+    .products-highlights__description,
+    .products-highlights__custom-description {
+      font-size: 14px;
+      height: auto;
+    }
+    #shopify-section-{{ section.id }} .products-highlights__uvps {
+      justify-content: center;
+      padding: 0 40px;
+    }
+  }
+  @media (max-width: 1019px) {
+    #shopify-section-{{ section.id }} {
+        --button-link-x:{{ section.settings.button_link_tablet_x }}%;
+        --button-link-y:{{ section.settings.button_link_tablet_y }}%;
+    }
+    #shopify-section-{{ section.id }} .products-highlights__uvps-content {
+        flex: 0 0 {{ iconsPerRowTablet }}%;
+    }
+    #shopify-section-{{ section.id }} .toggle-drawer__icon {
+        {% if section.settings.icons_text_direction == 'column-reverse' %}
+        margin-top: 6px;
+        {% endif %}
+    }
+    #shopify-section-{{ section.id }} .uvp-text-container {
+        margin: 4px 0 9px;
+        width: 80%;
+    }
+    #shopify-section-{{ section.id }} .products-highlights__uvps-content svg {
+        height: 30px;
+        width: 30px;
+    }
+    #shopify-section-{{ section.id }} .products-highlights__uvps-title {
+        font-size: 10px;
+        line-height: 10px;
+    }
+    .products-highlights__headline {
+      gap: 4px;
+    }
+    .products-highlights__hero-product-content {
+      gap: 15.8px;
+    }
+  }
+  @media screen and (max-width: 767px) {
+    .products-highlights__add-to-cart--mobile {
+      display: block;
+    }
+    .products-highlights__item {
+      padding: 21px 0 17px;
+    }
+    .products_highlights__product-1 .products-highlights__hero-product,
+    .products-highlights__hero-product {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .products-highlights__content.content--two-products .products_highlights__product-1 .products-highlights__hero-product {
+      margin-right: 0;
+    }
+
+    .products-highlights__content.content--two-products .products_highlights__product-2 .products-highlights__hero-product {
+      margin-left: 0;
+    }
+    .products-highlights__product-image-content {
+      width: 145.15px;
+      height: 153.031px;
+    }
+    .products-highlights__hero-image--tablet-up {
+      display: none;
+    }
+    .products-highlights__hero-image--mobile-up {
+      display: flex;
+    }
+    .products-highlights-drawer-item {
+      height: 354.85px;
+      width: 100%;
+    }
+    .products-highlights-drawer-item .products-highlights__hero-product-content {
+      gap: 7px;
+      margin-top: 0;
+    }
+    .products-highlights__product-title {
+      font-size: var(--product-title-font-size__tablet);
+      line-height: 120%;
+      letter-spacing:0.3px;
+    }
+    .products-highlights__short-description {
+      width: 144px;
+      padding-right: 14px;
+      font-size: var(--short-description-font-size__mobile);
+      line-height: 12.397px;
+    }
+    .products-highlights__metafield {
+      font-size: 12px;
+    }
+
+    .products-highlights__headline {
+      gap: 3px;
+    }
+    .products-highlights__product-title {
+          font-size: var(--product-title-font-size__mobile);
+    }
+    .products-highlights__more-details {
+      font-size: var(--button-link-font-size__mobile);
+    }
+    .products-highlights__hero-product-content {
+      gap: 11px;
+    }
+    .products-highlights__cta-link {
+      width: 170px;
+      height: 35px;
+      padding: 6.5px 31px;
+    }
+    .products-highlights__cta-link-text {
+      font-size: 12px;
+      line-height: 87.8%;
+    }
+    .products-highlights-drawer-item__product-1 .products-highlights__action {
+      right: 29px;
+      top: 24px;
+    }
+    .products-highlights-drawer-item__product-2 .products-highlights__action {
+      right: unset;
+      left: 24px;
+      top: 24px;
+    }
+    .products-highlights__close {
+      width: 20px;
+      height: 20px;
+    }
+    .products-highlights-drawer-item__product-1 .products-highlights__info-content--floating {
+      right: 20px;
+      top: 97px;
+    }
+    .products-highlights-drawer-item__product-2 .products-highlights__info-content--floating {
+      left: 25px;
+      top: 97px;
+    }
+    .products-highlights__product-image {
+      width: 281px;
+      height: 304px;
+    }
+  
+    .products-highlights__description,
+    .products-highlights__custom-description {
+      font-size: 12px;
+      line-height: 120%;
+      width: 100%;
+      -webkit-line-clamp: 8;
+      -moz-line-clamp: 8;
+      -o-line-clamp: 8;
+      line-clamp: 8;
+    }
+    .products-highlights-drawer-item .products-highlights__uvps {
+      display: none;
+    }
+    .products-highlights__badge {
+      padding: 7px 11px;
+      bottom: 95px;
+      min-width: 163px;
+      width: 163px;
+      height: 35px;
+    }
+    .products-highlights__badge-label {
+      font-size: 12px;
+      max-width: 130px;
+    }
+    .products-highlights-drawer-item__product-2[open] .products-highlights__badge-label {
+      margin-left: 0;
+    }
+    .products-highlights__link {
+      display: none;
+    }
+    .products-highlights__link--mobile {
+      display: block;
+      position: absolute;
+      bottom: 36px;
+    }
+    .products-highlights-drawer-item__product-1 .products-highlights__link--mobile {
+      left: 44px;
+    }
+    .products-highlights-drawer-item__product-2 .products-highlights__link--mobile {
+      right: 44px;
+    }
+    .products-highlights__drawer .products-highlights__cta-link, 
+    .products-highlights__drawer .products-highlights__add-to-cart {
+      height: 25px;
+      font-size: 12px;
+      line-height: 100%;
+      width: 125px;
+      position: static;
+    }
+
+    .products-highlights__info-content .products-highlights__description{
+        margin-top: 0;
+    }
+  }
+  
+  @media (min-width: 768px) {
+    #shopify-section-{{ section.id }} .products-highlights__uvps-content {
+        flex: 0 0 {{ iconsPerRowDesktop }}%;
+    }
+  }
+  @media (max-width: 767px) {
+    #shopify-section-{{ section.id }} {
+        --button-link-x:{{ section.settings.button_link_mobile_x }}%;
+        --button-link-y:{{ section.settings.button_link_mobile_y }}%;
+    }
+    #shopify-section-{{ section.id }} .products-highlights__uvps {
+        display: none;
+    }
+    #shopify-section-{{ section.id }} .products-highlights__uvps-content {
+        flex: 0 0 {{ iconsPerRowMobile}}%;
+    }
+  }      
+  
+</style>
+
+{% assign contentViewClass = "" %}
+
+{% if section.settings.product1 != blank and section.settings.product2 != blank %}
+  {% assign contentViewClass = "content--two-products" %}
+{% elsif section.settings.product1 == blank and section.settings.product2 == blank %}
+  {% assign contentViewClass = "content--two-products" %}
+{% endif %}
+
+{% capture headlines %}
+    {% if section.settings.title != blank or section.settings.title != '' %}
+        <div class="products-highlights__headline">
+            <h2 class="products-highlights__title">
+                {{ section.settings.title }}
+            </h2>
+        </div>
+    {% endif %}
+{% endcapture %}
+
+{% assign background1_svg = section.settings.product1_background_svg %}
+{% assign product1_background_svg_color = background1_svg | default: '#F8F8F8' %}
+
+{% capture contentView %}
+    {% if section.settings.product1 != blank or section.settings.product2 != blank %}
+        {% if section.settings.product1 != blank %}
+            {% render 'products-highlights-item',
+                productTarget: section.settings.product1,
+                source: 'product-1',
+                custom_metafield: section.settings.custom_metafield,
+                background_color: section.settings.product1_background,
+                background_icon: background1,
+                background_icon_tablet: background1_tablet,
+                background_icon_mobile: background1_mobile,
+                lazy_load: section.settings.enable_lazy_load.,
+                toggle_content: section.settings.product1_enable_toggle_content,
+                toggle_content_label: section.settings.product1_toggle_content_label,
+                short_description: section.settings.product1_enable_short_description,
+                short_description_text: section.settings.product1_description_text,
+                custom_image: section.settings.product1_image,
+                custom_title: section.settings.product1_custom_title,
+            %}
+        {% endif %}
+        
+        {% if section.settings.product2 != blank %}
+            {% render 'products-highlights-item',
+                productTarget: section.settings.product2,
+                source: 'product-2',
+                custom_metafield: section.settings.custom_metafield,
+                background_color: section.settings.product2_background,
+                background_icon: background2,
+                background_icon_tablet: background2_tablet,
+                background_icon_mobile: background2_mobile,
+                lazy_load: section.settings.enable_lazy_load.,
+                toggle_content: section.settings.product2_enable_toggle_content,
+                toggle_content_label: section.settings.product2_toggle_content_label,
+                short_description: section.settings.product2_enable_short_description,
+                short_description_text: section.settings.product2_description_text,
+                custom_image: section.settings.product2_image,
+                custom_title: section.settings.product2_custom_title,
+            %}
+        {% endif %}
+        {% else %}
+            {% render 'standart-products-highlights' %}
+        {% endif %}
+    
+{% endcapture %}
+
+{% capture contentDrawer %}
+    {% if section.settings.product1 != blank or section.settings.product2 != blank %}
+        {% if section.settings.product1 != blank %}
+            {% render 'products-highlights-drawer',
+                productTarget: section.settings.product1,
+                source: 'product-1',
+                custom_metafield: section.settings.custom_metafield,
+                background_color: section.settings.product1_background,
+                background_icon: background1,
+                background_icon_tablet: drawer_background_tablet,
+                background_icon_mobile: drawer_background_mobile,
+                lazy_load: section.settings.enable_lazy_load.,
+                toggle_content: section.settings.product1_enable_toggle_content,
+                toggle_content_label: section.settings.product1_toggle_content_label,
+                short_description: section.settings.product1_enable_description,
+                short_description_text: section.settings.product1_description_text,
+                enable_description: section.settings.product1_enable_description,
+                enable_badge: section.settings.product1_enable_badge,
+                text_badge: section.settings.product1_badge,
+                enable_product_link: section.settings.product1_enable_link_label,
+                enable_product_link_label: section.settings.product1_link_label,
+                this_section_blocks: section.blocks,
+                icons_text_direction: section.settings.icons_text_direction,
+                enable_custom_description: section.settings.product1_enable_custom_description,
+                custom_description: section.settings.product1_custom_description,
+                custom_image: section.settings.product1_image,
+                custom_title: section.settings.product1_custom_title,
+            %}
+        {% endif %}
+        {% if section.settings.product2 != blank %}
+            {% render 'products-highlights-drawer',
+                productTarget: section.settings.product2,
+                source: 'product-2',
+                custom_metafield: section.settings.custom_metafield,
+                background_color: section.settings.product2_background,
+                background_icon: background2,
+                background_icon_tablet: drawer_background_tablet,
+                background_icon_mobile: drawer_background_mobile,
+                lazy_load: section.settings.enable_lazy_load,
+                toggle_content: section.settings.product2_enable_toggle_content,
+                toggle_content_label: section.settings.product2_toggle_content_label,
+                short_description: section.settings.product2_enable_description,
+                short_description_text: section.settings.product2_description_text,
+                enable_description: section.settings.product2_enable_description,
+                enable_badge: section.settings.product2_enable_badge,
+                text_badge: section.settings.product2_badge,
+                enable_product_link: section.settings.product2_enable_link_label,
+                enable_product_link_label: section.settings.product2_link_label,
+                this_section_blocks: section.blocks,
+                icons_text_direction: section.settings.icons_text_direction,
+                enable_custom_description: section.settings.product2_enable_custom_description,
+                custom_description: section.settings.product2_custom_description,
+                custom_image: section.settings.product2_image,
+                custom_title: section.settings.product2_custom_title,
+            %}
+        {% endif %}
+    {% endif %}
+{% endcapture %}
+{% capture button_principal %}
+    {% if section.settings.button_label != blank and section.settings.button_link != blank %}
+        <div class="products-highlights__cta-content">
+            <a class="products-highlights__cta-link customBody4" href="{{ section.settings.button_link }}" target="{{ section.settings.button_link_target }}" aria-hidden="false" title="{{ section.settings.button_label }}">
+                <span class="products-highlights__cta-link-text ">
+                    {{ section.settings.button_label }}
+                </span>
+            </a>
+        </div>
+    {% endif %}
+{% endcapture %}
+<section class="products-highlights {{ section.settings.custom_class }}">
+  {{ headlines }}
+  <div class="products-highlights__wrapper">
+    {{ button_principal }}
+    <div class="products-highlights__content {{ contentViewClass }} ">
+      {{ contentView }}
+    </div>
+  </div>
+  <div class="products-highlights__drawer">
+    {{ contentDrawer }}
+  </div>
+</section>
+
+<script defer>
+    (function(w, d) {
+    const targetOpen = d.querySelectorAll('[name="products-highlights__cta-open"]');
+    const targetClose= d.querySelectorAll('[name="products-highlights__cta-close"]');
+
+    const addButtonListener = (buttons, attribute) => {
+        buttons.forEach((button) => {
+            button.addEventListener('click', event => handleButton.toggle(event, attribute));
+        });
+    }
+
+    if (!targetOpen) {
+        return;
+    }
+
+    if (!targetClose) {
+        return;
+    }
+    
+    addButtonListener(targetOpen, 'open');
+    addButtonListener(targetClose, 'open');
+
+    const handleAttribute = (attr, element) => {
+        element.hasAttribute(attr) ? element.removeAttribute(attr) : element.setAttribute(attr,'');
+    }
+
+    const handleToggle = (event, rawAttribute) => {
+        const element = event.target;
+        const attribute = rawAttribute;
+        const source = element.getAttribute('source');
+        if (!source) {
+            return;
+        }
+        const drawer = document.querySelector(`#products-highlights-drawer-item--${source}[name="products-highlights-drawer-item"]`);
+        if (!drawer) {
+            return;
+        }
+        handleAttribute(attribute, drawer);
+    }
+
+    const handleButton = {
+        toggle: handleToggle
+    }
+
+    const productsHighLights = {
+        button: handleButton
+    }
+
+    window.productsHighLights = productsHighLights
+
+    }(window, document));
+
+</script>
+
+{% schema %}
+{
+  "name": "Product Highlights",
+  "class": "products-highlights",
+  "settings": [
+    {
+      "type": "header",
+      "content": "General Settings"
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom Class",
+      "info": "Custom class to apply css styles for specific sections"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_custom_margins_paddings",
+      "label": "Enable Custom Margins and Paddings",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "custom-margin-top",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "label": "Margin Top",
+      "default": 0
+    }, 
+    {
+      "type": "range",
+      "id": "custom-margin-bottom",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "label": "Margin Bottom",
+      "default": 0
+    }, 
+    {
+      "type": "range",
+      "id": "custom-padding-top",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 0
+    }, 
+    {
+      "type": "range",
+      "id": "custom-padding-bottom",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 0
+    }, 
+    {
+      "type": "paragraph",
+      "content": "Section title"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "Products Highlights"
+    },
+    {
+      "type": "paragraph",
+      "content": "Button floating"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "GET MIX PACK 10% OFF"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "select",
+      "id": "button_link_target",
+      "label": "Button link behavior",
+      "options": [
+        {
+          "value": "_self",
+          "label": "Same tab"
+        },
+        {
+          "value": "_blank",
+          "label": "New tab"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Define button floating position"
+    },
+    {
+      "type": "paragraph",
+      "content": "Desktop"
+    },
+    {
+      "type": "range",
+      "id": "button_link_desktop_x",
+      "min": 2,
+      "max": 100,
+      "step": 2,
+      "unit": "%",
+      "label": "Button Link Hoziontal",
+      "default": 100
+    },  
+    {
+      "type": "range",
+      "id": "button_link_desktop_y",
+      "min": 2,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Button Link Vertical",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "font_size_button_link_desktop",
+      "min": 10,
+      "max": 25,
+      "step": 1,
+      "label": "Button Link Font Size to Desktop",
+      "default": 18
+    },
+    {
+      "type": "paragraph",
+      "content": "Tablet"
+    },
+    {
+      "type": "range",
+      "id": "button_link_tablet_x",
+      "min": 2,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Button Link Hoziontal",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "button_link_tablet_y",
+      "min": 2,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Button Link Vertical",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "font_size_button_link_tablet",
+      "min": 5,
+      "max": 25,
+      "step": 1,
+      "label": "Button Link Font Size to Tablet",
+      "default": 16
+    },
+    {
+      "type": "paragraph",
+      "content": "Mobile"
+    },
+    {
+      "type": "range",
+      "id": "button_link_mobile_x",
+      "min": 2,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Button Link Hoziontal",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "button_link_mobile_y",
+      "min": 2,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Button Link Vertical",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "font_size_button_link_mobile",
+      "min": 5,
+      "max": 20,
+      "step": 1,
+      "label": "Button Link Font Size to Mobile",
+      "default": 14
+    },
+    {
+      "type": "paragraph",
+      "content": "Button link colors"
+    },
+    {
+      "type": "color",
+      "id": "color_button_link_background",
+      "label": "Background"
+    },
+    {
+      "type": "color",
+      "id": "color_button_link_text",
+      "label": "Text"
+    },
+    {
+      "type": "color",
+      "id": "color_hover_button_link_background",
+      "label": "Background on hover"
+    },
+    {
+      "type": "color",
+      "id": "color_hover_button_link_text",
+      "label": "Text on hover"
+    },
+    {
+      "type": "color",
+      "id": "color_left_button_background",
+      "label": "Drawer left button background",
+      "default": "#FFF"
+    },
+    {
+      "type": "color",
+      "id": "color_left_button_font",
+      "label": "Drawer left button font and border color",
+      "default": "#555"
+    },
+    {
+      "type": "color",
+      "id": "color_left_button_background_hover",
+      "label": "Drawer left button background on hover",
+      "default": "#555"
+    },
+    {
+      "type": "color",
+      "id": "color_left_button_font_hover",
+      "label": "Drawe left button font and border color on hover",
+      "default": "#FFF"
+    },
+    {
+      "type": "color",
+      "id": "color_right_button_background",
+      "label": "Drawe right button background",
+      "default": "#555"
+    },
+    {
+      "type": "color",
+      "id": "color_right_button_font",
+      "label": "Drawer right button font and border color",
+      "default": "#FFF"
+    },
+    {
+      "type": "color",
+      "id": "color_right_button_background_hover",
+      "label": "Drawer right button background on hover",
+      "default": "#FFF"
+    },
+    {
+      "type": "color",
+      "id": "color_right_button_font_hover",
+      "label": "Drawer right button font and border color on hover",
+      "default": "#555"
+    },
+    {
+      "type": "paragraph",
+      "content": "Custom Metafield"
+    },
+    {
+      "type": "checkbox",
+      "id": "custom_metafield",
+      "label": "Enable Custom Metafield",
+      "default": false
+    },
+    {
+      "type": "paragraph",
+      "content": "Images pagespeed"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_lazy_load",
+      "label": "Enable Lazy Load",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Product 1"
+    },
+    {
+      "type": "paragraph",
+      "content": "Custom background"
+    },
+    {
+      "type": "color",
+      "id": "product1_background",
+      "label": "Background Product Item",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "product1_background_svg",
+      "label": "Background Product Detatils"
+    },
+    {
+      "type": "paragraph",
+      "content": "Choose a product"
+    },
+    {
+      "type": "product",
+      "id": "product1",
+      "label": "Product"
+    },
+    {
+      "type": "text",
+      "id": "product1_custom_title",
+      "label": "Custom Title",
+      "info": "if empty, the name of the product will be used"
+    },
+    {
+      "type": "range",
+      "id": "product_title_font_size_desktop",
+      "min": 10,
+      "max": 35,
+      "step": 1,
+      "label": "Product Title Font Size to Desktop",
+      "default": 26
+    },
+    {
+      "type": "range",
+      "id": "product_title_font_size_tablet",
+      "min": 10,
+      "max": 30,
+      "step": 1,
+      "label": "Product Title Font Size to Tablet",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "product_title_font_size_mobile",
+      "min": 8,
+      "max": 25,
+      "step": 1,
+      "label": "Product Title Font Size to Mobile",
+      "default": 14
+    },
+    {
+      "type": "checkbox",
+      "id": "product1_enable_short_description",
+      "label": "Enable short description",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "short_description_font_size_desktop",
+      "min": 10,
+      "max": 30,
+      "step": 1,
+      "label": "Short Description Font Size to Desktop",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "short_description_font_size_tablet",
+      "min": 8,
+      "max": 25,
+      "step": 1,
+      "label": "Short Description Font Size to Tablet",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "short_description_font_size_mobile",
+      "min": 5,
+      "max": 20,
+      "step": 1,
+      "label": "Short Description Font Size to Mobile",
+      "default": 12
+    },
+    {
+      "type": "text",
+      "id": "product1_description_text",
+      "label": "Short description",
+      "default": "Lorem Ipsum Dolor Sit Amet Consectetur"
+    },
+    {
+      "type": "checkbox",
+      "id": "product1_enable_toggle_content",
+      "label": "Enable link to more product details",
+      "info": "When enabled, when the user clicks on the link, the product details will open in a drawer"
+    },
+    {
+      "type": "text",
+      "id": "product1_toggle_content_label",
+      "label": "Link to see more details",
+      "default": "View details"
+    },
+        {
+      "type": "paragraph",
+      "content": "Custom product image"
+    },
+    {
+      "type": "image_picker",
+      "id": "product1_image",
+      "label": "Product Image",
+      "info": "if empty, the image of the product will be used"
+    },
+    {
+      "type": "paragraph",
+      "content": "Badge"
+    },
+    {
+      "type": "color",
+      "id": "product1_badge_background",
+      "label": "Background",
+      "default": "#000"
+    },
+    {
+      "type": "color",
+      "id": "product1_badge_label",
+      "label": "Label",
+      "default": "#fff"
+    },
+    {
+      "type": "header",
+      "content": "Drawer Product 1"
+    },
+    {
+      "type": "checkbox",
+      "id": "product1_enable_description",
+      "label": "Enable product description",
+      "info": "It will show product description"
+    },
+    {
+      "type": "checkbox",
+      "id": "product1_enable_custom_description",
+      "label": "Enable custom description",
+      "info": "To insert a custom description on field 'Custom Description'"
+    },
+    {
+      "type": "text",
+      "id": "product1_custom_description",
+      "label": "Custom Description"
+    },
+    {
+      "type": "checkbox",
+      "id": "product1_enable_badge",
+      "label": "Enable product badge",
+      "info": "It will show product badge"
+    },
+    {
+      "type": "text",
+      "id": "product1_badge",
+      "label": "Product Badge Text",
+      "default": "GET MIX PACK 10% OFF"
+    },
+    {
+      "type": "checkbox",
+      "id": "product1_enable_link_label",
+      "label": "Enable product link button"
+    },
+    {
+      "type": "text",
+      "id": "product1_link_label",
+      "label": "Product Link",
+      "default": "View Product"
+    },
+    {
+      "type": "header",
+      "content": "Product 2"
+    },
+    {
+      "type": "paragraph",
+      "content": "Custom background"
+    },
+    {
+      "type": "color",
+      "id": "product2_background",
+      "label": "Background Product Item",
+      "default": "#FAFAFA"
+    },
+    {
+      "type": "color",
+      "id": "product2_background_svg",
+      "label": "Background Product Detatils"
+    },
+    {
+      "type": "paragraph",
+      "content": "Choose a product"
+    },
+    {
+      "type": "product",
+      "id": "product2",
+      "label": "Product"
+    },
+    {
+      "type": "text",
+      "id": "product2_custom_title",
+      "label": "Custom Title",
+      "info": "if empty, the name of the product will be used"
+    },
+    {
+      "type": "checkbox",
+      "id": "product2_enable_short_description",
+      "label": "Enable short description",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "product2_description_text",
+      "label": "Short description",
+      "default": "Lorem Ipsum Dolor Sit Amet Consectetur"
+    },
+    {
+      "type": "checkbox",
+      "id": "product2_enable_toggle_content",
+      "label": "Enable link to more product details",
+      "info": "When enabled, when the user clicks on the link, the product details will open in a drawer"
+    },
+    {
+      "type": "text",
+      "id": "product2_toggle_content_label",
+      "label": "Link to see more details",
+      "default": "View details"
+    },
+    {
+      "type": "paragraph",
+      "content": "Custom product image"
+    },
+    {
+      "type": "image_picker",
+      "id": "product2_image",
+      "label": "Product Image",
+      "info": "if empty, the image of the product will be used"
+    },
+    {
+      "type": "paragraph",
+      "content": "Badge"
+    },
+    {
+      "type": "color",
+      "id": "product2_badge_background",
+      "label": "Background",
+      "default": "#000"
+    },
+    {
+      "type": "color",
+      "id": "product2_badge_label",
+      "label": "Label",
+      "default": "#fff"
+    },
+    {
+      "type": "header",
+      "content": "Drawer Product 2"
+    },
+    {
+      "type": "checkbox",
+      "id": "product2_enable_description",
+      "label": "Enable product description",
+      "info": "It will show product description"
+    },
+    {
+      "type": "checkbox",
+      "id": "product2_enable_custom_description",
+      "label": "Enable custom description",
+      "info": "To insert a custom description on field 'Custom Description'"
+    },
+    {
+      "type": "text",
+      "id": "product2_custom_description",
+      "label": "Custom Description"
+    },
+    {
+      "type": "checkbox",
+      "id": "product2_enable_badge",
+      "label": "Enable product badge",
+      "info": "It will show product badge"
+    },
+    {
+      "type": "text",
+      "id": "product2_badge",
+      "label": "Product Badge Text",
+      "default": "GET MIX PACK 10% OFF"
+    },
+    {
+      "type": "checkbox",
+      "id": "product2_enable_link_label",
+      "label": "Enable product link button"
+    },
+    {
+      "type": "text",
+      "id": "product2_link_label",
+      "label": "Product Link",
+      "default": "View Product"
+    },
+    {
+      "type": "header",
+      "content": "Colors General"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Headline",
+      "default": "#555555"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Description",
+      "default": "#555555"
+    },
+    {
+      "type": "color",
+      "id": "links",
+      "label": "Links",
+      "default": "#555555"
+    },
+    {
+      "type": "color",
+      "id": "icons_color",
+      "label": "Block Icon color",
+      "default": "#aaaaaa",
+      "info": "Only Icons SVG"
+    },
+    {
+      "type": "color",
+      "id": "product_image_border_color",
+      "label": "Product Image Border Color",
+      "default": "#e8e8e8"
+    },
+    {
+      "type": "header",
+      "content": "Drawer General"
+    },
+    {
+      "type": "paragraph",
+      "content": "Block Icon"
+    },
+    {
+      "type": "select",
+      "id": "icons_text_direction",
+      "label": "Block icon text direction",
+      "options": [
+        {
+          "label": "Right",
+          "value": "row-reverse"
+        },
+        {
+          "label": "Left",
+          "value": "revert"
+        },
+        {
+          "label": "Above",
+          "value": "column"
+        },
+        {
+          "label": "Below",
+          "value": "column-reverse"
+        }
+      ]
+    },
+    {
+      "id": "vasta_badges_size",
+      "type": "range",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "label": "Blocks icon per row for desktop",
+      "default": 4
+    },
+    {
+      "id": "vasta_badges_size_tablet",
+      "type": "range",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "label": "Blocks icon per row for tablet",
+      "default": 2
+    },
+    {
+      "id": "vasta_badges_size_mobile",
+      "type": "range",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "label": "Blocks icon per row for mobile",
+      "default": 2
+    },
+    {
+      "id": "drawer_description_height",
+      "type": "range",
+      "min": 0,
+      "max": 200,
+      "unit": "px",
+      "step": 2,
+      "label": "Description Height",
+      "default": 104
+    },
+    {
+      "id": "drawer_description_height_tablet",
+      "type": "range",
+      "min": 0,
+      "max": 200,
+      "unit": "px",
+      "step": 2,
+      "label": "Description Height Tablet",
+      "default": 120
+    },
+    {
+      "id": "drawer_description_height_mobile",
+      "type": "range",
+      "min": 0,
+      "max": 200,
+      "unit": "px",
+      "step": 2,
+      "label": "Description Height Mobile",
+      "default": 100
+    }
+  ],
+  "blocks": [
+    {
+      "type": "icon",
+      "name": "Icon",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Icon Title",
+          "default": "Title Example",
+          "placeholder": "Type Your Text Here"
+        },
+        {
+          "type": "textarea",
+          "id": "body_text",
+          "label": "Icon Body Text",
+          "default": "Text Example",
+          "placeholder": "Type Your Text Here"
+        },
+        {
+          "type": "checkbox",
+          "id": "use_custom_svg",
+          "label": "Enable Custom SVG",
+          "default": false
+        },
+        {
+          "type": "html",
+          "id": "custom_svg_html",
+          "label": "Custom SVG"
+        },
+        {
+          "type": "checkbox",
+          "id": "use_custom_image",
+          "label": "Enable Custom Image ",
+          "default": false
+        },
+        {
+          "type": "image_picker",
+          "id": "custom_img",
+          "label": "Custom Image",
+          "info": "32x32"
+        },
+        {
+          "type": "checkbox",
+          "id": "product1_enable_this_icon",
+          "label": "Show on drawer from Product 1",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "product2_enable_this_icon",
+          "label": "Show on drawer from Product 2",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Highlights",
+      "category": "Product Highlights"
+    }
+  ]
+}
+{% endschema %}

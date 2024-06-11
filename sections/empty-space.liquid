@@ -1,0 +1,49 @@
+<!-- start empty-space.liquid (SECTION) -->
+<section id="empty-space-section-{{ section.id }}" data-slider="{{ section.id }}" class="wrapper"></section>
+
+<style scoped>
+  #shopify-section-{{ section.id }} {
+    margin-top: {{ section.settings.custom-margin-top }}px;
+    margin-bottom: {{ section.settings.custom-margin-bottom }}px;
+    padding-top: {{ section.settings.custom-padding-top }}px;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Empty Space",
+  "class": "empty-space",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Custom Margins"
+    },
+    {
+      "type": "range",
+      "id": "custom-margin-top",
+      "min": 0,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "label": "Margin Top",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "custom-margin-bottom",
+      "min": 0,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "label": "Margin Bottom",
+      "default": 30
+    }
+  ],
+  "presets": [
+    {
+      "category": "Empty Space",
+      "name": "Empty Space"
+    }
+  ]
+}
+{% endschema %}

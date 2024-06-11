@@ -1,0 +1,53 @@
+<!-- start breadcrumb-product-count (SNIPPET) -->
+<div class="{% if settings.enable_breadcrumbs %}products-amount{% else%}products-amount-no-breadcrumbs{% endif %}">
+  <span class="{% if settings.enable_breadcrumbs %}products-amount-span{% else%} products-amount-span-no-breadcrumb {% endif %}">
+    {{ 'collections.general.showing_products' | t }}
+
+    <span class="product-count__initial-quantity">
+      {% if collection.all_products_count == 0 %}
+        0
+      {% else %}
+        1
+      {% endif %}
+    </span> -
+    <span class="product-count__final-quantity">
+      {% assign qntProductPerPage = settings.products_amount | plus: 0 %}
+
+      {% if collection.all_products_count < qntProductPerPage %}
+        {{ collection.all_products_count }}
+      {% else %}
+        {{ settings.products_amount }}
+      {% endif %}
+    </span> of 
+
+    <span class="product-count__total-quantity">
+      {{ collection.all_products_count }}
+
+      {% if collection.all_products_count > 1 %}
+        items
+      {% else %}
+        item
+      {% endif %}
+    </span>
+  </span>
+</div>
+
+<style>
+  .products-amount {
+    line-height: 1;
+    font-size: var(--breadcrumbFontSize, 1rem);
+    font-weight: 500;
+  }
+
+  @media (max-width: 1019px) {
+    .products-amount {
+      font-size: var(--breadcrumbFontSizeTablet, 1rem);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .products-amount {
+      font-size: var(--breadcrumbFontSizeMobile, 1rem);
+    }
+  }
+</style>

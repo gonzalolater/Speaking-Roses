@@ -1,0 +1,260 @@
+<!-- start collection-banner.liquid (SNIPPET) -->
+{%- assign show_banner = section.settings.img_banner -%}
+{%- assign enabled_remove_feature_image = settings.enabled_collection_featured_image_filter -%}
+{%- assign handles_list = settings.collection_featured_image_filter -%}
+{%- assign collections_title = handles_list | split: ';' -%}
+{%- assign handle_array = '' -%}
+
+{%- for title in collections_title -%}
+  {%- assign handled_title = title | handleize -%}
+  {%- assign handle_array = handle_array | join: ';' -%}
+  {%- assign handle_array = handle_array | append: ';' | append: handled_title -%}
+  {%- assign handle_array = handle_array | split: ';' -%}
+{%- endfor -%}
+
+{%- if settings.enabled_collection_featured_image
+  and handle_array contains collection.handle
+  and handles_list != blank
+  and enabled_remove_feature_image
+-%}
+  {%- assign show_banner = false -%}
+{%- endif -%}
+
+{%- comment -%} Start Shopify ID styles {%- endcomment -%}
+<style>
+  #shopify-section-{{ section.id }} .collection-banner__header-group {
+    position: absolute;
+    width: {{ section.settings.text_box_width_desktop }}%;
+
+    {% if section.settings.align_by_right_margin_desktop %}
+      right: {{ section.settings.titles_position_horizontal_desktop }}%;
+    {% else %}
+      left: {{ section.settings.titles_position_horizontal_desktop }}%;
+    {% endif %}
+
+    {% if section.settings.align_by_right_margin_desktop %}
+      bottom: {{ section.settings.titles_position_vertical_desktop }}%;
+    {% else %}
+      top: {{ section.settings.titles_position_vertical_desktop }}%;
+    {% endif %}
+  }
+
+  #shopify-section-{{ section.id }} .collection-banner__title {
+    color: {{ section.settings.title_collection_color }};
+    font-size: {{ section.settings.font_size_title_desktop }}px;
+  }
+
+  #shopify-section-{{ section.id }} .collection-banner__description {
+    color: {{ section.settings.subtitle_collection_color }};
+    font-size: {{ section.settings.font_size_subtitle_desktop }}px;
+  }
+
+  @media (max-width: 1019px) {
+    #shopify-section-{{ section.id }} .collection-banner__header-group {
+      position: absolute;
+      width: {{ section.settings.text_box_width_tablet }}%;
+
+      {% if section.settings.align_by_right_margin_tablet %}
+        right: {{ section.settings.titles_position_horizontal_tablet }}%;
+      {% else %}
+        left: {{ section.settings.titles_position_horizontal_tablet }}%;
+      {% endif %}
+
+      {% if section.settings.align_by_right_margin_tablet %}
+        bottom: {{ section.settings.titles_position_vertical_tablet }}%;
+      {% else %}
+        top: {{ section.settings.titles_position_vertical_tablet }}%;
+      {% endif %}
+    }
+    #shopify-section-{{ section.id }} .collection-banner__title {
+      font-size: {{ section.settings.font_size_title_tablet }}px;
+    }
+    #shopify-section-{{ section.id }} .collection-banner__description {
+      font-size: {{ section.settings.font_size_subtitle_tablet }}px;
+    }
+  }
+
+  @media (max-width: 767px){
+    #shopify-section-{{ section.id }} .collection-banner__header-group {
+      position: absolute;
+      padding: 0 0 0 1px;
+      margin: 0;
+      width: {{ section.settings.text_box_width_mobile }}%;
+
+      {% if section.settings.align_by_right_margin_mobile %}
+        right: {{ section.settings.titles_position_horizontal_mobile }}%;
+      {% else %}
+        left: {{ section.settings.titles_position_horizontal_mobile }}%;
+      {% endif %}
+      
+      {% if section.settings.align_by_right_margin_mobile %}
+        bottom: {{ section.settings.titles_position_vertical_mobile }}%;
+      {% else %}
+        top: {{ section.settings.titles_position_vertical_mobile }}%;
+      {% endif %}
+    }
+    #shopify-section-{{ section.id }} .collection-banner__title {
+      font-size: {{ section.settings.font_size_title_mobile }}px;
+    }
+    #shopify-section-{{ section.id }} .collection-banner__description {
+      font-size: {{ section.settings.font_size_subtitle_mobile }}px;
+    }
+  }
+</style>
+{%- comment -%} End Shopify ID styles {%- endcomment -%}
+
+<style scoped>
+  .collection-banner-wrapper {
+    position: relative;
+    height: 452px;
+  }
+
+  .collection-banner {
+    position: relative;
+    height: 0;
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+  }
+
+  .collection-banner__image {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .collection-banner__header-group {
+    padding-left: 6px;
+    line-height: 1.2;
+  }
+
+  .collection-banner__title {
+    margin-bottom: 2px;
+  }
+
+  .collection-banner__description {
+    line-height: 1.45;
+  }
+
+  .collection-page__title-wrapper {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+    padding: 0 20px;
+  }
+
+  body .collection-page__title {
+    color: #FFF;
+    text-align: center;
+  }
+  
+  @media (min-width: 1281px) {
+
+    body #shopify-section-{{ section.id }} .collection-description__text.see-more.see-more:not(.collection-description__text--opened){
+      padding: 0;
+    }
+    .collection-page__title, .collection-description {
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+  }
+
+  @media (max-width: 1019px) {
+    .collection-banner {
+      padding-top: 31.386%;
+    }
+    .collection-banner__title {
+      margin-bottom: 0px;
+      line-height: 33px;
+    }
+    .collection-page__title {
+      color: #FFF;
+    }
+    .collection-banner-wrapper {
+      position: relative;
+      width: 768px;
+      height: 241.732px;
+    }
+    .collection-banner__description {
+      line-height: 30px;
+    }
+    .collection-banner__image {
+      top: 1px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .collection-banner-wrapper {
+      position: relative;
+      width: 375px;
+      height: 117.382px;
+    }
+    
+    .collection-banner__image {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .collection-banner__title {
+      line-height: 26px;
+      margin: 0;
+    }
+    
+    .collection-banner__description {
+        line-height: 100%;
+        margin: 0;
+    }
+  }
+</style>
+
+
+{%- if settings.enabled_collection_featured_image == true and show_banner and collection.image != blank-%}
+  <div class="collection-banner-wrapper">
+    {% if collection.image != blank %}
+      <div class="collection-banner">
+        {%- assign image_desktop_width = 2500 -%}
+        {%- assign image_desktop_height = image_desktop_width | times: 1 -%}
+
+        {%- if section.settings.collection_banner_image_checkbox -%}
+          {%- assign temp_height = section.settings.collection_banner_image | divided_by: 100.0 -%}
+          {%- assign image_desktop_height = image_desktop_width | times: temp_height | round: 0 -%}
+        {%- endif -%}
+
+        {{
+          collection.image
+          | image_url: width: image_desktop_width, height: image_desktop_height
+          | image_tag:
+            width: image_desktop_width,
+            height: image_desktop_height,
+            class: 'collection-banner__image',
+            sizes: '(max-width: 479px) 479px, (max-width: 767px) 767px, (max-width: 1019px) 1019px, (max-width: 1279px) 1279px, (min-width: 1280px) 1280px'
+        }}
+      </div>
+    {% endif %}
+
+    <div class="collection-banner__header-group">
+      <h2 class="collection-banner__title">{{ collection.title }}</h2>
+      <div class="collection-banner__description">{{ collection.description }}</div>
+      
+      {% comment %} {%- if collection.metafields.field.banner_text != blank -%}
+        <div class="collection-banner__description">{{ collection.metafields.field.banner_text | metafield_tag }}</div>
+      {%- endif -%} {% endcomment %}
+    </div>
+  </div>
+{%- endif -%}

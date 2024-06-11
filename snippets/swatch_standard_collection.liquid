@@ -1,0 +1,59 @@
+<!-- start swatch_standard_collection.liquid (SNIPPET) -->
+{%- for product_option in prod.options_with_values -%}
+  {% for value in product_option.values %}
+    {%- for variant in prod.variants -%}
+      {%- if variant.options contains value -%}
+        {%- assign url_variant = variant.url -%}
+        {%- assign id_variant = variant.id -%}
+      {%- endif -%}
+    {%- endfor -%}
+    {%- assign name_swatch = 'size' -%}
+    {%- if settings.label_swatch_color_collection != blank -%}
+      {%- assign name_swatch = settings.label_swatch_color_collection | downcase -%}
+    {%- endif -%}
+
+    {%- assign downcasedProductOptionName = product_option.name | downcase -%}
+
+    {%- if downcasedProductOptionName contains name_swatch -%}
+      <label
+        class="swatch-element swatch-element-standard"
+        data-swatch="{{ value | handle }}"
+        style="{%if settings.select_swatch_collection == 'size'%} display: flex; height: 100%; width: auto; margin: 2px; {%endif%}"
+      >
+        <input
+          type="radio"
+          id="swatch-input-standard-variant-{{ forloop.index }}-{{ id_variant }}"
+          class="swatch-variant-value jq-swatch-element"
+          value="{{ value | handle }}"
+          data-swatch-index="{{ forloop.index }}"
+          name="swatch_element_standard"
+          {% if forloop.index == 1 and settings.enabled_show_atc_all_variants_choosed == false %}
+            checked
+          {% endif %}
+          {% if forloop.index > 1 %}
+            disabled
+          {% endif %}
+          required
+        >
+        <a
+          title="Swatch"
+          id="swatch-standard-variant-{{ forloop.index | times: forloop.index }}-{{ id_variant }}"
+          aria-label="Swatch Standard Variant"
+          href="{{ url_variant | default: '#' }} "
+          style="position: relative"
+        >
+          <span
+            class="swatch-value {% if settings.swatch_round %} round {% endif %}"
+            style="{%if settings.select_swatch_collection == 'size'%} {% if settings.swatch_round %}border-radius: 20px;{%endif%} {%endif%}"
+          >
+            {{- value -}}
+          </span>
+          <span
+            class="swatch-value-checked {% if settings.select_swatch_collection ==  'color' %}color{% else %}size{% endif %}"
+            style="{%if settings.select_swatch_collection == 'size'%} top: 0px; left: -4px; {%endif%}"
+          ></span>
+        </a>
+      </label>
+    {%- endif -%}
+  {%- endfor -%}
+{%- endfor -%}

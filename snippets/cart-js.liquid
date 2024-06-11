@@ -1,0 +1,321 @@
+<!-- start cart-js.liquid (SNIPPET) -->
+<script>
+  (function () {
+    window.CartAPI = (function ($) {
+      'use strict';
+      let couponOriginalContent = $('.cart__coupon').html();
+      if (couponOriginalContent) {
+        couponOriginalContent = $('.cart__coupon').html().trim();
+      }
+
+      const $cartPage = $('#cart-layout');
+
+      const methods = {
+
+        async addItem(data) {
+          return await $.ajax({
+            url: window.Shopify.routes.root + 'cart/add.js',
+            method: 'post',
+            dataType: 'json',
+            data: data,
+          });
+        },
+
+        async updateItem(id, quantity) {
+          return await $.ajax({
+            url: window.Shopify.routes.root + 'cart/update.js',
+            method: 'post',
+            dataType: 'json',
+            data: {
+              updates: {
+                [id]: quantity,
+              },
+            },
+          });
+        },
+
+        async buildCart(callback = null) {
+          try {
+            const parser = new DOMParser();
+            const cartJSON = await $.getJSON(window.Shopify.routes.root + 'cart.js');
+            const cartPage = await $.ajax({
+              url: location.origin + '/cart',
+            });
+            const cartPageContent = parser.parseFromString(cartPage, 'text/html');
+            const $cartForm = $(cartPageContent.querySelector('#CartItemsForm'));
+
+            $('#cart-items').empty().html($cartForm);
+            $('.header__cart__count').html(cartJSON.item_count);
+
+            if (typeof shipping !== 'undefined') {
+              shipping.cart = cartJSON;
+
+              this.updateCouponFieldText(shipping, cartJSON);
+            }
+
+            if (cartJSON.item_count > 0) {
+              const lineItem = cartJSON.items[0];
+
+              $.get(
+                '/recommendations/products.json?product_id=' + lineItem.product_id + '&limit={{ settings.products_cart_page_upsell }}',
+                async function (res) {
+                  window.ALLPRODUCTS = res;
+                  var upsellProducts = document.querySelector('.cart_upsell-list-items');
+                  var item = '';
+
+                  $(window.ALLPRODUCTS.products).each(function (i, el) {
+                    Shopify.Image.loadImage(el.featured_image);
+                    item += '<div class="cart__upsell-product" data-product-id="' + el.id + '">';
+                    item += '<div class="cart__upsell-product-image-wrapper">';
+                    item += '<a class="upsell-product-image-link" href="/products/' + el.handle + '"> ';
+                    item +=
+                      '<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAABhGlDQ1BJQ0MgcHJvZmlsZQAAKJF9kT1Iw0AcxV9Ta0UqDkYQcchQnSyIijhqFYpQIdQKrTqYXPohNGlIUlwcBdeCgx+LVQcXZ10dXAVB8APE0clJ0UVK/F9SaBHrwXE/3t173L0DhFqJ6XbHGKAbjpVKxKVMdkUKvyKETojoh6gw25yV5STajq97BPh6F+NZ7c/9OXq0nM2AgEQ8w0zLIV4nntp0TM77xCIrKhrxOfGoRRckfuS66vMb54LHAs8UrXRqjlgklgotrLYwK1o68SRxVNMNyhcyPmuctzjrpQpr3JO/MJIzlpe4TnMICSxgETIkqKhgAyU4iNFqkGIjRfvxNv5Bzy+TSyXXBhg55lGGDsXzg//B727t/MS4nxSJA6EX1/0YBsK7QL3qut/Hrls/AYLPwJXR9JdrwPQn6dWmFj0CereBi+umpu4BlzvAwJOpWIonBWkK+TzwfkbflAX6boHuVb+3xj5OH4A0dZW8AQ4OgZECZa+1eXdXa2//nmn09wMjG3KHDOS4EQAAAAlwSFlzAAAuIwAALiMBeKU/dgAAAAd0SU1FB+YFBhQWEhVMTaAAAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAADElEQVQI12O4f/8+AAU+Ap5GJPuHAAAAAElFTkSuQmCC" data-src="' +
+                      resizeImage(el.featured_image) +
+                      '" alt="Upsell Product" class="cart__upsell-product-image" width="100" height="100" data-class="LazyLoad">';
+                    item += '</a>';
+                    item += '</div>';
+
+                    item += '<div class="cart__upsell-product-info">';
+                    item += '<div class="cart__upsell-product-title-wrapper">';
+                    item += '<h2 class="cart__upsell-product-title">';
+                    item += '<a class="cart__upsell-product-title-link" href="/products/' + el.handle + '"> ';
+                    item += el.title;
+                    item += '</a>';
+                    item += '</h2>';
+                    item += '</div>';
+                    item += '<div class="cart__upsell-product-review">';
+                    item += '<svg width="114" height="22" viewBox="0 0 114 22" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+                      '<path d="M11.1938 0L13.707 7.60081H21.8398L15.2602 12.2984L17.7734 19.8992L11.1938 15.2016L4.61426 19.8992L7.12743 12.2984L0.547865 7.60081H8.68066L11.1938 0Z" fill="#595959" />' +
+                      '<path d="M34.5815 0L37.0947 7.60081H45.2275L38.6479 12.2984L41.1611 19.8992L34.5815 15.2016L28.002 19.8992L30.5151 12.2984L23.9356 7.60081H32.0684L34.5815 0Z" fill="#595959" />' +
+                      '<path d="M57.4604 0L59.8593 7.60081H67.6225L61.342 12.2984L63.7409 19.8992L57.4604 15.2016L51.1799 19.8992L53.5789 12.2984L47.2984 7.60081H55.0615L57.4604 0Z" fill="#595959" />' +
+                      '<path d="M80.3391 0L82.8523 7.60081H90.9851L84.4055 12.2984L86.9187 19.8992L80.3391 15.2016L73.7595 19.8992L76.2727 12.2984L69.6931 7.60081H77.8259L80.3391 0Z" fill="#595959" />' +
+                      '<path d="M102.903 0L105.394 7.60081H113.457L106.934 12.2984L109.426 19.8992L102.903 15.2016L96.3799 19.8992L98.8714 12.2984L92.3486 7.60081H100.411L102.903 0Z" fill="#595959" />' +
+                    '</svg>';
+                    item += '<span>(4.8 of 1000 Reviews)</span>';
+                    item += '</div>';
+                    item += '<div class="cart__upsell-atc-wrapper">';
+                    item += '<form action="/cart/add" class="cart__upsell-atc-form">';
+                    item += variantOptions(el, i);
+                    item += '<input type="hidden" name="items[' + i + '][quantity]" value="1"/>';
+                    item += '<div class="cart__upsell-product-atc-wrapper">';
+                    item += '<div class="cart__upsell-product-price-wrapper">';
+                    item += '<div class="cart__upsell-product-price"> ';
+                    item += '<span class="cart__upsell-price">' + Shopify.formatMoney(el.price) + '</span> ';
+                    item += '</div>';
+                    item += '</div>';
+                    item += '<div class="cart__upsell-atc-btn-wrapper">';
+                    item +=
+                      '<button id="upsell-atc-' +
+                      lineItem.product_id +
+                      '" class="cart__upsell-atc-price btn" disabled="' +
+                      disabledButton(el) +
+                      '" data-variant="' +
+                      lineItem.product_id +
+                      '">{{ settings.upsell_atc_btn_text }}</button>';
+                    item += '<span class="upsell-produce-atc___mask"></span>';
+                    item += '</div>';
+                    item += '</div>';
+                    item += '</form>';
+                    item += '</div>';
+                    item += '</div>';
+                    item += '</div>';
+                  });
+
+                  $('#upsell-cart-template').removeClass('hide');
+
+                  if(upsellProducts) {
+                    $(upsellProducts).slick('unslick');
+                    upsellProducts.innerHTML = item;
+                    $(upsellProducts).slick({
+                      prevArrow: '<button type="button" class="prev-arrow"></button>',
+                      nextArrow: '<button type="button" class="next-arrow"></button>',
+                      infinite: true,
+                      slidesToShow: 3,
+                      slidesToScroll: 1,
+                      centerPadding: '0px',
+                      centerMode: true,
+                      variableWidth: true,
+                    });
+                  }
+
+                }
+              );
+
+              function resizeImage(imageSRC) {
+                if (/\.(jpg|png|gif)/.test(imageSRC)) {
+                  return Shopify.Image.getSizedImageUrl(imageSRC, '300x');
+                }
+
+                return imageSRC;
+              }
+
+              function disabledButton(element) {
+                if (element.variants.length > 1) {
+                  return 'disabled';
+                } else {
+                  return '';
+                }
+              }
+
+              function variantOptions(element, i) {
+                var content = '';
+                var selectOptions = '';
+
+                content += '<div class="cart__upsell-select-wrapper">';
+                element.options.forEach((e) => {
+                  selectOptions += '<select class="cart__upsell-product-select" data-index="' + e.position +'">';
+                  selectOptions += '<option value="" selected disabled>' + e.name + ':</option>';
+
+                  if(e.position == 1) {
+                    selectOptions += Options(e, e.position, element.variants);
+                  }
+                  selectOptions += '</select>';
+                });
+                content += selectOptions;
+                content += allVariantsOptions(element, true, i);
+                content += '</div>';
+
+                function Options(e, optionIndex, variants) {
+                  var options = '';
+                  e.values.forEach((val) => {
+                    if (variants.some((v) => v.available && v.options[optionIndex - 1] == val)) {
+                      options += '<option value="' + val + '">' + val + '</option>';
+                    }
+                  });
+                  return options;
+                }
+
+                return content;
+              }
+
+              function allVariantsOptions(element, hide, i) {
+                var content = '';
+
+                if (hide) {
+                  content +=
+                    '<select id="upsell-all-product-variants" name="items[' + i +'][id]" class="cart__upsell-all-product-variants hide" data-productid="' +
+                    element.id +
+                    '" disabled>';
+                  element.variants.forEach((e) => {
+                    if (e.available) {
+                      content += '<option value="' + e.id + '"></option>';
+                    }
+                  });
+                  content += '</select>';
+                } else {
+                  content +=
+                    '<select id="upsell-all-product-variants" name="items[' + i +'][id]" class="cart__upsell-all-product-variants cart__upsell-product-select" data-productid="' +
+                    element.id +
+                    '">';
+                  content += '<option value="" selected disabled>' + element.options[0].name + ':</option>';
+                  content +=
+                    '<option value="' + element.variants[0].id + '">' + element.variants[0].title + '</option>';
+                  content += '</select>';
+                }
+
+                return content;
+              }
+            }
+
+            if (typeof callback === 'function') {
+              callback(cartJSON);
+            }
+          } catch (err) {
+            console.error('[BUILD CART]', err);
+          }
+        },
+
+        updateCouponFieldText(shipping, cart) {
+          if (typeof shipping !== 'undefined') {
+            if (cart.total_price >= shipping.discountValue) {
+              $('.cart__coupon').html(shipping.discountText);
+            } else {
+              $('.cart__coupon').html(couponOriginalContent);
+            }
+          }
+        },
+      };
+
+      $('form[action*="/cart/add"]').submit(async function (e) {
+        const $form = $(this);
+        const quantity = $form.find('[name="quantity"]').val();
+        const id = $form.find('[name="id"]').val();
+
+        e.preventDefault();
+
+        $('.btn-atc__progressbar').css('width', 0).show().animate(
+          {
+            width: '99.5%',
+          },
+          700
+        );
+
+        await methods.addItem($form.serialize());
+        await methods.buildCart();
+
+        $('.btn-atc__progressbar').css('width', '100%').fadeOut();
+      });
+
+      $cartPage.on('click', '.cart-items__item-minus', async function (e) {
+        const $btn = $(e.target);
+        const $lineItem = $btn.closest('.cart-items__line-item');
+        const key = $lineItem.data('key');
+        const $quantity = $lineItem.find('.cart-items__item-quantity');
+        let qty = parseInt($quantity.val() || 1);
+
+        $btn.prop('disabled', true);
+
+        e.preventDefault();
+
+        qty = Math.max(0, qty - 1);
+
+        if (qty > 0) {
+          $quantity.val(qty);
+
+          await methods.updateItem(key, qty);
+          await methods.buildCart();
+        }
+      });
+
+      $cartPage.on('click', '.cart-items__item-plus', async function (e) {
+        const $btn = $(e.target);
+        const $lineItem = $btn.closest('.cart-items__line-item');
+        const key = $lineItem.data('key');
+        const $quantity = $lineItem.find('.cart-items__item-quantity');
+        let qty = parseInt($quantity.val() || 1);
+
+        $btn.prop('disabled', true);
+
+        e.preventDefault();
+
+        qty = qty + 1;
+
+        $quantity.val(qty);
+
+        await methods.updateItem(key, qty);
+        await methods.buildCart();
+      });
+
+      $cartPage.on('blur', '.cart-items__item-quantity', async function (e) {
+        const $ipt = $(e.target);
+        const $lineItem = $ipt.closest('.cart-items__line-item');
+        const key = $lineItem.data('key');
+        const qty = parseInt($ipt.val() || 1);
+
+        await methods.updateItem(key, qty);
+        await methods.buildCart();
+      });
+
+      $cartPage.on('click', '.cart-items__item-remove', async function (e) {
+        const $btn = $(e.target);
+        const $lineItem = $btn.closest('.cart-items__line-item');
+        const key = $lineItem.data('key');
+
+        await methods.updateItem(key, 0);
+        await methods.buildCart();
+      });
+
+      return methods;
+    })(jQuery);
+  })();
+</script>

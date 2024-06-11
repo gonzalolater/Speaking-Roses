@@ -1,0 +1,343 @@
+<!-- start product-js.liquid (SNIPPET) -->
+<script>
+  const enableOutOfStockButton = {{ settings.enable_out_of_stock_button | default: false }};
+</script>
+<script type="lazyload_int">
+   (function ($) {
+			if (typeof VastaSwatch !== 'undefined') {
+				VastaSwatch({
+					productHandle: location.pathname,
+					enableOutOfStockButton: enableOutOfStockButton,
+					onVariantChange: function(variant){
+						const $productFeatured = $('.jq-featured-slider');
+						const position = variant.featured_image ? variant.featured_image.position : null;
+						const index = position !== null ? Math.max(parseInt(position), 0) : 1;
+						
+						
+							if (typeof $productFeatured.slick === 'function') {
+								const slide = $('.slick-slide [data-position="' + index + '"]', $productFeatured);
+								const slideIndex = parseInt(slide.closest('.slick-slide').attr('data-slick-index'));
+
+								$productFeatured.slick('slickGoTo', slideIndex || 0);
+							}
+						
+					}
+				});
+			}
+
+   	{% if settings.product_enabled_recharge %}
+   		recharge();
+   	{% endif %}
+
+   	$(window).on('scroll', function() {
+   		try {
+				if( $("#button-out-of-stock").is(":visible") == false ) {
+					const $mainFooter = $('.footer-section').eq(0);
+					var _positionTop = $('#AddToCart');
+					var offsetTop = _positionTop.offset().top;
+					var scrollPostion = $(this).scrollTop() + 10;
+					var documentHeight = $mainFooter.offset().top;
+					var footerHeight = $mainFooter.height();
+					var footer = $mainFooter.offset().top;
+					var appear = $(window).scrollTop() + $(window).height();
+					if (scrollPostion > offsetTop && appear < footer) {
+						$('#AddToCart3').addClass("AddToCartFixed");
+						$('#AddToCart3').removeClass("no-show");
+					} else {
+						$('#AddToCart3').removeClass("AddToCartFixed");
+						$('#AddToCart3').addClass("no-show");
+					}
+				}
+			} catch(err) {
+				console.error(err);
+			}
+   	});
+
+   	/*
+   	 * 
+   	 */
+   	$('#all-product-variants').change(function() {
+   		inventoryControl($(this).val());
+		
+   		$('#ButtonPlus').add($('#ButtonMinus')).removeAttr('disabled');
+   		$("#StockWarning").removeClass('stock-wrn--active');
+   	});
+
+	$('.pplr-wrapper').click(function() {
+		let currentPrice = $('.new-current-price').first().text();
+		$('.btn-add-tocart .btn-money').html($('.new-current-price').first().text());
+	});
+		
+	   
+   	/**
+   	* Activate Floating ACT
+   	* @function[<act-button-floating>]
+   	*
+   	* This function activates the floating ACT button on the foot wheel of the page
+   	*
+   	* Dependencies: none
+   	*
+   	* @param: none
+   	*
+   	*/
+   	function product_box_floating() {
+   		const components = {
+   			$shippingBar: $('#shipping-bar'),
+   			$productTabs: $('.product-info .product-tabs').eq(0)
+   		};
+   		const shippingBarHeight = components.$shippingBar.height();
+   		const shipping_bar_height = parseFloat(shippingBarHeight);
+   		const scrollTop = parseFloat($(this).scrollTop());
+   		if (components.$productTabs.length > 0) {
+   			const offsetTabs = parseFloat(components.$productTabs.offset().top);
+   			if ((offsetTabs - scrollTop) <= (0 + shipping_bar_height)) {
+   				$('.product-box-float').addClass('show');
+   			} else {
+   				$('.product-box-float').removeClass('show');
+   			}
+   		}
+   	}
+   	$(window).scroll(product_box_floating);
+   	$(window).resize(product_box_floating);
+
+  	function dynamicVideos() {
+  		$('.dynamic-video__slider').slick({
+  			slidesToShow: 1,
+  			slidesToScroll: 1,
+  			prevArrow: '<button type="button" class="slick-prev">&lang;</button>',
+  			nextArrow: '<button type="button" class="slick-next">&rang;</button>',
+  		});
+  	}
+
+  	dynamicVideos();
+
+  	$(window).on('shopify:block:select shopify:section:select', function(e){
+  		const el = $(e.target);
+  		let settings = el.data('shopify-editor-section') || null;
+  		if (settings && settings.type) {
+  			dynamicVideos();
+  		}
+  	});
+  })(jQuery);
+</script>
+
+{% comment %} Product Slider {% endcomment %}
+<script type="lazyload_int">
+	(function(){
+		'use strict';
+
+		const $featuredSlider = $('.jq-featured-slider');
+		const $thumbnailsSlider = $('.product-slider-thumbnails');
+		const variantID = parseInt(Shopify.urlParam('variant'));
+		const slidesToShow = {{ settings.thumbnails_options | default: 5 }};
+		const slideEffect = "{{ settings.effect_options }}";
+		const effectIsFade = slideEffect == 'fade' ? true : false;
+		
+		let swatchLocked = false;
+
+		$featuredSlider.on('init', function (event, slick) {
+			$('.lds-css.ng-scope').remove();
+			$('.product-slider').removeClass('invisible');
+			{%- if settings.enable_zoom_feature_for_desktop -%}
+				if ($(window).width() >= 768) {
+					$('.magnify-zoom img').magnify();
+				}
+			{%- endif -%}
+		});
+
+		$('.jq-swatch-element,.jq-product-variant').change(function() {
+			swatchLocked = true;
+		});
+
+		$featuredSlider.on('beforeChange', function(event, slick, currentSlideIndex) {
+			const iframesVimeo = $('.slick-current .product-slider__vimeo-video iframe', slick.$slider);
+			const iframesYt = $('.slick-current .youtube-player iframe', slick.$slider);
+			const videosSource = $('.slick-current video', slick.$slider);
+
+			iframesVimeo.each(function(i){
+				this.src = this.src;
+			});
+
+			iframesYt.each(function(i){
+				const youtubeplay = this.parentNode;
+				var videoId = youtubeplay.dataset.id;
+				var div = document.createElement('div');
+				div.setAttribute('data-id', videoId);
+				var thumbNode = document.createElement('img');
+				thumbNode.src = '//i.ytimg.com/vi/ID/hqdefault.jpg'.replace('ID', videoId);
+				div.appendChild(thumbNode);
+				var playButton = document.createElement('div');
+				playButton.setAttribute('class', 'play');
+				div.appendChild(playButton);
+				var background = document.createElement('div');
+				background.setAttribute('class', 'play-background');
+				playButton.appendChild(background);
+				var icon = document.createElement('div');
+				icon.setAttribute('class', 'play-icon');
+				playButton.appendChild(icon);
+				var leftSide = document.createElement('div');
+				leftSide.setAttribute('class', 'play-left-side');
+				icon.appendChild(leftSide);
+				var rightSide = document.createElement('div');
+				rightSide.setAttribute('class', 'play-right-side');
+				icon.appendChild(rightSide);
+				div.onclick = function () {
+					labnolIframe(this);
+				};
+				youtubeplay.replaceChild(div, this);
+			});
+
+			function labnolIframe(div) {
+				const iframe = document.createElement('iframe');
+				iframe.setAttribute('src', 'https://www.youtube.com/embed/' + div.dataset.id + '?autoplay=1&rel=0');
+				iframe.setAttribute('frameborder', '0');
+				iframe.setAttribute('allowfullscreen', '1');
+				iframe.setAttribute('allow', 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture');
+				div.parentNode.replaceChild(iframe, div);
+			}
+
+			videosSource.each(function(i){
+				this.load();
+			});
+		});
+
+		$featuredSlider.on('afterChange', function(event, slick, currentSlideIndex) {
+			if (swatchLocked === false) {
+				const current_slide = $('.product-slider-thumbnails .slick-current .product-slider__image-wrapper').data('forloop-index');
+				let variant_option = $('.all-variant option[data-image-position="' + current_slide + '"]');
+				if (variant_option.length > 0 && current_slide != '') {
+					variant_option = variant_option.eq(0);
+					variant_option.data('options').split(',').forEach(function(option) {
+						var productVariation = option.replace(/"/g, '\\"').replace(/'/g, "\\'");
+							$('.product-variant option[value="' + productVariation + '"]').parent().val(productVariation.replace(/\\/gi, '')).trigger('change');
+						$('.swatch-element[data-swatch="' + productVariation + '"]').trigger("click");
+					});
+				}
+			}
+			swatchLocked = false;
+		});
+
+		$featuredSlider.slick({
+			lazyLoad: 'ondemand',
+			const: 1,
+			conste: effectIsFade,
+			prevArrow: '<button type="button" class="slick-prev"></button>',
+			nextArrow: '<button type="button" class="slick-next"></button>',
+			asNavFor: $thumbnailsSlider
+		});
+
+		$thumbnailsSlider.slick({
+			{%- if settings.select_position_thumbnails != "below" -%}
+				vertical: true,
+				verticalSwiping: true,
+			{%- endif -%}
+			lazyLoad: 'ondemand',
+			infinite: true,
+			slidesToShow: slidesToShow,
+			focusOnSelect: true,
+			asNavFor: $featuredSlider,
+			prevArrow: '<button type="button" class="slick-prev"></button>',
+			nextArrow: '<button type="button" class="slick-next"></button>',
+			responsive: [{
+				breakpoint: 768,
+				settings: {
+					vertical: false,
+					verticalSwiping: false,
+				}
+			}]
+		});
+	})(jQuery);
+</script>
+
+{% comment %} Input Quantity, Buttons Plus & Minus {% endcomment %}
+<script type="lazyload_int">
+	(function(){
+		'use strict';
+
+		/*
+		 * Update ATC Price
+		 * 
+		 * @param {Number} quantity Quantity for be added.
+		 * @param {Object} variant Variant for be added.
+		 */
+		function updateATC(quantity, variant = null) {
+			try {
+				if (!variant) {
+					variant = VastaShop.Product.current.variants.find(function(v){
+						return v;
+					});
+				
+				} 
+				if (!variant) {
+					throw new Error('No selected variant');
+				}
+				
+			} catch(err) {
+				console.error(err);
+			}
+			$('.btn-add-tocart .btn-items').html(quantity + (quantity == 1 ? ' Item': ' Items'));
+			$('.btn-add-tocart .btn-money').html(Shopify.formatMoney(quantity * variant.price));
+
+			if (variant.compare_at_price){
+			$('.compare-btn .money').html(Shopify.formatMoney(quantity * variant.compare_at_price));
+			}
+		}
+		
+		/*
+		 * Input Quantity
+		 */
+		$('#ProductQuantity').on('blur input', function(){
+			const $input = $(this);
+			{% comment %} let limit = parseInt($input.data('max') || -1); {% endcomment %}
+			let max = $input.attr('data-max'); 
+			let quantity = parseInt($input.val() || 1); 
+			quantity = Math.max(1, quantity);
+			quantity = Math.min(max, quantity);
+
+
+			$input.val(quantity);
+			inventoryControl($('.all-variant').val());
+			$('#ButtonMinus').prop('disabled', (quantity === 1));
+			$('#ButtonPlus').prop('disabled', (quantity === max));
+			$("#StockWarning")[quantity === max ? 'addClass': 'removeClass']('stock-wrn--active');
+			
+			updateATC(quantity);
+		});
+
+		/*
+		 * Button Plus
+		 */
+		$('#ButtonPlus').click(function(e){
+			e.preventDefault();
+
+			
+
+			const $inputQty = $('#ProductQuantity');
+			const limit = parseInt($inputQty.data('max') || -1);
+			let max = $inputQty.attr('data-max'); 
+			let quantity = parseInt($inputQty.val() || 1);
+
+			quantity++;
+			quantity = Math.min(max, quantity);
+			$inputQty.val(quantity).trigger('input');
+			updateATC(quantity);
+		});
+
+		/*
+		 * Button Minus
+		 */
+		$('#ButtonMinus').click(function(e){
+			e.preventDefault();
+
+			const $inputQty = $('#ProductQuantity');
+			let quantity = parseInt($inputQty.val() || 1);
+
+			quantity--;
+			quantity = Math.max(1, quantity);
+			$inputQty.val(quantity).trigger('input');
+			updateATC(quantity);
+		});
+	})(jQuery);
+</script>
+
+

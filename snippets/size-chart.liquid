@@ -1,0 +1,33 @@
+<!-- start size-chart.liquid (SNIPPET) -->
+<div class="modal-container modal-container-{{ size_chart_id }} jq-sizechart-modal" data-id="{{ size_chart_id }}">
+  <div class="modal-box {% if size_chart_content_type == 'image' %}size-chart-image{% endif %}">
+    <span class="modal-close">x</span>
+    <div class="modal-content">
+      {%- case size_chart_content_type -%}
+        {%- when 'image' -%}
+          {%- render 'responsive-image',
+            id: 'size-chart',
+            image: size_chart_image,
+            lazyload: true,
+            class: 'modal-img',
+            width: 700,
+            no_wrap: true
+          -%}
+        {%- when 'page' -%}
+          {%- assign page_temp = pages[size_chart_page] -%}
+
+          <div class="modal-page">
+            <div class="title modal-page-title">{{ page_temp.title }}</div>
+
+            <div class="modal-page-content">
+              {% if page_temp.content != blank %}
+                {{ page_temp.content }}
+              {% else %}
+                {{ settings.text_page_default | default: 'Coming soon.' }}
+              {% endif %}
+            </div>
+          </div>
+      {%- endcase -%}
+    </div>
+  </div>
+</div>

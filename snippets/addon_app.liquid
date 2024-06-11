@@ -1,0 +1,194 @@
+<!-- start addon_app.liquid (SNIPPET) -->
+{%- assign addhandle =  '' -%}
+{%- assign check_collection_smar = 'Bump' -%}
+
+{%- if product.tags contains 'Revenue' -%}
+
+  {%- for collection in product.collections -%}
+    {%- if  collection.title contains  check_collection_smar -%}
+      {%- assign addhandle =  collection.handle -%}
+    {%- endif -%}
+  {%- endfor -%}
+  
+  {%- if addhandle != '' and template contains 'product' -%}
+
+    <link rel=" prefetch stylesheet" data-href="{{ 'revenue.css' | asset_url }}">
+    <link rel='prefetch stylesheet' data-href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css' />
+    <script data-src="{{ 'revenue.js' | asset_url }}"></script>
+    <script data-src="{{ 'option_selection.js' | shopify_asset_url }}"></script>
+
+    <div id="demoaddon">
+      <p class='addontitle'></p>
+      {%- assign check_variants = shop.metafields.products.enable_smartapp_hover -%}
+
+      <div id="owl-demo" class="owl-carousel">
+        {%- for productadd in collections[addhandle].products -%}
+          {%- if productadd.id != product.id -%}
+            <div class="item-addon">
+              <span class='proarea'>
+                <img  data-src="{{ productadd.selected_or_first_available_variant.featured_image.src | default: productadd.featured_image.src | image_url: width: 250, height: 250 }}" id="addon_pro_featured_img_{{ productadd.id }}" class='lazyOwl addonimage' src="{{ productadd.selected_or_first_available_variant.featured_image.src | default: productadd.featured_image.src | image_url: width: 250, height: 250 }}" />
+                <p id="var_addon_{{ productadd.id }}" class='addprice'> {{ productadd.selected_or_first_available_variant.price | money }} </p>
+                <p id="var_addedprice_{{ productadd.id }}" class='addonadded'></p>
+                <p id="var_addtitle_{{ productadd.id }}" class='productaddtitle'> {{ productadd.title }} </p>
+              </span>
+              {%- if productadd.available and productadd.variants.size > 1  and  productadd.tags contains check_variants -%}
+                <span class="tooltiptext">
+                  <select  id="productSelectAddon_{{ productadd.id }}">
+                    {%- for variant in productadd.variants -%}
+                      {%- if variant.available -%}
+                        <option {%- if variant == productadd.selected_or_first_available_variant -%} selected="selected" {%- endif -%} data-sku="{{ variant.sku }}" value="{{ variant.id }}">{{ variant.title }} - {{ variant.price | money_with_currency }}</option>
+                      {%- else -%}
+                        <option disabled="disabled">
+                          {{ variant.title }} - Sold
+                        </option>
+                      {%- endif -%}
+                    {%- endfor -%}
+                  </select>
+                  <label> Quantity </label>
+                  <select id="quant_productSelectAddon_{{ productadd.id }}">
+                    <option value='1'>1 </option>
+                    <option value='2'>2 </option>
+                    <option value='3'>3 </option>
+                    <option value='4'>4 </option>
+                  </select>
+                  <button id="productSelectcartbtn_{{ productadd.id }}" class='addon_variant_btn'> Add </button>
+                </span>
+
+                <div class='select_smar_btn' id="select_btn_{{ productadd.id }}"> Select Options </div>
+                <ul id="select_smar_result_{{ productadd.id }}" class='selectlistresult'></ul>
+
+                <p style='display:none;' class='proaddcheck'>
+                  <label id="containeraddon">
+                    <input type="checkbox" id='variant_selector_input_{{ productadd.id }}' class='addcheckboxhover' />
+                    <span title='Add To Cart Button' class="checkmark">
+                      <i class="fa fa-circle-o add_icon_app" aria-hidden="true"></i>
+                      <i style='display:none;' class="fa fa-check-circle add_icon_app addon_trash_ico" aria-hidden="true"></i>
+                    </span>
+                  </label>
+                </p>
+              {%- else -%}
+                <p class='proaddcheck'>
+                  <label id="containeraddon">
+                    <input type="checkbox" class='addcheckbox'   value="{{ productadd.selected_or_first_available_variant.id }}" />
+                    <span title='Add To Cart Button' class="checkmark">
+                      <i class="fa fa-circle-o add_icon_app1" aria-hidden="true"></i>
+                      <i style='display:none;' class="fa fa-check-circle add_icon_app2 addon_trash_ico" aria-hidden="true"></i>
+                    </span>
+                  </label>
+                </p>
+              {%- endif -%}
+
+              <script type="lazyload_int">
+                $("input").blur();
+
+                var selectCallback_addon_{{ productadd.id }} = function(variantaddon, selector) {
+
+                  var variantresult = variantaddon.options;
+                  var optionlenght = selector.product.options.length;
+                  var product_option = selector.product.options;
+
+                  var i;
+                  var result_addon_list="";
+                  var list="";
+
+                  for(i=0;i < optionlenght; i++) {
+                    list ="<li><b>"+product_option[i]+": </b>"+variantresult[i]+"</li>";
+                    result_addon_list +=list;
+                  }
+
+                  $("#select_smar_result_{{ productadd.id }}").html(result_addon_list).hide();
+                  var addvarsrc = variantaddon.featured_image.src;
+
+                  $("#addon_pro_featured_img_{{ productadd.id }}").attr('src',addvarsrc);
+
+                  if (variantaddon && variantaddon.available == true) {
+
+                    $("#productSelectcartbtn_{{ productadd.id }}").text('Add').removeAttr('disabled');
+
+                    var var_addon_id= variantaddon.id;
+
+                    $("#variant_selector_input_{{ productadd.id }}").removeAttr("disabled");
+                    var var_selecter_input = $("#variant_selector_input_{{ productadd.id }}").attr("value",var_addon_id);
+
+                    $("#var_addon_{{ productadd.id }}").html(VastaShop.formatMoney(variantaddon.price, "{{ shop.money_with_currency_format }}"));
+
+                  } else {
+                    $("#productSelectcartbtn_{{ productadd.id }}").text('Sold').attr('disabled','disabled');
+                    $("#variant_selector_input_{{ productadd.id }}").attr("disabled","disabled");
+                  }
+                };
+
+                {% if productadd.available and productadd.variants.size > 1  and  productadd.tags contains check_variants %}
+                  new Shopify.OptionSelectors("productSelectAddon_{{ productadd.id }}", { 
+                    product: {{ productadd | json }}, 
+                    onVariantSelected: selectCallback_addon_{{ productadd.id }},
+                    enableHistoryState: false
+                  });
+                {% endif %}
+
+                {% if productadd.options.size == 1 %}
+                  $("#productSelectcartbtn_{{ productadd.id }}").next().prepend("<label for='product-select-option-0'>{{ product.options.first }}</label>");
+                {% endif %}
+
+                $("#productSelectcartbtn_{{ productadd.id }}").click(function(e) {
+                  e.preventDefault();
+                  $("#variant_selector_input_{{ productadd.id }}").trigger("click");
+                });
+
+                $("#variant_selector_input_{{ productadd.id }}").change(function(){
+
+                  var appid=  $("#variant_selector_input_{{ productadd.id }}").val();
+
+                  $(this).next().find(".add_icon_app").toggle();
+
+                  if(this.checked) {
+                    var quant_pro_smar = $("#quant_productSelectAddon_{{ productadd.id }}").val();
+
+                    jQuery.post('/cart/add.js', {
+                      quantity: quant_pro_smar,
+                      id: appid,
+                      properties: {
+                        'Special':'Add-On'
+                      }
+                    });
+
+                    $(this).parents('.proaddcheck').siblings('.tooltiptext').find('select').attr('disabled','disabled').prop('title','If You Want To Change.Click Remove Button ');
+                    $("#var_addedprice_{{ productadd.id }}").show();
+                    $("#var_addon_{{ productadd.id }}").hide();
+                    $("#productSelectcartbtn_{{ productadd.id }}").text('Remove');
+                    $("#select_smar_result_{{ productadd.id }}").show();
+                    $("#var_addtitle_{{ productadd.id }}").hide();
+                    $("#select_btn_{{ productadd.id }}").hide();
+                    $(this).parents('.proaddcheck').siblings('.tooltiptext').slideUp(655);
+
+                  } else {
+                    $("#select_smar_result_{{ productadd.id }}").hide();
+                    $("#select_btn_{{ productadd.id }}").show();
+
+                    jQuery.post('/cart/update.js', "updates["+appid+"]=0");
+
+                    $("#var_addedprice_{{ productadd.id }}").hide();
+                    $("#var_addon_{{ productadd.id }}").show();
+                    $("#productSelectcartbtn_{{ productadd.id }}").text('Add');
+                    $(this).parents('.proaddcheck').siblings('.tooltiptext').find('select').removeAttr('disabled').prop('title','Select Your Choice');
+                    $("#var_addtitle_{{ productadd.id }}").show();
+                  }
+                });
+              </script>
+            </div>
+          {%endif%}
+        {% endfor %}
+      </div>
+    </div>
+
+    <script type="lazyload_int">
+      $(".item-addon").mouseenter(function(){
+        $(".tooltiptext").slideUp(233);
+        $(this).find(".tooltiptext").slideDown(233);
+      });
+      $('.single-option-selector').unwrap();
+    </script>
+
+    <script data-src = "https://revenuebump.com/AddonApp/style.php?shop = {{ shop.permanent_domain }}"></script>
+  {%- endif -%}
+{%- endif -%}

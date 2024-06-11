@@ -1,0 +1,44 @@
+<!-- start customer-login.liquid (SNIPPET) -->
+<script type="lazyload_int">
+  var $recoverPasswordLink = $('#RecoverPassword'),
+      $hideRecoverPasswordLink = $('#HideRecoverPasswordLink'),
+      $recoverPasswordForm = $('#RecoverPasswordForm'),
+      $customerLoginForm = $('#CustomerLoginForm'),
+      $passwordResetSuccess = $('#ResetSuccess'),
+      $submitResetSuccess = $('#id-recover-password');
+
+    function showRecoverPasswordForm() {
+      $($recoverPasswordForm).css("display", "block");
+      $customerLoginForm.hide();
+    }
+
+    function hideRecoverPasswordForm() {
+      $recoverPasswordForm.css("display", "none");
+      $customerLoginForm.show();
+    }
+
+
+  $(document).ready(function () {
+    hideRecoverPasswordForm();
+
+    $recoverPasswordLink.on('click', function (evt) {
+      evt.preventDefault();
+      showRecoverPasswordForm();
+    });
+
+    $hideRecoverPasswordLink.on('click', function (evt) {
+      evt.preventDefault();
+      hideRecoverPasswordForm();
+    });
+
+    resetPasswordSuccess = function () {
+      $passwordResetSuccess.show();
+    };
+
+    if (window.location.href.indexOf('#recover') != -1) {
+      showRecoverPasswordForm();
+    }
+
+  });
+
+</script>

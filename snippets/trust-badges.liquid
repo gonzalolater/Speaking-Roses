@@ -1,0 +1,174 @@
+<!-- start trust-badges.liquid (SNIPPET) -->
+{%- assign trust_badges_size = section.settings.vasta_badges_size -%}
+{%- assign trust_badge_width = 578 -%}
+
+<div id="shopify-section-trust-badges" class="shopify-section trust-badges-wrapper">
+  {%- case trust_badges_size -%}
+    {%- when 2 -%}
+      {%- assign trust_badge_width = 250 -%}
+
+    {%- when 3 -%}
+      {%- assign trust_badge_width = 164 -%}
+
+    {%- when 4 -%}
+      {%- assign trust_badge_width = 120 -%}
+
+    {%- when 5 -%}
+      {%- assign trust_badge_width = 94 -%}
+  {%- endcase -%}
+
+  <div class="container-trust-badges">
+    {%- if section.settings.trust_badges_text != blank -%}
+      <span class="section-title title-badges-section">{{ section.settings.trust_badges_text }}</span>
+    {%- endif -%}
+
+    <div class="container-trust-badges-bottom">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'trust-badge' -%}
+          {%- assign image = block.settings.img_trust_badges -%}
+          {%- assign paddingTopTrustBadge = image.height | plus: 0.0 | divided_by: image.width | times: 100.0 -%}
+
+          {%- if block.settings.filter_by_tags == blank -%}
+            <div class="trust-badges-img col-{{ trust_badges_size }}">
+              {%- if block.settings.enable_img_trust_badge_cart and block.settings.img_trust_badges != blank -%}
+                {%- if block.settings.img_trust_badges.alt != blank -%}
+                  {%- assign image_alt = block.settings.img_trust_badges.alt | strip_html | escape -%}
+                {%- elsif block.settings.title != blank -%}
+                  {%- assign image_alt = block.settings.title | strip_html | escape -%}
+                {%- else -%}
+                  {%- assign image_alt = 'Image without description.' -%}
+                {%- endif -%}
+
+                {%- assign image_id_prefix = 'trust-badges-img' | append: forloop.index -%}
+                <div class="trustbadge_image_wrapper" style="padding-top: {{ paddingTopTrustBadge }}%;">
+                  {%- render 'responsive-image',
+                    id: image_id_prefix,
+                    image: block.settings.img_trust_badges,
+                    lazyload: true,
+                    class: 'img-badges',
+                    no_wrap: true,
+                    alt: image_alt,
+                    width: trust_badge_width
+                  -%}
+                </div>
+              {%- else -%}
+                {%- if block.settings.enable_custom_trust_badge_svg -%}
+                  <div class="custom-svg">
+                    {%- assign trust_badge_svg = block.settings.custom_trust_badge_svg_html -%}
+                    {{ trust_badge_svg }}
+                  </div>
+                {%- else -%}
+                  {%- assign image_id_prefix = 'trust-badges-icon' | append: forloop.index -%}
+                  {%- assign trust_badge = 'icon-' | append: block.settings.svg_trust_badge_cart | append: '.svg' -%}
+                  {%- assign image_alt = block.settings.svg_trust_badge1 | escape | replace: '-', ' ' | capitalize -%}
+                  <div class="trust-badges__svg-image">
+                    <img
+                      width="120"
+                      height="120"
+                      data-class="LazyLoad"
+                      src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAABhGlDQ1BJQ0MgcHJvZmlsZQAAKJF9kT1Iw0AcxV9Ta0UqDkYQcchQnSyIijhqFYpQIdQKrTqYXPohNGlIUlwcBdeCgx+LVQcXZ10dXAVB8APE0clJ0UVK/F9SaBHrwXE/3t173L0DhFqJ6XbHGKAbjpVKxKVMdkUKvyKETojoh6gw25yV5STajq97BPh6F+NZ7c/9OXq0nM2AgEQ8w0zLIV4nntp0TM77xCIrKhrxOfGoRRckfuS66vMb54LHAs8UrXRqjlgklgotrLYwK1o68SRxVNMNyhcyPmuctzjrpQpr3JO/MJIzlpe4TnMICSxgETIkqKhgAyU4iNFqkGIjRfvxNv5Bzy+TSyXXBhg55lGGDsXzg//B727t/MS4nxSJA6EX1/0YBsK7QL3qut/Hrls/AYLPwJXR9JdrwPQn6dWmFj0CereBi+umpu4BlzvAwJOpWIonBWkK+TzwfkbflAX6boHuVb+3xj5OH4A0dZW8AQ4OgZECZa+1eXdXa2//nmn09wMjG3KHDOS4EQAAAAlwSFlzAAAuIwAALiMBeKU/dgAAAAd0SU1FB+YFBhQWEhVMTaAAAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAADElEQVQI12O4f/8+AAU+Ap5GJPuHAAAAAElFTkSuQmCC"
+                      data-src="{{ trust_badge | asset_url }}"
+                      alt="{{ image_alt | escape | replace: "-" , " " | capitalize | default: 'Image without description.' }}"
+                    >
+                  </div>
+                {%- endif -%}
+              {%- endif -%}
+
+              {%- if section.settings.announcement_show_title_badges -%}
+                {%- if block.settings.title != blank -%}
+                  <span class="title-badges {{ block.settings.trust_badges_text_transform }} {{ block.settings.trust_badges_text_weight }}">
+                    {{- block.settings.title -}}
+                  </span>
+                {%- endif -%}
+              {%- endif -%}
+            </div>
+          {%- else -%}
+            {%- assign list_filter_tags = block.settings.filter_by_tags | split: ';' -%}
+
+            {%- for tag_temp in list_filter_tags -%}
+              {%- assign contain_tag = false -%}
+              {%- for tag in product.tags -%}
+                {%- if tag_temp == tag -%}
+                  {%- assign contain_tag = true -%}
+                {%- endif -%}
+              {%- endfor -%}
+
+              {%- if contain_tag -%}
+                <div class="trust-badges-img col-{{ trust_badges_size }}">
+                  {%- if block.settings.enable_img_trust_badge_cart -%}
+                    {%- if block.settings.img_trust_badges.alt != blank -%}
+                      {%- assign image_alt = block.settings.img_trust_badges.alt | strip_html | escape -%}
+                    {%- elsif block.settings.title != blank -%}
+                      {%- assign image_alt = block.settings.title | strip_html | escape -%}
+                    {%- else -%}
+                      {%- assign image_alt = 'Image without description.' -%}
+                    {%- endif -%}
+
+                    {%- assign image_id_prefix = 'trust-badges-image-tag-' | append: forloop.index -%}
+                    {%- render 'responsive-image',
+                      id: image_id_prefix,
+                      image: block.settings.img_trust_badges,
+                      lazyload: true,
+                      class: 'img-badges',
+                      no_wrap: true,
+                      alt: image_alt,
+                      width: trust_badge_width
+                    -%}
+                  {%- else -%}
+                    {%- if block.settings.enable_custom_trust_badge_svg -%}
+                      <div class="custom-svg">{{ block.settings.custom_trust_badge_svg_html }}</div>
+                    {%- else -%}
+                      {%- assign trust_badge = 'icon-'
+                        | append: block.settings.svg_trust_badge_cart
+                        | append: '.svg'
+                      -%}
+                      {%- assign image_alt = block.settings.svg_trust_badge1
+                        | escape
+                        | replace: '-', ' '
+                        | capitalize
+                      -%}
+                      <div class="trust-badges__svg-image">
+                        <img
+                          width="120"
+                          height="120"
+                          data-class="LazyLoad"
+                          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+                          data-src="{{ trust_badge | asset_url }}"
+                          alt="{{ image_alt | escape | replace: "-" , " " | capitalize | default: 'Image without description.' }}"
+                        >
+                      </div>
+                    {%- endif -%}
+                  {%- endif -%}
+a
+                  {%- if section.settings.announcement_show_title_badges -%}b
+                    {%- if block.settings.title != blank -%}c
+                      <span class="title-badges {{ block.settings.trust_badges_text_transform }} {{ block.settings.trust_badges_text_weight }}">
+                        {{- block.settings.title -}}
+                      </span>
+                    {%- endif -%}
+                  {%- endif -%}
+                </div>
+                {%- break -%}
+              {%- endif -%}
+            {%- endfor -%}
+          {%- endif -%}
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+<style scoped>
+  :root{
+    --trust-badges-text-transform:{{ section.settings.trust_badges_text_transform }};
+    --trust-badges-text-weight:{{ section.settings.trust_badges_text_weight }};
+    --color-text-trust-bradges:{{ section.settings.color_text_trust_badges }};
+    --copy-badges:{{ section.settings.vasta_copy_badges }}px;
+    --copy-badges-tablet:{{ section.settings.vasta_copy_badges_tablet }}px;
+    --copy-badges-mobile:{{ section.settings.vasta_copy_badges_mobile }}px;
+    --title-section-badges-size:{{ section.settings.vasta_title_section_badges }}px;
+  }
+  .title-badges-section {
+    font-size: {{ section.settings.vasta_title_section_badges | divided_by: 16.0 }}rem;
+  }
+</style>

@@ -1,0 +1,294 @@
+<!-- start account.liquid (TEMPLATE) -->
+
+{%- capture css -%}
+<style>
+  .account__content-wrapper {
+    margin-top: 35px;
+  }
+
+  .account__orders-title {
+    font-size: 25px;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .account__orders-table {
+    border-collapse: collapse;
+    max-width: 1174px;
+    width: 100%;
+    margin: 50px auto;
+  }
+
+  .account__orders-table-row {
+    cursor: pointer;
+  }
+
+  .account__orders-table th,
+  .account__orders-table td,
+  .account__address-table th,
+  .account__address-table td {
+    padding: 24px;
+  }
+
+  .account__orders-table th,
+  .account__address-table th {
+    background: #f6f6f6;
+    color: #252525;
+    font-size: 20px;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .account__orders-table td {
+    text-align: center;
+  }
+
+  tbody tr:nth-child(odd) {
+    background: #fcfcfc;
+  }
+
+  .account__order-financial-status-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    font-size: inherit;
+  }
+
+  .account__order-financial-status svg {
+    width: 22px;
+    height: 22px;
+    stroke: #00c371;
+  }
+
+  .account__order-name,
+  .account__order-date,
+  .account__address-table td {
+    color: #24272a;
+    font-size: 22px;
+  }
+
+  .account__order-financial-status,
+  .account__order-fulfillment-status,
+  .account__order-total-price {
+    color: #4f5459;
+    font-size: 19px;
+    font-weight: 700;
+  }
+
+  .account__no-orders-wrapper {
+    margin: 50px auto;
+    text-align: center;
+  }
+
+  .account__address-table {
+    border-collapse: collapse;
+    width: 518px;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+
+  .account__address-table tr td:first-child {
+    min-width: 185px;
+  }
+
+  .account__customer-addresses-link {
+    margin: 20px 0 40px;
+    text-align: center;
+  }
+
+  .account__customer-addresses {
+    color: #8D8D8D;
+    font-size: 14px;
+  }
+
+  @media (max-width: 1019px) {
+    .account__content-wrapper {
+      margin-top: 20px;
+    }
+
+    .account__orders-title {
+      font-size: 20px;
+    }
+
+    .account__orders-table {
+      margin: 35px auto;
+    }
+
+    .account__orders-table th,
+    .account__orders-table td,
+    .account__address-table th,
+    .account__address-table td {
+      padding: 15px;
+    }
+
+    .account__orders-table th, 
+    .account__address-table th,
+    .account__order-name, 
+    .account__order-date, 
+    .account__address-table td,
+    .account__order-financial-status, 
+    .account__order-fulfillment-status, 
+    .account__order-total-price {
+      font-size: 14px;
+    }
+
+    .account__no-orders-wrapper {
+      margin: 40px auto;
+    }
+
+    .account__address-table {
+      width: 320px;
+    }
+
+    .account__address-table tr td:first-child {
+      min-width: 114px;
+    }
+
+    .account__order-financial-status-label {
+      gap: 10px;
+    }
+
+    .account__order-financial-status svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .account__orders-title {
+      font-size: 15px;
+    }
+
+    .account__orders-table {
+      margin: 25px auto;
+    }
+
+    .account__address-table th,
+    .account__address-table td {
+      font-size: 12px;
+    }
+
+    .account__orders-table th,
+    .account__order-name, 
+    .account__order-date,
+    .account__order-financial-status, 
+    .account__order-fulfillment-status, 
+    .account__order-total-price {
+      font-size: 10px;
+    }
+
+    .account__orders-table th, 
+    .account__orders-table td, 
+    .account__address-table th, 
+    .account__address-table td {
+      padding: 7px;
+    }
+
+    .account__no-orders-wrapper {
+      margin: 30px auto;
+    }
+
+    .account__address-table {
+      width: 335px;
+    }
+
+    .account__address-table tr td:first-child {
+      min-width: 132px;
+    }
+
+    .account__order-financial-status-label {
+      gap: 5px;
+    }
+
+    .account__order-financial-status svg {
+      width: 10px;
+      height: 10px;
+    }
+
+    .account__customer-addresses {
+      font-size: 12px;
+    }
+  }
+</style>
+{%- endcapture -%}
+
+{{- css | strip_newlines | replace: '    ', ' ' | replace: '   ', ' ' | replace: '  ', ' ' -}}
+
+<div class="account__wrapper">
+  <div class="account__container">
+    <div class="account__header-wrapper wrapper">
+      {% render 'account-header' with accountPage: true %}
+    </div>
+
+    <div class="account__info-wrapper wrapper">
+      {%- if customer.orders.size != 0 -%}
+        {%- paginate customer.orders by 10 -%}
+          <div class="account__content-wrapper">
+            <div class="account__orders-wrapper">
+              <h2 class="account__orders-title">{{ 'customer.orders.title' | t }}</h2>
+
+              <table class="account__orders-table">
+                <tr>
+                  <th>{{ 'customer.orders.order_number' | t }}</th>
+                  <th>{{ 'customer.orders.date' | t }}</th>
+                  <th>{{ 'customer.orders.payment_status' | t }}</th>
+                  <th>{{ 'customer.orders.fulfillment_status' | t }}</th>
+                  <th>{{ 'customer.orders.total' | t }}</th>
+                </tr>
+
+                {%- for order in customer.orders -%}
+                  <tr class="account__orders-table-row" data-href="{{ order.customer_url | default: '#' }}">
+                    <td class="account__order-name">{{ order.name }}</td>
+                    <td class="account__order-date">{{ order.created_at | date: format: 'month_day_year' }}</td>
+                    <td class="account__order-financial-status">
+                      <div class="account__order-financial-status-label">
+                        {{ order.financial_status_label }}
+
+                        {% if order.financial_status_label == 'Paid' %}
+                          {%- render 'icon-check-comparator' -%}
+                        {% else %}
+                          {%- render 'icon-uncheck-comparator' -%}
+                        {% endif %}
+                      </div>
+                    </td>
+                    <td class="account__order-fulfillment-status">{{ order.fulfillment_status_label }}</td>
+                    <td class="account__order-total-price">{{ order.total_price | money }}</td>
+                  </tr>
+                {%- endfor -%}
+              </table>
+            </div>
+          </div>
+
+          {%- if paginate.pages > 1 -%}
+            {%- render 'pagination' with paginate: paginate -%}
+          {%- endif -%}
+          
+        {%- endpaginate -%}
+      {%- else -%}
+        <div class="account__no-orders-wrapper">
+          <p class="account__no-orders">{{ 'customer.orders.none' | t }}</p>
+        </div>
+      {%- endif -%}
+
+      <div class="account__address-wrapper">
+        {%- render 'customer-address' with address: customer.default_address -%}
+
+        <div class="account__customer-addresses-link">
+          <a class="account__customer-addresses" title="Addresses" id="id-addresses" href="/account/addresses">
+            {{- 'customer.account.view_addresses' | t }} ({{ customer.addresses_count }})
+          </a>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+<script type="lazyload_int">
+  jQuery(document).ready(function ($) {
+    $('.account__orders-table-row').click(function () {
+      window.location = $(this).data('href');
+    });
+  });
+</script>

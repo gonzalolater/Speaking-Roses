@@ -1,0 +1,415 @@
+<!-- Subscriptions Powered by ReCharge Payments: Begin Liquid Code -->
+<!--
+  Subscription Product
+  http://rechargepayments.com: v3.5.10
+-->
+{% if product.metafields.subscriptions.shipping_interval_frequency %}
+  {% comment %}Subscriptions Powered by ReCharge Payments: Meta Fields{% endcomment %}
+  {% comment %}Widget settings{% endcomment %}
+  {% assign widget_settings = shop.metafields.subscriptions %}
+  {% if widget_settings.subscription_active == 'true' %}
+    {% assign subscription_active = true %}
+  {% else %}
+    {% assign subscription_active = false %}
+  {% endif %}
+  {% if widget_settings.select_subscription_first == 'false' %}
+    {% assign select_subscription_first = false %}
+  {% else %}
+    {% assign select_subscription_first = true %}
+  {% endif %}
+  {% if widget_settings.disable_duplicates == 'true' %}
+    {% assign disable_duplicates = true %}
+  {% else %}
+    {% assign disable_duplicates = false %}
+  {% endif %}
+  {% assign first_option = widget_settings.first_option | default: 'onetime' %}
+  {% comment %}Subscription settings{% endcomment %}
+  {% assign subscription_product = product.metafields.subscriptions %}
+  {% assign shipping_interval_unit_type = subscription_product.shipping_interval_unit_type | default: 'Days' %}
+  {% if shipping_interval_unit_type == 'day' %}
+    {% assign shipping_interval_unit_type = 'Days' %}
+  {% elsif shipping_interval_unit_type == 'week' %}
+    {% assign shipping_interval_unit_type = 'Weeks' %}
+  {% elsif shipping_interval_unit_type == 'month' %}
+    {% assign shipping_interval_unit_type = 'Months' %}
+  {% endif %}
+  {% assign shipping_interval_frequency = subscription_product.shipping_interval_frequency | split: ',' | default: 30 %}
+  {% assign product_tags = product.tags | remove: ' ' | downcase %}
+  {% if subscription_product.is_subscription_only == 'true' or product_tags contains 'subscriptiononly' %}
+    {% assign subscription_only = true %}
+  {% else %}
+    {% assign subscription_only = false %}
+  {% endif %}
+  {% comment %}Product settings{% endcomment %}
+  {% assign variant_map = subscription_product.original_to_hidden_variant_map | default: false %}
+  {% if variant_map %}
+    {% capture variant_to_duplicate %}{ {% for variant in variant_map %}{% if variant[1]['discount_variant_id'] %}{{ variant[0] }}:'{{ variant[1]['discount_variant_id'] }}',{% endif %}{% endfor %} }{% endcapture %}
+    {% capture variant_to_price %}{ {% for variant in product.variants %}{{ variant.id }}:'{{ variant.price }}',{% endfor %} }{% endcapture %}
+    {% capture duplicate_to_price %}{ {% for variant in variant_map %}{% if variant[1]['discount_variant_id'] %}{{ variant[1]['discount_variant_id'] }}:'{{ variant[1]['discount_variant_price'] | replace: ".", "" }}',{% endif %}{% endfor %} }{% endcapture %}
+  {% endif %}
+  {% comment %}Discount settings{% endcomment %}
+  {% assign discount_percentage = subscription_product.discount_percentage | round: 2 %}
+  {% assign discount_floor = subscription_product.discount_percentage | floor %}
+  {% if discount_percentage == discount_floor %}
+    {% assign discount_percentage = discount_floor %}
+  {% endif %}
+  {% comment %}Widget translation{% endcomment %}
+  {% assign label_onetime = widget_settings.onetime_message | default: 'One-time purchase' %}
+  {% assign label_autodeliver = widget_settings.subscribe_message | default: 'Subscribe &amp; save' %}
+  {% assign label_deliver_every = widget_settings.widget_deliver_every | default: 'Deliver every' %}
+  {% assign label_unit_type_legacy = subscription_product.label_unit_type | default: shipping_interval_unit_type %}
+  {% if widget_settings.translations %}
+    {% if shipping_interval_unit_type == 'Days' %}
+      {% assign label_unit_type_singular = widget_settings.translations.day | default: 'Day' %}
+      {% assign label_unit_type_plural = widget_settings.translations.days %}
+    {% elsif shipping_interval_unit_type == 'Weeks' %}
+      {% assign label_unit_type_singular = widget_settings.translations.week %}
+      {% assign label_unit_type_plural = widget_settings.translations.weeks %}
+    {% else %}
+      {% assign label_unit_type_singular = widget_settings.translations.month %}
+      {% assign label_unit_type_plural = widget_settings.translations.months %}
+    {% endif %}
+  {% endif %}
+  {% assign subscription_details_label = widget_settings.subscription_details_verbiage
+    | default: 'Subscription details'
+  %}
+  {% assign how_it_works_text = widget_settings.how_it_works
+    | default: '<strong>How subscriptions work</strong><br><br>Products are automatically delivered on your schedule. No obligation, modify or cancel your subscription anytime.'
+  %}
+  {% assign learnmore_link = widget_settings.learnmore_verbiage | default: 'Learn more...' %}
+  {% comment %}Popup settings{% endcomment %}
+  {% if widget_settings.show_subscription_details == 'false' %}
+    {% assign show_widget = false %}
+  {% else %}
+    {% assign show_widget = true %}
+  {% endif %}
+  {% if widget_settings.show_subscription_details_icon == 'false' %}
+    {% assign show_widget_icon = false %}
+  {% else %}
+    {% assign show_widget_icon = true %}
+  {% endif %}
+  {% if widget_settings.show_learnmore == 'false' %}
+    {% assign show_learnmore = false %}
+  {% else %}
+    {% assign show_learnmore = true %}
+  {% endif %}
+  {% if widget_settings.show_poweredby == 'false' %}
+    {% assign show_poweredby = false %}
+  {% else %}
+    {% assign show_poweredby = true %}
+  {% endif %}
+  {% comment %}Custom styling{% endcomment %}
+  {% assign widget_label_color = widget_settings.font_color | default: '#000000' %}
+  {% assign widget_active_color = widget_settings.active_color | default: '#676767' %}
+  {% assign widget_active_bg = widget_settings.background_color | default: '#F8F8F8' %}
+  {% assign widget_icon = widget_settings.widget_icon | default: 'black' %}
+  {% if widget_icon == 'white' %}
+    {% assign widget_icon = "//static.rechargecdn.com/static/images/widget/rc_widget__icon__white@2x.png" %}
+  {% else %}
+    {% assign widget_icon = "//static.rechargecdn.com/static/images/widget/rc_widget__icon__black@2x.png" %}
+  {% endif %}
+  {% assign popup_zindex = widget_settings.popup_zindex | default: '56' %}
+  {% assign popup_background_color = widget_settings.popup_background_color | default: '#474747' %}
+  {% assign popup_text_color = widget_settings.popup_text_color | default: '#FFFFFF' %}
+  {% assign popup_link_color = widget_settings.popup_link_color | default: '#4DD6B7' %}
+  {% assign recharge_custom_css = widget_settings.custom_css | defalut: '' %}
+  {% comment %}Learn more link{% endcomment %}
+  {% if widget_settings.learnmore_url %}
+    {% if widget_settings.learnmore_url contains 'rechargepayments.com/subscribe-with-recharge' %}
+      {% capture learnmore_url %}http://rechargepayments.com/subscribe-with-recharge?utm_source=shopify%20store&utm_medium=customer%20link&utm_campaign=Shopify%20store%20back%20link&shop_name={{ shop.name | url_param_escape }}&shop={{ shop.permanent_domain }}{% endcapture %}
+    {% else %}
+      {% assign learnmore_url = widget_settings.learnmore_url %}
+    {% endif %}
+  {% else %}
+    {% capture learnmore_url %}http://rechargepayments.com/subscribe-with-recharge?utm_source=shopify%20store&utm_medium=customer%20link&utm_campaign=Shopify%20store%20back%20link&shop_name={{ shop.name | url_param_escape }}&shop={{ shop.permanent_domain }}{% endcapture %}
+  {% endif %}
+  {% comment %}Powered by badge{% endcomment %}
+  {% if widget_settings.poweredby_url %}
+    {% if widget_settings.poweredby_url contains 'rechargepayments.com/subscribe-with-recharge' %}
+      {% capture poweredby_url %}http://rechargepayments.com/subscribe-with-recharge?utm_source=shopify%20store&utm_medium=customer%20link&utm_campaign=Shopify%20store%20back%20link&shop_name={{ shop.name | url_param_escape }}&shop={{ shop.permanent_domain }}{% endcapture %}
+    {% else %}
+      {% assign poweredby_url = widget_settings.poweredby_url %}
+    {% endif %}
+  {% else %}
+    {% capture poweredby_url %}http://rechargepayments.com/subscribe-with-recharge?utm_source=shopify%20store&utm_medium=customer%20link&utm_campaign=Shopify%20store%20back%20link&shop_name={{ shop.name | url_param_escape }}&shop={{ shop.permanent_domain }}{% endcapture %}
+  {% endif %}
+  <!-- Subscriptions Powered by ReCharge Payments: CSS -->
+	<link data-href="//static.rechargecdn.com/static/css/rcWidget.css" rel="stylesheet" type="text/css">
+  <style>
+    /* Widget: Purchase options */
+    label.rc_label {
+    	color: {{ widget_label_color }};
+    }
+    div.rc_block__type--active {
+    	background-color: {{ widget_active_bg }};
+    }
+    div.rc_block__type--active label.rc_label {
+    	color: {{ widget_active_color }};
+    }
+    /* Widget: Popup */
+    div.rc_popup__block {
+    	z-index: {{ popup_zindex }};
+    }
+    div.rc_popup__block:before {
+    	border-bottom-color: {{ popup_background_color }};
+    }
+    div.rc_popup__block {
+    	background-color: {{ popup_background_color }} !important;
+    }
+    div.rc_popup__close,
+    div.rc_popup__block__content,
+    div.rc_popup__block__content strong {
+    	color: {{ popup_text_color }} !important;
+    }
+    div.rc_popup__block__content a {
+    	color: {{ popup_link_color }} !important;
+    }
+    /* ReCharge CSS */
+    {{ recharge_custom_css }}
+    /* Add Custom CSS Below */
+  </style>
+  <!-- Subscriptions Powered by ReCharge Payments: HTML -->
+  <input type="hidden" id="subscription-discount" value="{{ discount_percentage }}">
+  <div
+    id="rc_container"
+    {% if subscription_only %}
+      class="rc_subscription-only"
+    {% endif %}
+    style="display: none;"
+  >
+    <input type="hidden" name="" id="rc_shipping_interval_unit_type" value="{{ shipping_interval_unit_type }}">
+    <select id="rc_duplicate_selector" aria-hidden="true" class="styled replaced no-js" style="display: none;">
+      {% if variant_to_duplicate %}
+        {% for variant in variant_map %}
+          {% if variant[1].discount_variant_id %}
+            <option value="{{ variant[1]['discount_variant_id'] }}">{{ variant[1].discount_variant_id }}</option>
+          {% endif %}
+        {% endfor %}
+      {% else %}
+        {% for variant in product.variants %}
+          <option value="{{ variant.metafields.subscriptions.discount_variant_id }}">
+            {{ variant.metafields.subscriptions.discount_variant_id }}
+          </option>
+        {% endfor %}
+      {% endif %}
+    </select>
+    <div
+      id="rc_radio_options"
+      role="radiogroup"
+      aria-label="Purchase options"
+      {% if first_option == 'autodeliver' %}
+        class="rc_reverse-options"
+      {% endif %}
+    >
+      {% unless subscription_only %}
+        <div class="rc_block rc_block__type rc_block__type__onetime {% unless select_subscription_first %}rc_block__type--active{% endunless %}">
+          <input
+            type="radio"
+            id="rc_purchase_type_onetime"
+            name="purchase_type"
+            value="onetime"
+            {% unless select_subscription_first %}
+              checked
+            {% endunless %}
+            class="rc_radio rc_radio__onetime"
+          >
+          <label for="rc_purchase_type_onetime" class="rc_label rc_label__onetime">
+            {{ label_onetime -}}
+            {%- if discount_percentage > 0 %}:{% endif %}
+            {% if discount_percentage > 0 %}
+              <span id="rc_price_onetime" class="rc_price rc_price__onetime" aria-label="original price"></span>
+            {% endif %}
+          </label>
+        </div>
+      {% endunless %}
+      <div
+        class="rc_block rc_block__type rc_block__type__autodeliver {% if select_subscription_first %}rc_block__type--active{% endif %}"
+        {% if subscription_only and shipping_interval_frequency.size == 1 %}
+          style="display: none;"
+        {% endif %}
+      >
+        <input
+          type="radio"
+          name="purchase_type"
+          id="rc_purchase_type_autodeliver"
+          value="autodeliver"
+          {% if select_subscription_first %}
+            checked
+          {% endif %}
+          class="rc_radio rc_radio__autodeliver"
+          {% if subscription_only %}
+            style="display: none;"
+          {% endif %}
+        >
+        {% unless subscription_only %}
+          <label for="rc_purchase_type_autodeliver" class="rc_label rc_label__autodeliver">
+            {{ label_autodeliver }}
+            {% if discount_percentage > 0 %}
+              <span class="rc_label__discount" aria-label="subscription discount">({{ discount_percentage }}%):</span>
+              <span
+                id="rc_price_autodeliver"
+                class="rc_price rc_price__autodeliver"
+                aria-label="recurring price"
+              ></span>
+            {% endif %}
+          </label>
+        {% endunless %}
+        <div id="rc_autodeliver_options" class="rc_block rc_block__type__options">
+          <label
+            for="rc_shipping_interval_frequency"
+            class="rc_label rc_label__deliver_every"
+            aria-label="Subscription frequency options"
+          >
+            <span class="rc_label__delivery">{{ label_deliver_every }}</span>
+            {% if shipping_interval_frequency.size == 1 %}
+              <span class="rc_label__frequency">
+                {{ shipping_interval_frequency[0] }}
+                {% if shipping_interval_frequency[0] == '1'
+                  and label_unit_type_legacy == 'Months'
+                  or label_unit_type_legacy == 'Weeks'
+                %}
+                  {% if label_unit_type_singular %}
+                    {{ label_unit_type_singular }}
+                  {% else %}
+                    {{ label_unit_type_legacy | remove: 's' }}
+                  {% endif %}
+                {% else %}
+                  {% if label_unit_type_plural %}
+                    {{ label_unit_type_plural }}
+                  {% else %}
+                    {{ label_unit_type_legacy }}
+                  {% endif %}
+                {% endif %}
+              </span>
+            {% endif %}
+            <select
+              name=""
+              id="rc_shipping_interval_frequency"
+              class="rc_select rc_select__frequency styled replaced"
+              {% if shipping_interval_frequency.size == 1 %}
+                style="display: none;"
+              {% endif %}
+            >
+              {% for frequency in shipping_interval_frequency %}
+                <option value="{{ frequency }}">
+                  {{ frequency }}
+                  {% if frequency == '1' and label_unit_type_legacy != 'Days' %}
+                    {% if label_unit_type_singular %}
+                      {{ label_unit_type_singular }}
+                    {% else %}
+                      {{ label_unit_type_legacy | remove: 's' }}
+                    {% endif %}
+                  {% else %}
+                    {% if label_unit_type_plural %}
+                      {{ label_unit_type_plural }}
+                    {% else %}
+                      {{ label_unit_type_legacy }}
+                    {% endif %}
+                  {% endif %}
+                </option>
+              {% endfor %}
+            </select>
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="rc_popup">
+      {% if show_widget %}
+        <div class="rc_popup__hover">
+          {% if show_widget_icon %}
+            <img
+              src="{{ widget_icon }}"
+              height="21"
+              width="18"
+              loading="lazy"
+              decoding="async"
+              alt="ReCharge Subscription services icon"
+              class="rc_popup__icon"
+            >
+          {% endif %}
+          {{ subscription_details_label }}
+          <div class="rc_popup__block">
+            <div class="rc_popup__block__content">
+              <div class="rc_popup__close" style="display: none;">x</div>
+              {{ how_it_works_text }}
+              {% if show_learnmore %}
+                <br>
+                <a
+                  href="{{ learnmore_url | default: '#' }}"
+                  target="_blank"
+                  aria-label="Learn more about ReCharge Payments"
+                >
+                  {{- learnmore_link -}}
+                </a>
+              {% endif %}
+            </div>
+            {% if show_poweredby %}
+              <div class="rc_popup__block__footer">
+                <a href="{{ poweredby_url | default: '#' }}" target="_blank" aria-label="ReCharge Payments homepage">
+									<img src="//static.rechargecdn.com/static/images/widget/rc_widget__banner@2x.png" height="28" width="153" loading="lazy" decoding="async" alt="ReCharge Subscriptions company banner" class="rc_popup__badge">
+                </a>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      {% elsif show_widget == 'link' %}
+        <a
+          href="{{ learnmore_url | default: '#' }}"
+          target="_blank"
+          class="rc_popup__hover"
+          aria-label="Learn more about ReCharge Payments"
+        >
+          {%- if show_widget_icon -%}
+            <img
+              src="{{ widget_icon }}"
+              height="21"
+              width="18"
+              loading="lazy"
+              decoding="async"
+              alt="ReCharge Subscription services icon"
+              class="rc_popup__icon"
+            >
+          {% endif -%}
+          {{- subscription_details_label -}}
+        </a>
+      {% endif %}
+    </div>
+  </div>
+  <!-- Subscriptions Powered by ReCharge Payments: JS -->
+	<script type="lazyload_int" data-src="//static.rechargecdn.com/static/js/rcWidget.js"></script>
+  <script type="lazyload_int">
+    (function() {
+    	var options = {
+    			active: {{ subscription_active }},
+    			select_subscription_first: {{ select_subscription_first }},
+    			shop_currency: {{ shop.currency | json }},
+    			money_format: {{ shop.money_format | json }},
+    			disable_duplicates: {{ disable_duplicates }},
+    		},
+    		myProduct = {
+    			id: {{ product.id }},
+    			subscription_only: {{ subscription_only }},
+    			discount_percentage: {{ discount_percentage }},
+    			variant_to_duplicate: {% if variant_to_duplicate %}{{ variant_to_duplicate }}{% else %}{ {% for variant in product.variants %}{{ variant.id }}:'{{ variant.metafields.subscriptions.discount_variant_id }}', {% endfor %} }{% endif %},
+    			variant_to_price: {% if variant_to_price %}{{ variant_to_price }}{% else %}{ {% for variant in product.variants %}{{ variant.id }}:'{{ variant.price }}', {% endfor %} }{% endif %},
+    			duplicate_to_price: {% if duplicate_to_price %}{{ duplicate_to_price }}{% else %}{ {% for variant in product.variants %}{{ variant.metafields.subscriptions.discount_variant_id }}: '{{ variant.metafields.subscriptions.discount_variant_price | replace: ".", "" }}', {% endfor %} }{% endif %},
+    		};
+    	if (document.readyState === "complete" || document.readyState === "loaded") {
+    		if (!window.ReCharge) { window.ReCharge = new rcWidget(options); }
+    		ReCharge.addProduct(myProduct);
+    	} else {
+    		document.addEventListener("w3-DOMContentLoaded", function() {
+    			if (!window.ReCharge) { window.ReCharge = new rcWidget(options); }
+    			ReCharge.addProduct(myProduct);
+    		});
+    	}
+
+    	window.addEventListener('pageshow', function(event) {
+    		if (event.persisted || window.performance && window.performance.navigation.type === 2) {
+    			window.location.reload();
+    		}
+    	}, false);
+    })();
+  </script>
+{% endif %}
+<!-- Subscriptions Powered by ReCharge Payments: End Liquid Code -->

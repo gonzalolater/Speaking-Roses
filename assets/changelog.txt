@@ -1,0 +1,1392 @@
+CHANGELOG
+
+v2.2.0 (2022-05-06)
+-------------------------------------------------------------------------------
+
+# PRODUCT PAGE
+
+    - [FIXUP] - Ribbon tag;
+    - [FIXUP] - Product Slider Index not corresponding;
+
+# HOME PAGE
+
+    - [FIXUP] - Cta block button;
+
+# COLLECTION
+
+    - [FIXUP] - Product per row on mobile is not working corectly;
+
+# SITEWIDE
+
+    - [FIXUP] - Replace the filter SCAPE per ESCAPE;
+    - [FIXUP] - Use image position on swatch;
+
+# 404 PAGE
+
+    - [FIXUP] - List Collections is not centered on 404 page;
+
+v2.2.0 (2022-04-26)
+-------------------------------------------------------------------------------
+
+# SITEWIDE
+
+   - [FIXUP] - jQuery 3.6.0;
+
+# HEADER
+
+   - [FIXUP] - Fixed Discount Threshold On Cart Page Bug;
+   - [FIXUP] - Shipping Bar Discount Price;
+
+# COLLECTION
+
+   - [FIXUP] - Products Per Row;
+
+# HOME PAGE
+
+   - [FIXUP] - Adjust Button Dimensions And Text Transform;
+
+# PRODUCT PAGE
+
+   - [ADD] - New Tabs Layout;
+
+# CART PAGE
+    - [FIXUP] - Logo in Cart Page
+
+
+v2.1.0 (2022-04-19)
+-------------------------------------------------------------------------------
+# SITEWIDE
+
+   - [FIXUP] - General Issues;
+   - [FIXUP] - Rewrite the Shipping Bar;
+   - [FIXUP] - Logo Header Mobile;
+   - [FIXUP] - Lazyload Optimization;
+   - [FIXUP] - Add css properties from HOVER to ACTIVE;
+
+# HOME PAGE
+
+   - [FIXUP] - Rewrite the Featured Products;
+   - [ADD] - Background Color Banner Titles;
+   - [FIXUP] - Rewrite CTA Block;
+   - [FIXUP] - Grid Items;
+   - [FIXUP] - Feature Products Bugs;
+   - [ADD] - Responsives banner button font-size and height;
+   - [FIXUP] - Change comment on begin of file;
+   - [FIXUP] - UNIQUE VALUE PROPOSITION;
+
+# COLLECTION TEMPLATE
+
+   - [ADD] - Feature for customer choose between include or exclude collections;
+   - [FIXUP] - Collection swatch show unavailable options;
+   - [FIXUP] - Collection Template;
+   - [FIXUP] - Rename label for Collection Swatch;
+
+# CART DRAWER
+
+   - [FIXUP] - Cupom Cart Drawer;
+   - [FIXUP] - Label Cart Drawer;
+   - [FIXUP] - Cart Drawer Customize Event;
+
+# CUSTOMERS PAGE
+
+   - [FIXUP] - Rewrite Reset Password Page;
+   - [FIXUP] - Rewrite Login Page;
+   - [FIXUP] - Account Activate Style;
+
+# COLLECTION
+
+   - [FIXUP] - Swatch Color Collection;
+   - [FIXUP] - Rewrite Collection List Section;
+   - [FIXUP] - Rewrite the List Collections;
+
+# PRODUCT PAGE
+
+   - [FIXUP] - Related Products images;
+   - [FIXUP] - Display tab only the content is valid;
+   - [FIXUP] - Titles swatch and Style;
+   - [ADD] - Use tab content when not exist metafield content;
+   - [FIXUP] - Swatch First Click;
+   - [FIXUP] - GLITCH;
+   - [FIXUP] - Use image position on swatch;
+
+# FOOTER
+
+   - [FIXUP] - Logo Footer;
+   - [FIXUP] - Mobile Footer Popular Widget;
+
+
+v2.0.4 (2022-03-17)
+-------------------------------------------------------------------------------
+
+# SITEWIDE
+    - [FIXUP] - Update the Super Theme Documentation link;
+
+# PRODUCT PAGE
+    - [FIXUP] - Fix product swatch after activate the swatch collection;
+
+# COLLECTION PAGE
+    - [FIXUP] - Get swatch images from store files;
+
+
+v2.0.3 (2022-02-25)
+-------------------------------------------------------------------------------
+# HEADER AND FOOTER
+    - [FIXUP] - Replace SVG type liquid for html
+
+# VIDEOS
+    - [FIXUP] - Enable Videos Slider
+
+# PRODUCT PAGE
+    - [FIXUP] - ReCharge app not working for new template price
+    - [FIXUP] - Product Tabs Atributos HTML com *
+
+# COLLECTION LIST
+    - [FIXUP] - Collection List Margins
+    - [FIXUP] - Rename feature for Collection List
+
+# BLOG
+    - [FIXUP] - Blog JSON | Template
+
+
+v2.0.2 (2022-02-18)
+-------------------------------------------------------------------------------
+
+# SITEWIDE
+
+    - [FIXUP] - Remove white spacing on the top page;
+    - [REMOVE] - Deprecated tags;
+    - [FIXUP] - Custom class bugs;
+
+# HEADER
+
+    - [FIXUP] - Search suggestion not working on mobile menu;
+    - [FIXUP] - Adjust logo on mobile version;
+    - [FIXUP] - Svg logo;
+
+# HOME PAGE
+
+    - [FIXUP] - Adjust video slider section;
+    - [FIXUP] - Compare price always displayed;
+    - [FIXUP] - Product title padding;
+    - [FIXUP] - Banner tree buttons dimensions;
+    - [FIXUP] - Banner link custom banner height;
+    - [FIXUP] - Recently viewed products title strip html;
+
+# PRODUCT PAGE
+
+    - [FIXUP] - Trust badges height and alignment;
+    - [FIXUP] - Magnify zoom;
+    - [FIXUP] - Adjust swatch speed and spacing;
+    - [FIXUP] - Adjust spacing of breadcrumbs;
+    - [FIXUP] - Adjust margin in layout;
+    - [FIXUP] - Trust badges Alignment;
+    - [FIXUP] - ReCharge app;
+
+# CART PAGE
+
+    - [FIXUP] - Product Properties;
+    - [FIXUP] - Continue shopping button style;
+
+# COLLECTION
+
+    - [FIXUP] - Product per line;
+    - [FIXUP] - Adjust breadcrumbs alignment;
+    - [FIXUP] - Collection price;
+
+# FOOTER
+
+    - [FIXUP] - Adjust card spacing;
+
+# BLOG
+
+    - [FIXUP] - Button sidebar broken;
+    - [REMOVE] - Blog sidebar product;
+    - [ADD] -  Title section color;
+
+
+v2.0.1 (2022-02-04)
+-------------------------------------------------------------------------------
+
+# SITEWIDE
+
+    - [FIXUP] - file naming;
+    - [FIXUP] - Currency;
+    - [FIXUP] - Outline;
+    - [FIXUP] - Customize units;
+    - [FIXUP] - Selector swatch;
+    - [ADD] - Headers on sections of customize;
+    - [REMOVE] - OG:image;
+    - [ADD] - Info on section colors of customize on mobile devices;
+    - [ADD] - File product-card.liquid;
+    - [FIXUP] - Swatch color/style image;
+    - [REMOVE] - Sections call inside sections file;
+    - [FIXUP] - Customize default text;
+    - [FIXUP] - Replace id css;
+    - [ADD] - Css critic in head;
+    - [FIXUP] - Change title file custom_style for custom_head;
+    - [ADD] - Documentation link in data_settings.json;
+
+# SHIPPING BAR
+
+    - [FIXUP] - Text broken on mobile version;
+    - [FIXUP] - Checkbox enable section;
+    - [FIXUP] - Text after price/quantity;
+    - [FIXUP] - Discount threshold free shipping;
+
+# HEADER
+
+    - [FIXUP] - Menu color;
+    - [FIXUP] - Navbar color;
+    - [ADD] - Fallback text transform button on mobile version;
+    - [ADD] - SVG cart icon;
+    - [ADD] - Search Suggestion;
+    - [FIXUP] - Custom logo SVG max-height;
+    - [FIXUP] - Nav background color;
+    - [FIXUP] - mobile menu interfering without header;
+    - [FIXUP] - Logo/cart icon;
+    - [FIXUP] - Products without images are not suggested;
+    - [FIXUP] - Search suggestion it’s not showing in customize;
+    - [FIXUP] - Limit width for search button;
+    - [FIXUP] - Nav text hover;
+    - [FIXUP] - Fix spacing;
+    - [FIXUP] - Cart icon in mobile version;
+
+# HOME PAGE
+
+    - [FIXUP] - UVP unifi section;
+    - [FIXUP] - Blog post section title;
+    - [FIXUP] - Product video customize;
+    - [FIXUP] - UVP icons on mobile version.
+    - [ADD] - CTA text above button;
+    - [ADD] - CTA button link;
+    - [FIXUP] - Featured collections/products position adjust;
+    - [ADD] - CTA button border color;
+    - [ADD] - New section social icons;
+    - [FIXUP] - Social icons fallback text;
+    - [FIXUP] - Button height of three banner buttons;
+    - [FIXUP] - Button without text is shown;
+    - [FIXUP] - Button font size of three banner buttons;
+    - [FIXUP] - UVP width adjust;
+    - [ADD] - Banner three buttons button width on desktop version;
+    - [ADD] - Banner three buttons content width on desktop version;
+    - [ADD] - banner three buttons text transform button;
+    - [FIXUP] - Reviews width adjust;
+    - [FIXUP] - Banner two photos text under primary banner;
+    - [FIXUP] - Featured products checkbox show price;
+    - [FIXUP] - Featured products not responsive in mobile resolution;
+    - [FIXUP] - Text above font size;
+    - [FIXUP] - Custom sections liquid code;
+    - [REMOVE] - Section without name;
+    - [FIXUP] - UVP custom icon max-height;
+    - [FIXUP] - UVP trust badges per row for mobile;
+    - [FIXUP] - UVP max width bug;
+    - [FIXUP] - UVP not showing titles when using tags;
+
+# COLLECTION
+
+    - [FIXUP] - Sticky filter on mobile version;
+    - [REMOVE] - featured images;
+    - [FIXUP] - Filter;
+    - [FIXUP] - No image;
+
+# CART DRAWER
+
+    - [ADD] - Effects;
+    - [ADD] - Continue shopping and view cart clickable links;
+    - [ADD] - Cart drawer properties;
+    - [FIXUP] - Cart drawer bugs;
+    - [FIXUP] - Cart drawer js bug;
+
+# PRODUCT PAGE
+
+    - [ADD] - Metafield tab content;
+    - [FIXUP] - Session organization;
+    - [FIXUP] - Zoom Adjust;
+    - [FIXUP] - ATC alignment;
+    - [FIXUP] - ATC font size broken;
+    - [FIXUP] - Product title and price mobile direction;
+    - [FIXUP] - Reviews alignment;
+    - [FIXUP] - Margin reviews;
+    - [ADD] - Section title font size;
+    - [FIXUP] - Short description;
+    - [ADD] - New template;
+    - [ADD] - Stock limit warning;
+    - [ADD] - Customize out of stock button;
+    - [FIXUP] - Stock Warning label and background color;
+    - [ADD] - You save in new price template;
+    - [UPDATE] - Recharge app;
+    - [FIXUP] - Section spacing;
+    - [FIXUP] - Out of stock in ATC button below product tabs;
+    - [FIXUP] - Enable videos on product page;
+    - [FIXUP] - Enable description;
+    - [FIXUP] - Text color under primary banner two photos;
+    - [FIXUP] - Trust badges text transform;
+    - [FIXUP] - Size chart text file;
+    - [ADD] - Size chart in customize;
+    - [FIXUP] - Special offer badge;
+
+# PRODUCT
+
+    - [ADD] - Metafield product per-unit price;
+    - [ADD] - Metafield product link to full description;
+    - [ADD] - Metafield product Display additional details;
+    - [FIXUP] - Out of stock swatch;
+    - [FIXUP] -  Sticky ATC on mobile version;
+    - [ADD] - shipping calculate;
+    - [FIXUP] - Compare at price;
+    - [FIXUP] - Short Description;
+
+# CART PAGE
+
+    - [FIXUP] - Trust Badge width adjust;
+    - [FIXUP] - Continue shopping button;
+    - [FIXUP] - Items and total price;
+
+# SEARCH PAGE
+
+    - [FIXUP] - Enable search bar;
+    - [FIXUP] - Search page bug;
+
+# BLOG
+
+    - [FIXUP] - No image;
+
+# GIFT CARD
+
+    - [ADD] - Border color;
+
+# FOOTER
+
+    - [FIXUP] - Block Titles;
+    - [ADD] - Social media TikTok;
+    - [FIXUP] - Trust Badges Height does not working;
+
+# PAGESPEED
+
+    - [FIXUP] - width images;
+
+
+v2.0.0 (2021-10-30)
+-------------------------------------------------------------------------------
+
+# SITEWIDE
+
+    - [ADD] - Social Icons Section;
+    - [FIX] - Merged sections UVP 1 and UVP 2 in one UVP section;
+    - [FIX] - All the tag filter fields accept tags anyway they are typed;
+    - [FIX] - Reestablish standard theme files name;
+    - [FIX] - Compare price font size;
+    - [REMOVE] - Remove unnecessary files;
+
+# HEADER
+
+    - [ADD] - A field for customizing the fallbacks text transform;
+
+# FEATURED COLLECTIONS/FEATURED PRODUCTS
+
+    - [FIX] - The default value for the field "Position On/Off Banner" is 0;
+
+# BANNER THREE BUTTONS
+
+    - [ADD] - A field for customizing the button height;
+    - [ADD] - A field for customizing the button width;
+    - [ADD] - A field for customizing the button font size;
+    - [ADD] - A field for customizing the button width;
+
+# CTA BLOCK SECTION
+
+    - [FIX] - Spacing between total price and Free Shipping Message;
+
+# CTA BLOCK SECTION
+
+    - [ADD] - A field for customizing the button border color;
+    - [ADD] - Content above the button;
+
+# COLLECTION PAGE
+
+    - [FIX] - Replace field label for empty collection;
+
+# PRODUCT PAGE
+
+    - [ADD] - A field for customizing the Stock Warning background and text color;
+    - [ADD] - A new template for product price;
+    - [ADD] - A field for customizing the slider images width;
+    - [ADD] - A field for customizing the You Save text color;
+    - [FIX] - Reviews alignment;
+    - [FIX] - Adjust spacing for product title, swatch options, quantity and reviews;
+    - [FIX] - Adjust the Out Of Stock button background and text color;
+    - [FIX] - Adjust the reviews stars color;
+
+# FOOTER
+
+    - [ADD] - Tiktok link;
+    - [FIX] - Trust badges height;
+
+
+v1.0.7 (2021-08-02)
+-------------------------------------------------------------------------------
+
+# ACCOUNT
+
+    - [FIXUP] - Forgot Password;
+
+# HEADER
+
+    - [FIXUP] - Max height and width for Logo Image;
+
+
+v1.0.6 (2021-07-14)
+-------------------------------------------------------------------------------
+
+# ACCOUNT
+
+    - [FIXUP] - Register account;
+
+# CART PAGE
+
+    - [FIXUP] - Continue Shopping link;
+
+# HOME PAGE
+
+    - [FIXUP] - Standardization of customize button configuration on banner three buttons;
+    - [FIXUP] - UVPS icons on responsive;
+
+# PRODUCT PAGE
+
+    - [FIXUP] - Support to shopify video media on product slider;
+    - [FIXUP] - Space of button Add to Cart below product tabs;
+
+# SITEWIDE
+
+    - [FIXUP] - Coupon newsletter alignment on mobile menu;
+    - [FIXUP] - Custom class;
+    - [FIXUP] - Newsletters colors on menu mobile;
+    - [UPDATE] - Order Bump;
+
+
+v1.0.5 (2021-06-01)
+-------------------------------------------------------------------------------
+
+# CART DRAWER
+
+    - [FIXUP] - Removed special characters from product properties;
+    - [FIXUP] - Discounted price;
+
+# COLLECTION PAGE
+
+    - [ADD] - Range input to define font size of message when collection is empty;
+
+# FOOTER
+
+    - [FIXUP] - Replaced text "Customer's Info" to "Store Info" on block Business and Social Icons;
+
+# HOME PAGE
+
+    - [ADD] - Title blog posts section;
+    - [FIXUP] - Standardization of section spaces;
+    - [FIXUP] - Featured Collection image when there is no image on product;
+    - [FIXUP] - Featured Product items alignment on mobile;
+
+# PAGESPEED
+
+    - [FIXUP] - Cumulative Layout Shift (CLS) removed from header logo image;
+
+# PRODUCT PAGE
+
+    -[ADD] - Zoom tool on product image;
+    -[FIXUP] - Price alignment to left;
+
+# SITEWIDE
+
+    - [ADD] - Template name as class on tag HTML body;
+    - [FIXUP] - Sections static class name;
+    - [FIXUP] - Adaptation of the header image regardless of format;
+
+
+
+-------------------------------------------------------------------------------
+v1.0.4 (2021-04-30)
+-------------------------------------------------------------------------------
+
+# ACCOUNT
+
+    - [FIXUP] - Password reset process;
+
+# SITEWIDE
+
+    -[FIXUP] - Header logo mobile;
+
+-------------------------------------------------------------------------------
+v1.0.3 (2021-03-23)
+-------------------------------------------------------------------------------
+
+# PRODUCT
+
+    -[FIXUP] - Price from the button and product when change option from ReCharge App;
+
+
+-------------------------------------------------------------------------------
+v1.0.2 (2021-03-12)
+-------------------------------------------------------------------------------
+
+
+# SITEWIDE
+    -[FIXUP] - Recently Viewed Product first product to be displayed only appears after reloading the page and fixed the display order of products;
+
+# FOOTER
+    -[FIXUP] - Adjust trust badge images: sezzle and paypal;
+
+# ARTICLE
+    -[FIXUP] - Remove link of feature image;
+
+
+-------------------------------------------------------------------------------
+v1.0.1 (2021-03-04)
+-------------------------------------------------------------------------------
+
+# APP
+
+    -[FIXUP] - Order bump call;
+
+# ARTICLE PAGE
+
+    -[ADD] - Option to hide article date;
+    -[FIXUP] - Comment area has been moved to the end of the article body;
+    -[FIXUP] - Correctly id name for images;
+    -[FIXUP] - The size of the image is now calculated according to its aspect ratio;
+
+# BLOG PAGE
+
+    -[UPDATE] - Replaced "Read More Button Color" to "Block Content Button Color";
+    -[UPDATE] - Replaced "Read More Button Hover Color" to "Block Content Button Hover Color";
+    -[UPDATE] - Replaced "Read More Button Text Color" to "Block Content Button Text Color";
+    -[UPDATE] - Replaced "Read More Button Text Hover Color" to "Block Content Button Text Hover Color";
+    -[UPDATE] - Replaced "Hide the Article Date" to "Hide Article Date";
+    -[UPDATE] - Option "Enable Newsletter on Sidebar" moved to General Settings;
+
+# CART PAGE
+
+    -[FIXUP] - Proceed To Checkout button font size on mobile resolution;
+
+# COLLECTION PAGE
+
+    -[FIXUP] - Swatch type size and option;
+    -[ADD] - Field to customized message for when there are no available products;
+    -[FIXUP] - The subcollection arrow was being shown without text;
+
+# CUSTOMERS PAGE
+
+    -[FIXUP] - Replaced label “Unity” to “Unit”;
+    -[FIXUP] - Customer address information;
+
+# HOME PAGE
+
+    -[FIXUP] - Featured Collection image alignment;
+    -[FIXUP] - Lazy load option of the Banner Three Buttons;
+
+# PRODUCT PAGE
+
+    -[REMOVE] - Possibility for the user to enter 0 as the quantity;
+    -[FIXUP] - Trust badges images alignment on the center;
+    -[FIXUP] - Replaced label “Trust Badges Title” to “Trust Badge Title” on mobile menu;
+
+# SITEWIDE
+    -[ADD] - New trust badges sezzle, shopify secure and update the paypal icon to the latest. These icons were added to the footer, cart drawer and product page trust badges;
+    -[ADD] - Amazon icon to trust badge into Cart Drawer;
+    -[FIXUP] - "Out of Stock" option on Recently Viewed Products (Home Page, Product Page, Collection Page);
+    -[FIXUP] - Duplicated and unused icons from all theme;
+    -[FIXUP] - Replaced label “Enable Email Adress” to “Enable Email Address” on mobile menu;
+    -[FIXUP] - Logo image size when loading page;
+    -[UPDATE] - Password page style;
+
+
+
+-------------------------------------------------------------------------------
+v1.0.0 (2021-01-29)
+-------------------------------------------------------------------------------
+
+# APP
+
+    - [ADD] - Compatibility with the OCU App Pre-Purchase;
+    - [FIXUP] - Stamped IO reviews on Other Fine Products;
+
+# BLOG
+
+    - [ADD] - Comments area;
+    - [FIXUP] - Newsletter button height;
+
+# COLLECTION PAGE
+
+    - [UPDATE] - The swatch feature was re-written to improve the performance and optimization of the elements on the page;
+
+# CUSTOMERS
+
+    - [UPDATE] - New style for my account and orders;
+
+# HOMEPAGE
+
+    - [ADD] - Banner three buttons and banner link text field controls to headline mobile;
+    - [FIXUP] - Banner three buttons and banner link css when there's both of these banners;
+    - [FIXUP] - Featured products css adjustments;
+
+# PRODUCT PAGE
+
+    - [ADD] - Support to YouTube videos using products media;
+    - [FIXUP] - Product price to all currency format;
+    - [FIXUP] - Button ADD To Cart elements style on mobile;
+    - [FIXUP] - Set a fix height to trust badges images when it loading;
+    - [FIXUP] - Featured products CSS adjustments;
+
+# SEO
+
+    - [ADD] - Improved data for product variants;
+    - [FIXUP] - OG:image default image when there's no image on customize;
+    - [FIXUP] - OG:image property structure;
+    - [FIXUP] - Improved data for product variants;
+
+# SITEWIDE
+
+    - [ADD] - Enable "Out of Stock" option on Featured Collections (Home Page), Other Fine Products(Product Page), Recently Viewed Products ( Home Page, Product Page, Collection Page);
+    - [FIXUP] - Product info css correction on cart drawer;
+    - [FIXUP] - Navigation menu on header when menu has many items;
+    - [FIXUP] - Click to open or close navigation menus on footer in tablet's resolution;
+    - [FIXUP] - Space between social media icons and store information on footer;
+    - [FIXUP] - Space between button Proceed to Checkout, Trust badges and Coupon code on cart drawer;
+    - [FIXUP] - Footer HTML menus navigation structure;
+    - [FIXUP] - Adjust success message newsletter position;
+    - [UPDATE] - Organize elements of Trust Badges by Category on Cart Drawer;
+
+-------------------------------------------------------------------------------
+v0.9.9.3 (2020-12-17)
+-------------------------------------------------------------------------------
+
+# BLOG
+
+    - [FIXUP] - Newsletter button color on hover effect;
+
+# HOMEPAGE
+
+    - [ADD] - Title field for UVP sections;
+    - [FIXUP] - Image vertical alignment not centralized for UVP sections;
+    - [FIXUP] - Image size defined by last UVP section change image size of all UVP sections above;
+    - [FIXUP] - Banner height when does not exists defined image for mobile;
+
+# PAGE SPEED
+
+    - [FIXUP] - Trust badge shift before product page load below ATC button;
+    - [FIXUP] - Special SEO treatment for meta-tags symbols;
+    - [FIXUP] - Recently Viewed Products call moved from theme.liquid to snippet/vasta-scripts;
+
+# PRODUCT PAGE
+
+    - [ADD] - Swatch tooltip for all product options on mobile and tablet;
+    - [FIXUP] - Product slider arrows;
+    - [FIXUP] - ATC button show price equals zero when quantity field is empty;
+    - [FIXUP] - Product slider doesn’t work property in some situations;
+
+# SITEWIDE
+
+    - [ADD] - Back to the top option to set it left or right;
+    - [FIXUP] - Alignment product with badge;
+    - [FIXUP] - Default font size for desktop, mobile and tablet;
+    - [FIXUP] - Review image when does not exists defined image;
+    - [FIXUP] - jQuery does work correctly;
+
+
+-------------------------------------------------------------------------------
+v0.9.9.2 (2020-11-24)
+-------------------------------------------------------------------------------
+
+# APP
+
+    - [FIXUP] - Judge.me snippet reference above head closing on theme.liquid;
+
+# PAGES
+
+    - [FIXUP] - Policies pages;
+
+# PRODUCT PAGES
+
+    - [FIXUP] - Product slider arrows ;
+
+# SITEWIDE
+
+    - [FIXUP] - Set default for newsletter field;
+    - [FIXUP] - Coupon color from newsletter;
+    - [FIXUP] - Stars on related products mobile;
+    - [FIXUP] - Rich snippet of Stamped.io and Loox reviews;
+
+
+-------------------------------------------------------------------------------
+v0.9.9.1 (2020-11-18)
+-------------------------------------------------------------------------------
+
+# APP
+
+    - [FIXUP] - Recharge update product price;
+
+# HEADER
+
+    - [FIXUP] - Logo header link area;
+
+# FOOTER
+
+    - [ADD] - Custom Newsletter Hack;
+
+# PAGES
+
+    - [FIXUP] - My account and customer CSS;
+
+# PAGESPEED
+
+    - [FIXUP] - Banner three buttons fix height (CLS);
+
+# PRODUCT PAGE
+
+    - [FIXUP] - Product price to all currency format;
+
+
+-------------------------------------------------------------------------------
+v0.9.9.0 (2020-10-27)
+-------------------------------------------------------------------------------
+
+# SHIPPING BAR
+
+    - [FIX UP] Informational - Email and Phone links;
+
+# CART PAGE
+
+    - [FIX UP] Align Buttons: PTC and Continue Shopping on Cart Page;
+    - [ADD] Margin title on two text column;
+    - [FIX UP] Adjust FUD margin;
+
+# FOOTER
+
+    - [FIX UP] - Spacing of content between pages and footer;
+    - [ADD] - Newsletter Hack;
+    - [ADD] - Enable option to klaviyo newsletter;
+
+# GIFT CARD PAGE
+
+    - [ADD] Add margin to giftcard page;
+
+# 404 PAGE
+
+    - [ADD] Featured Collections - Spacing;
+    - [FIX UP] Featured Collections - Title;
+    - [FIX UP] featured collection width;
+
+# HEADER
+
+    - [FIX UP] Sub Headline Font Size;
+    - [FIX UP] Cart Icon count;
+
+# HOMEPAGE
+
+    - [ADD] Option to change button width on mobile version;
+    - [ADD] Add a section with judme metafields;
+    - [ADD] Custom Area title;
+
+# CART DRAWER
+
+    - [FIX UP] - Adjustment on margin;
+    - [FIX UP] - Align buttons: PTC and Continue Shopping;
+
+# PRODUCT PAGE
+
+    - [FIX UP] - Other Fine Products;
+    - [ADD] - New Transition;
+    - [REMOVE] - Lazy load on Slider;
+    - [FIXUP] - Product Price;
+    - [FIX UP] - Fix negative value;
+    - [FIX UP] - Trust Badges.
+    - [FIX UP] - Select not working when swatch is disabled;
+    - [REMOVE] - Console errors;
+
+# SITEWIDE
+
+    - [UPDATE]  Theme version;
+    - [FIX UP] Replace tags from <article> to <div> sitewide;
+    - [ADD] Lazy Load on banner link and two images;
+    - [FIX UP] - Image back to the top;
+    - [FIX UP] - Featured Promotional Slider - Mobile
+    - [FIX UP] - Adjust button width on mobile
+    - [FIX UP] - Sub Headline Font size
+    - [ADD] - Default image for products without images.
+
+# PAGESPEED
+
+    - [FIX UP] Remove lazy load from images above the fold;
+    - [ADD] Add preload, preconnect and dns-prefetch for important links;
+    - [ADD] Integrate AMP on the Theme
+    - [FIX UP] Adjust the load of the fonts
+    - [ADD] Unify and Minify the script js
+    - [ADD] Add `{%-` on liquid call to remove empty spaces;
+
+# COLLECTION
+
+    - [FIX UP] Rewrite the swatch collection;
+    - [ADD] Banner - Featured Image Collection;
+
+# LOCALES
+
+    - [FIX UP] Replace the "cart" json;
+
+
+-------------------------------------------------------------------------------
+v0.9.8.3 (2020-09-28)
+-------------------------------------------------------------------------------
+
+# APP
+
+    - [ADD] Recharge files on cart page;
+    - [ADD] Order bump javascript and css files;
+
+# CART PAGE
+
+    - [FIXUP] Header info icons alignment;
+
+# COLLECTION LIST
+
+    - [ADD] Class to controll collection itens;
+
+# COLLECTION PAGE
+
+    - [FIXUP] Breadcrump click;
+    - [FIXUP] Products color;
+
+# GIFT CARD
+
+    - [FIXUP] Replace action link by a local image;
+
+# HEADER
+
+    - [FIXUP] Logo custom max height;
+
+# PAGES
+
+    - [FIXUP] Title h1 color;
+
+# PRODUCT PAGE
+
+    - [FIXUP] Product Badge css;
+    - [REMOVE] Lazy load from product sliders;
+    - [FIXUP] Product Badge has been added on theme settings;
+
+# SITEWIDE
+
+    - [FIXUP] Responsive image optimization;
+    - [FIXUP] Reviews start alignment;
+
+
+-------------------------------------------------------------------------------
+v0.9.8.2 (2020-09-10)
+-------------------------------------------------------------------------------
+
+# SITEWIDE
+
+    - [FIXUP] Responsive image optimization;
+
+
+-------------------------------------------------------------------------------
+v0.9.8.1 (2020-09-09)
+-------------------------------------------------------------------------------
+
+# PAGES
+
+    - [FIXUP] Css correction on page 404;
+
+# PRODUCT PAGE
+
+    - [ADD] You Save option to show Percentage Value, Price or Both;
+    - [FIXUP] Swatch images URL;
+    - [FIXUP] Margins on Trust Badges;
+    - [FIXUP] Thumbnail crop on product slider;
+    - [FIXUP] Compare price when product hasn’t variants;
+
+# SITEWIDE
+
+    - [ADD] App Loox reviews on apps options;
+    - [FIXUP] Recently Viewed Products images URL optimization;
+    - [FIXUP] Logo size on tablet resolution;
+
+
+-------------------------------------------------------------------------------
+v0.9.8 (2020-09-01)
+-------------------------------------------------------------------------------
+
+# BLOG PAGE
+
+    - [FIXUP] CSS sidebar;
+
+# CART PAGE
+
+    - [ADD] Continue Shopping button style;
+    - [ADD] Option to disable top button Proceed to Checkout;
+    - [FIXUP]  Message of day when Enable Shipping Bar Discount Settings is true;
+
+# CART DRAWER
+
+    - [ADD] Trust Badge Titles;
+    - [FIXUP] Adjust label “Product Proceed To Checkout Text Hover”  to “Proceed To Checkout Text Hover”;
+    - [FIXUP] Coupon message css adjust;
+
+# COLLECTION PAGE
+
+    - [ADD] Info about tags that will be removed on filters;
+    - [FIXUP] Breadcrumbs position;
+    - [FIXUP] Style adjustments on title;
+    - [FIXUP] Fix swatch hover;
+
+# COLLECTION LIST
+
+    - [FIXUP] Breadcrumbs position;
+    - [FIXUP] Style adjustments on title;
+    - [FIXUP] Filter to remove collections on collection page;
+
+# HOME PAGE
+
+    - [ADD] Option to add background image on Banner link mobile;
+    - [ADD] Option to add background image on Banner Three Button mobile;
+    - [ADD] Option to move button responsively on Banner Three Button mobile;
+    - [ADD] Option to add text-transform product title on sections Featured Collections and Featured Products
+    - [FIXUP] Standardized labels Banner Three Buttons;
+    - [FIXUP] Banner Link labels were standardized as on Banner Three Buttons;
+    - [FIXUP] Overlapping heights on Banner Link;
+
+# NEWSLETTER
+
+    - [ADD]  Option to change background color on coupon message;
+
+# PAGES
+
+    - [FIXED] CSS corrections;
+
+# PRODUCT PAGE
+
+    - [ADD] Option to enable button Add To Cart static;
+    - [ADD] Option circle swatch: color, size and style;
+    - [ADD] Customize block title on Trust Badges;
+    - [ADD] Product tabs option to enable border: shadow, radius, and change border color on tab content;
+    - [FIXUP] Product badge position;
+    - [FIXUP] Remove quantity limiter on trust badges;
+    - [FIXUP] Swatch size when has HTML entities on text (ex: quotation);
+    - [FIXUP] Compare price;
+    - [FIXUP] Label “Products Title Text Transform” to “Product Title Text Transform” on Related Products;
+
+# REVIEWS
+
+    - [FIXUP] Rich Snippets;
+
+# SHIPPING BAR
+
+    - [ADD] Email and phone number with option to enable as link;00:32
+    - [FIXUP] Spacing on mobile;
+
+# SITEWIDE
+
+    - [ADD] Images processed by responsive images;
+    - [ADD] Og: image - Image default on Vasta Settings;
+    - [ADD] Option to change Recently Viewed Products title;
+    - [ADD] Smooth effect on anchored elements;
+    - [FIXUP] Standard colors on load page;
+    - [FIXUP] Remove duplicated IDs;
+    - [UPDATE] Recently Viewed Products as shopify snippets patterns;
+
+
+-------------------------------------------------------------------------------
+v0.9.7.1 (2020-07-14)
+-------------------------------------------------------------------------------
+
+# CART PAGE
+
+    - [FIXED] “Disable Reviews” option;
+
+# COLLECTION PAGE
+
+    - [FIXED] Swatch hover on collection list;
+
+# PRODUCT PAGE
+
+    - [FIXED] Swatch on product slider;
+
+# SHIPPING BAR
+
+    - [FIXED] Default message before update price;
+
+
+-------------------------------------------------------------------------------
+v0.9.7 (2020-07-14)
+-------------------------------------------------------------------------------
+
+# APPS
+
+    - [ADDED] App Section for  reviews (Judge.me, Product Reviews Metafield, Stamped IO, Yotpo Reviews);
+
+# CART PAGE
+    - [ADDED] “Discount Value” and “Discount Product Qtd” range on “Theme Settings > Cart Page > Cart Info”
+
+# COLLECTION PAGE
+
+    - [FIXUP] Image blur on Collection Page width two columns;
+
+# HEADER
+
+    - [FIXUP] Header abnormal height on page load;
+
+# HOMEPAGE
+
+    - [FIXED] Change customize structure on “Banner (With Two Images)” section;
+    - [ADDED] Mobile and Tablet ranges for “Banner (Three Buttons)” section;
+    - [ADDED] SVG option for UVP 2 section (when you add “supertheme” class on svg, it get the Icons color property on customize).;
+    - [FIXED] Image size for “Icon width” on “UVP 1” ;
+
+# INFRASTRUCTURE
+
+    - [FIXUP] Updated JQuery to 3.5.1;
+    - [FIXUP] remove duplicated images;
+    - [FIXUP] Id on icons SVG Structure;
+
+# NEWSLETTER
+
+#   - [FIXUP] Success message on menu mobile;
+    - [FIXUP] Adjust label "Button Hover Text Color" to "Button Hover Background Color";
+    - [ADDED] Default Message “Thanks for signing up! Here is your Coupon code:”;
+    - [ADDED] Coupon “TAKE10”;
+
+# PRODUCT PAGE
+
+    - [FIXUP] Fix data-src on product-sliders;
+    - [ADDED] Add select position and direction for Product TItle and Price;
+    - [FIXUP] Fix SVG size limit;
+    - [FIXUP] Spacing adjustments for mobile;
+
+# SHIPPING BAR
+
+    - [FIXED] Text breaking the container;
+
+# SITEWIDE
+
+    - [ADDED] Tablet and Mobile Font size on typography.
+    - [FIXUP] unnecessary dots on customize labels;
+    - [FIXUP] Fix missed favicon console error;
+    - [FIXED] Set LATO font from shopify instead the theme;
+    - [FIXUP] Responsive-image crop;
+    - [FIXUP]  Collection SEO Metatags ;
+    - [FIXUP] Back To Top button font;
+    - [FIXUP] Change “Image Lazy Load Effect” to “Lazy Load Effect” on theme settings;
+    - [FIXUP] Adjust SVG size on the site in special, trust badges in product page;
+    - [FIXUP] image crop to lazy load src;
+
+# BLOG
+
+    - [FIXUP] Style Adjustments;
+
+
+-------------------------------------------------------------------------------
+v0.9.6 (2020-06-16)
+-------------------------------------------------------------------------------
+
+# HEADER
+
+    - [FIXUP] Style adjustments;
+    - [ADDED] - Remove search bar on mobile
+    - [FIXUP] Customize settings.
+
+# VASTA SETTINGS
+
+    - [ADDED] Fade image effect
+
+# CART PAGE
+
+    - [ADDED] Default text to "Text Column" section;
+    - [FIXUP] Customize settings;
+    - [ADDED] Enable week message on cart page
+    - [ADDED] Success Message on Free Shipping
+
+# COLLECTION PAGE
+
+    - [FIXUP] - Customize settings - English spelling;
+    - [FIXUP] - "Collection Description" style adjustments
+    - [FIXUP] - Breadcumb position
+    - [FIXUP] - Swatch Colors.
+
+# FOOTER
+
+    - [ADDED] Customize settings;
+    - [FIXUP] Footer Logo Position
+
+# UVP
+    - [ADDED] Enable text below the image
+    - [FIXUP] style adjustments.
+
+# PRODUCT PAGE
+
+    - [FIXUP] Trust Badges style adjustments;
+    - [FIXUP] Product sliders;
+    - [ADDED] Out of Stock message on ATC
+    - [FIXUP] ATC button style adjustments.
+
+# REVIEWS
+
+    - [FIXUP] Style adjustments.
+
+# SHIPPING BAR
+
+    - [FIXUP] Style adjustments;
+    - [FIXUP] Customize settings.
+
+# WCAG 2.0 IMPLEMENTATION
+
+    - [ADDED] - Dynamic Alts
+    - [FIXUP] - Duplicated Sections Ids;
+    - [FIXUP] - Lazy load images;
+
+# SITE INFO
+
+    - [ADDED] Facebook App ID;
+
+# SITEWIDE
+
+    - [ADDED] Default Image Collection
+    - [FIXUP] Typography adjustments - ;
+    - [FIXUP] Image Crop;
+    - [FIXUP] Script adjustments;
+    - [FIXUP] Style adjustments;
+    - [FIXUP] Button Back to top
+    - [ADDED] - Schema for collection page.
+
+# CTA SECTION
+
+    - [FIXUP] Style adjustments;
+
+# FEATURED COLLECTION
+
+    - [FIXUP] style adjustments.
+
+
+-------------------------------------------------------------------------------
+v0.9.4 (2020-04-28)
+-------------------------------------------------------------------------------
+
+# CART DRAWER
+
+    - [FIXUP] Fix external Apps text inside cart drawer;
+    - [FIXUP] Plus symbol;
+
+# CART PAGE
+
+    - [ADDED] Free shipping copy next to price on discount threshold option;
+
+# COLLECTION PAGE
+
+    - [FIXUP] Product badge position;
+    - [FIXUP] Collection Filter Title;
+
+# FOOTER
+
+    - [ADDED] Business info on Theme Settings > Store Info;
+    - [FIXUP] Logo Size;
+    - [FIXUP] Default color and font settings;
+
+# HEADER
+
+    - [FIXUP] Logo Size and positions;
+    - [FIXUP] Margin between logo and main menu;
+
+# UVP
+
+    - [FIXUP] UVP 1 increase image size for better resolutions
+    - [FIXUP] UVP 1 info settings;
+
+# INSTAFEED
+
+    - [ADDED] Title section edit option;
+    - [ADDED] Disable link option;
+    - [FIXUP] Instafeed issues;
+
+# PRODUCT PAGE
+
+    - [ADDED] 4 Images option on thumbnails;
+    - [FIXUP] Price on ATC button;
+    - [FIXUP] Size Chart title;
+    - [FIXUP] Thumbnails image quality;
+    - [FIXUP]  ATC settings;
+    - [FIXUP] Slider Badge position;
+    - [FIXUP] Trust badges settings;
+    - [FIXUP] Product description margin;
+    - [FIXUP] Product size title on mobile;
+    - [FIXUP] Check if product is available on product tabs;
+
+# REVIEWS
+
+    - [ADDED] Not load empty spaces on front end, when field of form is null
+
+# VASTA SETTINGS
+
+    - [ADDED] Recently Viewed Products text transform;
+    - [ADDED] Enable Search bar option;
+
+# SEARCH PAGE
+
+    - [ADDED] Input text is required;
+    - [ADDED] Collection list and Promotional Slides;
+
+# SHIPPING BAR
+
+    - [FIXUP] Change “Enable Static Shipping Bar” to “Enable Sticky Shipping Bar”;
+    - [FIXUP] Vertical align when it's a longer text;
+    - [FIXUP] Margin and icon positions;
+    - [FIXUP] Price when shipping bar isn't displayed;
+
+# SITEWIDE
+
+    - [FIXUP] Story info positions;
+    - [FIXUP] Icon sizes;
+    - [FIXUP] Margin on Feature Collections;
+    - [FIXUP] Default newsletter settings;
+    - [FIXUP] Edit Free Shipping Message option;
+
+# SWATCH
+
+    - [FIXUP] Listing only available variants;
+    - [FIXUP] Product swatch for when this is disabled;
+
+# VIDEO
+
+    - [ADDED] Info for Vimeo videos;
+
+
+-------------------------------------------------------------------------------
+v0.9.2-STABLE-REVIEWED  (2020-03-31)
+-------------------------------------------------------------------------------
+
+# CART DRAWER
+
+    - [FIXUP] Display trust badges icons from select;
+
+# CART PAGE
+
+    - [REMOVED] color options from "Continue Shopping" button;
+
+# DRAWER
+
+    - [FIXUP] "null" of the product variants title;
+
+# FOOTER
+
+    - [ADDED] "Enable Trust Badge Image";
+    - [FIXUP] Info “Please, check that the link of this social media are described on ‘Theme settings > Costumer’s Info’.” to “Please insert the social media link on ‘Theme Settings’ -> ‘Customer’s Info’.”;
+    - [FIXUP] Adjustments to SVG's CSS properties;
+
+# HEADER
+
+    - [FIXUP] Cart Title stay as the user typed.;
+    - [FIXUP] spacing between logo and search field;
+    - [FIXUP] Main menu not displayed on disable search field;
+    - [ADDED] Color changes on menu button;
+    - [FIXUP] Search field placeholder not display;
+
+# PRODUCT PAGE
+
+    - [FIXUP] spacing between product description and video;
+
+# RELATED PRODUCTS
+
+    - [FIXUP] label names;
+    - [FIXUP] Option for text transform: Uppercase, capitalize e same as input;
+
+# REVIEWS
+
+Reviews Title font size stay as the user typed;
+
+# SHIPPING BAR
+
+    - [ADDED] a "Divisor Line Color" option;
+
+# SITEWIDE
+
+    - [FIXUP] Area for put HTML code at <head> and <body> tags;
+    - [FIXUP] "Body Copy Font Size";
+    - [FIXUP] “instafeed row numbers” change option;
+
+
+-------------------------------------------------------------------------------
+v0.9.2 (2020-03-31)
+-------------------------------------------------------------------------------
+
+# SITEWIDE
+
+    - [ADDED] Section “Costumer's info” on “Customize > Theme settings” and “enable options” where these informations are useful (phone, email, social media,etc); - 00:27
+    - [FIXUP] Deprecated “include” tags to “img” and “render”; - 00:16
+    - [FIXUP] Shipping bar update when some product is added or removed at cart or product quantity is altered;
+    - [FIXUP] Overlay stay hidden when the Cart Drawer is disabled;
+    - [FIXUP] Lazyload;
+    - [FIXUP] Apply max-width and max-height at logo svg;
+    - [FIXUP] Cart Drawer Remove Button;
+    - [FIXUP] Escape on Links attribute TITLE;
+    - [FIXUP] Back To Top is not blink anymore; - 00:29
+
+# COLLECTION PAGE
+
+    - [ADDED] Optional sticky filter; - 00:32
+    - [ADDED] Option for increase/decrease product price font size; - 00:33
+
+# PRODUCT PAGE
+
+    - [FIXUP] Adjust Product Title “font-size” on mobile; - 00:34
+    - [ADDED] Option for choose the number of thumbnails images on product slider; - 00:35
+    - [ADDED] Capitalization options for “other fine products” title: uppercase, lowercase and capitalize;
+    - [ADDED] “Place bullet points for tabs” as optional;
+    - [ADDED] “Compare at price” as optional;
+    - [ADDED] Certifications Icons on trust badges: free shipping, 30 day money back, made in usa and 100% natural product;
+    - [REMOVED] Change swatch items on click on product slider arrow;
+    - [ADDED] Change swatch items after change product slider; - 00:37
+    - [ADDED] Optional Sticky Product Slider; - 00:39
+    - [FIXUP] Update URL on choose variant and choose the right option on window load;
+    - [FIXUP] Reset Add To Cart Price on change swatch;
+    - [FIXUP] Adjust SEO description meta tag;
+
+# CART PAGE
+
+    - [FIXUP] Field to hide the day of the week at the Cart Page; - 00:40
+    - [FIXUP] Limit to the Cart Page logo dimensions; - 00:42
+    - [FIXUP] Adjust position and font for product properties;
+    - [FIXUP] Adjust font size header elements;
+    - [FIXUP] Adjust product item buttons;
+
+# FOOTER
+
+    - [FIXUP] Address icon showing without a text field; - 00:44
+    - [ADDED] Option for change the color of “thank you” message from klaviyo form; - 00:45
+    - [ADDED] Left or right align option for  “Costumer's info”; - 00:47
+    - [FIXUP] Display the coupon on the footer on submit newsletter form;
+    - [FIXUP] Remove margin top of the footer;
+    - [ADDED] Option for increase/decrease Popular Collection label font-size - 00:48
+    - [FIXUP] Logo size;
+
+# CTA SECTION
+
+    - [FIXUP] Adjust label “External Link” to “Link”;
+
+# YOU SAVE
+
+    - [FIXUP] Label show the correct value when change swatch; - 00:49
+
+# INSTAFEED
+
+    - [FIXUP] Instafeed combinations issue; - 00:54
+
+# MOBILE HEADER
+
+    - [FIXUP] Fallback text length issue below the cart and menu icons;
+    - [ADDED] Option for change the color of icon and fallback text on customize; - 00:55
+
+# SHIPPING BAR
+
+    - [UPDATED] Size icons from 30px to 60px;
+    - [FIXUP] Vertical align when the text is huge;
+
+# SHIPPING TEXT
+
+    - [FIXUP] Display images and increase the section margin top and bottom;

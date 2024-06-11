@@ -1,0 +1,30 @@
+<!--start shipping-calculate.liquid (SNIPPED)-->
+
+{% assign startDaysDate = section.settings.days_to_start_shipping | times: 24 | times: 60 | times: 60 %}
+{% assign moreDaysDate = section.settings.approximate_days_for_delivery | times: 24 | times: 60 | times: 60 %}
+{% assign date =  "now" | date: "%A, %b. %d" | date: '%s' -%}
+
+<div class="shipping-calculate-date">
+    <div class="title-delivery">{{ section.settings.shipping_calculator_label }}:&nbsp</div>
+    <div id="now" class="date"> {{ date | date: "%s" | plus: startDaysDate | date: "%A, %b %d" }} - {{ date | date: "%s" | plus: moreDaysDate | date: "%A, %b %d" }}</div>
+</div>
+
+<style scoped>
+    .shipping-calculate-date{
+        display: flex;
+        justify-content: {{ section.settings.delivery_align }};
+        padding: 2px;
+        align-items: center;
+    }
+    .title-delivery{
+        color: gray;
+    }
+    .date {
+        font-weight: bold;
+    }
+    .title-delivery, .date {
+        font-size: .9rem;
+    }
+</style>
+
+<!--end shipping-calculate.liquid (SNIPPED)-->

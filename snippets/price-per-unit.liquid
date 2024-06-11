@@ -1,0 +1,35 @@
+<!-- start price-per-unit (SNIPPET) -->
+{%- assign product_variants_size = product.variants | size -%}
+{%- if product_variants_size > 1 -%}
+    {%- if variant.metafields.custom.product_per_unit_price != blank and section.settings.enable_product_per_unit_value -%}
+        {%- if section.settings.product_per_unit_value_tag_filter != blank -%}
+            {%- if product.tags contains section.settings.product_per_unit_value_tag_filter -%}
+                {%- for variants in product.variants -%}
+                    <span data-variant="{{ variants.id }}" class="price-per-unit-edits" style="display: none;">
+                        {{ variants.metafields.custom.product_per_unit_price }}
+                    </span>
+                {%- endfor -%}
+            {%- endif -%}
+        {%- else -%}
+            {%- for variants in product.variants -%}
+                <span data-variant="{{ variants.id }}" class="price-per-unit-edits" style="display: none;">
+                    {{ variants.metafields.custom.product_per_unit_price }}
+                </span>
+            {%- endfor -%}
+        {%- endif -%}
+    {%- endif -%}
+{%- else -%}
+    {%- if product.metafields.custom.price_per_unit != blank and section.settings.enable_product_per_unit_value -%}
+        {%- if section.settings.product_per_unit_value_tag_filter != blank -%}
+            {%- if product.tags contains section.settings.product_per_unit_value_tag_filter -%}
+                <span data-variant="{{ variants.id }}" class="price-per-unit-edits" style="display: none;">
+                    {{ product.metafields.custom.price_per_unit }}
+                </span>
+            {%- endif -%}
+        {%- else -%}
+            <span data-variant="{{ variants.id }}" class="price-per-unit-edits">
+                {{ product.metafields.custom.price_per_unit }}
+            </span>
+        {%- endif -%}
+    {%- endif -%}
+{%- endif -%}

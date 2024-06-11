@@ -1,0 +1,83 @@
+<!-- START product-video.liquid ( SNIPPET ) -->
+{% if section.settings.enabled_videos %}
+  <div class="product-dynamic-video__wrapper {{ section.settings.custom_class }} dynamic-video__slider">
+    {%- for block in section.blocks -%}
+      {%- if "product_videos" == block.type -%}
+        {%- assign show_videos = false -%}
+        {%- if block.settings.enable_video_by_tag -%}
+            {%- if product.tags contains block.settings.tag_name -%}
+                {%- assign show_videos = true -%}
+            {%- endif -%}
+        {%- else -%}
+            {%- assign show_videos = true -%}
+        {%- endif -%}
+
+        {%- if show_videos == true -%}
+          {%- assign url = block.settings.url -%}
+          <div class="product-dynamic-video__content">
+            {%- if block.settings.title != blank -%}
+              <h2 class="section-title">{{ block.settings.title }}</h2>
+            {%- endif -%}
+
+            {%- if url -%}
+              {%- assign platform = '' -%}
+
+              {%- if url contains 'youtube' or url contains 'youtu.be' -%}
+                {%- assign platform = 'youtube' -%}
+                {%- if url contains 'youtu.be' -%}
+                    {%- assign videoID = url | split: '/' | last -%}
+                {%- elsif url contains '&' -%}
+                  {%- assign videoID = url | split: '?v=' | last | split: '&' | first -%}
+                {%- elsif url contains 'embed' -%}
+                  {%- assign videoID = url | split: 'embed/' | last -%}
+                {%- else -%}
+                    {%- assign videoID = url | split: '?v=' | last -%}
+                {%- endif -%}
+              {%- elsif url contains 'vimeo' -%}
+                  {%- assign platform = 'vimeo' -%}
+              {%- endif -%}
+
+              {% if platform == 'youtube' %}
+                <div class="youtube-player" data-id="{{- videoID -}}"></div>
+              {% else %}
+                <div class="product-dynamic-video" data-video="{{ platform }}">
+                  <iframelazy  
+                    data-class="LazyLoad" 
+                    class="{{ platform }} {% if slideshow %}hide-player{% endif %}"
+                    data-video-url="{{ url }}"
+                    width="560"
+                    height="315"
+                    data-src="{{ url }}"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen
+                  ></iframelazy>
+                </div>
+              {%- endif -%}
+            {%- elsif block.settings.video_upload != blank -%}
+              <div class="product-dynamic-video" data-video="{{ platform }}">
+                {%- assign videoUpload = block.settings.video_upload.sources | last -%}
+                <videolazy
+                  controls
+                  controlsList="nodownload"
+                  data-video-url="{{ videoUpload.url }}"
+                  loading="lazy"
+                  width="100%"
+                  data-src="{{- videoUpload.url -}}"
+                  data-class="LazyLoad"
+                  frameborder="0"
+                  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen
+                ></videolazy>
+              </div>
+            {%- else -%}
+              <div class="product-dynamic-video">
+                <img src="{{ 'video-image-placeholder.png' | asset_url }}" loading="lazy" />
+              </div>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+{% endif %}

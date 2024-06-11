@@ -1,0 +1,64 @@
+<!-- start swatch.liquid (SNIPPET) -->
+
+{% assign variant = product.selected_or_first_available_variant %}
+
+{%- capture swatch_content -%}
+  <div id="product-swatch" class="swatch  swatch-standard" data-section-type="swatch">
+    {%- if product.variants.size > 1 -%}
+        {%- for product_option in product.options_with_values -%}
+              {%- assign swatch_index = forloop.index -%}
+              {%- assign option_name = product_option.name | downcase -%}
+
+              <div class="swatch-type {{ product_option.name | handle }}" data-type="{{ product_option.name }}" data-index="{{ forloop.index }}">
+                  <label class="product-form-label">{% if section.settings.font_bold_enabled %}<strong>{% endif %}{{ product_option.name }}{% if section.settings.font_bold_enabled %}</strong>{% endif %}</label>
+                  <div class="swatch-elements-options">
+                      <div class="swatch-elements-wrapper {% if settings.product_disabled_swatch %}dropdown-option{% endif %}">
+                        {%- assign option_name = product_option.name | downcase -%}
+                        {%- unless settings.product_disabled_swatch or option_name contains 'standard design' -%}
+                          {%- if option_name contains 'color' -%}
+                            {%- render 'swatch-color' with values: product_option.values, title_standard: 'Swatch Color', swatch_index: swatch_index, type: "color", variant: variant -%}
+                          {%- elsif option_name contains 'style' -%}
+                            {%- render 'swatch-style' with values: product_option.values, title_standard: 'Swatch Style', swatch_index: swatch_index, type: "style", variant: variant -%}
+                          {%- else  -%}
+                            {%- render 'swatch-standard' with values: product_option.values, title_standard: 'Swatch Standard', swatch_index: swatch_index, variant: variant -%}
+                          {%- endif -%}
+                        {%- else -%}
+                          {%- render 'select-swatch' with values: product_option.values, swatch_index: swatch_index, title_standard: product_option.name -%}
+                        {%- endunless -%}
+                      </div>
+                  </div>
+              </div>
+        {%- endfor -%}
+    {%- endif -%}
+
+    {%- render 'size-chart-link' -%}
+
+    <select id="all-product-variants" name="id" class="product-variant all-variant hide" data-productid="{{ product.id }}">
+      {%- for variant in product.variants -%}
+        {% if variant.available or settings.enable_out_of_stock_button == true %}
+          <option {% if variant.selected %} selected {% endif %}
+              value="{{ variant.id }}"
+              data-available="{{ variant.available }}"
+              data-options="{{ variant.options | join: ',' | escape }}"
+              data-sku="{{ variant.sku }}"
+              data-price="{{ variant.price }}"
+              data-variant-inventory = "{{ variant.inventory_management }}"
+              data-inventory_policy = "{{ variant.inventory_policy }} "
+              data-inventory="{% if variant.inventory_policy == 'continue' or variant.inventory_management == blank %} -1 {% else %}{{ variant.inventory_quantity }}{% endif %}"
+              data-compare-at-price="{{ variant.compare_at_price }}"
+              data-image="{{ variant.image.src | split: '?' | first }}"
+              data-image-position="{{ variant.featured_media.position | default: 0 }}">
+                  {{ variant.title | escape }} / {{ variant.price | money }}
+          </option>
+        {% endif %}
+      {%- endfor -%}
+    </select>
+  </div>
+
+  <style scoped>
+    :root{
+        --swatch_checked-color: {{ settings.swatch_checked-color }};
+    }
+  </style>
+{%- endcapture -%}
+{{- swatch_content -}}

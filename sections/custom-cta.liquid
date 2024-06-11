@@ -1,0 +1,269 @@
+<!-- sections/custom-cta -->
+{%- capture css -%}
+<style>
+  .cta-widget {
+    background-color: {{ section.settings.background }};
+    color: {{ section.settings.text_color }};
+    padding: 65.2px 0 66px;
+  }
+  .cta-widget__title {
+    color: {{ section.settings.text_color }};
+  }
+  .cta-widget__wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 63px;
+    width: 1340px;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0 6px;
+  }
+  .cta-widget__image-wrapper {
+    flex: 0 0 39.55%;
+  }
+  .cta-widget__content-wrapper {
+    flex-grow: 1;
+  }
+  .cta-widget__title,
+  .cta-widget__button {
+    line-height: 1;
+  }
+  .cta-widget__title {
+    margin: 55px auto 19.5px;
+    font-size: calc(42px + (40 - 42) * ((100vw - 768px) / (1440 - 768)));
+    padding: 0 10px 0 0;
+    line-height: 46px;
+    font-family: 'Luxia', sans-serif;
+  }
+  .cta-widget__content {
+    font-size: calc(22px + (18 - 22) * ((100vw - 768px) / (1440 - 768)));
+    line-height: 25.2px;
+    letter-spacing: -0.1px;
+    margin-bottom: 37px;
+    padding-right: 15px;
+  }
+  .cta-widget__button {
+    display: inline-flex;
+    border: none;
+    border-radius: 8px;
+    height: 54.5px;
+    font-size: calc(22px + (20 - 22) * ((100vw - 768px) / (1440 - 768)));
+    min-width: 175px;
+    justify-content: center;
+    align-items: center;
+    background-color: {{ section.settings.button_background }};
+    color: {{ section.settings.button_text_color }};
+    padding: 0;
+  }
+  .cta-widget__button:hover {
+    background-color: {{ section.settings.button_background_hover }};
+    color: {{ section.settings.button_text_color_hover }};
+  }
+
+  /* Responsive: Tablet */
+  @media (max-width: 1019px) {
+    .cta-widget {
+      padding: 45px 0 45px;
+    }
+    .cta-widget__wrapper {
+      flex-wrap: wrap;
+      gap: 0;
+    }
+    .cta-widget__image-wrapper {
+      flex: 0 0 100%;
+    }
+    .cta-widget__image-wrapper img {
+      width: 100%;
+    }
+    .cta-widget__wrapper {
+      padding: 0;
+    }
+    .cta-widget__title {
+      line-height: 47.9px;
+      margin: 31.4px 0 19.4px 2px;
+    }
+    .cta-widget__content {
+      padding-right: 6px;
+      margin: 0 0 39px 2px;
+      line-height: 31.2px;
+    }
+    .cta-widget__content p {
+      font-size: inherit;
+    }
+    .cta-widget__button {
+      display: flex;
+      width: 208px;
+      height: 81px;
+      margin: 0 auto;
+      padding: 1px 1.5px 0 0px;
+      letter-spacing: -0.2px;
+    }
+  }
+  /* End Responsive: Tablet */
+  
+  /* Responsive: Mobile */
+  @media (max-width: 767px) {
+    .cta-widget {
+      padding: 22px 0 22px;
+    }
+    .cta-widget__title {
+      line-height: 22.4px;
+      margin: 16.5px 0 0;
+      font-size: 20px;
+      letter-spacing: 0.1px;
+    }
+    .cta-widget__content {
+      padding-right: 0;
+      margin: 11px 0 20px;
+      font-size: 13px;
+      line-height: 16px;
+      letter-spacing: 0.099999px;
+    }
+    .cta-widget__button {
+      display: flex;
+      width: 95px;
+      height: 30.9px;
+      margin: 0 auto;
+      min-width: 50px;
+      font-size: 12px;
+      letter-spacing: 0px;
+      border-radius: 4.392px;
+      padding: 0;
+    }
+  }
+  /* End Responsive: Mobile */
+</style>
+{%- endcapture -%}
+{{- css | strip_newlines | replace: '    ', ' ' | replace: '   ', ' ' | replace: '  ', ' ' -}}
+
+<div class="cta-widget">
+  <div class="wrapper">
+    <div class="cta-widget__wrapper">
+      <div class="cta-widget__image-wrapper">
+        {%- assign image = section.settings.image -%}
+  
+        {%- 
+          render 'responsive-image' with
+            image: image,
+            lazyload: {{- section.settings.enable_lazyload -}},
+            width: 600,
+            height: 600,
+            alt: image.alt,
+            class: "cta-widget__image"
+        -%}
+      </div>
+  
+      <div class="cta-widget__content-wrapper">
+        {%- assign title = section.settings.title -%}
+        {%- assign content = section.settings.content -%}
+        {%- assign button_label = section.settings.button_label -%}
+        {%- assign button_url = section.settings.button_url -%}
+  
+        <h2 class="cta-widget__title">{{- title -}}</h2>
+        <div class="cta-widget__content">{{- content -}}</div>
+        
+        <a href="{{- button_url -}}" title="{{- button_label | escape -}}" class="cta-widget__button">
+          {{- button_label -}}
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Custom CTA",
+  "settings": [
+    {
+      "type": "header",
+      "content": "GENERAL SETTINGS"
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Section Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Section Text Color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "IMAGE"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_lazyload",
+      "label": "Enable Lazyload",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "CONTENT"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "Content"
+    },
+    {
+      "type": "header",
+      "content": "BUTTON"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Label"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "URL"
+    },
+    {
+      "type": "color",
+      "id": "button_background",
+      "label": "Button Background",
+      "default": "#555555"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_background_hover",
+      "label": "Button Background on Hover",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color_hover",
+      "label": "Button Text Color on Hover",
+      "default": "#ffffff"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom CTA",
+      "category": "Content"
+    }
+  ]
+}
+{% endschema %}

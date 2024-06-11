@@ -1,0 +1,191 @@
+<!-- sections/text-column -->
+
+<div class="wrapper">
+  <div class="text-columns__wrapper {{ section.settings.custom_class | handle }}">
+    {% for block in section.blocks %}
+      {% if block.type == 'text_column' %}
+        {% assign title = block.settings.title_column %}
+        {% assign content = block.settings.content_column %}
+        {% assign image = block.settings.image %}
+
+        <section class="text-columns__item">
+          {% if title != blank %}
+            <h2 class="text-columns__item-title">{{ title }}</h2>
+          {% endif %}
+
+          {% if content != blank %}
+            <div class="text-columns__item-content">{{ content }}</div>
+          {% endif %}
+
+          {% if image != blank and block.settings.enabled_image %}
+            {% assign image_alt = image.alt | default: title | escape %}
+            {% assign image_width = 600 %}
+            {% assign image_height = image_width | divided_by: image.aspect_ratio | round: 0 %}
+
+            <div class="text-columns__item-image">
+              <img
+                class="text-column__image"
+                src="{{ image | image_url: width: 700 }}"
+                alt="{{ image_alt | default: 'Text Column Image' }}"
+                loading="lazy"
+                width="{{ image_width }}"
+                height="{{ image_height }}">
+            </div>
+          {% else %}
+            {%-
+              render 'responsive-image' with
+              placeholder: 'product-1',
+              class: 'text-column__image'
+            -%}
+          {% endif %}
+        </section>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Text Columns",
+    "class": "text-columns",
+    "settings": [
+      {
+        "type": "header",
+        "content": "General Settings"
+      },
+      {
+        "type": "text",
+        "id": "custom_class",
+        "label": "Custom Class",
+        "info": "Custom class to apply css styles for specific sections"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_custom_margins_paddings",
+        "label": "Enable Custom Margins and Paddings",
+        "default": false
+      },
+      {
+        "type": "range",
+        "id": "custom-margin-top",
+        "min": 0,
+        "max": 50,
+        "step": 1,
+        "unit": "px",
+        "label": "Margin Top",
+        "default": 0
+      }, {
+        "type": "range",
+        "id": "custom-margin-bottom",
+        "min": 0,
+        "max": 50,
+        "step": 1,
+        "unit": "px",
+        "label": "Margin Bottom",
+        "default": 0
+      }, {
+        "type": "range",
+        "id": "custom-padding-top",
+        "min": 0,
+        "max": 50,
+        "step": 1,
+        "unit": "px",
+        "label": "Padding Top",
+        "default": 0
+      }, {
+        "type": "range",
+        "id": "custom-padding-bottom",
+        "min": 0,
+        "max": 50,
+        "step": 1,
+        "unit": "px",
+        "label": "Padding Bottom",
+        "default": 0
+      }
+    ],
+    "blocks": [
+      {
+        "name": "Column",
+        "type": "text_column",
+        "settings": [
+          {
+            "type": "checkbox",
+            "id": "enabled_image",
+            "label": "Enable Image",
+            "default": true
+          }, {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          }, {
+            "type": "text",
+            "label": "Title",
+            "id": "title_column",
+            "default": "Column Title"
+          }, {
+            "type": "html",
+            "label": "Content",
+            "id": "content_column",
+            "default": "Column Content"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Text Columns",
+        "category": "Text Columns",
+        "blocks": [
+          {
+            "type": "text_column"
+          },
+          {
+            "type": "text_column"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
+
+{% if section.settings.enable_custom_margins_paddings %}
+  <style>
+    #shopify-section-{{ section.id }}{
+      margin-top: {{ section.settings.custom-margin-top }}
+      px;
+      margin-bottom: {{ section.settings.custom-margin-bottom }}
+      px;
+      padding-top: {{ section.settings.custom-padding-top }}
+      px;
+      padding-bottom: {{ section.settings.custom-padding-bottom }}
+      px;
+    }
+  </style>
+{% endif %}
+
+<style>
+  .text-columns__wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2%;
+  }
+
+  .text-columns__item {
+    width: 49%;
+    margin-bottom: 20px;
+  }
+
+  .text-column__image {
+    max-width: 100%;
+  }
+
+  @media(max-width: 767px) {
+    .text-columns__wrapper {
+      gap: 0;
+    }
+
+    .text-columns__item {
+      width: 100%;
+    }
+  }
+</style>

@@ -1,0 +1,695 @@
+<!-- start search-template.liquid (SECTION) -->
+{%- assign image_width = 560 -%}
+{%- assign width_mobile = 200 -%}
+{%- assign width_desk = 560 -%}
+{%- assign width_small = 300 -%}
+
+{%- assign items_per_row = section.settings.products_per_rows_desktop -%}
+
+<div class="wrapper">
+  <div class="search-collection container">
+    <div class="inner">
+      {% if settings.enable_breadcrumbs_search %}  
+        {%- render 'breadcrumb' -%}
+      {% endif %}
+
+      {% if template contains 'search' and section.settings.enable_swatch_bar_inside_wrapper and search.performed != true %}
+        <header class="section-header">
+          <h1 id="id-section-header" class="section-header__title section-header__left title">Search...</h1>
+          {%- if settings.enable_search_form -%}
+            <form id="template-search-form" action="/search" method="get" class="search-page-form">
+              <input aria-label="search-text" type="text" class="search-text" name="q" id="Search-Template-Input" value="{{ search.terms | escape }}" placeholder="Search...">
+              <button id="Template-SearchButton" type="submit" class="button">
+                <span class="icon-fallback-text">{{ 'general.search.submit' | t }}</span>
+              </button>
+            </form>
+          {%- endif -%}
+        </header>
+      {% endif %}
+
+      {%- if search.performed -%}
+        <h1 id="id-section-header" class="section-header__title section-header__left title">Search for: <strong class="search-terms">"{{ search.terms }}"</strong></h1>
+        {%- if search.results_count == 0 -%}
+          <header class="section-header">
+            <p class="zero-founds-message text-center">Sorry, no results for: "{{ search.terms }}"</p>
+            <p class="text-center">{{ 'general.search.no_results_html' | t: terms: search.terms }}</p>
+
+            {%- if section.settings.feature_collection != blank -%}  
+              <h2 class="section-title-text">{{ section.settings.section_title_text }}</h2>
+            {%- endif -%}
+          </header>
+
+          {% assign search_terms = search.terms | split: ' ' %}
+
+          {% if section.settings.limited_products_per_collection %}
+            {%- paginate collections[section.settings.feature_collection].products by section.settings.products_per_collection -%}
+              <div class="grid-uniform grid-uniform--s{{items_per_row}} ">
+                {% for product in collections[section.settings.feature_collection].products %}
+                  {% assign product_title = product.title | downcase %}
+                  {% for term in search_terms %}
+                    {% if product_title contains term %}
+                      {%- render 'product-card',
+                        prod: product,
+                        width_mobile: width_mobile,
+                        width_desk: width_desk,
+                        max_width: image_width,
+                        show_swatch: false,
+                        show_reviews: true,
+                        show_price: true
+                      -%}
+                      {% continue %}
+                    {% endif %}
+                  {% endfor %}
+                {% endfor %}
+              </div>
+            {%- endpaginate -%}
+          {% else %}
+            <div class="grid-uniform grid-uniform--s{{items_per_row}} ">
+              {% for product in collections[section.settings.feature_collection].products %}
+                {% assign product_title = product.title | downcase %}
+                {% for term in search_terms %}
+                  {% if product_title contains term %}
+                    {%- render 'product-card',
+                      prod: product,
+                      width_mobile: width_mobile,
+                      width_desk: width_desk,
+                      max_width: image_width,
+                      show_swatch: false,
+                      show_reviews: true,
+                      show_price: true
+                    -%}
+                    {% continue %}
+                  {% endif %}
+                {% endfor %}
+              {% endfor %}
+            </div>
+          {% endif %}
+        {%- elsif section.settings.enable_swatch_bar_inside_wrapper -%}
+          <header class="section-header">
+            <h2 class="hide">{{ search.terms }}</h2>
+
+            <form id="template-search-form" action="/search" method="get" class="search-page-form">
+              <input type="hidden" name="type" value="products">
+              <input aria-label="search-text" type="text" class="search-text" name="q" id="Search-Template-Input" value="{{ search.terms | escape }}" placeholder="{{ section.settings.header_searchbar_placeholder }}">
+              <button id="Template-SearchButton" type="submit" class="button">
+                <span class="icon-fallback-text">{{ 'general.search.submit' | t }}</span>
+              </button>
+            </form>
+          </header>
+        {%- endif -%}
+      {%- else -%}
+        <header class="section-header">
+          <h2 class="hide">{{ search.terms }}</h2>
+          <span class="section-header__title section-header__left text-center">{{ 'general.search.title' | t }}</span>
+        </header>
+      {%- endif -%}
+
+      {%- if search.performed and search.results_count > 0 -%}
+        {%- paginate search.results by 50 -%}
+          {%- if template contains 'search' -%}
+            {%- assign source = search.results -%}
+            {%- assign is_search = true -%}
+          {%- else -%}
+            {%- assign source = collection.products -%}
+            {%- assign is_search = false -%}
+          {%- endif -%}
+
+          {% assign productList = search.results | where: 'object_type', 'product' %}
+          {% assign articleList = search.results | where: 'object_type', 'article' %}
+          {% assign pageList = search.results | where: 'object_type', 'page' %}
+
+          {%- capture list_of_products -%}
+            <div class="grid-uniform grid-uniform--s{{items_per_row}}">
+              {%- for item in source -%}
+                {%- if is_search -%}
+                  {%- case item.object_type -%}
+                    {%- when 'product' -%}
+                      {%- render 'product-card',
+                        prod: item,
+                        width_large: width_large,
+                        width_mobile: width_mobile,
+                        width_desk: width_desk,
+                        max_width: image_width,
+                        show_swatch: false,
+                        show_reviews: true,
+                        show_price: true
+                      -%}        
+                  {%- endcase -%}
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+
+            {% if settings.enable_products_pages_article == 'article' or settings.enable_products_pages_article == 'article,page' %} 
+              {%- if articleList.size > 0 -%}
+                <h1 class="search-page__title-result">ARTICLES</h1>
+                <div class="grid-uniform grid-uniform--s{{items_per_row}}">
+                  {%- for item in articleList -%}
+                    {%- if is_search -%}
+                      {%- case item.object_type -%}
+                        {%- when 'article' -%}
+                          {%- render 'article-card',
+                            article: item,
+                            width_large: width_large,
+                            width_mobile: width_mobile,
+                            width_desk: width_desk,
+                            max_width: image_width,
+                            show_image: true,
+                          -%}
+                      {%- endcase -%}
+                    {%- endif -%}
+                  {%- endfor -%}
+                </div>
+              {%- endif -%}
+            {%- endif -%}
+                
+            {% if settings.enable_products_pages_article == 'page' or settings.enable_products_pages_article == 'article,page' %}
+              {%- if  pageList.size > 0 -%}
+                <h1 class="search-page__title-result">PAGES</h1>
+                <div class="grid-uniform grid-uniform--s{{items_per_row}}">
+                  <div class="grid__card">
+                    {%- for item in pageList -%}
+                      {%- if is_search -%}
+                        {%- case item.object_type -%}
+                          {%- when 'page' -%}
+                            <div class="card__content">
+                              <div class="card__information">
+                                <h3 class="card__heading">
+                                  <a href="{{ item.url | default: '#' }}" class="page-title">
+                                    {{ item.title | truncate: 50 | escape | upcase }}
+                                  </a>
+                                </h3>
+                                <a class="page-content" href="{{ item.url | default: '#' }}">{{ item.content | strip_html | truncatewords: 15 }}</a>
+                              </div>
+                            </div>
+                        {%- endcase -%}
+                      {%- endif -%}
+                    {%- endfor -%}
+                  </div>
+                </div>
+              {%- endif -%}
+            {%- endif -%}          
+          {%- endcapture -%}
+
+          <div class="search-page__list-of-products">
+            {{ list_of_products }}
+          </div>
+
+          {%- if paginate.pages > 1 -%}
+            <hr>
+            <div class="pagination">
+              {{ paginate | default_pagination | replace: '&laquo; Previous', '&larr;' | replace: 'Next &raquo;', '&rarr;' }}
+            </div>
+          {%- endif -%}
+        {%- endpaginate -%}
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+<style scoped>
+  .search-collection .grid-uniform {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 8vh 2%;
+    list-style: none;
+  }
+  .product-card__reviews {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    gap: 3px;
+    padding: 0 3px;
+    font-size: 14px;
+  }
+  .product-card__item-price .money {
+    font-size: 20px;
+    color: #A84F65;
+  }
+  .product-card__reviews svg {
+    width: 100px;
+  }
+  .product-card__reviews svg path {
+    fill: #FF9900;
+  }
+  .search-collection .grid__item {
+    box-sizing: border-box;
+    float: left;
+    min-height: 1px;
+    margin: 0 0 30px 0;
+    vertical-align: top;
+    width: 100%;
+  }
+
+  .search-collection .grid__item-image-wrapper {
+    position: relative;
+    height: 0;
+    padding-top: 100%;
+    overflow: hidden;
+    width: 100%;
+  }
+
+  .search-collection .grid__card{
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    height: 100%;
+    column-gap: 8px;
+    row-gap: 8px;
+  }
+
+  .search-collection .card__content {
+    display: grid;
+    grid-template-rows: minmax(0,1fr) max-content minmax(0,1fr);
+    flex-grow: 1;
+    background-color: rgb(243,243,243);
+    height: 100%;
+    padding: 1rem;
+    text-decoration: none;
+    width: calc(25% - 8px * 3 / 4);
+    cursor: pointer;
+  }
+
+  .search-collection .card__information{
+    padding: 1.3rem 1rem;
+    grid-row-start: 2;
+  }
+
+  .search-collection .page-title{
+    font-size: 1rem;
+  }
+    
+  .search-collection .page-content, .page-content a{
+    font-size: 0.875rem;
+    color: rgb(18,18,18);
+  }
+
+  .search-collection .search-page__title-result{
+    margin: 2rem 0;
+  }
+
+  #shopify-section-{{ section.id }} .grid-uniform--s2 .grid__item {
+    flex-basis: 48%;
+  }
+
+  #shopify-section-{{ section.id }} .grid-uniform--s3 .grid__item {
+    flex-basis: 32%;
+  }
+
+  #shopify-section-{{ section.id }} .grid-uniform--s4 .grid__item {
+    flex-basis: 23.5%;
+  }
+
+  #shopify-section-{{ section.id }} .grid-uniform--s5 .grid__item {
+    flex-basis: 18.4%;
+  }
+
+  .section-header .zero-founds-message, .section-header .text-center{
+    font-size: 18px;
+  }
+
+  .section-title-text {
+    text-align: center;
+    margin-top: 30px;
+    text-transform: {{ section.settings.section_title_text_transform }};
+  }
+
+  .section-header .text-center a{
+    font-weight: 700;
+  }
+
+  .template-search .main-content {
+    margin: 0 auto;
+  }
+
+  .template-search .main-content .section-header {
+    width: 100%;
+    float: left;
+    padding: 0px 0px 25px 0px;
+  }
+
+  .template-search .main-content .section-header__title {
+    font-weight: 400;
+    color: #333;
+    text-transform: uppercase;
+    margin: 0 0 20px;
+  }
+
+  .template-search .main-content .section-header__title span {
+    padding: 0 10px;
+    color: #e5e5e5;
+  }
+
+  .template-search .main-content .section-header__title strong {
+    font-weight: 400;
+    font-size: 1em;
+  }
+
+  .template-search .main-content .inner {
+    display: block;
+  }
+
+  .template-search .main-content .inner .grid__item {
+    box-sizing: border-box;
+    float: left;
+    min-height: 1px;
+    margin: 0 0 30px 0;
+    vertical-align: top;
+    width: 100%;
+  }
+
+  .template-search .main-content .inner .productgrid {
+    display: block;
+  }
+
+  .template-search .main-content .inner .product-title {
+    margin: 15px 0 8px 0;
+    text-align: center;
+  }
+
+  .template-search .main-content .inner .product-title a {
+    color: #000;
+    font-size: 1rem;
+    margin: 15px 0 8px 0;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 0.94118rem;
+  }
+
+  .template-search .main-content .inner .product-price {
+    text-align: center;
+  }
+
+  .template-search .main-content .inner .product-price .compare-price {
+    text-decoration: line-through;
+  }
+
+  .template-search .main-content .inner .grid__image {
+    display: block;
+    margin: 0 auto 15px;
+    width: 100%;
+  }
+
+  .template-search .main-content .inner .large--one-quarter {
+    width: 25%;
+    padding: 1%;
+  }
+
+  .search-page-form {
+    float: left;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+  }
+
+  .search-page-form .search-text {
+    width: 75%;
+    border: 1px solid #e5e5e5;
+    padding: 5px 10px;
+    float: left;
+    height: 37px;
+    max-width: 700px;
+  }
+
+  .search-page-form .button {
+    background-color: #3c3c3c;
+    color: #fff;
+    width: 25%;
+    float: left;
+    padding: 5px 10px;
+    border: 1px solid #3c3c3c;
+    text-transform: uppercase;
+    height: 37px;
+    max-width: 140px;
+  }
+
+  .search .inner .grid__card{
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    height: 100%;
+    column-gap: 8px;
+    row-gap: 8px;
+  }
+
+  .search .inner .card__content{
+    display: grid;
+    grid-template-rows: minmax(0,1fr) max-content minmax(0,1fr);
+    flex-grow: 1;
+    background-color: rgb(243,243,243);
+    height: 100%;
+    padding: 1rem;
+    text-decoration: none;
+    width: calc(25% - 8px * 3 / 4);
+    cursor: pointer;
+  }
+
+  .search .inner .card__content .card__information{
+    padding: 1.3rem 1rem;
+    grid-row-start: 2;
+  }
+
+  .search .inner .card__content .card__information .page-title{
+    font-size: 1rem;
+  }
+
+  .search .inner .card__content .card__information .page-content{
+    font-size: 0.875rem;
+  }
+
+  .search .inner .card__content .card__badge .badge{
+    border: 1px solid transparent;
+    border-radius: 4rem;
+    padding: .3rem 1rem;
+    text-align: center;
+    background-color: rgb(255,255,255);
+    border-color: rgba(18,18,18, .1);
+    color: rgb(18,18,18);
+  }
+
+  .search .inner .card__content a{
+    color: rgb(18,18,18);
+  }
+
+  .search .inner .card__content a:hover{
+    text-decoration: underline;
+  }
+
+  .search .inner .card__content:hover{
+    border-color: rgba(18,18,18, .1);
+  }
+
+  @media (max-width: 1019px) {
+    #shopify-section-{{ section.id }} .product-card__grid-item {
+      flex-basis: {{ section.settings.products_per_rows_tablet_search_page }}%;
+    }
+  }
+
+  @media (max-width: 767px) {
+    {%- if section.settings.products_per_rows_mobile == "1" -%}
+      .grid-uniform {
+        display: block;
+      }
+    {% endif %}
+
+    .template-search .main-content {
+      margin: 0 auto;
+    }
+    .product-card__reviews{
+      font-size: 10px;
+      padding: 0 0 0 8px;
+    }
+    .product-card__reviews svg{
+      width: 50px;
+    }
+    .product-card__item-price .money{
+      font-size: 16px;
+    }
+    .product-card__item-price-wrapper{
+      margin: 0 0 10px;
+    }
+    .template-search .main-content .section-header__title {
+      font-size: 20px;
+    }
+
+    .template-search .main-content .section-header__title strong {
+      font-weight: 400;
+      font-size: 20px;
+    }
+
+    .template-search .main-content .inner {
+      padding: 0 2%;
+    }
+
+    .template-search .main-content .inner header {
+      border: none;
+    }
+
+    .template-search .main-content .inner .large--one-quarter {
+      flex-basis: 49%;
+      display: block;
+    }
+
+    .template-search .main-content .inner .productgrid {
+      min-height: 0;
+    }
+
+    .search .inner .card__content{
+      width: calc(50% - 8px  / 2);
+    }    
+  }
+  @media (max-width: 479px) {
+    .template-search .main-content .inner .large--one-quarter {
+      flex-basis: 49%;
+    }
+
+    .search .inner .card__content .card__information{
+      padding: 0;
+      margin-top: 15px;
+    }
+
+    .search .inner .card__content .card__information .card__heading{
+      margin-bottom: 7px;
+    }
+
+    #shopify-section-{{ section.id }} .product-card__grid-item{
+      flex-basis: {{section.settings.products_per_rows_search_page}}%;
+      margin: 0 auto;
+    }    
+  }
+</style>
+  
+{{- search_template_content | strip_newlines | replace: '    ' , ' ' | replace: '   ' , ' ' | replace: '  ' , ' ' -}} 
+{% schema %}
+{
+  "name": "Search Template",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_swatch_bar_inside_wrapper",
+      "label": "Enable Search Bar Inside Wrapper",
+      "default": false
+    },
+    {
+    "type":"header",
+    "content":"Product Promote Alternatives"
+    },
+    {
+      "type": "text",
+      "id": "section_title_text",
+      "label": "Section Title",
+      "default": "Check out these alternatives:"
+    },
+    {
+      "type": "select",
+      "id": "section_title_text_transform",
+      "label": "Section Title Transform",
+      "default": "capitalize",
+      "options": [
+        {
+          "value": "none",
+          "label": "Same as Input"
+        },
+        {
+          "value": "uppercase",
+          "label": "Uppercase"
+        },
+        {
+          "value": "capitalize",
+          "label": "Capitalize"
+        },
+        {
+          "value": "lowercase",
+          "label": "Lowercase"
+        }
+      ]
+    },
+    {
+      "type": "collection",
+      "id": "feature_collection",
+      "label": "Choose one Collection to display as suggestion when search is empty"
+    },
+    {
+      "type": "checkbox",
+      "id": "limited_products_per_collection",
+      "label": "Limited number of products per Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_per_collection",
+      "label": "Products per Collection",
+      "default": 4,
+      "min": 3,
+      "max": 10,
+      "step": 1,
+      "info": "Only works if the option 'Limited number of products per Collection' is checked"
+    },
+    {
+      "type":"header",
+      "content":"Customize in Search Page"
+      },
+    {
+      "type": "select",
+      "id": "products_per_rows_desktop",
+      "label": "Products Per Row In Desktop Version",
+      "default": "4",
+      "options": [
+        {
+          "value": "2",
+          "label": "2 products"
+        },
+        {
+          "value": "3",
+          "label": "3 products"
+        },
+        {
+          "value": "4",
+          "label": "4 products"
+        },
+        {
+          "value": "5",
+          "label": "5 products"
+        }
+      ]
+    },
+    {
+      "id": "products_per_rows_tablet_search_page",
+      "label": "Products Per Row Tablet",
+      "type": "select",
+      "options": [
+        {
+          "label": "2 products",
+          "value": "49"
+        },
+        {
+          "label": "3 products",
+          "value": "32"
+        },
+        {
+          "label": "4 products",
+          "value": "23.5"
+        }
+      ],
+      "default": "23.5"
+    },
+    {
+      "id": "products_per_rows_search_page",
+      "label": "Products Per Row Mobile",
+      "type": "select",
+      "options": [
+        {
+          "label": "1 product",
+          "value": "94"
+        },
+        {
+          "label": "2 products",
+          "value": "49"
+        }
+      ],
+      "default": "49"
+    }
+  ]
+}
+{% endschema %}

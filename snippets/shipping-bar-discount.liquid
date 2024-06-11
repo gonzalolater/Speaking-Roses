@@ -1,0 +1,62 @@
+<!-- start shipping-bar-discount (SNIPPET) -->
+{%- assign before_message = block.settings.shipping_bar_free_shipping_before -%}
+{%- assign after_message = block.settings.shipping_bar_free_shipping_after -%}
+{%- assign discount_value = block.settings.shipping_bar_value_discount | times: 100 -%}
+{%- assign quantity_value = block.settings.shipping_bar_free_qtd_range -%}
+
+{%- if block.settings.shipping_bar_type_freeshipping == 'shipping_bar_free_price' -%}
+  {%- assign shipping_bar_discount_type_class = 'shipping-bar__discount-value--price' -%}
+  {%- assign remain_value = discount_value | minus: cart.total_price -%}
+{%- else -%}
+  {%- assign shipping_bar_discount_type_class = 'shipping-bar__discount-value--quantity' -%}
+  {%- assign remain_value = quantity_value | minus: cart.item_count -%}
+{%- endif -%}
+
+{%- if remain_value < 1 -%}
+  {%- assign remain_value = 0 -%}
+{%- endif -%}
+
+{% render 'shipping-bar-email' %}
+
+<div class="shipping-bar__item">
+  {%- if cart.item_count > 0 -%}
+    {%- if remain_value > 0 -%}
+      <span class="shipping-bar__message shipping__message--discount">
+        {%- if block.settings.shipping_bar_type_freeshipping == 'shipping_bar_free_price' -%} 
+          {% assign remain_value = remain_value | money %} 
+        {% endif %}
+        
+        Only <span class="shipping-bar__discount-value shipping-bar__discount-value--remain {{ shipping_bar_discount_type_class }}"> {{ remain_value }} </span> away from free shipping!
+      </span>
+    {%- else -%}
+        <span class="shipping-bar__message shipping-bar__message--free-shipping shipping__message--discount">
+          {{- block.settings.shipping_bar_freeshipping_text -}}
+        </span>
+    {%- endif -%}
+  {%- else -%}
+    <span class="shipping-bar__message shipping__message--discount">
+      {%- if before_message != blank -%}
+        <span class="shipping-bar__message--before">{{- before_message -}}</span>
+      {%- endif -%}
+
+      {%- if block.settings.shipping_bar_type_freeshipping == 'shipping_bar_free_price' -%} 
+        {% assign remain_value = remain_value | money | split: '.' | first %}
+      {% endif %}
+      
+      <span class="shipping-bar__discount-value {{ shipping_bar_discount_type_class }}">{{- remain_value -}}</span>
+
+      {%- if after_message != blank -%}
+        <span class="shipping-bar__message--after">{{- after_message -}}</span>
+      {%- endif -%}
+    </span>
+  {%- endif -%}
+</div>
+
+{% render 'shipping-bar-phone' %}
+
+<style scoped>
+  :root {
+    --shipping-bar-price-background: {{- block.settings.free_shipping_background_color -}};
+    --shipping-bar-price-text-color: {{- block.settings.free_shipping_text_color -}};
+  }
+</style>

@@ -1,0 +1,57 @@
+<!-- start icon-media-social.liquid (SNIPPET) -->
+{% case icon %}
+{% when 'icon-facebook' %}
+    {% render 'icon-facebook' %}
+    {%- if show_title -%}
+        <span class="social-icon-label">Facebook</span>
+    {%- endif -%}
+
+{% when 'icon-instagram' %}
+    {% render 'icon-instagram' %}
+    {%- if show_title -%}
+        <span class="social-icon-label">Instagram</span>
+    {%- endif -%}
+
+{% when 'icon-pinterest' %}
+    {% render 'icon-pinterest' %}
+    {%- if show_title -%}
+        <span class="social-icon-label">Pinterest</span>
+    {%- endif -%}
+
+{% when 'icon-snapchat' %}
+    {% render 'icon-snapchat' %}
+    {%- if show_title -%}
+        <span class="social-icon-label">SnapChat</span>
+    {%- endif -%}
+
+{% when 'icon-tumblr' %}
+    {% render 'icon-tumblr' %}
+    {%- if show_title -%}
+        <span class="social-icon-label">Tumblr</span>
+    {%- endif -%}
+
+{% when 'icon-twitter' %}
+    {% render 'icon-twitter' %}
+    {%- if show_title -%}
+        <span class="social-icon-label">Twitter</span>
+    {%- endif -%}
+
+{% when 'icon-vimeo' %}
+    {% render 'icon-vimeo' %}
+    {%- if show_title -%}
+        <span class="social-icon-label">Vimeo</span>
+    {%- endif -%}
+
+{% when 'icon-youtube' %}
+    {% render 'icon-youtube' %}
+    {%- if show_title -%}
+        <span class="social-icon-label">Youtube</span>
+    {%- endif -%}
+
+{% when 'icon-tiktok' %}
+    {% render 'icon-tiktok' %}
+    {%- if show_title -%}
+        <span class="social-icon-label">Tiktok</span>
+    {%- endif -%}
+
+{% endcase %}

@@ -1,0 +1,28 @@
+<!-- start size-chart-link.liquid (SNIPPET) -->
+{%- if settings.enabled_size_chart -%}
+    {%- if product.tags contains settings.tag_size_chart or settings.tag_size_chart == blank -%}
+        <div class="size-chart">
+            <span class="size-chart-text vasta-size-chart-link" data-modal="size-chart-1">{{ settings.size_chart_text }}</span>
+        </div>
+        {%- render 'custom-size-chart', size_chart_id: 'size-chart-1', size_chart_content_type: settings.size_chart_content, size_chart_page: settings.size_chart_page, size_chart_image: settings.size_chart_image -%}
+    {%- endif -%}
+{%- endif -%}
+
+{%- if settings.enabled_size_chart_2 -%}
+    {%- if product.tags contains settings.tag_size_chart_2 or settings.tag_size_chart_2 == blank -%}
+        <div class="size-chart">
+            <span class="size-chart-text vasta-size-chart-link" data-modal="size-chart-2">{{ settings.size_chart_text_2 }}</span>
+        </div>
+        {%- render 'size-chart', size_chart_id: 'size-chart-2', size_chart_content_type: settings.size_chart_content_2, size_chart_page: settings.size_chart_page_2, size_chart_image: settings.size_chart_image_2 -%}
+    {%- endif -%}
+{%- endif -%}
+
+{%- if settings.enabled_size_chart_3 -%}
+    {%- if product.tags contains settings.tag_size_chart_3 or settings.tag_size_chart_3 == blank -%}
+        <div class="size-chart">
+            <span class="size-chart-text vasta-size-chart-link" data-modal="size-chart-3">{{ settings.size_chart_text_3 }}</span>
+        </div>
+
+        {%- render 'size-chart', size_chart_id: 'size-chart-3', size_chart_content_type: settings.size_chart_content_3, size_chart_page: settings.size_chart_page_3, size_chart_image: settings.size_chart_image_3 -%}
+    {%- endif -%}
+{%- endif -%}

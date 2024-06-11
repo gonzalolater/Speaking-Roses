@@ -1,0 +1,29 @@
+<!-- snippets/custom-product-customized-form -->
+{%- form 'product', product, class:'product-form', id:'product-main-form' -%}
+    <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+    {% comment %} <p class="line-item-property__field"> {% endcomment %}
+        <input required class="required" id="content-type" type="hidden" name="properties[Content Type]"  value="">
+        <input required class="required" id="rose-color"   type="hidden" name="properties[Rose Color]"    value="">
+        <input required class="required" id="ink-color"    type="hidden" name="properties[Ink Color]"     value="">
+        <input required class="required" id="font-name"    type="hidden" name="properties[Font Name]"     value="">
+        <input required class="required" id="rose-qty"     type="hidden" name="properties[Rose Quantity]" value="">
+        <input required class="required" id="card-message" type="hidden" name="properties[Card Message]"  value="">
+      {% comment %} </p> {% endcomment %}
+    {% comment %} <div class="button-wrapper">
+        {%- if product.available -%}
+        <div class="button-wrapper-content">
+          <button type="submit" name="add" class="btn-cart add-to-cart bordered uppercase">
+            <i class="icon-cart"></i>
+            <span>{{ 'products.product.add_to_cart' | t }}</span>
+          </button>
+        </div>
+        {%- else -%}
+        <div class="button-wrapper-content">
+          <button href="javascript:;" class="btn-cart add-to-cart" disabled="disabled">
+            <i class="icon-cart"></i>
+            <span>{{ 'products.product.sold_out' | t }}</span>
+          </button>
+        </div>
+        {%- endif -%}
+    </div> {% endcomment %}
+{%- endform -%}

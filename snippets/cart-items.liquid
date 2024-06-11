@@ -1,0 +1,98 @@
+<!-- snippets/cart-items -->
+
+
+<ul class="cart-items__list">
+  {%- for line_item in cart.items -%}
+    {%- assign line_item_is_available = line_item.variant.available -%}
+    {%- assign btn_minus_is_disabled = '' -%}
+    {%- assign btn_plus_is_disabled = '' -%}
+
+    {%- if line_item.quantity <= 1 -%}
+      {%- assign btn_minus_is_disabled = 'disabled' -%}
+    {%- endif -%}
+
+    {%- if line_item.quantity >= line_item.quantity.inventory_quantity -%}
+      {%- assign btn_plus_is_disabled = 'disabled' -%}
+    {%- endif -%}
+
+    <li class="cart-items__line-item " data-key="{{ line_item.key }}">
+      <span class="cart-items__item-image-wrapper">
+        {% assign image = line_item.image %}
+        {% assign image_width = 230 %}
+        {% assign image_height = image_width | divided_by: image.aspect_ratio | round: 0 %}
+        {%- render 'responsive-image',
+          image: image,
+          lazyload: false,
+          width:"{{ image_width }}",
+          height:"{{ image_height }}",
+          alt:"{{- image.alt | strip_html | escape -}}",
+          class:"cart-items__item-image"
+        -%}
+      </span>
+
+      <div class="cart-items__item-info-wrapper">
+        <div class="cart-items__item-details {% unless line_item_is_available %} cart-items__line-details--out-of-stock {% endunless %}">
+          <div class="cart-items__item-details-wrapper">
+            <div class="cart-items__info-names">
+              <h2 class="cart-items__item-title">
+                <a
+                  href="{{ line_item.product.url | default: '#' }}"
+                  class="cart-items__item-link"
+                  title="{{ line_item.product.title | strip_html | escape }}"
+                >
+                  {{- line_item.product.title -}}
+                </a>
+              </h2>
+              {% if line_item.variant.title != 'Default Title' %}
+              <span class="cart-items__item-variant">
+                {{- line_item.variant.title | replace: '/', '|' -}}
+              </span>
+              {% endif %}
+              
+              {%- if settings.enable_cart_property -%}
+                {%- for property in line_item.properties -%}
+                  {%- assign property_name = property | first -%}
+                  {%- assign property_name_firstletter = property_name | first -%}
+
+                  {%- if property_name_firstletter == '_' -%}
+                    {%- continue -%}
+                  {%- endif -%}
+
+                  {%- assign property_value = property | last -%}
+                  <span class="cart-items__item-variant">{{ property_name }}: {{ property_value }}</span>
+                {%- endfor -%}
+              {%- endif -%}
+            </div>
+            {% unless line_item.id == 46901271462162 %}
+              <span class="cart-items__item-quantity-wrapper">
+                <button class="cart-items__item-minus " {{ btn_minus_is_disabled }}>{%- render 'cart-icon-minus' -%}</button>
+                <input type="text" class="cart-items__item-quantity" value="{{ line_item.quantity }}">
+                <button class="cart-items__item-plus " {{ btn_plus_is_disabled }}>{%- render 'cart-icon-plus' -%}</button>
+              </span>
+            {% endunless %}
+          </div>
+          {% unless line_item_is_available %}        
+            <span class="cart-items__outstock-tooltip">Out of Stock</span>
+          {% endunless %}
+        </div>
+
+        <span class="cart-items__item-result"> 
+        
+          <a href="#" class="cart-items__item-remove">
+            <span class="spinner-wrapper"><span class="spinner"></span></span>
+            <span class="cart-items__remove-text">Remove</span>
+          </a>
+            
+          <span class="cart-items__item-price">{{ line_item.final_line_price | money }}</span>
+
+          {% if settings.enable_show_percentual_discount %}
+            {%- for discount in line_item.discounts -%}
+              <span class="cart-items__item-discount">-{{ discount.amount | money }}</span>
+            {%- endfor -%}
+          {% endif %}
+
+        </span>
+      </div>
+    </li>
+  {%- endfor -%}
+</ul>

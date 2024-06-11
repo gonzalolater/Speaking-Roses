@@ -1,0 +1,255 @@
+<!--
+Theme Name: VASTA Super Theme
+Theme Version: 2.4
+Developed by: VASTA Inc. - https://vasta.me/
+Description: Custom Shopify Theme by VASTA
+-->
+<!-- start theme.liquid (LAYOUT) -->
+<!doctype html>
+<!-- [if (gt IE 9)|!(IE)]><! -->
+<html lang="{{- shop.locale -}}">
+  <!-- <![endif] -->
+  <head>
+    {%- render 'lazyload-head' -%}
+    <script>var bcpo_product={{ product | json }}; {% if product.metafields.bcpo.bcpo_data %}var bcpo_data={{ product.metafields.bcpo.bcpo_data }};{% endif %} {% if shop.metafields.bcpo.bcpo_settings %}var bcpo_settings={{ shop.metafields.bcpo.bcpo_settings }};{% endif %}var inventory_quantity = [];{% for v in product.variants %}inventory_quantity.push({{v.inventory_quantity}});{% endfor %}if(bcpo_product) { for (var i = 0; i < bcpo_product.variants.length; i += 1) { bcpo_product.variants[i].inventory_quantity = inventory_quantity[i]; }}window.bcpo = window.bcpo || {}; bcpo.cart = {{cart | json}}; bcpo.ogFormData = FormData;</script>
+
+    <link rel="dns-prefetch" href="https://ajax.googleapis.com">
+    <link rel="preconnect" href="https://ajax.googleapis.com">
+
+    {%- if settings.enable_zoom_feature_for_desktop and template contains 'product' -%}
+      <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/magnify/2.3.3/css/magnify.css" as="style">
+    {%- endif -%}
+
+    {%- capture style_css -%}
+      {%- render 'style-css'-%}
+    {%- endcapture -%}
+
+    {{- style_css | strip_newlines | replace: '    ', ' ' | replace: '   ', ' ' | replace: '  ', ' ' -}}
+
+    <!-- Meta Tags -->
+    <meta name="theme-name" content="Super Theme BV">
+    <meta name="theme-version" content="2.3">
+    <meta name="theme-color" content="{{- settings.color_accent -}}">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="UTF-8">
+
+    {%- if template contains 'noindex' -%}
+      <meta name="robots" content="noindex">
+    {%- endif -%}
+
+    {%- if settings.enable_zoom_feature_for_mobile -%}
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.75, user-scalable=yes">
+    {%- else -%}
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    {%- endif -%}
+
+    {%- if template contains 'product' -%}
+      <meta name="description" content="{{- page_description | escape -}}">
+    {%- else -%}
+      {%- assign meta_description = page_description | default: shop.description | default: shop.name -%}
+      <meta name="description" content="{{- meta_description | strip_html | escape -}}">
+    {%- endif -%}
+
+    <link rel="canonical" href="{{ canonical_url }}">
+
+    {%- if settings.enable_custom_style -%}
+      {%- render 'custom_head' -%}
+    {%- endif -%}
+
+    {%- if settings.enable_zoom_feature_for_desktop and template contains 'product' -%}
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/magnify/2.3.3/css/magnify.css">
+    {%- endif -%}
+
+    {%- render 'meta-tags' -%}
+
+    {%- if settings.favicon != blank -%}
+      <link rel="shortcut icon" href="{{- settings.favicon | image_url: width: 32 -}}" type="image/png">
+    {%- else -%}
+      <link
+        rel="shortcut icon"
+        href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+        type="image/png"
+      >
+    {%- endif -%}
+
+    {%- capture seo_title -%}
+      {%- if template contains "search" -%}
+        {% assign page_title = 'Search: ' | append: search.results_count | append: ' results found for "' | append: search.terms | append: '"' %}
+        {{ page_title }}
+      {%- else -%}
+        {{- page_title -}}
+      {%- endif -%}
+
+      {%- if current_tags -%}
+        {%- assign meta_tags = current_tags | join: ', ' -%} &ndash; {{- 'general.meta.tags' | t: tags: meta_tags -}}
+      {%- endif -%}
+
+      {%- if current_page != 1 -%}
+        | {{- 'general.meta.page' | t: page: current_page -}}
+      {%- endif -%}
+    {%- endcapture -%}
+
+    <title>
+      {{ seo_title }}
+      |
+      {{ shop.name }}
+    </title>
+
+    {%- if request.design_mode -%}
+      {{ content_for_header }}
+    {%- else -%}
+      {% capture content_for_header2 %}{{ content_for_header }}{% endcapture %}
+      <!-- CONTENT FOR HEAD -->
+      {{
+        content_for_header2
+        | replace: ' defer="defer" ', ' type="lazyload_int" '
+        | replace: ' src=', ' data-src='
+        | replace: 'DOMContentLoaded', 'w3-DOMContentLoaded'
+        | replace: "window.addEventListener('load', asyncLoad, false);",
+          "window.addEventListener('w3-DOMContentLoaded', asyncLoad, false);"
+        | replace: "addEventListener('load', prefetchAssets);",
+          "addEventListener('w3-DOMContentLoaded', prefetchAssets);"
+      }}
+      <!-- END CONTENT FOR HEAD -->
+      <script>
+        var trekkie = [];
+        trekkie.integrations = !0;
+        (window.BOOMR = {}), (window.BOOMR.version = true);
+      </script>
+    {%- endif -%}
+
+    {{- settings.enable_html_head -}}
+
+    {%- if settings.custom_css != blank -%}
+      <style>
+        {{- settings.custom_css -}}
+      </style>
+    {%- endif -%}
+
+    {%- if settings.app_review == 'yotpo' -%}
+      <script type="lazyload_int">
+        (function e() {
+          var e = document.createElement('script');
+          (e.type = 'text/javascript'),
+            (e.async = true),
+            (e.src = 'https://staticw2.yotpo.com/{{- settings.yotpo_key -}}/widget.js');
+          var t = document.getElementsByTagName('script')[0];
+          t.parentNode.insertBefore(e, t);
+        })();
+      </script>
+    {%- endif -%}
+
+    {% if settings.app_review == 'judgeme' %}
+      {% render 'judgeme_core' %}
+    {% endif %}
+    {% render 'tracking-script' %}
+
+    {%- if settings.app_review == 'loox' -%}
+      {{ shop.metafields.loox.global_html_head }}
+    {%- endif -%}
+    <!--CPC-->
+  <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
+  <!--CPC-->
+  <script src='https://cdn-assets.custompricecalculator.com/shopify/calculator.js'></script>
+</head>
+
+  {%- assign templateSuffix = template.suffix | handle -%}
+  {%- assign templateSuffix = ' ' | append: templateSuffix -%}
+
+  {%- if templateSuffix == ' ' -%}
+    {%- assign templateSuffix = '' -%}
+  {%- endif -%}
+  {%- capture theme_content -%}
+    <body id="{{- page_title | handle -}}" class="template-{{ template.name | handle }}{{ templateSuffix }}">
+      <h1 class="hide">{{- page_title -}}</h1>
+
+      <header class="header-content">
+        {%- if settings.enable_shipping_bar -%}
+          {%- if settings.enable_shipping_bar_only_homepage == false or template.name contains "index" -%}
+            {%- section 'shipping_bar' -%}
+          {%- endif -%}
+        {%- endif -%}
+
+        {%- section 'custom-header' -%}
+      </header>
+
+      <main id="MainContent" class="main-content">
+        
+
+        <aside>
+          {%- unless settings.only_shipping_bar == false and template contains 'cart' -%}
+            {%- section 'menu-mobile' -%}
+          {%- endunless -%}
+        </aside>
+
+        <div class="DrawerOverlay"></div>
+        <section id="{{- template.name -}}-layout">
+          <h2 class="hide">{{- template.name | capitalize -}} Content</h2>
+
+          {{ content_for_layout }}
+          <limespot></limespot>
+
+          {%- assign enable_recently_viewed_product = true -%}
+          {%- if settings.disable_recently_viewed_on_product_page and template contains 'product' -%}
+            {%- assign enable_recently_viewed_product = false -%}
+          {%- elsif settings.disable_recently_viewed_on_homepage_page and template contains 'index' -%}
+            {%- assign enable_recently_viewed_product = false -%}
+          {%- elsif settings.disable_recently_viewed_on_collection_page and template contains 'collection' -%}
+            {%- assign enable_recently_viewed_product = false -%}
+          {%- elsif settings.disable_recently_viewed_on_product_page and template contains 'cart' -%}
+            {%- assign enable_recently_viewed_product = false -%}
+          {%- endif -%}
+        </section>
+
+        <aside>
+          {%- unless settings.disable_cartDrawer -%}
+            {%- unless template.name == 'cart' -%}
+              {%- section 'cart-drawer' -%}
+            {%- endunless -%}
+          {%- endunless -%}
+        </aside>
+        
+        {%- if enable_recently_viewed_product -%}
+          {%- render 'recently-viewed-products' -%}
+        {%- endif -%}
+      </main>
+
+      <footer class="footer-content">
+        {%- section 'footer' -%}
+
+        {%- if settings.enable_button_to_the_top -%}
+          {%- render 'scrollbutton' -%}
+        {%- endif -%}
+      </footer>
+
+      {%- capture vasta_scritps -%} 
+        {%- render 'vasta-scripts' -%}
+      {%- endcapture -%}
+      {{- vasta_scritps | strip_newlines | replace: '    ' , ' ' | replace: '   ' , ' ' | replace: '  ' , ' ' -}}
+
+      {{- settings.enable_html_body -}}
+
+      {%- if settings.product_enabled_recharge -%}
+        {%- render 'subscription-theme-footer' -%}
+      {%- endif -%}
+
+      {%- comment -%} <script defer src="{{- 'lazyload-optimization.js' | asset_url -}}"></script> {%- endcomment -%}
+  
+      {%- if settings.app_review == 'loox' -%}
+	      {{ shop.metafields.loox["global_html_body"] }}
+      {%- endif -%}
+</body>
+  {%- endcapture -%}
+  {% assign theme_content = theme_content
+    | replace: '    ', ' '
+    | replace: '   ', ' '
+    | replace: '  ', ' '
+    | replace: '; ', ';'
+    | replace: '} ', '}'
+    | replace: '{ ', '{'
+    | replace: ' {', '{'
+    | strip
+  %}
+  {{ theme_content }}
+  {%- render 'lazyload-body' -%}
+</html>

@@ -1,0 +1,229 @@
+
+<div class="account__header-breadcrumb">
+  {% render 'breadcrumb' %}
+</div>
+<div class="account__header">
+  {% render 'account-logo' %}
+  <h1 class="account__title">{{ 'customer.account.title' | t }}</h1>
+
+  <div class="account__header-links-wrapper">
+    {%- if settings.product_enabled_recharge and accountPage -%}
+      <a class="account__header-link" href="/tools/recurring/login/">Manage Subscriptions</a>
+    {%- else -%}
+      <a title="Account" id="id-account-return" class="account__go-back-link account__header-link" href="/account">
+        {{- 'customer.account.return' | t -}}
+      </a>
+    {%- endif -%}
+
+    <a class="account__logout-link account__header-link logout-modal--toggle" href="#">Logout {%- render 'icon-logout' -%}</a>
+  </div>
+
+  <div class="account__logout-modal-wrapper">
+    <div class="account__logout-modal--overlay logout-modal--toggle"></div>
+    <div class="account__logout-modal-content">
+      <span class="account__logout-modal--close logout-modal--toggle">x</span>
+      <div class="account__logout-modal">
+        {% render 'icon-warning' %}
+
+        <h4 class="account__logout-modal-headline">Are you sure?</h4>
+
+        <p class="account__logout-modal-message">Do you really want to logout?</p>
+
+        <div class="account__logout-modal-button-wrapper">
+          <button class="account__logout-modal-button logout-modal--cancel logout-modal--toggle">CANCEL</button>
+          <a class="account__logout-modal-button logout-modal--logout" href="/account/logout">LOGOUT</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .account__header-breadcrumb .breadcrumbs {
+    padding: 15px 0;
+  }
+  .account__header .customer-form__logo-wrapper {
+    margin: 0;
+  }
+
+  .account__header {
+    width: 100%;
+  }
+
+  .account__title {
+    color: #000;
+    text-transform: uppercase;
+    font-size: 35px;
+    letter-spacing: -1px;
+  }
+
+  .account__header-links-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 4px 0 9px;
+  }
+
+  .account__header-link {
+    color: #595959;
+    font-size: 16px;
+    text-decoration-line: underline;
+  }
+
+  .account__logout-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .account__logout-link svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  body.logout-modal--open {
+    overflow: hidden;
+  }
+
+  .account__logout-modal-wrapper {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    padding: 20px;
+
+    align-items: center;
+    justify-content: center;
+
+    display: none;
+    visibility: hidden;
+    opacity: 0;
+  }
+
+  .account__logout-modal-wrapper.logout-modal--open {
+    display: flex;
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .account__logout-modal--overlay {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #000;
+    opacity: 0.8;
+    visibility: visible;
+    display: block;
+    transition: ease 0.3s all;
+    z-index: 5;
+  }
+
+  .account__logout-modal-content {
+    width: 400px;
+    position: relative;
+    background: #FFF;
+    padding: 20px;
+    z-index: 10;
+  }
+
+  .account__logout-modal--close {
+    font-size: 20px;
+    position: absolute;
+    right: 3%;
+    top: 1%;
+    cursor: pointer;
+    color: #aeaeae;
+  }
+
+  .account__logout-modal {
+    text-align: center;
+  }
+
+  .account__logout-modal-headline {
+    margin-bottom: 15px;
+    font-size: 20px;
+  }
+
+  .account__logout-modal-message {
+    font-size: 16px;
+  }
+
+  .account__logout-modal-button-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-top: 20px;
+  }
+
+  .account__logout-modal-button {
+    width: 35%;
+    padding: 8px;
+    border-radius: 5px;
+    overflow: hidden;
+    font-weight: 600;
+    color: #FFF;
+  }
+
+  .account__logout-modal-button.logout-modal--cancel {
+    background-color: #aeaeae;
+  }
+
+  .account__logout-modal-button.logout-modal--logout {
+    background: #ee404c;
+  }
+
+  @media (max-width: 1019px) {
+    .account__header-breadcrumb .breadcrumbs {
+      padding: 0 0 20px;
+    }
+
+    .account__title {
+      font-size: 30px;
+    }
+
+    .account__logout-modal-headline {
+      font-size: 18px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .account__header-breadcrumb .breadcrumbs {
+      padding: 0 0 15px;
+    }
+
+    .account__title {
+      font-size: 20px;
+    }
+
+    .account__header-link {
+      font-size: 12px;
+      gap: 5px;
+    }
+
+    .account__logout-link svg {
+      width: 17px;
+      height: 17px;
+    }
+  }
+</style>
+
+<script type="lazyload_int">
+  $(document).ready( function() {
+    $('a[href^="/account/logout"]').on("click", function() {
+      $.ajax($(this).attr('href')).done(function() {
+        window.location.href = "/account/login";
+      });
+      return false;
+    });
+  });
+
+  $('.logout-modal--toggle').click(function(){
+    $('.account__logout-modal-wrapper').toggleClass('logout-modal--open');
+    $('account__logout-modal-wrapper').toggleClass('logout-modal--open');
+  });
+</script>

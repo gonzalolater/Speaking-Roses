@@ -1,0 +1,1285 @@
+<!-- templates/cart-template -->
+
+{% assign continue_shopping_is_button = section.settings.enable_continue_shopping_button
+  | default: settings.continue_shopping_button_style_cart_page
+%}
+
+{% assign continue_shopping_link = section.settings.continue_shopping_href | default: settings.href_continue_shopping %}
+{% assign continue_shopping_label = section.settings.continue_shopping_label
+  | default: settings.href_continue_shopping
+%}
+
+{% assign continue_shipping_class = 'cart__continue-shopping--link' %}
+{% if continue_shopping_is_button %}
+  {% assign continue_shipping_class = 'cart__continue-shopping--button' %}
+{% endif %}
+
+{% assign hide_top_ptc_button = section.settings.proceed_to_checkout_top | default: settings.proceed_to_checkout_top %}
+
+{% assign cart_coupon = section.settings.text_cart_above_button | default: settings.text_cart_above_button %}
+
+{%- if settings.product_enabled_recharge -%}
+  <!-- Begin ReCharge code -->
+  {%- render 'subscription-cart-footer' -%}
+  <!-- End ReCharge code -->
+{%- endif -%}
+
+{%- assign trust_badge = section.settings.credit_cards_page | default: settings.credit_cards_page -%}
+
+
+{% comment %} Start Shopify Section Styles {% endcomment %}
+<style>
+  #shopify-section-{{ section.id }} .cart__proceed-to-checkout {
+    background-color: {{ section.settings.color_background_button }};
+    color: {{ section.settings.color_font_button_cart }};
+  }
+
+  #shopify-section-{{ section.id }} .cart__proceed-to-checkout:hover {
+    background-color: {{ section.settings.color_background_button_hover }};
+    color: {{ section.settings.color_font_button_cart_hover }};
+  }
+
+  #shopify-section-{{ section.id }} .cart-items__item-link {
+    color: {{ section.settings.color_cartitem }};
+  }
+
+  #shopify-section-{{ section.id }} .cart-items__item-price,
+  #shopify-section-{{ section.id }} .cart__total-price {
+    color: {{ section.settings.color_price_cart }};
+  }
+
+  #shopify-section-{{ section.id }} .cart-items__item-discount {
+    color: {{ section.settings.color_product_discount }};
+  }
+
+  {% if continue_shopping_is_button %}
+    #shopify-section-{{ section.id }} .cart__continue-shopping--button {
+      background-color: {{ section.settings.background_color_continue_shopping | default: '#fff' }};
+      border-color: {{ section.settings.color_continue_shopping }};
+      color: {{ section.settings.color_continue_shopping }};
+    }
+
+    #shopify-section-{{ section.id }} .cart__continue-shopping--button:hover {
+      background-color: {{ section.settings.color_continue_shopping }};
+      color: {{ section.settings.background_color_continue_shopping | default: '#fff' }};
+    }
+  {% else %}
+    #shopify-section-{{ section.id }} .cart__continue-shopping--link {
+      color: {{ section.settings.color_continue_shopping }};
+    }
+  {% endif %}
+</style>
+{% comment %} End Shopify Section Styles {% endcomment %}
+
+<style>
+  .cart-template__item-info-wrapper{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding-right: 31px;
+  }
+
+  .cart-template__line-item{
+    width: 29.2%;
+    margin-left: auto;
+    display: flex;
+    padding-top: 1px;
+  }
+
+  .cart-items__item-info-wrapper {
+    width: 100%;
+  }
+
+  .cart-items__item-details-wrapper {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+  }
+  
+  .cart-items__list,
+  .cart-items__item-variant,
+  .cart-items__item-price,
+  .cart-items__item-discount,
+  .cart-items__list-header .cart-items__item-quantity-wrapper,
+  .cart-items__list-header .cart-items__item-result {
+    display: block;
+  }
+
+  .cart-items__item-discount {
+    font-size: 0.85em;
+    margin-bottom: 5px;
+  }
+
+  .cart-items__list-header {
+    width: 100%;
+    padding-top: 4px;
+  }
+
+  .cart__badge {
+    width: auto;
+    height: 55px;
+  }
+
+  .cart-items__item-info-wrapper,
+  .cart-items__line-item,
+  .cart-items__item-quantity-wrapper,
+  .cart__footer-wrapper,
+  .cart__head,
+  .cart-items__item-details,
+  .cart-items__list-header .cart-items__item-quantity-wrapper,
+  .cart-items__list-header .cart-items__item-result {
+    display: flex;
+  }
+
+  .cart-items__list-header .cart-items__item-result,
+  .cart-items__list-header .cart-items__item-quantity-wrapper {
+    align-items: flex-end;
+  }
+
+  .cart-items__line-item {
+    margin-bottom: 21px;
+    margin-top: 1px;
+    margin-left: 2px;
+  }
+
+  .cart-items__line-item + .cart-items__line-item {
+    border-top: 1px solid #e7e7e7;
+    padding-top: 9.5px;
+    margin-bottom: 21.5px;
+  }
+
+  .cart-items__item-image-wrapper {
+    width: 89px;
+    height: 88px;
+    flex-shrink: 0;
+    border-radius: 4px;
+  }
+
+  .cart-items__item-image-wrapper img{
+    width: 100%;
+    height: 100%;
+    border-radius: 4px;
+  }
+
+  .cart-items__info-names {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 5px;
+  }
+
+  .cart-items__item-title {
+    line-height: 1.2;
+    font-size: 17px;
+    padding-top: 0;
+  }
+  
+  .cart-items__item-link {
+    letter-spacing: 0.5px;
+    font-weight: 700;
+    text-transform: capitalize;
+  }
+
+  .cart-items__item-title span,
+  .cart-items__item-link {
+    color: inherit;
+    font: inherit;
+  }
+
+  .cart-items__item-variant {
+    color: #aaa;
+  }
+
+  .cart-items__item-info-wrapper,
+  .cart-items__item-details,
+  .cart-items__item-minus,
+  .cart-items__item-quantity,
+  .cart-items__item-plus {
+    flex-grow: 1;
+  }
+
+  .cart-items__item-result .cart-items__item-result {
+    width: 90px;
+  }
+
+  .cart-items__item-quantity-wrapper {
+    height: 35px;
+    margin-bottom: 3px;
+    overflow: hidden;
+    width: 80px;
+    margin-right: 1px;
+    border: 1px solid #252525;
+    border-radius: 3.5px;
+  }
+
+  .cart-items__item-minus,
+  .cart-items__item-quantity,
+  .cart-items__item-plus,
+  .cart__total-price-wrapper,
+  .cart__footer-button-wrapper {
+    text-align: center;
+  }
+
+  .cart-items__item-result,
+  .cart__proceed-to-checkout,
+  .cart-items__list-header .cart-items__item-quantity-wrapper {
+    justify-content: center;
+  }
+
+  .cart-items__item-result {
+    text-align: right;
+    width: 25%;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 11.5px;
+    padding-top: 30px;
+  }
+
+  .cart-items__item-minus,
+  .cart-items__item-plus,
+  .cart-items__item-quantity {
+    background: transparent;
+  }
+
+  .cart-items__item-minus,
+  .cart-items__item-plus {
+    width: 28px;
+    line-height: 0;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    transform: scale(1.2);
+    padding-bottom: 1px;
+  }
+
+  .cart-items__item-minus[disabled],
+  .cart-items__item-plus[disabled] {
+    cursor: not-allowed;
+  }
+
+  .cart-items__item-minus[disabled] path,
+  .cart-items__item-plus[disabled] path {
+    stroke: #ccc;
+  }
+
+  .cart-items__item-plus {
+    padding-right: 0.7px;
+  }
+
+  .cart-items__item-minus {
+    padding-left: 1px;
+  }
+
+  .cart-items__item-quantity {
+    width: 30.5px;
+    border: none;
+    font-size: 18px;
+    padding-top: 3px;
+  }
+
+  .cart-items__item-remove {
+    font-size: 1rem;
+    margin-right: 23px;
+    color: #414141;
+    text-decoration: underline;
+  }
+
+  .cart__total-price-wrapper {
+    padding: 0px 2px 27px 0px;
+    margin: 0;
+    flex-grow: 1;
+    line-height: 1;
+    letter-spacing: 0;
+    text-align: right;
+  }
+
+  .cart-items__form {
+    width: 91.2%;
+    margin: 0 auto;
+  }
+
+  .cart__proceed-to-checkout,
+  .cart-items__item-details,
+  .cart__footer-wrapper,
+  .cart-items__list-header,
+  .cart__head {
+    align-items: center;
+  }
+
+  .cart__footer-button-wrapper,
+  .cart__proceed-to-checkout {
+    display: inline-flex;
+  }
+
+  .cart__footer-button-wrapper {
+    flex-direction: column;
+  }
+
+  .cart__proceed-to-checkout {
+    gap: 4.7px;
+    font-size: 16px;
+    width: 359px;
+    height: 46px;
+    line-height: 1;
+    margin-right: 2px;
+    margin-bottom: 8px;
+    letter-spacing:0.1px;
+    padding-right: 5px;
+    padding-top: 2px;
+  }
+
+  .cart__proceed-to-checkout-text,
+  .cart__item-count,
+  .cart__proceed-to-checkout:after {
+		font-family: 'DM Sans', sans-serif;
+  }
+
+  .cart__proceed-to-checkout-text {
+    letter-spacing: 0.15px;
+  }
+
+  .cart__proceed-to-checkout:after {
+    content: '\2192';
+    font-weight: 300;
+    margin: 0 4px 0 2px;
+    font-size: 18px;
+    padding-bottom: 3px;
+  }
+
+  .cart__proceed-to-checkout svg {
+    height: 23px;
+    width: 23px;
+    padding-bottom: 3.6px;
+  }
+
+  .cart__head,
+  .cart-items__item-details {
+    justify-content: space-between;
+  }
+
+  .cart-items__item-details {
+    margin: 0 0px 0 50px;    
+    padding: 1px 17px 0 0;
+  }
+
+  .cart-items__line-details--out-of-stock {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-evenly;
+  }
+  
+  .cart__total-subtotal-text {
+    margin-right: 5px;
+    font-size: 22px;
+    letter-spacing: 0.3px;
+  }
+
+  .cart__total-price {
+    letter-spacing: 0.1px;
+    font-weight: 500;
+  }
+
+  .cart__total-freeshipping-text {
+    font-weight: 500;
+    font-size: 24px;
+  }
+
+  .cart__footer {
+    margin-bottom: 18px;
+    text-align: right;
+  }
+
+  .cart__continue-shopping--link {
+    text-decoration: underline;
+    margin-bottom: 23px;
+    font-size: 16px;
+    margin-left: 3px;
+  }
+
+  .cart__continue-shopping--button {
+    display: inline-block;
+    padding: 8px 15px;
+    border-width: 1px;
+    border-style: solid;
+  }
+
+  .cart__head {
+    flex-direction: row-reverse;
+  }
+
+  .cart-items__item-price,
+  .cart__total-price-wrapper {
+    font-size: 1.5rem;
+  }
+
+  .cart-items__item-price {
+    font-weight: 700;
+    margin-right: 13px;
+  }
+
+  .cart__coupon {
+    margin-bottom: 10px;
+  }
+
+  .cart__coupon-day {
+    font-weight: bold;
+  }
+
+  .cart__empty {
+    display: block;
+    margin: 60px auto;
+    width: 300px;
+    text-align: center;
+  }
+
+  .cart-page__badges-list.cart-page__badges-list--s6:not(.no--desktop) {
+    display: flex;
+    justify-content: flex-start;
+    gap: 16.1px;
+  }
+
+  .cart-page__badges-list .cart-drawer__badge-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 17%;
+  }
+  
+  .cart-page__badges-list .cart-drawer__badge-wrapper svg {
+    padding-top: 0;
+    padding-left: 7px;
+    height: 48px;
+    padding-right: 8px;
+    padding-bottom: 4px;
+  }
+
+  .cart-page__badges-list span.cart-drawer__badge-title {
+    font-size: 10px;
+    letter-spacing:0.1px;
+    text-align: center;
+    line-height: 1.26;
+  }
+
+  .cart__wrapper {
+    margin-top: 32px;
+  }
+
+  .no--desktop {
+    display: none;
+  }
+
+  @media (max-width: 1019px) {
+    .header__logo-wrapper svg, 
+    .header__logo-wrapper img {
+      width: 100%;
+    }
+
+
+    .no--desktop {
+      display: block;
+    }
+
+    .cart-items__item-details-wrapper {
+      flex-direction: column;
+      align-items: flex-start
+    }
+    
+    .cart__proceed-to-checkout + .cart__badge {
+      margin-top: 20px;
+    }
+
+    .cart-items__line-item {
+      margin-bottom: 13px;
+      padding-left: 11px;
+      margin-left: 1px;
+    }
+
+    .cart-items__line-item + .cart-items__line-item {
+      padding-top: 16.7px;
+      margin-bottom: 11px;
+    }
+
+    .cart-items__item-link {
+      letter-spacing: 0.5px;
+    }
+
+    .cart__wrapper {
+      margin: 34px 0 0;
+    }
+
+    .cart__head {
+      flex-direction: column-reverse;
+      margin-bottom: 15px;
+      padding: 20px 0 0;
+    }
+
+    .cart__head,
+    .cart__footer {
+      align-items: center;
+    }
+
+    .cart__footer {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 2px;
+    }
+
+    .cart__footer-wrapper {
+      padding-top: 10px;
+      width: 98%;
+      margin-bottom: 23px;
+    }
+
+    .cart__proceed-to-checkout {
+      width:442px;
+      height: 51px;
+      max-width: 768px;
+      font-size: 1.1rem;
+      margin-right: 0;
+      margin-bottom: 7px;
+      gap: 0;
+      padding:0;
+    }
+
+    .cart__proceed-to-checkout svg {
+      height: 20px;
+      width: 16px;
+      padding: 0;
+    }
+
+    .cart__proceed-to-checkout-text {
+      font-size: 20px;
+      letter-spacing: 0;
+      margin-left: 9px;
+    }
+
+    .cart__item-count {
+      margin-left: 5px;
+    }
+
+    .cart-items__item-details {
+      display: block;
+      margin: 0;
+      margin-left: 10px;
+      padding-top: 0;
+    }
+
+    .cart-items__item-title {
+      font-size: 15px;
+      line-height: 1.22;
+    }
+
+    .cart-items__info-names {
+      gap: 9px;
+      margin-bottom: 0;
+    }
+    
+    .cart-items__form {
+      width: 88.7%;
+    }
+
+    .cart-items__item-price {
+      font-size: 16px;
+      margin-right: 14.7px; 
+    }
+
+    .cart__total-price-wrapper {
+      display: flex;
+      justify-content: flex-end;
+      align-items: baseline;
+      padding: 0; 
+    }
+
+    .cart__total-subtotal-text {
+      font-size: 16px;
+      letter-spacing: 0.2px;
+      margin: 0;
+    }
+
+    .cart__total-price {
+      font-size: 20px;
+      font-weight: 700;
+      margin-left: 11px;
+      letter-spacing: 0
+    }
+
+    .cart__total-freeshipping-text {
+      font-size: 19px;
+      letter-spacing: 0.4px;
+      margin-left: 5px;
+    }
+
+    .cart-items__item-remove {
+      font-size: 14px;
+      margin-right: 9px;
+      padding-bottom: 5px;
+    }
+
+    .cart-items__item-image-wrapper {
+      height: 80px;
+      width: 81px;
+      flex-shrink: 0;    
+      transform: translateY(-1px);
+    }
+
+    .cart-items__item-variant {
+      font-size: 1rem;
+    }
+
+    .cart-items__item-minus,
+    .cart-items__item-plus,
+    .cart-items__item-quantity {
+      width: 20px;
+    }
+
+    .cart-items__item-plus {
+      padding-bottom: 1px;
+    }
+
+    .cart-items__item-quantity-wrapper {
+      height: 27px;
+      margin-top: 7px;
+      width: 65px;
+      margin-left: 1px;
+    }
+
+    .cart-items__item-quantity {
+      padding: 0 1px 0 0;
+      font-size: 14px;
+    }
+
+    .cart-items__item-result {
+      padding-top: 0px;
+      justify-content: space-between;
+
+    }
+
+    .cart__continue-shopping--link {
+      font-size: 16px;
+      margin: 0;
+      letter-spacing: 0;
+    }
+
+    .cart__head,
+    .cart-items__list-header {
+      display: none;
+    }
+
+    .cart-page__badges-list.cart-page__badges-list--s6 {
+      display: flex;
+      justify-content: center;
+      gap: 12.7px;
+    }
+
+    .cart-page__badges-list .cart-drawer__badge-wrapper {
+      width: 15%;
+      gap: 8px;
+    }
+    
+    .cart-page__badges-list .cart-drawer__badge-wrapper svg {
+      padding: 0;
+      height: 63px;
+    }
+
+    .cart-page__badges-list span.cart-drawer__badge-title {
+      font-size: 14px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .cart__wrapper {
+      margin: 30px 0 0px;
+    }
+
+    .header__logo-wrapper svg, 
+    .header__logo-wrapper img {
+      width: 104px;
+    }
+
+    .cart-items__form {
+      width: 94%;
+    }
+
+    .cart-items__line-item {
+      margin-bottom: 10px;
+      margin-left: 1px;
+      padding-left: 0;
+    }
+
+    .cart-items__line-item + .cart-items__line-item {
+      padding: 16.5px 0 8.5px 0;
+      border-bottom: 1px solid #e7e7e7;
+      margin-bottom: 10px;
+    }
+
+    .cart-items__item-image-wrapper {
+      height: 99px;
+      width: 98px;
+      margin-top: 2px;
+    }
+
+    .cart-items__item-image-wrapper,
+    .cart-items__item-image-wrapper img {
+      border-radius: 5px;
+    }
+
+    .cart-items__item-details-wrapper {
+      gap: 15px;
+      width: 70%;
+    }
+
+    .cart-items__item-details {
+      margin-left: 10px;
+      padding: 0;
+    }
+
+    .cart-items__info-names {
+      gap: 4px;
+    }
+
+    .cart-items__item-title {
+      line-height: 1.1;
+      font-size: 14px;
+      padding-top: 0px;
+    }
+
+    .cart-items__item-link {
+      line-height: 1.2;
+      letter-spacing: -0.1px;
+    }
+
+    .cart-items__item-variant {
+      font-size:12px;
+    }
+
+    .cart-items__item-quantity-wrapper {
+      width: 57px;
+      margin-left: 0;
+    }
+
+    .cart-items__item-quantity {
+      font-size: 13px;
+      padding: 0;
+    }
+
+    .cart-items__item-result {
+      justify-content: space-between;
+      padding-right: 4px;
+      padding-top: 0;
+    }
+
+    .cart-items__item-remove {
+      margin-right: 0;
+      padding-bottom: 1px;
+    }
+
+    .cart-items__remove-text {
+      font-size: 12px;
+      margin-right: 6px;
+    }
+
+    .cart-items__item-price {
+      font-size: 14px;
+      margin-right: 0;
+    }
+
+    .cart__total-price-wrapper {
+      display: flex;
+      justify-content: center;
+      margin: 9px 0 5px;
+      padding: 0;
+    }
+
+    .cart__total-subtotal-text {
+      font-size: 15px;
+      letter-spacing: -0.3px;
+      margin: 0 6px;
+    }
+
+    .cart__total-price {
+      font-weight: 700;
+      font-size: 19px;
+      letter-spacing: -0.6px;
+      margin-left: 5px;
+    }
+
+    .cart__total-freeshipping-text {
+      font-size: 19px;
+      margin-left: 5px;
+      letter-spacing: -0.5px;
+    }
+
+    .cart__footer {
+      margin-bottom: 18px;
+    }
+
+    .cart__footer-wrapper {
+      margin-bottom: 14px;
+      padding-top: 0;
+    }
+
+    .cart__footer-button-wrapper {
+      width: 100%;
+      align-items: center;
+    }
+
+    .cart__proceed-to-checkout {
+      width: 315px;
+      height: 37px;
+      margin: 0 0 8px 0;
+      padding: 0 4.4px 0 0;
+      font-size: 13px;
+      letter-spacing: 0.7px;
+      gap: 2px;
+    }
+    .cart__proceed-to-checkout svg {
+      height: 13px;
+      width: 13px;
+      padding-bottom: 1px;
+    }
+
+    .cart__proceed-to-checkout-text {
+      font-size: 14px;
+      letter-spacing: 0.1px;
+      margin: 0 0 0 3px;
+    }
+
+    .cart__item-count {
+      letter-spacing: 0.65px;
+      margin-left: 2px;
+    }
+
+    .cart__continue-shopping--link {
+      font-size: 10px;
+    }
+
+    .cart-page__badges-list.cart-page__badges-list--s6 {
+      gap: 30.6px;
+    }
+
+    .cart-page__badges-list .cart-drawer__badge-wrapper {
+      gap: 5px;
+    }
+    
+    .cart-page__badges-list .cart-drawer__badge-wrapper svg {
+      height: 46px;
+    }
+
+    .cart-page__badges-list span.cart-drawer__badge-title {
+      font-size: 10px;
+      line-height: 1.36;
+    }
+  }
+</style>
+
+<div class="wrapper">
+  <div id="cart-items" class="cart__wrapper">
+    {%- if cart.item_count > 0 -%}
+      <form id="CartItemsForm" class="cart-items__form" action="/checkout">
+        {% if hide_top_ptc_button == false or trust_badge != blank %}
+          <div class="cart__head">
+            <button class="cart__proceed-to-checkout">
+              {%- render 'icon-lock' -%}
+              <span class="cart__proceed-to-checkout-text">Proceed To Checkout</span>
+              <span class="cart__item-count">({{ cart.item_count }} {{ cart.item_count | pluralize: 'Item', 'Items' }})</span>
+            </button>
+           
+            {%- if section.settings.trustBadges_enable -%}
+              <div class="cart-page__badges-list cart-page__badges-list--s{{ section.settings.vasta_badges_size }}">
+                {% render 'cart-drawer-trust-badges' %}
+              </div>
+            {%- endif -%}
+
+          </div>
+        {% endif %}
+
+        <div class="cart-items__list-header">
+          <li class="cart-template__line-item" data-key="{{ line_item.key }}">
+            <div class="cart-items__item-info-wrapper cart-template__item-info-wrapper">
+                <span class="cart-template__item-quantity-wrapper">Qtd.</span>
+              <span class="cart-items__item-result-cart-page ">Total</span>
+            </div>
+          </li>
+        </div>
+
+        {%- render 'cart-items' -%}
+
+        <div class="cart__footer">
+          <div class="cart__footer-wrapper">
+            <a
+              href="{{ continue_shopping_link | default: '#' }}"
+              class="{{ continue_shipping_class }} no-mobile"
+              title="{{ continue_shopping_label | escape }}"
+            >
+              {{- continue_shopping_label -}}
+            </a>
+
+            <div class="cart__total-price-wrapper">
+              <span class="cart__total-subtotal-text">Subtotal</span>
+              <span class="cart__total-price">{{ cart.total_price | money }}</span>
+              <span class="cart__total-freeshipping-text"> + Free Shipping</span>
+            </div>
+          </div>
+
+          <div class="cart__footer-button-wrapper">
+            <button class="cart__proceed-to-checkout">
+              {%- render 'icon-lock' -%}
+              <span class="cart__proceed-to-checkout-text">Proceed To Checkout</span>
+              <span class="cart__item-count">({{ cart.item_count }} {{ cart.item_count | pluralize: 'Item', 'Items' }})</span>
+            </button>
+
+            <div class="cart__coupon">
+              <div class="cart__coupon-text">{{ cart_coupon }}</div>
+
+              {% if settings.enable_day_on_message %}
+                <div class="cart__coupon-day">{{ 'now' | date: '%A' }} Only!</div>
+              {% endif %}
+            </div>
+
+            <a
+              href="{{ continue_shopping_link | default: '#' }}"
+              class="{{ continue_shipping_class }} mobile"
+              title="{{ continue_shopping_label | escape }}"
+            >
+              {{- continue_shopping_label -}}
+            </a>
+          </div>
+
+          {% if trust_badge != blank %}
+            <img
+              src="{{- trust_badge | image_url: width: 700, height: 150 -}}"
+              alt="Cart Page Badge"
+              class="cart__badge no--desktop"
+              loading="lazy"
+              width="700"
+              height="150"
+            >
+          {% endif %}
+        </div>
+
+        {%- if section.settings.trustBadges_enable -%}
+          <div class="cart-page__badges-list cart-page__badges-list--s{{ section.settings.vasta_badges_size }} no--desktop">
+            {% render 'cart-drawer-trust-badges' %}
+          </div>
+        {%- endif -%}
+      </form>
+
+    {%- else -%}
+      <div class="cart__empty">
+        <p class="cart__empty-message">{{ 'cart.general.empty' | t }}</p>
+
+        <a
+          href="{{ continue_shopping_link | default: '#' }}"
+          class="{{ continue_shipping_class }}"
+          title="{{ continue_shopping_label | escape }}"
+        >
+          {{- continue_shopping_label -}}
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{%- if settings.enable_cart_upsell_cart -%}
+  <div class="cart__upsel-wrapper hide">
+    {%- render 'cart-upsell' -%}
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Cart Template",
+  "settings": [
+    {
+      "type": "header",
+      "content": "GENERAL SETTINGS"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_upsell_lazyload",
+      "label": "Enable Lazy Load on Cart Page Upsell",
+      "default": false,
+      "info": "If the upsell is below the fold, this option should be maked, to improve perfomance"
+    },
+    {
+      "type": "checkbox",
+      "id": "proceed_to_checkout_top",
+      "label": "Disable Top Button Proceed To Checkout",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "TRUST BADGE"
+    },
+    {
+      "type": "image_picker",
+      "id": "credit_cards_page",
+      "info": "375x60",
+      "label": "Trust Badges"
+    },
+    {
+      "type": "header",
+      "content": "COLORS"
+    },
+    {
+      "type": "color",
+      "id": "color_font_button_cart",
+      "label": "Proceed To Checkout Button Text Color",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "color_background_button",
+      "label": "Proceed To Checkout Button Color",
+      "default": "#26b522"
+    },
+    {
+      "type": "color",
+      "id": "color_font_button_cart_hover",
+      "label": "Proceed To Checkout Button Text Hover Color ",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "color_background_button_hover",
+      "label": "Proceed To Checkout Button Hover Color ",
+      "default": "#1A7117"
+    },
+    {
+      "type": "color",
+      "id": "color_cartitem",
+      "label": "Product Title Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "color_price_cart",
+      "label": "Product Price Color ",
+      "default": "#B22222"
+    },
+    {
+      "type": "color",
+      "id": "color_product_discount",
+      "label": "Product Discount Price Color ",
+      "default": "#444"
+    },
+    {
+      "type": "color",
+      "id": "color_continue_shopping",
+      "label": "Continue Shopping Link Color",
+      "default": "#43AECF"
+    },
+    {
+      "type": "header",
+      "content": "CONTINUE SHOPPING LINK"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_continue_shopping_button",
+      "label": "Enable Style for Continue Shopping",
+      "info": "The appearance of the link will change to that of a button"
+    },
+    {
+      "type": "url",
+      "id": "continue_shopping_href",
+      "label": "Continue Shopping Button Link",
+      "default": "/collections/all"
+    },
+    {
+      "type": "text",
+      "id": "continue_shopping_label",
+      "label": "Continue Shopping Text",
+      "default": "Continue Shopping"
+    },
+    {
+      "type": "header",
+      "content": "CART INFO"
+    },
+    {
+      "type": "text",
+      "id": "text_cart_above_button",
+      "label": "Text Under Proceed To Checkout",
+      "default": "<strong>Use Code <span style='color:blue;font-weight:bold'>GET5NOW </span>to save 5% </strong>"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_day_on_message",
+      "label": "Enable Day Of The Week Below Message Text",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_trust_badge_title",
+      "label": "Show Text Below Trust Badges",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "title_trust_badges",
+      "label": "Trust Badge Title",
+      "default": "Trust Badge"
+    },
+    {
+      "type": "checkbox",
+      "id": "trustBadges_enable",
+      "label": "Enable TrustBadges",
+      "default": true
+    },
+    {
+      "id": "vasta_badges_size",
+      "type": "range",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "label": "Trust Badges Per Row",
+      "default": 6
+    }
+  ],
+  "blocks": [
+    {
+      "type": "trust_badges_cart",
+      "name": "Trust Badge",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Block Title",
+          "placeholder": "Block title"
+        },
+        {
+          "type": "select",
+          "id": "svg_trust_badge_cart",
+          "label": "Choose a SVG Trust Badge",
+          "options": [
+            {
+              "value": "amazon",
+              "label": "Amazon"
+            },
+            {
+              "value": "amex",
+              "label": "Amex"
+            },
+            {
+              "value": "apple-pay",
+              "label": "Apple Pay"
+            },
+            {
+              "value": "bitcoin",
+              "label": "Bitcoin"
+            },
+            {
+              "value": "discover",
+              "label": "Discover"
+            },
+            {
+              "value": "diners-club",
+              "label": "Diners Club"
+            },
+            {
+              "value": "google-pay",
+              "label": "Google Pay"
+            },
+            {
+              "value": "jcb",
+              "label": "JCB"
+            },
+            {
+              "value": "master",
+              "label": "Master"
+            },
+            {
+              "value": "paypal",
+              "label": "Paypal - Badge"
+            },
+            {
+              "value": "old-paypal",
+              "label": "Pay Pal (Old Icon)"
+            },
+            {
+              "value": "porteg",
+              "label": "Porteg"
+            },
+            {
+              "value": "sezzle",
+              "label": "Sezzle"
+            },
+            {
+              "value": "shopify",
+              "label": "Shopify"
+            },
+            {
+              "value": "shopify-pay",
+              "label": "Shopify Pay"
+            },
+            {
+              "value": "shopify-secure-black",
+              "label": "Shopify Secure Black Icon"
+            },
+            {
+              "value": "shopify-secure-white",
+              "label": "Shopify Secure White Icon"
+            },
+            {
+              "value": "venmo",
+              "label": "Venmo"
+            },
+            {
+              "value": "visa",
+              "label": "Visa"
+            },
+            {
+              "value": "natural-product",
+              "label": "Natural Product"
+            },
+            {
+              "value": "free-shipping",
+              "label": "Free Shipping"
+            },
+            {
+              "value": "made-usa",
+              "label": "Made In USA"
+            },
+            {
+              "value": "money-back",
+              "label": "30 Days Money Back"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "title_trust_badges",
+          "label": "Trust Badge Title",
+          "default": "Trust Badge"
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_custom_trust_badge_svg",
+          "label": "Enable Custom Trust Badge SVG",
+          "default": false
+        },
+        {
+          "type": "html",
+          "id": "custom_trust_badge_svg_html",
+          "label": "Custom Trust Badges SVG"
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_img_trust_badge_cart",
+          "label": "Enable Image Trust Badge",
+          "info": "100x68",
+          "default": false
+        },
+        {
+          "type": "image_picker",
+          "id": "img_trust_badges_cart",
+          "label": "Trust Badge Image",
+          "info": "100x65"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

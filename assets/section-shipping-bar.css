@@ -1,0 +1,39 @@
+.shipping-text {
+	width: 100%;
+	margin: 0;
+}
+.shipping-text>.wrapper {
+	justify-content: center;
+	flex-wrap: wrap;
+}
+.shipping-text>.wrapper,
+.shipping-text .shipping-text-content {
+	display: flex;
+}
+.shipping-text .shipping-text-content {
+	flex-direction: column;
+	align-items: center;
+	flex: 0 0 23.5%;
+	text-align: center;
+}
+.shipping-text .shipping-text-content .shipping-text-text {
+	font-weight: bold;
+	margin-bottom: 10px;
+	max-width: 100%;
+}
+.shipping-text .shipping-text-content svg {
+	height: 28px;
+	width: auto;
+}
+
+@media (max-width: 767px) {
+	.shipping-text .shipping-text-content {
+		flex-direction: column;
+		align-items: center;
+		flex: 0 0 48%;
+		text-align: center;
+	}
+	.shipping-text .shipping-text-content p {
+		font-weight: normal;
+	}
+}

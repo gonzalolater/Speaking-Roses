@@ -1,0 +1,35 @@
+<!-- start snippets/customer-address.liquid -->
+
+<table class="account__address-table">
+  <tr>
+    <th colspan="2">{{ 'customer.account.details' | t }}</th>
+  </tr>
+  <tr>
+    <td>{{ 'customer.addresses.full_name' | t }}</td>
+    <td>
+      {{ address.first_name }} {{ address.last_name }}
+    </td>
+  </tr>
+  <tr>
+    <td>{{ 'customer.addresses.company' | t }}</td>
+    <td>{{ address.company }}</td>
+  </tr>
+  <tr>
+    <td>{{ 'customer.addresses.phone' | t }}</td>
+    <td>{{ address.phone }}</td>
+  </tr>
+  <tr>
+    <td>{{ 'customer.addresses.address1' | t }}</td>
+    <td>{{ address.address1 }}</td>
+  </tr>
+  <tr>
+    <td>{{ 'customer.addresses.address2' | t }}</td>
+    <td>{{ address.address2 }}</td>
+  </tr>
+  <tr>
+    <td>{{ 'customer.addresses.city' | t }}</td>
+    <td>
+      {{ address.city }} - {{ address.zip }}, {{ address.province }}, {{ address.country }}
+    </td>
+  </tr>
+</table>

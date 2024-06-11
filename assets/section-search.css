@@ -1,0 +1,179 @@
+.template-search .main-content {
+	margin: 0 auto;
+}
+.template-search .main-content .section-header {
+	width: 100%;
+	float: left;
+	padding: 0px 0px 25px 0px;
+}
+.template-search .main-content .section-header__title {
+	font-weight: 400;
+	color: #333;
+	text-transform: uppercase;
+	margin: 0 0 20px;
+}
+.template-search .main-content .section-header__title span {
+	padding: 0 10px;
+	color: #e5e5e5;
+}
+.template-search .main-content .section-header__title strong {
+	font-weight: 400;
+	font-size: 1em;
+}
+.template-search .main-content .inner {
+	display: block;
+}
+.template-search .main-content .inner .grid__item {
+	box-sizing: border-box;
+	float: left;
+	min-height: 1px;
+	margin: 0 0 30px 0;
+	vertical-align: top;
+}
+.template-search .main-content .inner .productgrid {
+	display: block;
+}
+.template-search .main-content .inner .product-title {
+	margin: 15px 0 8px 0;
+	text-align: center;
+}
+.template-search .main-content .inner .product-title a {
+	color: #000;
+	font-size: 1rem;
+	margin: 15px 0 8px 0;
+	text-align: center;
+	text-transform: uppercase;
+	font-weight: bold;
+	font-size: 0.94118rem;
+}
+.template-search .main-content .inner .product-price {
+	text-align: center;
+}
+.template-search .main-content .inner .product-price .compare-price {
+	text-decoration: line-through;
+}
+.template-search .main-content .inner .grid__image {
+	display: block;
+	margin: 0 auto 15px;
+	width: 100%;
+}
+.template-search .main-content .inner .large--one-quarter {
+	width: 25%;
+	padding: 1%;
+}
+.search-page-form {
+	float: left;
+	width: 100%;
+	align-items: center;
+	justify-content: center;
+	display: flex;
+}
+.search-page-form .search-text {
+	width: 75%;
+	border: 1px solid #e5e5e5;
+	padding: 5px 10px;
+	float: left;
+	height: 37px;
+    max-width: 700px;
+}
+.search-page-form .button {
+	background-color: #3c3c3c;
+	color: #fff;
+	width: 25%;
+	float: left;
+	padding: 5px 10px;
+	border: 1px solid #3c3c3c;
+	text-transform: uppercase;
+	height: 37px;
+    max-width: 140px;
+}
+.search .inner .grid__card{
+	display: flex;
+	flex-wrap: wrap;
+	width: 100%;
+	height: 100%;
+	column-gap: 8px;
+	row-gap: 8px;
+}
+.search .inner .card__content{
+	display: grid;
+	grid-template-rows: minmax(0,1fr) max-content minmax(0,1fr);
+	flex-grow: 1;
+	background-color: rgb(243,243,243);
+	height: 100%;
+	padding: 1rem;
+	text-decoration: none;
+	width: calc(25% - 8px * 3 / 4);
+	cursor: pointer;
+}
+.search .inner .card__content .card__information{
+	padding: 1.3rem 1rem;
+	grid-row-start: 2;
+}
+.search .inner .card__content .card__information .page-title{
+	font-size: 1rem;
+}
+.search .inner .card__content .card__information .page-content{
+	font-size: 0.875rem;
+}
+
+.search .inner .card__content .card__badge .badge{
+	border: 1px solid transparent;
+	border-radius: 4rem;
+	padding: .3rem 1rem;
+	text-align: center;
+	background-color: rgb(255,255,255);
+	border-color: rgba(18,18,18, .1);
+	color: rgb(18,18,18);
+}
+.search .inner .card__content a{
+	color: rgb(18,18,18);
+}
+.search .inner .card__content a:hover{
+	text-decoration: underline;
+}
+.search .inner .card__content:hover{
+	border-color: rgba(18,18,18, .1);
+}
+
+@media (max-width: 767px) {
+	.template-search .main-content {
+		margin: 0 auto;
+	}
+	.template-search .main-content .section-header__title {
+		font-size: 20px;
+	}
+	.template-search .main-content .section-header__title strong {
+		font-weight: 400;
+		font-size: 20px;
+	}
+	.template-search .main-content .inner {
+		padding: 0 2%;
+	}
+	.template-search .main-content .inner header {
+		border: none;
+	}
+	.template-search .main-content .inner .large--one-quarter {
+		flex-basis: 49%;
+		display: block;
+	}
+	.template-search .main-content .inner .productgrid {
+		min-height: 0;
+	}
+	.search .inner .card__content{
+		width: calc(50% - 8px  / 2);
+	}
+	
+}
+@media (max-width: 479px) {
+	.template-search .main-content .inner .large--one-quarter {
+		flex-basis: 49%;
+	}
+	.search .inner .card__content .card__information{
+		padding: 0;
+		margin-top: 15px;
+	}
+	.search .inner .card__content .card__information .card__heading{
+		margin-bottom: 7px;
+	}
+}

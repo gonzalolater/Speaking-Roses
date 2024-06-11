@@ -1,0 +1,919 @@
+<!-- start addresses.liquid (TEMPLATE) -->
+
+{%- capture css -%}
+<style>  
+  .address__container-wrapper {
+    margin-bottom: 40px;
+  }
+
+  .address__container {
+    margin-top: 35px;
+  }
+
+  .address__title-wrapper {
+    width: 100%;
+    display: block;
+    clear: both;
+    text-align: center;
+  }
+
+  .address__title {
+    color: #000;
+    font-size: 25px;
+    line-height: 140%;
+    text-transform: uppercase;
+  }
+
+  .address__content-wrapper {
+    margin: 35px auto 0;
+    width: 1025px;
+    max-width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .address__content {
+    width: 100%;
+    background: #F9F9F9;
+    padding: 12px;
+  }
+
+  .address__content-headline {
+    text-align: center;
+    line-height: 1.2;
+    font-weight: 700;
+  }
+
+  .account__address-name {
+    color: #2C2C2C;
+    font-size: 25px;
+  }
+
+  .account__set-as-default {
+    color: #4D4C4C;
+    font-size: 20px;
+  }
+
+  .address__content-container,
+  .address__edit-form {
+    width: 600px;
+    max-width: 100%;
+    margin: 20px auto 0;
+    padding: 10px;
+  }
+
+  .account__address-table {
+    width: 100%;
+  }
+
+  .account__address-table tr td:last-child {
+    text-align: right;
+  }
+
+  .account__address-table tr td {
+    color: #2C2C2C;
+    font-size: 20px;
+    line-height: 140%;
+  }
+
+  .address__divisor-line {
+    width: 100%;
+    height: 2px;
+    background: #D9D9D9;
+    margin: 15px 0;
+  }
+
+  .address__edit-form-button-wrapper,
+  .address__buttons-wrapper {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .address__edit-button {
+    display: flex;
+    padding: 8px 15px;
+    justify-content: center;
+    align-items: center;
+    background: #424242;
+    color: #FFF;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 140%;
+  }
+
+  .address__buttons-wrapper a {
+    color: #424242;
+    font-weight: 600;
+  }
+
+  .address__add-new-buttons-wrapper {
+    margin: 40px 0;
+  }
+
+  .address__add-new-button {
+    margin: 0 auto;
+    display: flex;
+    width: 348px;
+    max-width: 100%;
+    padding: 10px 20px;
+    justify-content: center;
+    align-items: center;
+    color: #FFF;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 140%;
+    background: #424242;
+  }
+
+  .address__edit-form-fieldset-wrapper {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px 2%;
+    margin-bottom: 30px;
+  }
+
+  .address__edit-form-fieldset {
+    width: 49%;
+    display: flex;
+    flex-direction: column;
+    padding: 8px;
+  }
+
+  .address_default_address-label,
+  .address__edit-form-fieldset-label {
+    color: #424242;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 140%;
+  }
+
+  .customer-form__input {
+    padding: 8px;
+    border: 1px solid #2C2C2C;
+  }
+
+  .address__edit-form-fieldset-default-address {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px;
+  }
+
+  .address__edit-form-fieldset-default-address input[type="checkbox"] {
+    width: 22px;
+    height: 22px;
+    margin: 0;
+  }
+
+  .address__edit-form-button-wrapper {
+    display: flex;
+  }
+
+  .address__edit-form-update-button,
+  .address__edit-form-new-button {
+    width: 155px;
+    max-width: 100%;
+    padding: 8px 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #26B522;
+    color: #FFF;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 140%;
+    border: none;
+    cursor: pointer;
+  }
+
+  .address__edit-form-cancel-button {
+    color: #424242;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 140%;
+    background: transparent;
+  }
+  .address__add-new-form {
+    width: 826px;
+    max-width: 100%;
+    margin: 20px auto 0;
+    padding: 10px;
+  }
+
+  .address__edit-form-new-button {
+    width: 166px;
+  }
+
+  .address__add-new-cancel-button {
+    color: #424242;
+    font-weight: 600;
+    font-size: 16px;
+    background: transparent;
+  }
+
+  body.modal-delete--open {
+    overflow: hidden;
+  }
+
+  .address__modal-delete-wrapper {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    padding: 20px;
+
+    align-items: center;
+    justify-content: center;
+
+    display: none;
+    visibility: hidden;
+    opacity: 0;
+  }
+
+  .address__modal-delete-wrapper.modal-delete--open {
+    display: flex;
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .address__modal-delete--overlay {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #000;
+    opacity: 0.8;
+    visibility: visible;
+    display: block;
+    transition: ease 0.3s all;
+    z-index: 5;
+  }
+
+  .address__modal-delete-content {
+    width: 400px;
+    position: relative;
+    background: #FFF;
+    padding: 20px;
+    z-index: 10;
+  }
+
+  .address__modal-delete--close {
+    font-size: 20px;
+    position: absolute;
+    right: 3%;
+    top: 1%;
+    cursor: pointer;
+    color: #aeaeae;
+  }
+
+  .address__modal-delete {
+    text-align: center;
+  }
+
+  .address__modal-delete svg {
+    width: 60px;
+  }
+
+  .address__modal-delete-headline {
+    margin-bottom: 15px;
+    font-size: 20px;
+  }
+
+  .address__modal-delete-message {
+    font-size: 16px;
+  }
+
+  .address__modal-delete-button-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-top: 20px;
+  }
+
+  .address__modal-delete-button {
+    width: 35%;
+    padding: 8px;
+    border-radius: 5px;
+    overflow: hidden;
+    font-weight: 600;
+    color: #FFF;
+  }
+
+ .address__modal-delete-button.delete-button--cancel {
+  background-color: #aeaeae;
+ }
+
+ .address__modal-delete-button.delete-button--delete {
+    background: #ee404c;
+ }
+
+  @media (max-width: 1019px) {
+    .address__container {
+      margin-top: 20px;
+    }
+    .address__title-wrapper {
+      margin-top: 20px;
+    }
+    .address__title {
+      font-size: 20px;
+    }
+
+    .address__content-wrapper {
+      width: 615px;
+      gap: 10px;
+    }
+
+    .address__content {
+      padding: 8px;
+    }
+
+    .account__address-name {
+      font-size: 16px;
+    }
+
+    .account__set-as-default {
+      font-size: 14px;
+
+    }
+
+    .account__address-table tr td {
+      font-size: 16px;
+    }
+
+    .address__edit-button,
+    .address__buttons-wrapper a {
+      font-size: 12px;
+    }
+
+    .address__add-new-button {
+      width: 245px;
+      font-size: 16px;
+    }
+
+    .address__content-container, .address__edit-form {
+      width: 400px;
+      margin: 15px auto 0;
+    }
+
+    .address_default_address-label, .address__edit-form-fieldset-label, .customer-form__input, .address_default_address-label {
+      font-size: 14px;
+    }
+
+    .address__edit-form-update-button, .address__edit-form-new-button, .address__add-new-cancel-button, .address__edit-form-cancel-button {
+      font-size: 12px;
+    }
+
+    .address__edit-form-fieldset-default-address input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+    }
+
+    .address__add-new-buttons-wrapper {
+      margin: 25px 0;
+    }
+
+    .address__modal-delete-headline {
+      font-size: 18px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .address__container-wrapper {
+      margin-bottom: 20px;
+    }
+
+    .address__title {
+      font-size: 15px;
+    }
+
+    .address__content-wrapper {
+      margin: 15px auto 0;
+    }
+
+    .address__content-container, .address__edit-form {
+      margin: 10px auto 0;
+    }
+
+    .account__address-table tr td {
+      font-size: 12px;
+    }
+
+    .address__add-new-buttons-wrapper {
+      margin: 20px 0;
+    }
+
+    .address__add-new-button {
+      font-size: 14px;
+    }
+
+  }
+</style>
+{%- endcapture -%}
+
+{{- css | strip_newlines | replace: '    ', ' ' | replace: '   ', ' ' | replace: '  ', ' ' -}}
+
+<div class="address__wrapper wrapper">
+  <div class="address__container-wrapper">
+    {% render 'account-header' %}
+
+    <div class="address__container">
+      {%- if customer.addresses.size > 0 -%}
+        <div class="address__title-wrapper">
+          <h2 class="address__title">{{ 'customer.addresses.title' | t }}</h2>
+        </div>
+
+        {%- paginate customer.addresses by 5 -%}
+          <div class="address__content-wrapper">
+            {%- for address in customer.addresses -%}
+              <div class="address__content">
+                <div class="address__content-container">
+                  <div class="address__content-headline">
+                    <h5 class="account__address-name">{{ address.first_name | capitalize }} {{ address.last_name | capitalize }}</h5>
+                    {% if address == customer.default_address %}
+                      <p class="account__set-as-default">{{ 'customer.addresses.default' | t }}</p>
+                    {% endif %}
+                  </div>
+
+                  {% capture province_data %}
+                    {%- if address.province == "" -%}
+                      {{ address.zip | upcase }} - {{ address.country }}
+                    {%- else -%}
+                      {{ address.zip | upcase }} - {{ address.province | capitalize }}, {{ address.country }}
+                    {%- endif -%}
+                  {% endcapture %}
+
+                  <table class="account__address-table">
+                    <tr>
+                      <td>{{ 'customer.addresses.company' | t }}:</td>
+                      <td>
+                        {{ address.company }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>{{ 'customer.addresses.phone' | t }}:</td>
+                      <td>{{ address.phone }}</td>
+                    </tr>
+                    <tr>
+                      <td>{{ 'customer.addresses.street' | t }}:</td>
+                      <td>{{ address.street }}</td>
+                    </tr>
+                    <tr>
+                      <td>{{ 'customer.addresses.city' | t }}:</td>
+                      <td>
+                        {{ address.city | capitalize }}, {{ province_data }}
+                      </td>
+                    </tr>
+                  </table>
+
+                  <div class="address__divisor-line"></div>
+
+                  <div class="address__buttons-wrapper">
+                    <button type="button" id="address-edit-toggle" class="address__edit-button" data-form-id="{{ address.id }}">
+                      {{ 'customer.addresses.edit' | t }}
+                    </button>
+
+                    {{ 'customer.addresses.delete' | t | delete_customer_address_link: address.id | replace: '<a', '<a class="delete-modal--toggle"' }}
+                  </div>
+                </div>
+
+                <div id="AddressEditForm" class="hide address__edit-form">
+                  {%- form 'customer_address', address -%}
+                    {{ form.errors | default_errors }}
+
+                    <div class="address__edit-form-fieldset-wrapper">
+                      <div class="address__edit-form-fieldset">
+                        <label class="address__edit-form-fieldset-label" for="address[first_name]">{{ 'customer.addresses.first_name' | t }}</label>
+                        <input type="text" 
+                          name="address[first_name]" 
+                          id="AddressFirstName"
+                          class="customer-form__input"
+                          value="{{ form.first_name }}" 
+                          autocapitalize="words"
+                        >
+                      </div>
+
+                      <div class="address__edit-form-fieldset">
+                        <label class="address__edit-form-fieldset-label" for="address[last_name]">{{ 'customer.addresses.last_name' | t }}</label>
+                        <input type="text" 
+                          name="address[last_name]" 
+                          id="AddressLastName"
+                          class="customer-form__input"
+                          value="{{ form.last_name }}" 
+                          autocapitalize="words"
+                        >
+                      </div>
+
+                      <div class="address__edit-form-fieldset">
+                        <label class="address__edit-form-fieldset-label" for="address[company]">{{ 'customer.addresses.company' | t }}</label>
+                        <input type="text"0
+                          name="address[company]" 
+                          id="AddressCompany"
+                          class="customer-form__input"
+                          value="{{ form.company }}" 
+                          autocapitalize="words"
+                        >
+                      </div>
+
+                      <div class="address__edit-form-fieldset">
+                        <label class="address__edit-form-fieldset-label" for="address[address1]">{{ 'customer.addresses.address1' | t }}</label>
+                        <input type="text" 
+                          name="address[address1]" 
+                          id="AddressAddress1"
+                          class="customer-form__input"
+                          value="{{ form.address1 }}"
+                          autocapitalize="words"
+                        >
+                      </div>
+
+                      <div class="address__edit-form-fieldset">
+                        <label class="address__edit-form-fieldset-label" for="address[address2]">{{ 'customer.addresses.address2' | t }}</label>
+                        <input type="text" 
+                          name="address[address2]" 
+                          id="AddressAddress2"
+                          class="customer-form__input"
+                          value="{{ form.address2 }}" 
+                          autocapitalize="words"
+                        >
+                      </div>
+
+                      <div class="address__edit-form-fieldset">
+                        <label class="address__edit-form-fieldset-label" for="address[city]">{{ 'customer.addresses.city' | t }}</label>
+                        <input type="text" 
+                          name="address[city]" 
+                          id="AddressCity"
+                          class="customer-form__input"
+                          value="{{ form.city }}" 
+                          autocapitalize="words"
+                        >
+                      </div>
+
+                      <div class="address__edit-form-fieldset">
+                        <label class="address__edit-form-fieldset-label" for="address[country]">{{ 'customer.addresses.country' | t }}</label>
+                        <select
+                          name="address[country]"
+                          id="AddressCountry" 
+                          class="customer-form__input edit-country"
+                          data-default="{{ form.country }}"
+                          required
+                        >
+                          {{ country_option_tags }}
+                        </select>
+                      </div>
+
+                      <div class="address__edit-form-fieldset" style="display: none;">
+                        <label class="address__edit-form-fieldset-label" for="address[province]">{{ 'customer.addresses.province' | t }}</label>
+                        <select
+                          name="address[province]"
+                          id="AddressProvince" 
+                          class="customer-form__input" 
+                          data-default="{{ form.province }}"
+                        ></select>
+                      </div>
+
+                      <div class="address__edit-form-fieldset">
+                        <label class="address__edit-form-fieldset-label" for="address[zip]">{{ 'customer.addresses.zip' | t }}</label>
+                        <input
+                          type="text" 
+                          name="address[zip]" 
+                          id="AddressZip"
+                          class="customer-form__input"
+                          value="{{ form.zip }}" 
+                          autocapitalize="characters"
+                        >
+                      </div>
+
+                      <div class="address__edit-form-fieldset">
+                        <label class="address__edit-form-fieldset-label" for="address[phone]">{{ 'customer.addresses.phone' | t }}</label>
+                        <input type="tel" 
+                          name="address[phone]" 
+                          id="AddressPhone"
+                          class="customer-form__input"
+                          value="{{ form.phone }}" 
+                          pattern="[0-9\-]*"
+                        >
+                      </div>
+
+                      <div class="address__edit-form-fieldset-default-address">
+                        {{ form.set_as_default_checkbox }}
+                        <label for="address_default_address-label">{{ 'customer.addresses.set_default' | t }}</label>
+                      </div>
+                    </div>
+
+                    <div class="address__divisor-line"></div>
+
+                    <div class="address__edit-form-button-wrapper">
+                      <input type="submit" id="editform-button" class="address__edit-form-update-button" name="update" value="{{ 'customer.addresses.update' | t }}">
+                      <button type="button" id="address-edit-cancel" class="address__edit-form-cancel-button" data-form-id="{{ form.id }}"> {{ 'customer.addresses.cancel' | t }}</button>
+                    </div>
+                  {%- endform -%}
+                </div>
+              </div>
+            {%- endfor -%}
+
+            <div class="address__modal-delete-wrapper">
+              <div class="address__modal-delete--overlay delete-modal--toggle"></div>
+              <div class="address__modal-delete-content">
+                <span class="address__modal-delete--close delete-modal--toggle">x</span>
+                <div class="address__modal-delete">
+                  {% render 'icon-warning' %}
+
+                  <h4 class="address__modal-delete-headline">Are you sure?</h4>
+
+                  <p class="address__modal-delete-message">Do you really want to delete these address? This action cannot be undone.</p>
+
+                  <div class="address__modal-delete-button-wrapper">
+                    <button class="address__modal-delete-button delete-button--cancel delete-modal--toggle">CANCEL</button>
+                    <button class="address__modal-delete-button delete-button--delete">DELETE</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {%- if paginate.pages > 1 -%}
+              {%- render 'pagination' with paginate: paginate -%}
+            {%- endif -%}
+          </div>
+        {%- endpaginate -%}
+      {%- else -%}
+        <div class="no-addresses__wrapper">
+          <p class="no-addresses">No Addresses</p>
+        </div>
+      {%- endif -%}
+      
+
+      <div class="address__add-new-buttons-wrapper">
+        <button type="button" id="address-new-toggle" class="address__add-new-button--toggle address__add-new-button">{{ 'customer.addresses.add_new' | t }}</button>
+      </div>
+
+      <div id="AddressNewForm" class="hide address__add-new-form">
+        {%- form 'customer_address', customer.new_address -%}
+          <div class="address__edit-form-fieldset-wrapper">
+            <div class="address__edit-form-fieldset">
+              <label class="address__edit-form-fieldset-label" for="address[first_name]"> {{ 'customer.addresses.first_name' | t }}</label>
+              <input type="text" 
+                name="address[first_name]" 
+                id="AddressFirstNameNew"
+                class="customer-form__input"
+                placeholder="{{ 'customer.addresses.first_name' | t }}" 
+                value="{{ form.first_name }}" 
+                autocapitalize="words"
+              >
+            </div>
+
+            <div class="address__edit-form-fieldset">
+              <label class="address__edit-form-fieldset-label" for="address[last_name]">{{ 'customer.addresses.last_name' | t }}</label>
+              <input type="text" 
+                name="address[last_name]" 
+                id="AddressLastNameNew"
+                class="customer-form__input"
+                placeholder="{{ 'customer.addresses.last_name' | t }}" 
+                value="{{ form.last_name }}" 
+                autocapitalize="words"
+              >
+            </div>
+
+            <div class="address__edit-form-fieldset">
+              <label class="address__edit-form-fieldset-label" for="address[company]">{{ 'customer.addresses.company' | t }}</label>
+              <input type="text" 
+                name="address[company]" 
+                id="AddressCompanyNew"
+                class="customer-form__input"
+                placeholder="{{ 'customer.addresses.company' | t }}" 
+                value="{{ form.company }}" 
+                autocapitalize="words"
+              >
+            </div>
+
+            <div class="address__edit-form-fieldset">
+              <label class="address__edit-form-fieldset-label" for="address[address1]">{{ 'customer.addresses.address1' | t }}</label>
+              <input type="text" 
+                name="address[address1]" 
+                id="AddressAddress1New"
+                class="customer-form__input"
+                placeholder="{{ 'customer.addresses.address1' | t }}" 
+                value="{{ form.address1 }}"
+                autocapitalize="words"
+              >
+            </div>
+
+            <div class="address__edit-form-fieldset">
+              <label class="address__edit-form-fieldset-label" for="address[address2]">{{ 'customer.addresses.address2' | t }}</label>
+              <input type="text" 
+                name="address[address2]"
+                id="AddressAddress2New"
+                class="customer-form__input"
+                placeholder="{{ 'customer.addresses.address2' | t }}"
+                value="{{ form.address2 }}" 
+                autocapitalize="words"
+              >
+            </div>
+
+            <div class="address__edit-form-fieldset">
+              <label class="address__edit-form-fieldset-label" for="address[city]">{{ 'customer.addresses.city' | t }}</label>
+              <input type="text" 
+                name="address[city]" 
+                id="AddressCityNew"
+                class="customer-form__input"
+                placeholder="{{ 'customer.addresses.city' | t }}" 
+                value="{{ form.city }}" 
+                autocapitalize="words"
+              >
+            </div>
+
+            <div class="address__edit-form-fieldset">
+                <label class="address__edit-form-fieldset-label" for="address[country]">{{ 'customer.addresses.country' | t }}</label>
+                <select 
+                  name="address[country]" 
+                  id="AddressCountryNew" 
+                  class="customer-form__input select-country" 
+                  data-default="{{ form.country }}"
+                  required 
+                >
+                  {{ country_option_tags }}
+                </select>
+            </div>
+
+            <div class="address__edit-form-fieldset" style="display: none;">
+              <label class="address__edit-form-fieldset-label" for="address[province]">{{ 'customer.addresses.province' | t }}</label>
+              <select 
+                name="address[province]"
+                id="AddressProvinceNew" 
+                class="customer-form__input" 
+                data-default="{{ form.province }}"
+              ></select>
+            </div>
+
+            <div class="address__edit-form-fieldset">
+              <label class="address__edit-form-fieldset-label" for="address[zip]">{{ 'customer.addresses.zip' | t }}</label>
+              <input type="text" 
+                name="address[zip]" 
+                id="AddressZipNew"
+                class="customer-form__input"
+                placeholder="{{ 'customer.addresses.zip' | t }}" 
+                value="{{ form.zip }}" 
+                autocapitalize="characters"
+              >
+            </div>
+
+            <div class="address__edit-form-fieldset">
+              <label class="address__edit-form-fieldset-label" for="address[phone]">{{ 'customer.addresses.phone' | t }}</label>
+              <input type="tel" 
+                name="address[phone]" 
+                id="AddressPhoneNew"
+                class="customer-form__input"
+                placeholder="{{ 'customer.addresses.phone' | t }}" 
+                value="{{ form.phone }}"
+                pattern="[0-9\-]*" 
+              >
+            </div>
+
+            <div class="address__edit-form-fieldset-default-address">
+              {{ form.set_as_default_checkbox }}
+              <label for="address_default_address">{{ 'customer.addresses.set_default' | t }}</label>
+            </div>
+          </div>
+
+          <div class="address__edit-form-button-wrapper">
+            <input id="address-new-send" type="submit" class="address__edit-form-new-button" name="addresses" value="{{ 'customer.addresses.add' | t }}">
+            <button id="address-new-cancel" type="button" class="address__add-new-button--toggle address__add-new-cancel-button">
+              {{ 'customer.addresses.cancel' | t }}
+            </button>
+          </div>
+        {%- endform -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="lazyload_int">
+  setTimeout(function(){
+    document.querySelectorAll('.address__add-new-button--toggle').forEach(function(e){
+      e.addEventListener('click', function(){
+        var showFields = document.getElementById('AddressNewForm');
+        showFields.classList.toggle('hide');
+
+        const $adrrContent = $(this).closest('.address__add-new-buttons-wrapper').siblings('.address__content-wrapper');
+        const $editForm = $adrrContent.find('#AddressEditForm');
+
+        if (!$editForm.hasClass('hide')) {
+          $editForm.addClass('hide');
+        }
+      },{passive: true});
+    });
+
+    var selectCountry = $('.edit-country');
+    selectCountry.each(function(i, elem){
+      $(this).find('option[value="---"]').remove();
+      var country = $(this).attr('data-default');
+      $.each(elem.children, function(i, val){
+        if($(val).text() == country){
+          $(val).attr('selected', true);
+        }
+      });
+    });
+
+    $('.select-country, .edit-country').change(function(){
+      var country = $(this).val();
+      var provinces = $(this).children('option[value="' + country +'"]').attr('data-provinces');
+      var provincesArray = JSON.parse(provinces);
+      var provincesField = $(this).parent().parent().find('.addressProvince');
+
+      provincesField.children().each(function(){
+        $(this).remove();
+      });
+
+      showProvinces(provincesArray, provincesField);
+
+    });
+
+    $('.address__edit-form-cancel-button').click(function(){
+      $(this).closest('.address__edit-form').addClass('hide');
+    });
+
+    $('.address__edit-button').click(function(){
+      $(this).parent().parent().parent().find('.address__edit-form').toggleClass('hide');
+      const $adrrContent = $(this).closest('.address__content');
+      const $newAdrrContent = $(this).closest('.address__content-wrapper');
+      const $siblingForm = $adrrContent.siblings().find('.address__edit-form');
+      const $newAdrrForm = $newAdrrContent.siblings('.address__add-new-form');
+
+      if (!$siblingForm.hasClass('hide')) {
+        $siblingForm.addClass('hide');
+      } else if (!$newAdrrForm.hasClass('hide')) {
+        $newAdrrForm.addClass('hide');
+      }
+
+      var countryelem = $(this).parent().parent().find('.edit-country');
+      var country = countryelem.attr('data-default');
+      var provincesArray = countryelem.children('option[value="' + country + '"]').attr('data-provinces');
+      provincesArray = JSON.parse(provincesArray);
+      var provincesSelect = countryelem.parent().siblings('.field-province').children('select');
+
+      if( provincesArray.lenght > 0){
+        showProvinces(provincesArray, provincesSelect);
+      }
+    });
+
+    function showProvinces(list, select){
+      var country = select.attr('data-default');
+      if(list.length > 0){
+        select.parent().css('display', 'block');
+        list.forEach(function(e, i){
+          list[i] = list[i][1];
+        });
+
+        list.forEach(function(e, i){
+          if(e == country){
+            select.append('<option value="'+ e +'" selected>'+ e +'</option>');
+          }else{
+            select.append('<option value="'+ e +'">'+ e +'</option>');
+          }
+        });
+      }else{
+        select.attr('data-default', '');
+        select.append('<option value="" selected></option>');
+        select.parent().css('display', 'none');
+      }
+    }
+
+    $('.delete-modal--toggle').click(function(){
+      $('.address__modal-delete-wrapper').toggleClass('modal-delete--open');
+      $('body').toggleClass('modal-delete--open');
+    });
+
+    $('.delete-button--delete').click(function() {
+      const id = $(this).attr("data-id");
+      Shopify.postLink('/account/addresses/'+id, {'parameters': {'_method': 'delete'}});
+    })
+
+
+    /* Modified contents of customer_area.js (global asset)*/
+    Shopify.CustomerAddress = {
+      toggleForm: function(id) {
+        var editEl = document.getElementById('EditAddress_'+id);
+        editEl.style.display = editEl.style.display == 'none' ? '' : 'none';
+        return false;
+      },
+
+      toggleNewForm: function() {
+        var el = document.getElementById('AddAddress');
+        el.style.display = el.style.display == 'none' ? '' : 'none';
+        return false;
+      },
+
+      destroy: function(id, confirm_msg) {
+        $('.delete-button--delete').attr('data-id', id);
+      }
+    } 
+  });
+</script>

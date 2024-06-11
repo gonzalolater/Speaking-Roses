@@ -1,0 +1,20 @@
+<!-- satart cart-drawer-shipping-bar (SNIPPET) -->
+
+{%- case shipping_bar_template -%}
+    {%- when 'counter' -%}
+        {%- assign template_class_modifier = 'shipping-bar--counter' -%}
+
+    {%- when 'custom' -%}
+        {%- assign template_class_modifier = 'shipping-bar--custom' -%}
+
+    {%- else -%}
+        {%- assign template_class_modifier = 'shipping-bar--default' -%}
+{%- endcase -%}
+
+<div class="shipping-bar {{ template_class_modifier }}">
+    {%- if shipping_bar_template == 'counter' -%}
+        <span class="shipping-bar__counter-fill"></span>
+    {%- endif -%}
+
+    <div class="shipping-bar__message"></div>
+</div>

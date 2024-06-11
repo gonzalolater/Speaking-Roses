@@ -1,0 +1,584 @@
+<!-- start cart-drawer-upsell - -->
+
+<style>
+  .cart-drawer__upsell {
+    border-radius: 9px;
+    max-width: 522px;
+    margin: 15px auto 27px;
+    width: 100%;
+    padding: 0;
+  }
+
+  .cart-drawer__upsell-title {
+    margin: 31px 0 6px;
+    text-align: center;
+    font-size: 20px;
+    line-height: 17.56px;
+    font-weight: 700;
+    letter-spacing: 0;
+  }
+
+  .cart-drawer__upsell-subtitle {
+    text-align: center;
+    font-size: 14px;
+    line-height: 12.292px;
+  }
+
+  .cart-drawer__upsell-list-items {
+    width: 100%;
+    margin: 33px auto 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .cart-drawer__upsell-product {
+    display: flex;
+    padding: 15px 10px 15px 10px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 4px 1px #d3d3d3;
+    align-items: center;
+  }
+
+  .cart-drawer__upsell-product-image-wrapper {
+    width: 120px;
+    height: 130px;
+    flex-shrink: 0;
+    overflow: hidden;
+    padding-right: 8px;
+    border-right: solid 1px #d9d9d9;
+  }
+
+  .cart-drawer__upsell-product-image-link {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .cart-drawer__upsell-product-image-link svg,
+  .cart-drawer__upsell-product-image {
+    object-fit: contain;
+    width: 100%;
+    height: 100%;
+  }
+
+  .cart-drawer__upsell-product-info {
+    min-height: 135.461px;
+    max-width: 100%;
+    margin-left: 17px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+    gap: 5px;
+    padding-left: 16px;
+  }
+
+  .cart-drawer__upsell-product-title-price-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    line-height: 1.15;
+    transform: translateY(0.9px);
+  }
+
+  .cart-drawer__upsell-product-title-wrapper {
+    width: 60%;
+  }
+
+  .cart-drawer__upsell-product-price-wrapper {
+    margin-right: 1px;
+  }
+
+  .cart-drawer__upsell-product-title {
+    font-size: 18px;
+    font-weight: 500;
+    color: #252525;
+    line-height: 20px;
+    letter-spacing: 0px;
+  }
+
+  .cart-drawer__upsell-product-title * {
+    font-weight: 500;
+    color: #000;
+  }
+
+  .cart-drawer__upsell-product-price {
+    text-align: end;
+    font-size: 18px;
+    font-weight: 700;
+    color: #252525;
+    letter-spacing: 0px;
+    line-height: 19.74px;
+  }
+
+  .cart-drawer__upsell-atc-form {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: row;
+    gap: 10px;
+    margin-top: 4px;
+  }
+
+  .cart-drawer__upsell-select-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 80%;
+  }
+
+  .cart-drawer__upsell-product-select {
+    width: 100%;
+    height: 29px;
+    border: 1px solid #ededed;
+    font-size: 14px;
+    font-weight: 400;
+    color: #757575;
+    padding: 0px 20px 0 5px;
+    letter-spacing: 0px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: url('{{ "vector-2.svg" | asset_url  }}') no-repeat 96% 52%;
+
+  }
+  .cart-drawer__upsell-product-select::after {
+    content: "";
+  }
+
+  .cart-drawer__upsell-product-select:focus {
+    border: 1px solid #000;
+    outline: none; 
+  }
+
+  .cart-drawer__upsell-atc-price-wrapper {
+    position: relative;
+  }
+
+  .cart-drawer__upsell-atc-price {
+    width: 115px;
+    height: 29px;
+    font-size: 14px;
+    padding: 0;
+    border-radius: 6.36px;
+    color: #252525;
+    background: transparent;
+    border: 1px solid #252525;
+  }
+
+  .cart-drawer__upsell-atc-price[disabled] {
+    background-color: #eee;
+    color: #bbb;
+    border: 1px solid #bbb;
+  }
+
+  .cart-drawer__upsell-atc--mask {
+    display: none;
+    visibility: hidden;
+    position: absolute;
+    opacity: 0;
+    width: 100%;
+    left: 0;
+    cursor: pointer;
+    height: 100%;
+  }
+
+  .cart-drawer__upsell-atc-price[disabled='disabled'] + .cart-drawer__upsell-atc--mask {
+    display: block;
+    visibility: visible;
+    opacity: 1;
+  }
+
+  @media (max-width: 1019px) {
+    .cart-drawer__upsell {
+      margin: 24px auto 33px;
+      padding: 0;
+    }
+    
+    .cart-drawer__upsell-title {
+      font-size: 20px;
+      margin: 30px 0 5px;
+    }
+
+    .cart-drawer__upsell-subtitle {
+      font-size: 14px;
+      margin-top: 5px;
+    }
+
+    .cart-drawer__upsell-list-items {
+      width: 93%;
+      margin: 34px auto 30px;
+      gap: 32px;
+    }
+
+    .cart-drawer__upsell-product {
+      padding: 15px 10px;
+      border-radius: 12.097px;
+    }
+
+    .cart-drawer__upsell-product-info {
+      min-height: 128.772px;
+      gap: 11px;
+      margin-left: 16px;
+      padding-left: 15px;
+      padding-bottom: 0px;
+    }
+
+    .cart-drawer__upsell-product-price-wrapper {
+      margin-right: 0;
+    }
+
+    .cart-drawer__upsell-product-price {
+      line-height: 18.765px;
+      padding-top: 0px;
+      letter-spacing: 0px;
+    }
+
+    .cart-drawer__upsell-product-title {
+      line-height: 18.765px;
+      margin-top: 0px;
+      padding-right: 0px;
+    }
+
+    .cart-drawer__upsell-product-image-wrapper {
+      width: 100px;
+      height: 100px;
+    }
+
+    .cart-drawer__upsell-product-title-price-wrapper {
+      margin-top: 1px;
+    }
+
+    .cart-drawer__upsell-product-select {
+      display: flex;
+      width: 100%;
+      height: 27.568px;
+      padding: 4px 10px;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .cart-drawer__upsell-atc-form {
+      gap: 13.309px;
+      margin-top: 1px;
+    }
+
+    .cart-drawer__upsell-select-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .cart-drawer__upsell-atc-price-wrapper {
+      position: relative;
+    }
+
+    .cart-drawer__upsell-atc-price {
+      width: 119px;
+      height: 29px;
+      font-size: 14px;
+      padding: 0;
+      border-radius: 6.36px;
+      color: #252525;
+      background: transparent;
+      border: 1px solid #252525;
+    }
+
+    .cart-drawer__upsell-atc-price {
+      width: 113.123px;
+      height: 27.568px;
+      border-radius: 6.049px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .cart-drawer__upsell {
+      max-width: 310px;
+      margin: 19px auto 41px;
+      border-radius: 7px;
+    }
+
+    .cart-drawer__upsell-title {
+      font-size: 13.625px;
+      margin: 21px 0 0px;
+      line-height: 0.87;
+    }
+
+    .cart-drawer__upsell-subtitle {
+      font-size: 10px;
+      margin-top: 2px;
+    }
+
+    .cart-drawer__upsell-list-items {
+      width: 94%;
+      margin: 19.5px auto;
+      gap: 21.8px;
+    }
+
+    .cart-drawer__upsell-product {
+      padding: 10px 8.2px;
+      border-radius: 9px;
+    }
+
+    .cart-drawer__upsell-product-title {
+      line-height: 1;
+      font-size: 14px; 
+      padding-right: 0;
+      margin-top: 0;
+      letter-spacing: 0;
+    }
+
+    .cart-drawer__upsell-product-image-wrapper {
+      width: 85px;
+      height: 85px;
+      padding-right: 2px;
+    }
+
+    .cart-drawer__upsell-product-info {
+      margin-left: 8px;
+      padding-left: 7.5px;
+      padding-bottom: 0;
+      gap: 9px;
+      min-height: 95.2px;
+    }
+
+    .cart-drawer__upsell-select-wrapper {
+      width: 100%;
+    }
+
+    .cart-drawer__upsell-product-select {
+      width: 100%;
+      height: 20.512px;
+      font-size: 12px;
+      padding: 3.8px;
+      line-height: 10.3px;
+      letter-spacing: 0px;
+
+      background-size: 7px;
+      background-position: 97% 45%;
+    }
+
+    .cart-drawer__upsell-atc-form {
+      gap: 7px;
+      margin-top: 0px;
+      align-items: center;
+    }
+
+    .cart-drawer__upsell-product-price-wrapper {
+      margin-right: 1px;
+    }
+
+    .cart-drawer__upsell-product-price {
+      font-size: 14px;
+      padding-top: 0;
+      line-height: 13.867px;
+    }
+
+    .cart-drawer__upsell-atc-price {
+      width: 85px;
+      height: 21px;
+      font-size: 12px;
+      line-height: 0;
+      border-radius: 4.47px;
+    }
+  }
+</style>
+
+{% assign upsell_collection = settings.upsell_collection %}
+{% assign upsell_products = collections[upsell_collection].products | where: 'available' %} 
+{% assign limit_products = settings.products_cart_drawer_upsell | default: 2 %}
+
+<div id="upsell-cart-drawer" class="cart-drawer__upsell">
+  {% if settings.upsell_title != blank %}
+    <h3 class="cart-drawer__upsell-title upsell-title">{{ settings.upsell_title }}</h3>
+  {% endif %}
+
+  {% if settings.upsell_subtitle != blank %}
+    <p class="cart-drawer__upsell-subtitle upsell-subtitle">{{ settings.upsell_subtitle }}</p>
+  {% endif %}
+
+  <div class="cart-drawer__upsell-list-items">
+    {% for product in upsell_products limit: limit_products %}
+      <div class="cart-drawer__upsell-product" data-product-id="{{ product.id }}">
+        <div class="cart-drawer__upsell-product-image-wrapper">
+          <a class="cart-drawer__upsell-product-image-link" href="{{ product.url | default: '#' }}">
+            {% assign image_alt = 'Upsell Product Image-' | append: forloop.index %}
+            {%
+              render 'responsive-image' with
+              image: product.featured_image,
+              width: 140,
+              height: 140,
+              lazyload: true,
+              class: 'cart-drawer__upsell-product-image'
+              alt: image_alt  
+            %}
+          </a>
+        </div>
+
+        <div class="cart-drawer__upsell-product-info">
+          <div class="cart-drawer__upsell-product-title-price-wrapper">
+            <div class="cart-drawer__upsell-product-title-wrapper">
+              <h2 class="cart-drawer__upsell-product-title">
+                <a class="cart-drawer__upsell-product-title--link" href="{{ product.url | default: '#' }}">
+                  {{ product.title }}
+                </a>
+              </h2>
+            </div>
+
+            <div class="cart-drawer__upsell-product-price-wrapper">
+              <div class="cart-drawer__upsell-product-price">
+                <span class="cart-drawer__upsell-price">{{ product.price | money }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="cart-drawer__upsell-atc-wrapper">
+            <form action="/cart/add" class="cart-drawer__upsell-atc-form">
+              <div class="cart-drawer__upsell-select-wrapper">
+                {% assign variants_options = product.options_with_values %}
+
+                {% assign values = '' %}
+                {% for variant in product.variants %}
+                  {% if variant.available %}
+                    {% unless values contains variant.option1 %}
+                      {% assign values = values | join: ',' %}
+                      {% assign values = values | append: ',' | append: variant.option1 %}
+                      {% assign values = values | split: ',' %}
+                    {% endunless %}
+                  {% endif %}
+                {% endfor %}
+
+                {% for option in variants_options %}
+                  <select class="cart-drawer__upsell-product-select" data-index="{{ forloop.index }}">
+                    <option value="" selected disabled>{{ option.name }}:</option>
+
+                    {% if forloop.first %}
+                      {% for value in values %}
+                        {% if value == blank %}{% continue %}{% endif %}
+                        <option value="{{ value }}">{{ value }}</option>
+                      {% endfor %}
+                    {% endif %}
+                  </select>
+                {% endfor %}
+
+                <select
+                  id="upsell-all-product-variants"
+                  name="items[{{- forloop.index0 -}}][id]"
+                  class="cart-drawer__upsell-all-product-variants hide"
+                  data-productid="{{ product.id }}"
+                >
+                  {% for variant in product.variants %}
+                    {% if variant.available %}
+                      <option value="{{ variant.id }}">{{- variant.title -}}</option>
+                    {% endif %}
+                  {% endfor %}
+                </select>
+              </div>
+
+              <input type="hidden" name="items[{{- forloop.index0 -}}][quantity]" value="1">
+
+              <div class="cart-drawer__upsell-atc-price-wrapper">
+                <button
+                  id="upsell-atc-{{ product.id }}"
+                  class="cart-drawer__upsell-atc-price btn"
+                  disabled
+                  data-variant="{{ product.selected_or_first_available_variant.id }}"
+                >
+                  {{ settings.upsell_atc_btn_text }}
+                </button>
+                <span class="cart-drawer__upsell-atc--mask"></span>
+              </div>
+            </form>
+          </div>
+          <p class="cart-drawer__upsell-alert">Please, select a variant to add to cart.</p>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+<script type="lazyload_int">
+  setTimeout(function () {
+    $.getJSON('/collections/{{- upsell_collection -}}/products.json', function (allProducts) {
+      window.ALLPRODUCTS = allProducts;
+
+      $(document).on('change', '.cart-drawer__upsell-product-select', function () {
+        try {
+          const $input = $(this);
+          const selectedValue = $input.val();
+          const $lineItem = $input.closest('.cart-drawer__upsell-product');
+          const index = parseInt($input.attr('data-index') || 1);
+          const nextOptionIndex = index + 1;
+          const productID = $lineItem.attr('data-product-id');
+          const product = window.ALLPRODUCTS.products.find(function (p) {
+            return p.id == productID;
+          });
+
+          if (!product) {
+            throw new Error('Product does not exist.');
+          }
+
+          if (nextOptionIndex > product.options.length) {
+            /* Set the variant */
+            let variant = product.variants;
+
+            $('.cart-drawer__upsell-product-select', $lineItem).each(function(i){
+              const value = $(this).val();
+
+              variant = variant.filter(function(v) {
+                return value == v['option' + (i + 1)];
+              });
+            });
+            
+            if (variant.length > 0) {
+              variant = variant[0];
+
+              $('.cart-drawer__upsell-all-product-variants', $lineItem).prop('disabled', false).val(variant.id).trigger('change');
+              $('.cart-drawer__upsell-atc-price', $lineItem).prop('disabled', false);
+            }
+          } else {
+            $('.cart-drawer__upsell-atc-price', $lineItem).prop('disabled', true);
+
+            /* Filter the variants based in the selected option */
+            let variants = product.variants.filter(function(variant) {
+              return variant.available && variant['option' + index] == selectedValue;
+            });
+            
+            /* Adjust the variants for the next option */
+            $input.nextAll('.cart-drawer__upsell-product-select').each(function(){
+              const options = $(this).find('option').not('[disabled]');
+
+              $(options).remove();
+            });
+
+            const optionsValues = [];
+            
+            variants.forEach(function(variant){
+              if (!optionsValues.includes(variant['option' + nextOptionIndex])) {
+                optionsValues.push(variant['option' + nextOptionIndex]);
+              }
+            });
+
+            const $nextInput = $input.next('.cart-drawer__upsell-product-select');
+            const $firstOption = $nextInput.find('option').first();
+            
+            optionsValues.forEach(function(value){
+              const newOption = document.createElement('option');
+              
+              newOption.setAttribute('value', value);
+              newOption.innerHTML = value;
+              
+              $nextInput.append(newOption);
+            });
+
+            $nextInput.val($firstOption.val());
+          }
+        } catch (err) {
+          console.error(err);
+        }
+      });
+    });
+  });
+</script>

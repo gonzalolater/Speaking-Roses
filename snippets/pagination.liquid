@@ -1,0 +1,63 @@
+<!-- start pagination.liquid (SNIPPET) -->
+{% if paginate.parts.size > 0 %}
+  <div class="pagination">
+    {%- if paginate.previous.is_link -%}
+      <a class="pagination__item pagination__item--nopage" href="{{- paginate.previous.url | default: '#' -}}">←</a>
+    {%- endif -%}
+
+    {%- for part in paginate.parts -%}
+      {%- if part.is_link -%}
+        <a class="pagination__item" href="{{- part.url | default: '#' -}}" data-page="{{ part.title | escape }}">
+          {{- part.title -}}
+        </a>
+      {%- else -%}
+        {%- if part.title == paginate.current_page -%}
+          <span class="pagination__item pagination__item--current">{{- part.title -}}</span>
+        {% else %}
+          <span class="pagination__item pagination__item--nopage">{{- part.title -}}</span>
+          {% continue %}
+        {%- endif -%}
+      {%- endif -%}
+    {%- endfor -%}
+
+    {%- if paginate.next.is_link -%}
+      <a class="pagination__item pagination__item--nopage" href="{{- paginate.next.url | default: '#' -}}">→</a>
+    {%- endif -%}
+  </div>
+
+  <style scope>
+    .pagination {
+      display: flex;
+      width: 100%;
+      justify-content: center;
+      margin-top: 10px;
+      padding: 10px 0;
+      border-top: 1px solid #ddd;
+      gap: 5px;
+    }
+
+    .pagination__item {
+      display: flex;
+      width: 30px;
+      height: 30px;
+      justify-content: center;
+      align-items: center;
+      border: 1px solid #ddd;
+      color: #888;
+      font-size: 0.9rem;
+    }
+
+    .pagination__item--current {
+      color: #000;
+      font-weight: bold;
+    }
+
+    .pagination__item--nopage {
+      border: none;
+    }
+  </style>
+{% else %}
+  <div class="collection-page__loading-more-wrapper">
+    <span class="collection-page__items--loaded">All items have been loaded.</span>
+  </div>
+{% endif %}

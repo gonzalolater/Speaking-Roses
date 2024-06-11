@@ -1,0 +1,157 @@
+<!-- start special-offer-badge.liquid (SNIPPET) -->
+{%- assign special_offer_badge_size = section.settings.vasta_badges_size -%}
+{%- assign special_offer_badge_width = 60 -%}
+
+<div id="shopify-section-special-offer-badge" class="shopify-section special-offer-badge-wrapper">
+  <div class="container-special-offer-badge">
+    {%- if section.settings.special_offer_badge_text != blank -%}
+      <span>{{ section.settings.special_offer_badge_text }}</span>
+    {%- endif -%}
+
+    <div class="container-special-offer-badge-bottom">
+      {%- assign image = section.settings.img_special_offer_badge -%}
+
+      {%- if section.settings.filter_by_tags == blank -%}
+        <div class="special-offer-badge-img col-{{ special_offer_badge_size }}">
+          {%- if section.settings.enable_img_special_offer_badge_cart -%}
+            {%- if section.settings.img_special_offer_badge.alt != blank -%}
+              {%- assign image_alt = section.settings.img_special_offer_badge.alt | strip_html | escape -%}
+            {%- elsif section.settings.title_special_offer_badge != blank -%}
+              {%- assign image_alt = section.settings.title_special_offer_badge | strip_html | escape -%}
+            {%- else -%}
+              {%- assign image_alt = 'Image without description.' -%}
+            {%- endif -%}
+
+            {%- assign image_id_prefix = 'special-offer-badge-img' | append: forloop.index -%}
+
+            {%- render 'responsive-image',
+              id: image_id_prefix,
+              image: image,
+              lazyload: true,
+              class: 'img-badges',
+              no_wrap: true,
+              alt: image_alt,
+              width: special_offer_badge_width
+            -%}
+          {%- else -%}
+            {%- if section.settings.enable_custom_special_offer_badge_svg -%}
+              <div class="custom-svg">
+                {%- assign special_offer_badge_svg = section.settings.custom_special_offer_badge_svg_html -%}
+                {{ special_offer_badge_svg }}
+              </div>
+            {%- else -%}
+              {%- assign image_id_prefix = 'special-offer-badge-icon' | append: forloop.index -%}
+              {%- assign special_offer_badge = section.settings.svg_special_offer_badge_cart | append: '.svg' -%}
+              {%- assign image_alt = section.settings.svg_special_offer_badge1
+                | escape
+                | replace: '-', ' '
+                | capitalize
+              -%}
+
+              <div class="special-offer-badge__svg-image">
+                <img
+                  width="50"
+                  height="50"
+                  class="special-offer__image"
+                  src="{{ special_offer_badge | asset_url }}"
+                  alt="{{ image_alt | escape | replace: "-" , " " | capitalize | default: 'Image without description.' }}"
+                >
+              </div>
+            {%- endif -%}
+          {%- endif -%}
+
+          {%- if section.settings.announcement_show_title_badges -%}
+            {%- if section.settings.title_special_offer_badge != blank -%}
+              <span class="title-badges {{ section.settings.special_offer_badge_text_transform }} {{ section.settings.special_offer_badge_text_weight }}">
+                {{- section.settings.title_special_offer_badge -}}
+              </span>
+            {%- endif -%}
+          {%- endif -%}
+        </div>
+      {%- else -%}
+        {%- assign list_filter_tags = section.settings.filter_by_tags | split: ';' -%}
+
+        {%- for tag_temp in list_filter_tags -%}
+          {%- assign contain_tag = false -%}
+          {%- for tag in product.tags -%}
+            {%- if tag_temp == tag -%}
+              {%- assign contain_tag = true -%}
+            {%- endif -%}
+          {%- endfor -%}
+
+          {%- if contain_tag -%}
+            <div class="special-offer-badge-img col-{{ special_offer_badge_size }}">
+              {%- if section.settings.enable_img_special_offer_badge_cart -%}
+                {%- if section.settings.img_special_offer_badge.alt != blank -%}
+                  {%- assign image_alt = section.settings.img_special_offer_badge.alt | strip_html | escape -%}
+                {%- elsif section.settings.title_special_offer_badge != blank -%}
+                  {%- assign image_alt = section.settings.title_special_offer_badge | strip_html | escape -%}
+                {%- else -%}
+                  {%- assign image_alt = 'Image without description.' -%}
+                {%- endif -%}
+
+                {%- assign badge_id = 'special-offer-badge-image-tag-' | append: forloop.index -%}
+                {%- render 'responsive-image',
+                  id: badge_id,
+                  image: section.settings.img_special_offer_badge,
+                  lazyload: true,
+                  class: 'img-badges',
+                  no_wrap: true,
+                  all: image_alt,
+                  width: special_offer_badge_width
+                -%}
+              {%- else -%}
+                {%- if section.settings.enable_custom_special_offer_badge_svg -%}
+                  <div class="custom-svg">{{ section.settings.custom_special_offer_badge_svg_html }}</div>
+                {%- else -%}
+                  {%- assign special_offer_badge = section.settings.svg_special_offer_badge_cart | append: '.svg' -%}
+                  {%- assign image_alt = section.settings.svg_special_offer_badge1
+                    | escape
+                    | replace: '-', ' '
+                    | capitalize
+                  -%}
+
+                  <div class="special-offer-badge__svg-image">
+                    <img
+                      width="50"
+                      height="50"
+                      data-class="LazyLoad"
+                      class="special-offer__image"
+                      src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAABhGlDQ1BJQ0MgcHJvZmlsZQAAKJF9kT1Iw0AcxV9Ta0UqDkYQcchQnSyIijhqFYpQIdQKrTqYXPohNGlIUlwcBdeCgx+LVQcXZ10dXAVB8APE0clJ0UVK/F9SaBHrwXE/3t173L0DhFqJ6XbHGKAbjpVKxKVMdkUKvyKETojoh6gw25yV5STajq97BPh6F+NZ7c/9OXq0nM2AgEQ8w0zLIV4nntp0TM77xCIrKhrxOfGoRRckfuS66vMb54LHAs8UrXRqjlgklgotrLYwK1o68SRxVNMNyhcyPmuctzjrpQpr3JO/MJIzlpe4TnMICSxgETIkqKhgAyU4iNFqkGIjRfvxNv5Bzy+TSyXXBhg55lGGDsXzg//B727t/MS4nxSJA6EX1/0YBsK7QL3qut/Hrls/AYLPwJXR9JdrwPQn6dWmFj0CereBi+umpu4BlzvAwJOpWIonBWkK+TzwfkbflAX6boHuVb+3xj5OH4A0dZW8AQ4OgZECZa+1eXdXa2//nmn09wMjG3KHDOS4EQAAAAlwSFlzAAAuIwAALiMBeKU/dgAAAAd0SU1FB+YFBhQWEhVMTaAAAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAADElEQVQI12O4f/8+AAU+Ap5GJPuHAAAAAElFTkSuQmCC"
+                      data-src="{{ special_offer_badge | asset_url }}"
+                      alt="{{ image_alt | escape | replace: "-" , " " | capitalize | default: 'Image without description.' }}"
+                    >
+                  </div>
+                {%- endif -%}
+              {%- endif -%}
+
+              {%- if section.settings.announcement_show_title_badges -%}
+                {%- if section.settings.title_special_offer_badge != blank -%}
+                  <span class="title-special-offer-badge {{ section.settings.special_offer_badge_text_transform }} {{ section.settings.special_offer_badge_text_weight }}">
+                    {{- section.settings.title_special_offer_badge -}}
+                  </span>
+                {%- endif -%}
+              {%- endif -%}
+            </div>
+
+            {%- break -%}
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+<style scoped>
+    :root{
+      --color-text-special-offer-badge:{{ section.settings.color_text_special_offer_badge }};
+      --copy-badges:{{ section.settings.vasta_copy_badges }}px;
+    }
+
+    .shopify-section.special-offer-badge-wrapper {
+      width: auto;
+    }
+    .price {
+      font-size: var(--collectionProductPriceSize);
+  }
+</style>

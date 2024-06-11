@@ -1,0 +1,169 @@
+.btn-v {
+	position: relative;
+	display: inline-block;
+	cursor: pointer;
+	padding: 15px;
+	letter-spacing: 1px;
+	text-align: center;
+	font-weight: 700;
+	transition: all 0.3s;
+}
+.homepage-style-1.banner .slider-buttons {
+	height: 100%;
+	position: absolute;
+	top: 0;
+}
+.homepage-style-1.banner .slider-buttons img{
+	width: 100%;
+}
+.homepage-style-1.banner .slider-buttons,
+.homepage-style-1.banner .slider-buttons a {
+	display: block;
+	width: 100%;
+}
+.homepage-style-1.banner .slider-buttons a,
+.homepage-style-1.banner .slider-buttons:before {
+	position: absolute;
+}
+.homepage-style-1.banner .slider-buttons .btn-v {
+	display: flex;
+	height: 71px;
+	font-size: 22px;
+	transform: translate(-50%, -50%);	
+	overflow: hidden;
+	padding: 1px 0 0 0;
+	flex-direction: column;
+	align-content: center;
+	justify-content: center;
+	align-items: center;
+}
+.homepage-style-1.banner .slider-buttons .btn-v.btn-2,
+.homepage-style-1.banner .slider-buttons .btn-v:before {
+	right: 0;
+	left: 0;
+}
+.homepage-style-1.banner .slider-buttons .btn-v.btn-1 {
+	left: 10%;
+}
+.homepage-style-1.banner .slider-buttons .btn-v.btn-2 {
+	bottom: 45%;
+	margin: 0 auto;
+}
+.homepage-style-1.banner .slider-buttons .btn-v.btn-3 {
+	right: 10%;
+}
+.homepage-style-1.banner .slider-buttons .btn-v.none:hover,
+.homepage-style-1.banner .slider-buttons .btn-v.none:active {
+	background-color: var(--vasta-buttons-hover-color, #006ba2);
+}
+.homepage-style-1.banner .slider-buttons .btn-v.effect_1:hover,
+.homepage-style-1.banner .slider-buttons .btn-v.effect_1:active {
+	background-color: var(--vasta-buttons-hover-color, #fff);
+}
+.homepage-style-1.banner .slider-buttons .btn-v.effect_1:hover:before,
+.homepage-style-1.banner .slider-buttons .btn-v.effect_1:active:before {
+	-webkit-transform: scaleX(1);
+	transform: scaleX(1);
+}
+.homepage-style-1.banner .slider-buttons .btn-v.effect_1:before {
+	content: "";
+	position: absolute;
+	z-index: -1;
+	top: 0;
+	bottom: 0;
+	background-color: var(--vasta-buttons-hover-color, #fff);
+	border-color: var(--vasta-buttons-hover-color, #006ba2);
+	transform: scaleX(0);
+	transition: cubic-bezier(0, 0.24, 0.84, 1.09) all 0.3s;
+}
+.homepage-style-1.banner .slider-buttons .btn-v.effect_2:hover,
+.homepage-style-1.banner .slider-buttons .btn-v.effect_2:active {
+	background-color: var(--vasta-buttons-hover-color, #fff);
+	border-color: var(--vasta-buttons-hover-text-color, #006ba2);
+}
+
+.homepage-style-1.banner .banner-img {
+	width: 100%;
+	position: relative;
+	overflow: hidden;
+}
+.homepage-style-1.banner .banner-img .main-mobile-link {
+	float: left;
+	width: 100%;
+	height: 100%;
+}
+.homepage-style-1.banner .banner-img img {
+	position: absolute;
+	width: 100%;
+	top: 0;
+	height: auto;
+}
+.homepage-style-1.banner .banner-titles {
+	position: absolute;
+	transform: translate(-50%, -50%);
+	text-align: center;
+	width: auto;
+	list-style-position: inside;
+}
+.homepage-style-1.banner .banner-sub-title ul {
+	list-style-position: inside;
+}
+.homepage-style-1.banner .banner-sub-title ul li:before {
+	content: "";
+	margin-right: -0.8rem;
+}
+.banner {
+	float: left;
+	width: 100%;
+	position: relative;
+	overflow: hidden;
+}
+.banner .banner-img {
+	margin: 0 auto;
+}
+.banner .banner-img img {
+	width: 100%;
+}
+
+@media (max-width: 1019px) {
+	.homepage-style-1.banner .slider-buttons .btn-v {
+		height: 60px;
+		line-height: calc(60px - 6px);
+		font-size: 15px;
+	}
+	.slider-buttons a {
+		max-width: 195px;
+		width: 184px;
+		height: 58px;
+		line-height: calc(58px - 6px);
+		font-size: 0.75rem;
+	}
+	.slider-buttons a:first-child,
+	.slider-buttons a:last-child {
+		top: 50%;
+	}
+	.slider-buttons a:first-child,
+	.slider-buttons a:last-child {
+		top: 50%;
+	}
+	.slider-buttons a:nth-child(2) {
+		top: 50%;
+	}
+}
+
+@media (max-width: 767px) {
+	.homepage-style-1.banner .slider-buttons .btn-v {
+		height: 50px;
+		line-height: calc(50px - 6px);
+		font-size: 14px;
+		margin: 0 auto;
+	}
+}
+
+@media (max-width: 479px) {
+	.homepage-style-1.banner .slider-buttons .btn-v {
+		height: 45px;
+		line-height: calc(45px - 6px);
+		font-size: 12px;
+	}
+}

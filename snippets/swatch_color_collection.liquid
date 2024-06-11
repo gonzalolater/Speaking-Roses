@@ -1,0 +1,62 @@
+<!-- start swatch_color_collection.liquid (SNIPPET) -->
+{%- assign option_index = -1 -%}
+{%- assign values = '' -%}
+{%- assign variantsCount = prod.variants | size -%}
+{%- assign product_without_image = prod.featured_image -%}
+
+{%- assign name_swatch = 'color' -%}
+{%- if settings.label_swatch_color_collection != blank -%}
+  {%- assign name_swatch = settings.label_swatch_color_collection | downcase -%}
+{%- endif -%}
+
+{%- if variantsCount > 1 -%}
+  {%- for product_option in prod.options_with_values -%}
+    {%- assign downcasedProductOptionName = product_option.name | downcase -%}
+
+    {%- if downcasedProductOptionName contains name_swatch -%}
+      {%- assign option_index = forloop.index0 -%}
+      {%- break -%}
+    {%- endif -%}
+  {%- endfor -%}
+
+  {%- if option_index > -1 -%}
+    {%- for variant in prod.variants -%}
+      {%- assign value = variant.options[option_index] -%}
+
+      {%- if variant.available or settings.enable_out_of_stock_button == true -%}
+        {%- unless values contains value -%}
+          {%- assign values = values | join: ',' -%}
+          {%- assign values = values | append: ',' | append: value -%}
+          {%- assign values = values | split: ',' -%}
+
+          {%- assign img_swatch = variant.featured_image | image_url: width: 420 -%}
+          {%- if img_swatch contains '/no-image' -%}
+            {%- assign img_swatch = product_without_image | image_url: width: 420 -%}
+          {%- endif -%}
+          {%- assign url_variant = variant.url -%}
+          {%- assign id_variant = variant.id -%}
+
+          {%- assign css_value = value | handle -%}
+          {%- assign bg_image_css_value = css_value | append: '.jpg' | file_img_url: '50x' -%}
+
+          <a
+            title="{{ value }}"
+            id="swatch-color-variant-{{ id_variant }}"
+            aria-label="Swatch Color Variant"
+            href="{{ url_variant | default: '#' }}"
+            class="swatch-element swatch-element-color {% if settings.swatch_round %} round{% endif %}"
+          >
+            <span
+              class="{% if custom_colors %}{{ value | handle }}-custom-color{% endif %} swatch-value swatch-value-color color swatch-background-{{ css_value }} lazybg"
+              data-img="{{ img_swatch }}"
+              data-style="background-color: {{ css_value }};"
+            ></span>
+            <span
+              class="swatch-value-checked {% if settings.select_swatch_collection ==  'color' %}color{% else %}size{% endif %}"
+            ></span>
+          </a>
+        {%- endunless -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endif -%}
+{%- endif -%}

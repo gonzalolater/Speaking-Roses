@@ -1,0 +1,408 @@
+<!-- Subscriptions Powered by ReCharge Payments: Begin Liquid Code -->
+<!--
+  Subscription Cart Footer
+  http://rechargepayments.com: v3.2.6
+  Updated: 2020/03/13
+-->
+{% comment %}Subscriptions Powered by ReCharge Payments: Meta Fields{% endcomment %}
+{% assign has_subscriptions = false %}
+{% for i in cart.items %}
+  {% for p in i.properties %}
+    {% if p.first == 'shipping_interval_frequency' %}
+      {% assign has_subscriptions = true %}
+    {% endif %}
+  {% endfor %}
+{% endfor %}
+{% if has_subscriptions %}
+  <!-- Subscriptions Powered by ReCharge Payments: CSS -->
+  <style>
+    form[action^='/cart'] [type='submit'] {
+      visibility: hidden;
+    }
+    .extra-checkout-buttons,
+    .additional-checkout-button,
+    .additional-checkout-buttons,
+    .amazon-payments-pay-button,
+    .google-wallet-button-holder,
+    .cart__additional_checkout,
+    #additional-checkout-buttons,
+    #a_p_c {
+      display: none !important;
+    }
+  </style>
+  <!-- Subscriptions Powered by ReCharge Payments: JS -->
+  <script type="lazyload_int">
+    function get_cart_token() {
+    	// Build the cart_token param for the URL generator
+    	try {
+    		return ['cart_token=' + (document.cookie.match('(^|; )cart=([^;]*)')||0)[2]];
+    	} catch (e) {
+    		return [];
+    	}
+    }
+    function get_ga_linker() {
+    	// Build the ga_linker param for the URL generator
+    	try {
+    		return [ga.getAll()[0].get('linkerParam')];
+    	} catch (e) {
+    		return [];
+    	}
+    }
+    function buildCustomerObject(email_address, address_object) {
+    	// Return a data object with the customer shipping address
+    	var data = {
+    		email: email_address
+    	};
+    	try {
+    		return Object.assign(data, address_object);
+    	} catch (e) {
+    		return data;
+    	}
+    }
+    function getCartJSON() {
+    	if (ReCharge.cart_options && !ReCharge.cart_options.cartjson) return {};
+    	return fetch('/cart.js')
+    		.then(function(response) {
+    			return response.json();
+    		})
+    		.then(function(json) {
+    			return ({ cart: JSON.stringify(json) });
+    		})
+    		.catch(function(error) {
+    			console.error('Error retreiving cart: ', error);
+    			return ({ cart: JSON.stringify(ReCharge.cart)});
+    		});
+    }
+    function restoreCheckoutButton() {
+    	// Reverse embedded CSS that hides the submit button
+    	// This is done to discourage the chance a user hits "Checkout" before the page is done loading
+    	var cart_buttons = document.querySelectorAll('form[action^="/cart"] [type="submit"]'),
+    		buttons_to_update = Array.prototype.slice.apply(cart_buttons);
+    	buttons_to_update.forEach(function(elem) {
+    		elem.style.visibility = 'visible';
+    	});
+    }
+    function updateProductUrls(items) {
+    	// Map hidden product handles back to their original product handle
+    	Object.keys(items).forEach(function(id) {
+    		var product = items[id],
+    			product_url = product['url'],
+    			product_handle = product['original_handle'],
+    			product_links = document.querySelectorAll('a[href*="' + product_url + '"]');
+    		var links_to_update = Array.prototype.slice.apply(product_links);
+    		links_to_update.forEach(function(link) {
+    			link.setAttribute('href', '/products/' + product_handle);
+    		});
+    	});
+    }
+    function buildCheckoutUrl(options) {
+    	// Build the Checkout URL
+    	var checkout_url = 'https://' + options.checkout_domain + '/r/checkout?',
+    		url_params = [
+    			'myshopify_domain=' + options.permanent_domain,
+    		];
+    	url_params = url_params
+    		.concat(get_cart_token())
+    		.concat(get_ga_linker());
+    	return checkout_url + url_params.join('&');
+    }
+    function filterVisible(elems) {
+    	// Return visible elements
+    	return elems.filter(function(elem) {
+    		return !!(elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length);
+    	});
+    }
+    function filterValues(elems) {
+    	// Return inputs with valid values
+    	return elems.filter(function(elem) {
+    		var is_active_checkbox = elem.getAttribute('type') === 'radio' && elem.checked,
+    			is_active_radio = elem.getAttribute('type') === 'checkbox' && elem.checked,
+    			is_input = elem.getAttribute('type') !== 'checkbox' && elem.getAttribute('type') !== 'radio';
+    		return !!elem.value && (is_input || is_active_checkbox || is_active_radio);
+    	});
+    }
+    function getTermsAndConditions() {
+    	// Find and return concacted terms and conditions values
+    	var condition_selectors = [
+    			'#terms',
+    			'#agree',
+    		],
+    		conditions = document.querySelectorAll(condition_selectors.join(',')),
+    		conditions_to_update = Array.prototype.slice.apply(conditions),
+    		conditions_filtered = filterValues(conditions_to_update),
+    		condition_values = conditions_filtered.map(function(elem) {
+    			return elem.value;
+    		});
+    	if (!condition_values.length) { return {}; }
+    	return {
+    		terms_and_conditions: condition_values.join(', ')
+    	};
+    }
+    function getNotes() {
+    	// Find and return concatenated note values if visible
+    	var note_selectors = [
+    			'[name="note"]',
+    		],
+    		notes = document.querySelectorAll(note_selectors.join(',')),
+    		notes_to_update = Array.prototype.slice.apply(notes),
+    		notes_filtered = filterVisible(notes_to_update),
+    		note_values = notes_filtered.map(function(elem) { return elem.value; });
+    	var urlParams = new URLSearchParams(decodeURIComponent(window.location.search)),
+    		noteFromUrl = urlParams.get('note');
+    	if (ReCharge.cart.note) {
+    		note_values.push(ReCharge.cart.note);
+    	}
+    	if (noteFromUrl) {
+    		note_values.push(noteFromUrl);
+    	}
+    	if (!note_values.length) return '';
+    	var uniqueNoteValues = note_values.filter(function(element, index, array) {
+    		return array.indexOf(element) === index;
+    	});
+    	return { note: uniqueNoteValues.join(', ') };
+    }
+    function getAttributes() {
+    	// Find and return cart attributes
+    	var attributeRegEx = /attributes\[(.*?)\]/,
+    		attributeNameRegex = /\[(.*?)\]/,
+    		attribute_selectors = [
+    			'[name*="attributes"]',
+    		],
+    		attributes = document.querySelectorAll(attribute_selectors.join(',')),
+    		attributes_to_update = Array.prototype.slice.apply(attributes),
+    		attributes_filtered = filterValues(attributes_to_update);
+    	var attribute_data = {},
+    		utm_attributes = getUTMAttributes(),
+    		attributes_from_url = new URLSearchParams(decodeURIComponent(window.location.search));
+    	for (let pair of attributes_from_url) {
+    		if (attributeRegEx.test(pair[0])) {
+    			var attributeName = pair[0]
+    				.match(attributeNameRegex)[0];
+    			attributeName = attributeName.substring(1, attributeName.length -1);
+    			attribute_data[attributeName] = attributes_from_url.get(pair[0]);
+    		}
+    	}
+    	attributes_filtered.forEach(function(attribute) {
+    		var name = attribute.getAttribute('name'),
+    			value = attribute.value;
+    		if (attributeRegEx.test(name)) {
+    			var extractedName = name.match(attributeNameRegex)[0];
+    			extractedName = extractedName.substring(1, extractedName.length -1);
+    			return attribute_data[extractedName] = value;
+    		}
+    		return attribute_data[name] = value;
+    	});
+    	if (utm_attributes) {
+    		Object.keys(utm_attributes).forEach(function(key) {
+    			attribute_data[key] = utm_attributes[key];
+    		});
+    	}
+    	if (!Object.keys(attribute_data).length) return {};
+    	return { attributes: Object.assign({}, attribute_data) };
+    }
+    function getUTMAttributes() {
+    	// Retrieve UTMAttributes from Shopify cookie
+    	var shopifyCookieRegEx = /^_shopify_sa_p/;
+    	var utmRegEx = /^utm_/;
+    	var timestampRegEx = /^_shopify_sa_t/;
+    	var utmParams = {};
+    	var shopifyCookie = "";
+    	var timestamp = "";
+    	document.cookie.split(";")
+    			.map(function(s){
+    				return s.trim();
+    			})
+    			.forEach(function(s){
+    				if (shopifyCookieRegEx.test(s)) {
+    					shopifyCookie = s;
+    				}
+    				if (timestampRegEx.test(s)) {
+    					timestamp = decodeURIComponent(s.split("=")[1]);
+    				}
+    				return;
+    			});
+    	var utmValuesFromCookie = shopifyCookie.split("=")[1];
+    	decodeURIComponent(utmValuesFromCookie)
+    		.split("&")
+    		.forEach(function(s){
+    			var key = s.split("=")[0];
+    			var val = s.split("=")[1];
+    			if (utmRegEx.test(key)) {
+    				return utmParams[key] = val;
+    			}
+    			return;
+    		});
+    	if (!Object.keys(utmParams).length) {
+    		return undefined;
+    	}
+    	utmParams.utm_timestamp = timestamp;
+    	utmParams.utm_data_source = "shopify_cookie";
+    	return utmParams;
+    }
+    function getCartData(customer) {
+    	// Return cart attributes and data
+    	return getCartJSON().then(function(cartDataJSON) {
+    		var cart_data = {},
+    	 		termsAndConditions = getTermsAndConditions(),
+    	 		notes = getNotes(),
+    	 		attributes = getAttributes(),
+    			cart_data = cartDataJSON,
+    	 		customer_data = buildCustomerObject(customer.email, customer.default_address);
+
+    		[termsAndConditions, notes, attributes, cart_data, customer_data].forEach(function(obj) {
+    	 		Object.assign(cart_data, obj);
+    		});
+
+    		return cart_data;
+    	});
+    }
+    function buildInputs(form, obj) {
+    	// Build input fields for key, value pairs
+    	Object.keys(obj).forEach(function(key) {
+    		var input = document.createElement('input');
+    		input.setAttribute('type', 'hidden');
+    		input.setAttribute('name', key);
+    		input.setAttribute('value', typeof(obj[key]) === 'object' ? JSON.stringify(obj[key]) : obj[key]);
+    		form.appendChild(input);
+    	});
+    }
+    function getSubmitButtons() {
+    	// Find all submit buttons
+    	var submit_selectors = [
+    			'form[action="/cart"] input[type="submit"]',
+    			'[name="checkout"]',
+    			'[href="/checkout"]',
+    			'form[action="/checkout"] input[type="submit"]',
+    			'.checkout_button',
+    		],
+    		buttons = document.querySelectorAll(submit_selectors.join(',')),
+    		all_buttons = Array.prototype.slice.apply(buttons),
+    		submit_buttons = all_buttons.filter(function(elem) {
+    			// Don't watch update buttons
+    			return elem.name !== 'update';
+    		});
+    	return submit_buttons;
+    }
+    function getOptions() {
+    	// Find all submit buttons
+    	var option_selectors = [
+    			'[name="updates[]"]'
+    		],
+    		options = document.querySelectorAll(option_selectors.join(',')),
+    		options_to_update = Array.prototype.slice.apply(options);
+    	return options_to_update;
+    }
+    function buildForm(data, url) {
+    	// Build a virtual form
+    	var form = document.createElement('form');
+    	form.setAttribute('method', 'post');
+    	form.setAttribute('action', url);
+    	form.setAttribute('id', 'rc_form');
+    	form.style.display = 'none';
+    	buildInputs(form, data);
+    	return form;
+    }
+    function cartSubmit(options, customer) {
+    	// Build and submit cart
+    	return getCartData(customer).then(function(cart_data) {
+    	var checkout_url = buildCheckoutUrl(options);
+    	if (!cart_data) {
+    		window.location.href = checkout_url;
+    		return;
+    	}
+    	var xhr = new XMLHttpRequest();
+    	xhr.open('POST', '/cart/update.js');
+    	xhr.setRequestHeader('Content-Type', 'application/json');
+    	xhr.onload = function() {
+    		if (xhr.status === 200) {
+    			window.console.log('done', JSON.parse(xhr.responseText));
+    		} else if (xhr.status !== 200) {
+    			window.console.log('fail', JSON.parse(xhr.responseText));
+    		}
+    		var form = buildForm(cart_data, checkout_url);
+    		document.body.appendChild(form);
+    		form.submit();
+    	};
+    	xhr.send(JSON.stringify(cart_data));
+    });
+    }
+    if (!window.ReCharge) { window.ReCharge = {}; }
+    // Run JavaScript when document has loaded
+    ReCharge.cart_options = {
+    		active: {{ shop.metafields.subscriptions.subscription_active | default: 'false' }},
+    		money_format: {{ shop.money_format | json }},
+    		permanent_domain: {{ shop.permanent_domain | json }},
+    		checkout_domain: {{ shop.metafields.subscriptions.checkout_domain | default: 'checkout.rechargeapps.com' | json }},
+    		has_subscriptions: {{ has_subscriptions }},
+    		cart_currency: {{ cart.currency.iso_code | json }},
+    		disable: false,
+    		cartjson: true,
+    	},
+    	ReCharge.customer =  {
+    		email: {{ customer.email | default: '' | json }},
+    		default_address: {
+    			{% if customer.default_address %}
+    				first_name: {{ customer.default_address.first_name | json }},
+    				last_name: {{ customer.default_address.last_name | json }},
+    				address1: {{ customer.default_address.address1 | json }},
+    				address2: {{ customer.default_address.address2 | json }},
+    				city: {{ customer.default_address.city | json }},
+    				company: {{ customer.default_address.company | json }},
+    				country: {{ customer.default_address.country | json }},
+    				province: {{ customer.default_address.province | json }},
+    				phone: {{ customer.default_address.phone | json }},
+    				zip: {{ customer.default_address.zip | json }}
+    			{% endif %}
+    		}
+    	},
+    	ReCharge.cart = {{ cart | default: '' | json }},
+    	ReCharge.subscriptions = {
+    		{% for item in cart.items %}
+    			{% if item.product.metafields.subscriptions.original_handle %}
+    				{{ item.id }}: {
+    					url: {{ item.product.url | json }},
+    					original_handle: {{ item.product.metafields.subscriptions.original_handle | json }}
+    				},
+    			{% endif %}
+    		{% endfor %}
+    	};
+    var reChargeCartJS = function() {
+    	var submit_buttons = getSubmitButtons();
+    	submit_buttons.forEach(function(button) {
+    		button.addEventListener('click', function(evt) {
+    			var disable_recharge = evt.target.getAttribute('data-disable-recharge');
+    			if (ReCharge.cart_options && !ReCharge.cart_options.disable && (!disable_recharge || disable_recharge !== 'true')) {
+    				evt.preventDefault();
+    				cartSubmit(ReCharge.cart_options, ReCharge.customer);
+    			} else {
+    				window.console.log('ReCharge was disabled intentionally.');
+    			}
+    		});
+    	});
+    	updateProductUrls(ReCharge.subscriptions);
+    	restoreCheckoutButton();
+    };
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+    	try {
+    		reChargeCartJS();
+    	} catch(e) {
+    		window.console.log(e);
+    		restoreCheckoutButton();
+    	}
+    } else {
+    	try {
+    		document.addEventListener('w3-DOMContentLoaded', reChargeCartJS);
+    	} catch(e) {
+    		window.console.log(e);
+    		restoreCheckoutButton();
+    	}
+    }
+    // If page is loaded from cache (browser back/forward button), force page reload
+    window.addEventListener('pageshow', function(event) {
+    	if (event.persisted || window.performance && window.performance.navigation.type == 2) {
+    		window.location.reload();
+    	}
+    }, false);
+  </script>
+{% endif %}
+<!-- Subscriptions Powered by ReCharge Payments: End Liquid Code -->

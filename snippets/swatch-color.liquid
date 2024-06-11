@@ -1,0 +1,37 @@
+<!-- start swatch-color.liquid (SNIPPET) -->
+
+{% assign i = swatch_index | plus: 0 | minus: 1 %}
+
+{%- for val in values -%}
+  {%- assign value = val | replace: '"', '&quot;' | replace: "'", '&apos;' -%}
+
+  <label
+    id="prod-swatch-color-{{ value | downcase }}-{{ swatch_index }}"
+    class="swatch-element swatch-element-color {% if type == 'style' %}swatch-style-option{% endif %} {% if settings.swatch_round_color_product_page %} round{% endif %}"
+    data-swatch="{{ value }}"
+  >
+    <input
+      type="radio"
+      id="id-jq-swatch-color-element-{{ forloop.index }}-{{ swatch_index }}"
+      class="swatch-variant-value jq-swatch-element"
+      value="{{ value }}"
+      data-swatch-index="{{ swatch_index }}"
+      name="swatch_element_color_option_{{ swatch_index }}"
+      {% if value == variant.options[i] and swatch_index == 1 %}
+        checked
+      {% endif %}
+      required
+    >
+
+    {%- assign css_value = val | handle -%}
+    {%- assign bg_image_css_value = css_value | append: '.jpg' | file_img_url: '50x' -%}
+    <span
+      class="lazybg {% if custom_colors %} {{ value | handle }}-custom-color {% endif %}swatch-value swatch-background-{{ css_value }} {{value | handle}}"
+      style="background-color: {{css_value}}; background-image: url('{{ bg_image_css_value }}');"
+    ></span>
+    <span
+      class="{% if settings.swatch_round_color_product_page %}swatch-value-color-circle-checked{% else %}swatch-value-checked{% endif %}"
+    ></span>
+    <span class="tooltip">{{ value }}</span>
+  </label>
+{%- endfor -%}

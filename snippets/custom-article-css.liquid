@@ -1,0 +1,11 @@
+<!-- snippets/custom-blog-css -->
+{%- capture article_css -%}
+<style>
+    .template-article article{
+        margin: 0 0 60px;
+    }
+
+    
+</style>
+{%- endcapture -%}
+{{- article_css | strip_newlines | replace: '    ', ' ' | replace: '   ', ' ' | replace: '  ', ' ' -}}

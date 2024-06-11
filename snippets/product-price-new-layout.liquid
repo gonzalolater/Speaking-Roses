@@ -1,0 +1,62 @@
+<!-- start product-price-new-layout.liquid (SNIPPET) -->
+{%- assign variant = product.selected_or_first_available_variant -%}
+
+{%- if settings.product_enabled_app_reviews -%}
+    <div class="products-reviews-stars no-mobile">
+        {%- render 'reviews-stars' -%}
+    </div>
+{%- endif -%}
+
+{%- if section.settings.enable_new_layout -%}
+    <div class="new-product-price">
+        {% if section.settings.enable_special_offer_badge %}
+            {%- render 'special-offer-badge' -%}
+        {% endif %}
+
+        <span class="new-current-price" id="product-price" data-product-price="{{ variant.price }}">
+            <span class="new-current-price-wrapper">
+                <span class="product-symbol-price price">{{ cart.currency.symbol }}</span>
+                <span class="new-product-price-value jq-new-price price recharger-price">{{ variant.price | money_without_currency }}</span>
+            </span>
+        </span>
+
+        <span class="new-price-discounts-wrapper">
+            <span class="new-layout-price" style="display: none;">
+                <span class="new-compare-price compare-price jq-new-compare-price">{{ variant.compare_at_price | money }}</span>
+            </span>
+
+            <span class="compare-price {% unless variant.compare_at_price > variant.price %}hide{%endunless%}">
+                {%- if variant.compare_at_price > variant.price -%}
+                    {{ cart.currency.symbol }}
+                    {{ variant.compare_at_price | money_without_currency }}
+                {%- endif -%}
+            </span>
+
+            {%- render 'you-save' with variant: variant, enable_you_save: settings.enable_you_save -%}
+
+            {%- render 'price-per-unit' with variant: variant -%}
+        </span>
+    </div>
+
+    {%- if product.metafields.field.short_description != blank and section.settings.select_position_short_description == "after" -%}
+        <div class="meta-short-description" {%- if section.settings.enable_short_description == false -%} style="display: none;"{%- endif -%} >  {{ product.metafields.field.short_description }} </div>
+    {%- endif -%}
+{%- else -%}
+    <div class="product-price">
+        <span class="compare-price {% unless variant.compare_at_price > variant.price %}hide{%endunless%}">
+            {%- if variant.compare_at_price > variant.price -%}
+                {{ variant.compare_at_price | money_without_currency }}
+            {%- endif -%}
+        </span>
+
+        <span class="current-price price recharger-price" id="product-price" data-product-price="{{ variant.price }}">{{ variant.price | money }}</span>
+
+        {%- render 'price-per-unit' with variant: variant -%}
+
+        {%- render 'you-save' with variant: variant, enable_you_save: settings.enable_you_save -%}
+        
+    </div>
+    {%- if product.metafields.field.short_description != blank and section.settings.select_position_short_description == "after" -%}
+        <div class="meta-short-description" {%- if section.settings.enable_short_description == false -%} style="display: none;"{%- endif -%} >  {{ product.metafields.field.short_description }} </div>
+    {%- endif -%}
+{%- endif -%}

@@ -1,0 +1,33 @@
+<!-- social-sharing.liquid (SNIPPET) -->
+<div class="social-share-info">
+
+  <span class="social-share-title">{{ settings.social_share_title }}</span>
+
+{%- if settings.share_facebook -%}
+  <!-- Facebook (url) -->
+  <a target="_blank" class="social-share icon-facebook" title="Share this on Facebook" href="https://www.facebook.com/sharer/sharer.php?u={{ shop.url | append: product.url }}">
+    {%- render 'icon-facebook' -%}
+  </a>
+{%- endif -%}
+
+{%- if settings.share_twitter -%}
+  <!-- Twitter (url, text, @mention) -->
+  <a target="_blank" class="social-share icon-twitter" title="Share this on Twitter" href="https://twitter.com/share?url={{ shop.url | append: product.url }}&text=Check out {{ product.title }}">
+    {%- render 'icon-twitter' -%}
+ </a>
+{%- endif -%}
+
+{%- if settings.share_pinterest -%}
+  <a target="_blank" class="social-share icon-pinterest" title="Share this on Pinterest" href="//pinterest.com/pin/create/button/?url={{ shop.url | append: product.url }}&amp;media=http:{{ product.featured_image | image_url }}&amp;description=Check out {{ share_title | url_param_escape }}">
+    {%- render 'icon-pinterest' -%}
+  </a>
+{%- endif -%}
+
+{%- if settings.share_email -%}
+  <!-- Email (subject, body) -->
+  <a class="social-share icon-envelope" href="mailto:?subject={{ product.title }}&body=Check out {{ product.title }} on {{ shop.url }}{{ product.url }}">
+    {%- render 'icon-envelope' -%}
+  </a>
+{%- endif -%}
+
+</div>

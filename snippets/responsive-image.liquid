@@ -1,0 +1,97 @@
+<!-- start responsive-image.liquid (SNIPPET) -->
+
+{% comment %}
+  New Responsive Image
+
+  # Parameters
+
+  image:
+  id:
+  width:
+  height:
+  alt:
+  class:
+  lazyload:
+  no_wrap:
+  placeholder:
+{% endcomment %}
+
+{%- if image.src == blank -%}
+  {%- assign image_placeholder = placeholder | default: 'image' -%}
+  {%- assign image_placeholder_class = class | append: ' responsive-image--no-image' -%}
+
+  {{ image_placeholder | placeholder_svg_tag: image_placeholder_class }}
+{%- else -%}
+  {%- assign timestamp = 'now' | date: '%N' -%}
+
+  {%- assign image_id = id | default: timestamp -%}
+  {%- assign image_class = 'responsive-image ' | append: class | strip -%}
+
+  {%- assign image_alt = alt | default: image.alt -%}
+  {%- assign image_alt = image_alt | default: 'Image' -%}
+  {%- assign image_alt = image_alt | escape -%}
+
+  {%- assign image_width = width | default: image.width | plus: 0 -%}
+  {%- assign image_height = height -%}
+
+  {%- if height == blank or height == null -%}
+    {%- assign image_height = width | divided_by: image.aspect_ratio | round: 0 -%}
+  {%- endif -%}
+
+  {%- assign image_sizes = sizes
+    | default: '(max-width: 479px) 480px, (max-width: 767px) 768px, (max-width: 1019px) 1020px, (max-width: 1279px) 1280px'
+  -%}
+
+  {%- capture html_image -%}
+  {%- if lazyload == true -%}
+    {%- capture data_src -%}
+      {%- assign w = 100 -%}
+      {%- for width in (0..100) -%}
+        {{ image.src | image_url: width: w }} {{ w }}w,
+        {%- if w > image_width -%}{%- break -%}{%- endif -%}
+        {%- assign w = w | times: 1.53 | round: 0 -%}
+      {%- endfor -%}
+    {%- endcapture -%}
+
+    <img
+      id="{{- image_id -}}"
+      src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAABhGlDQ1BJQ0MgcHJvZmlsZQAAKJF9kT1Iw0AcxV9Ta0UqDkYQcchQnSyIijhqFYpQIdQKrTqYXPohNGlIUlwcBdeCgx+LVQcXZ10dXAVB8APE0clJ0UVK/F9SaBHrwXE/3t173L0DhFqJ6XbHGKAbjpVKxKVMdkUKvyKETojoh6gw25yV5STajq97BPh6F+NZ7c/9OXq0nM2AgEQ8w0zLIV4nntp0TM77xCIrKhrxOfGoRRckfuS66vMb54LHAs8UrXRqjlgklgotrLYwK1o68SRxVNMNyhcyPmuctzjrpQpr3JO/MJIzlpe4TnMICSxgETIkqKhgAyU4iNFqkGIjRfvxNv5Bzy+TSyXXBhg55lGGDsXzg//B727t/MS4nxSJA6EX1/0YBsK7QL3qut/Hrls/AYLPwJXR9JdrwPQn6dWmFj0CereBi+umpu4BlzvAwJOpWIonBWkK+TzwfkbflAX6boHuVb+3xj5OH4A0dZW8AQ4OgZECZa+1eXdXa2//nmn09wMjG3KHDOS4EQAAAAlwSFlzAAAuIwAALiMBeKU/dgAAAAd0SU1FB+YFBhQWEhVMTaAAAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAADElEQVQI12O4f/8+AAU+Ap5GJPuHAAAAAElFTkSuQmCC"
+      data-src="{{- image.src | image_url: width: 50 -}}"
+      data-srcset="{{- data_src -}}"
+      sizes="{{- image_sizes -}}"
+      class="{{- image_class -}}"
+      data-class="LazyLoad"
+      alt="{{- image_alt -}}"
+      loading="lazy"
+      width="{{- image_width -}}"
+      height="{{- image_height -}}"
+    >
+  {%- else -%}
+  {%- capture data_src -%}
+  {%- assign w = 100 -%}
+  {%- for width in (0..100) -%}
+    {{ image.src | image_url: width: w }} {{ w }}w,
+    {%- if w > image_width -%}{%- break -%}{%- endif -%}
+    {%- assign w = w | times: 1.53 | round: 0 -%}
+  {%- endfor -%}
+{%- endcapture -%}
+
+<img
+  id="{{- image_id -}}"
+  class="{{- image_class -}}"
+  src="{{- image.src | image_url: width: 50 -}}"
+  srcset="{{- data_src -}}"
+  sizes="{{- image_sizes -}}"
+  alt="{{- image_alt -}}"
+  width="{{- image_width -}}"
+  height="{{- image_height -}}"
+>
+  {%- endif -%}
+  {%- endcapture -%}
+
+  {%- if no_wrap == false -%}
+    <div class="responsive-image__wrapper">{{- html_image -}}</div>
+  {%- else -%}
+    {{- html_image -}}
+  {%- endif -%}
+{%- endif -%}

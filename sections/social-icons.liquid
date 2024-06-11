@@ -1,0 +1,311 @@
+<div class="wrapper social-icons-section">
+  {%- if section.settings.title != blank -%}
+    <h2 class="section-title">{{ section.settings.title }}</h2>
+  {%- endif -%}
+  <div class="info">
+    <div class="social-net icon-title-position-{{ section.settings.icon_title_position }}">
+      {%- for block in section.blocks -%}
+        {%- if 'social' == block.type -%}
+          {%- case block.settings.social_media -%}
+            {%- when 'icon-facebook' -%}
+              {%- assign social_link = settings['link-facebook'] -%}
+
+            {%- when 'icon-instagram' -%}
+              {%- assign social_link = settings['link-instagram'] -%}
+
+            {%- when 'icon-pinterest' -%}
+              {%- assign social_link = settings['link-pinterest'] -%}
+
+            {%- when 'icon-snapchat' -%}
+              {%- assign social_link = settings['link-snapchat'] -%}
+
+            {%- when 'icon-tumblr' -%}
+              {%- assign social_link = settings['link-tumblr'] -%}
+
+            {%- when 'icon-twitter' -%}
+              {%- assign social_link = settings['link-twitter'] -%}
+
+            {%- when 'icon-vimeo' -%}
+              {%- assign social_link = settings['link-vimeo'] -%}
+
+            {%- when 'icon-youtube' -%}
+              {%- assign social_link = settings['link-youtube'] -%}
+
+            {%- when 'icon-tiktok' -%}
+              {%- assign social_link = settings['link-tiktok'] -%}
+          {%- endcase -%}
+
+          <a
+            title="{{ block.settings.social_media | strip_html | escape }}"
+            aria-label="ftr-social-{{ block.id }}"
+            id="ftr-social-{{ block.id }}"
+            href="{{ social_link | default: '#' }}"
+            target="_blank"
+          >
+            {%- render 'icon-media-social' with icon: block.settings.social_media, show_title: section.settings.show_title -%}
+          </a>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+<style scoped>
+  #shopify-section-{{ section.id }} {
+    {% if section.settings.enable_custom_margins_paddings %}
+      margin-top: {{ section.settings.custom-margin-top }}px;
+      margin-bottom: {{ section.settings.custom-margin-bottom }}px;
+      padding-top: {{ section.settings.custom-padding-top }}px;
+      padding-bottom: {{ section.settings.custom-padding-bottom }}px;
+    {% else %}
+      margin: 20px 0;
+    {% endif %}
+  }
+
+  .social-icons-section .social-net {
+    display: flex;
+    justify-content: {{ section.settings.position_social_and_info }};
+  }
+
+  .social-icons-section .section-title {
+    text-transform: {{ section.settings.section_title_text_transform }};
+  }
+
+  .social-icons-section .social-net a {
+    margin-right: 35px;
+    display: flex;
+  }
+
+  .icon-title-position-below a {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: {{ section.settings.social_icon_color }};
+  }
+
+  .icon-title-position-below .social-icon-label {
+    display: block;
+    margin-top: 5px;
+  }
+
+  .icon-title-position-right .social-icon-label {
+    margin-left: 5px;
+    display: flex;
+    align-items: center;
+    color: {{ section.settings.social_icon_color }};
+  }
+
+  .social-icons-section .social-net svg {
+    width: 30px;
+    height: 30px;
+    fill: {{ section.settings.social_icon_color }};
+  }
+
+  .social-icons-section .social-net a:last-of-type {
+    margin-right: 0;
+  }
+
+</style>
+{% schema %}
+{
+  "name": "Social Icons",
+  "settings": [
+    {
+      "type": "header",
+      "content": "General Settings"
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom Class",
+      "info": "Custom class to apply css styles for specific sections"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_custom_margins_paddings",
+      "label": "Enable Custom Margins and Paddings",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "custom-margin-top",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Margin Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "custom-margin-bottom",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Margin Bottom",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "custom-padding-top",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "custom-padding-bottom",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 0
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title"
+    },
+    {
+      "type": "color",
+      "id": "social_icon_color",
+      "label": "Social Icon Color",
+      "default": "#000"
+    },
+    {
+      "type": "select",
+      "id": "section_title_text_transform",
+      "label": "Section Title Text Transform",
+      "options": [
+        {
+          "label": "Same As Input",
+          "value": "unset"
+        },
+        {
+          "label": "Capitalize",
+          "value": "capitalize"
+        },
+        {
+          "label": "Uppercase",
+          "value": "uppercase"
+        },
+        {
+          "label": "Lowercase",
+          "value": "lowercase"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "position_social_and_info",
+      "label": "Position Social Icons And Business Info",
+      "default": "center",
+      "options": [
+        {
+          "label": "Left",
+          "value": "flex-start"
+        },
+        {
+          "label": "Center",
+          "value": "center"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "show_title",
+      "label": "Show Icons Title"
+    },
+    {
+      "type": "select",
+      "id": "icon_title_position",
+      "label": "Icon Title Position",
+      "default": "below",
+      "options": [
+        {
+          "label": "Right",
+          "value": "right"
+        },
+        {
+          "label": "Below",
+          "value": "below"
+        }
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "type": "social",
+      "name": "Social Icons",
+      "settings": [
+        {
+          "type": "select",
+          "id": "social_media",
+          "label": "Choose Social Media",
+          "info": "Please insert the social media link on ‘Theme Settings’ -> Store Info",
+          "options": [
+            {
+              "label": "Facebook",
+              "value": "icon-facebook"
+            },
+            {
+              "label": "Instagram",
+              "value": "icon-instagram"
+            },
+            {
+              "label": "Twitter",
+              "value": "icon-twitter"
+            },
+            {
+              "label": "Youtube",
+              "value": "icon-youtube"
+            },
+            {
+              "label": "Pinterest",
+              "value": "icon-pinterest"
+            },
+            {
+              "label": "Snapchat",
+              "value": "icon-snapchat"
+            },
+            {
+              "label": "Tumblr",
+              "value": "icon-tumblr"
+            },
+            {
+              "label": "Vimeo",
+              "value": "icon-vimeo"
+            },
+            {
+              "label": "Tiktok",
+              "value": "icon-tiktok"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Social Icons",
+      "category": "Content",
+      "blocks": [
+        {
+          "type": "social"
+        },
+        {
+          "type": "social"
+        },
+        {
+          "type": "social"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

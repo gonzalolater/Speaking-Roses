@@ -1,0 +1,62 @@
+<!-- start main-page.liquid (SECTION) -->
+<div class="wrapper">
+  <h1 class="rte-h1">{{ page.title }}</h1>
+  <div class="rte">
+    {{ page.content }}
+  </div>
+</div>
+<style scoped>
+  .template-page div.wrapper.main-content {
+    padding-top: 20px;
+  }
+  .template-page .main-content {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    float: none;
+    padding-bottom: 0;
+    width: 100%;
+  }
+  .template-page .rte-h1 {
+    margin-top: 20px;
+    font-weight: bold;
+    width: 100%;
+    border-bottom: 1px solid #e4e4e4;
+    padding-bottom: 15px;
+    color: var(--h1Color);
+    clear: both;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+  .template-page .rte p {
+    margin: 0 0 15px 0;
+  }
+  .template-page .rte ul,
+  .template-page .rte ol {
+    margin: 0 0 15px 40px;
+    padding: 0;
+  }
+  .template-page .wrapper .rte {
+    margin-bottom: 20px;
+  }
+  @media (max-width: 1019px) {
+    .template-page .rte-h1 {
+      margin: 15px 0 13px;
+      padding: 0 0 13px;
+    }
+  }
+  @media (max-width: 767px) {
+    .template-page .rte-h1 {
+      width: 100%;
+      margin: 0 0 10px;
+      padding: 0 0 10px;
+    }
+    .template-page .rte img {
+      margin-bottom: 20px;
+      width: 100%;
+    }
+    .template-page div.wrapper.main-content {
+      padding-top: 5px;
+    }
+  }
+</style>

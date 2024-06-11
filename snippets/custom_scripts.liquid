@@ -1,0 +1,79 @@
+{% comment %} Customized Template for product {% endcomment %}
+{%- if template contains 'customized' -%}
+  <script src="https://spkcustomizer.vidit.com/lib/jquery-textfill-master/dist/jquery.textfill.js?_=1697742589517"></script>
+  <script>
+    (function($){
+      $.get("https://spkcustomizer.vidit.com/customizer", function (data) {
+        $("#srMain").html(data);
+      });
+    })(jQuery);
+  </script>
+{%- endif -%}
+<script>
+  function hideShowElements() {
+    const selectEl = document.querySelector('select.product-variant');
+    const pplrImpresion = document.querySelector('.pplr-quantity-printed');
+    const selectColor = document.querySelectorAll('.swatch-value');
+    const textareaEl = document.querySelectorAll('.pplr-wrapper.pplr-');
+    const selectSwatch = document.querySelectorAll('.swatch-element-color');
+    const swatchValue = document.querySelectorAll('.pplr-wrapper.mcolor .pplrColor');
+    const textarea = document.querySelector('textarea.pplr_monogram');
+  
+
+    function isPersonalized() {
+      return selectEl.value.toLocaleLowerCase().replace(/ .*/, '') === 'create' || selectEl.value.toLocaleLowerCase().replace(/ .*/, '') === 'personalized';
+    } 
+    function isNone() {
+      return selectEl.value.toLocaleLowerCase() === 'none';
+    }
+  
+    function updateTextareaDisplay() {
+      if(textarea) {
+        textarea.value = ''; 
+      }
+      const displayValue = isPersonalized() ? 'block' : 'none';
+      const displayIsNone = isNone() ? 'none' : 'block';
+      pplrImpresion.style.display = displayIsNone;
+      textareaEl.forEach((swatch) => {
+        console.log(displayValue);
+        swatch.style.display = displayValue;
+      });
+    }
+  
+    function updateSwatchDisplay(swatchClick) {
+      swatchValue.forEach((e) => {
+        const isMatchingSwatch = e.getAttribute('data-name').toUpperCase().includes(swatchClick);
+        e.classList.toggle('hidden', isMatchingSwatch);
+      });
+    }
+  
+    selectEl.addEventListener("change", updateTextareaDisplay);
+   
+  
+    selectColor.forEach((el) => {
+      el.addEventListener("click", function(){
+        textareaEl.forEach((element) => {
+          if(textarea){
+            textarea.value = '';
+          }
+          element.style.display = 'none';
+          });
+      });
+    });
+  
+    selectSwatch.forEach((swatch) => {
+      swatch.addEventListener("click", () => {
+        const swatchClick = swatch.getAttribute('data-swatch').replace(/-.*/, '');
+        updateSwatchDisplay(swatchClick);
+        updateTextareaDisplay();
+      });
+    });
+  
+    updateTextareaDisplay();
+  }
+  
+  setTimeout(hideShowElements, 2000);
+   
+ 
+</script>
+

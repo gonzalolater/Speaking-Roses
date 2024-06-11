@@ -1,0 +1,94 @@
+<!-- sections/collection-ajax -->
+
+{%- if collection.products.size > 0 -%}
+  {%- assign collection_style = settings.collection_style | default: 'paginator' -%}
+  {%- assign items_per_row = settings.products_per_row -%}
+  {%- assign grid_uniform_class_desktop = 'grid-uniform--s' | append: items_per_row -%}
+  {%- assign grid_uniform_class_tablet = 'grid-uniform--st' | append: settings.products_per_rows_collection_tablet -%}
+  {%- assign grid_uniform_class_mobile = 'grid-uniform--sm' | append: settings.products_per_rows_collection_mobile -%}
+
+  {%- case items_per_row -%}
+    {%- when '2' -%}
+      {%- assign image_width = 600 -%}
+
+    {%- when '3' -%}
+      {%- assign image_width = 400 -%}
+
+    {%- when '4' -%}
+      {%- assign image_width = 200 -%}
+  {%- endcase -%}
+
+  {%- assign items_per_page = settings.products_amount | plus: 0 -%}
+
+  {% paginate collection.products by items_per_page %}
+    <div class="collection-page">
+      <div
+        id="collection-page-content"
+        class="collection-page__grid-products grid-uniform {{ grid_uniform_class_desktop }} {{ grid_uniform_class_tablet }} {{ grid_uniform_class_mobile }}"
+      >
+        <input type="hidden" value="{{ paginate.items }}" class="product-count__all-collection-items">
+
+        {%- for product in collection.products -%}
+          {%-
+            render 'product-card' with
+            prod: product,
+            enable_lazy: true,
+            max_width: image_width,
+            width_large: image_width,
+            width_mobile: image_width,
+            width_desk: image_width,
+
+            show_swatch: settings.enable_swatch_collection,
+            show_reviews: settings.collection_enabled_app_reviews,
+            show_price: true,
+            show_description: settings.collection_banner_description,
+          -%}
+        {%- endfor -%}
+
+        {%- if collection_style == 'paginator' -%}
+          {%- render 'pagination' with paginate: paginate -%}
+        {%- elsif collection_style == 'loading-more' -%}
+          {%- if paginate.current_page < paginate.pages %}
+            <div class="collection-page__loading-more-wrapper">
+              <div class="loading-more__progress-wrapper">
+                {% if settings.show_progress_loading_style %}
+                  <div class="loading-more__progress-label">
+                    You're seeing
+                    <span id="loading-more__current-items">{{- paginate.current_page | times: items_per_page -}}</span> of
+                    <span id="loading-more__total-items">{{- paginate.items -}}</span>
+                  </div>
+
+                  <span class="loading-more__progress-bar">
+                    <span
+                      class="loading-more__progress-bar-fill"
+                      style="width: {{ paginate.current_page | times: items_per_page | plus: 0.0 | divided_by: paginate.items | times: 100 | round: 2 }}%"
+                    ></span>
+                  </span>
+                {% endif %}
+
+                <a href="#" title="Load More" class="collection-page__loading-more" data-pages="{{ paginate.pages }}">
+                  Load More
+                </a>
+              </div>
+            </div>
+          {%- else -%}
+            <div class="collection-page__loading-more-wrapper">
+              <span class="collection-page__items--loaded">All items have been loaded.</span>
+            </div>
+          {%- endif -%}
+        {%- elsif collection_style == 'infinite-loading' -%}
+          {%- if paginate.current_page < paginate.pages -%}
+            <span class="spinner-widget">
+              <span class="spinner-widget__spinner"></span>
+              <span class="spinner-widget__text">Loading</span>
+            </span>
+          {%- else -%}
+            <div class="collection-page__loading-more-wrapper">
+              <span class="collection-page__items--loaded">All items have been loaded.</span>
+            </div>
+          {%- endif -%}
+        {%- endif -%}
+      </div>
+    </div>
+  {% endpaginate %}
+{%- endif -%}

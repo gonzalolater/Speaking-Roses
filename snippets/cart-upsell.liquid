@@ -1,0 +1,887 @@
+<!-- start snippets/cart-upsell - -->
+
+{% assign cart_items = cart.items %}
+
+{% assign upsell_collection = settings.upsell_collection %}
+{% assign upsell_products = collections[upsell_collection].products %}
+{% assign limit_products = settings.products_cart_page_upsell | default: 4 %}
+
+{% assign class_hide = '' %}
+{% if cart.items.size > 0 %}
+  {% assign class_hide = 'hide' %}
+{% endif %}
+
+<style>
+  .cart__upsel-wrapper {
+    margin-bottom: 20px;
+  }
+
+  .cart__upsell-title {
+    display: block;
+    padding: 21px 0 31px;
+    text-align: center;
+    width: 100%;
+    font-size: 37px;
+    letter-spacing: -0.2px;
+  }
+
+  .cart__upsell-slider {
+    display: flex;
+    width: 90%;
+    max-width: 1167.7px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .cart__upsell-product-image-wrapper {
+    overflow: hidden;
+    height: 351px;
+  }
+
+  .cart__upsell-slider .slick-track {
+    display: flex;
+    align-items: stretch;
+  }
+
+  .cart__upsell-slider .slick-list {
+    overflow: hidden;
+  }
+
+  .cart__upsell-product-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .cart__upsell-atc-form {
+    padding: 0 14px;
+    margin: 8px 0 9px 0;
+    display: flex;    
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  .slick-slide:not(.slick-center) .cart__upsell-atc-form {
+    margin-top: 7px;
+  }
+
+  .slick-slide {
+    width: 327px;
+    margin: 0 6.2px;
+  }
+  .slick-slide .cart__upsell-product{
+    border: 1px solid #e8e8e8;
+  }
+  .slick-slide:not(.slick-center) {
+    transform: scale(0.7822);
+    translate: 0 1px;
+  }
+
+  .slick-slide:not(.slick-center) .cart__upsell-product-image-wrapper {
+    height: 358px;
+  }
+
+  .cart__upsell-atc-wrapper {
+    padding: 0 1px;
+  }
+
+  .slick-arrow {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 206px;
+    z-index: 2;
+    background-color: transparent;
+    transform: scale(2.6);
+  }
+
+  .prev-arrow {
+    left: 78px;
+  }
+
+  .next-arrow {
+    right: 78px;
+    transform: scale(2.6) rotate(180deg);
+  }
+
+  .prev-arrow:before, 
+  .next-arrow:before {    
+    content: "";
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-image: url("{{ 'left-arrow.svg' | asset_url }}");
+  }
+
+  .cart__upsell-product-title {
+    font-size: 20px;
+    letter-spacing: 0.7px;
+    margin-top: 22px;
+    line-height: 1.2;
+    padding: 0 14px;
+  }
+
+  .slick-slide:not(.slick-center) .cart__upsell-product-title {
+    margin-top: 13px;
+    padding: 0 14px;
+  }
+
+  .cart__upsell-product-title * {
+    color: #252525;
+    font-weight: 700;
+  }
+
+  .cart__upsell-product-review {
+    padding: 0 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .slick-slide:not(.slick-center) .cart__upsell-product-review {
+    padding: 0 13px;
+  }
+  
+  .cart__upsell-product-review svg {
+    width: 68px;
+  }
+
+  .cart__upsell-product-review span {
+    font-size: 10px;
+    text-transform: capitalize;
+  }
+
+  .cart__upsell-select-wrapper {
+    width: 45%;
+    gap: 10px;
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
+  }
+
+  .cart__upsell-product-select {
+    width: 100%;
+    height: 24px;
+    font-size: 13px;
+    padding: 0 20px 0px 5px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: url('{{ "vector.svg" | asset_url }}') no-repeat 95% 50%;
+    background-size: 11px;
+  }
+
+  .slick-slide:not(.slick-center) .cart__upsell-product-select {
+    padding: 0 22px 0px 9px;
+    background-size: 12px;
+  }
+
+  .cart__upsell-product-atc-wrapper {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .slick-slide:not(.slick-center) .cart__upsell-product-atc-wrapper {
+    padding-top: 1px;	
+  }
+
+  .cart__upsell-product-price {
+    font-size: 20px;
+    font-weight: 700;
+    color: #595959;
+  }
+
+  .slick-slide:not(.slick-center) .cart__upsell-product-price {
+    letter-spacing: -0.1px;
+  }
+
+  .cart__upsell-atc-price {
+    width: 142.832px;
+    height: 34px;
+    background: transparent;
+    border: 1px solid #595959;
+    color: #595959;
+    font-size: 16px;
+  }
+
+  .slick-slide:not(.slick-center) .cart__upsell-atc-price {
+    width: 142px;
+    height: 33px;
+    letter-spacing: -0.4px;
+  }
+
+  .cart__upsell-atc-price[disabled='disabled'] {
+    background-color: #eee;
+    color: #bbb;
+    border: 1px solid #bbb;
+  }
+
+  @media (max-width: 1019px) {
+    .cart__upsel-wrapper {
+      padding-top: 10px;
+    }
+
+    .cart__upsell {
+      padding: 0;
+    }
+
+    .cart__upsell-title {
+      font-size: 29px;
+      padding: 33px 0 20px;
+    }
+
+    .cart__upsell-slider {
+      width: 100%;
+    }
+
+    .slick-slide {
+      width: 327px;
+      margin: 0 18px;
+    }
+
+    .slick-slide:not(.slick-center) {
+      width: 324px;
+      translate: 0 2px;
+    }
+
+    .cart__upsell-product-image-wrapper {
+      height: 352px;
+    }
+
+    .slick-slide:not(.slick-center) .cart__upsell-product-image-wrapper {
+      height: 348px;
+    }
+
+    .cart__upsell-product-title {
+      font-size: 20px;
+      margin-top: 21px;
+      padding: 0 13px;
+      letter-spacing: 0.7px;
+    }
+
+    .slick-slide:not(.slick-center) .cart__upsell-product-title {
+      margin-top: 22px;
+      padding: 0px 12px;
+    }
+
+    .slick-arrow {
+      top: 207px;
+    }
+
+    .prev-arrow {
+      left: 96px;
+    }
+  
+    .next-arrow {
+      right: 96px;
+      transform: scale(2.6) rotate(180deg);
+    }
+
+    .cart__upsell-product-review {
+      gap: 5px;
+    }
+
+    .slick-slide:not(.slick-center) .cart__upsell-product-review {
+      padding: 0 11px;
+    }
+
+    .cart__upsell-atc-form {
+      padding: 0 14px 0 13px;
+      margin-top: 9px;
+    }
+
+    .slick-slide:not(.slick-center) .cart__upsell-atc-form {
+      padding: 0 13px;
+      margin-top: 10px;
+    }
+    .cart__upsell-product-select {
+      height: 22px;
+      font-size: 13px;
+      padding: 0 25px 0 8px;
+    }
+
+    .slick-slide:not(.slick-center) .cart__upsell-product-select {
+      font-size: 12px;
+    }
+
+    .cart__upsell-product-atc-wrapper {
+      gap: 5.9px;
+    }
+
+    .slick-slide:not(.slick-center) .cart__upsell-product-atc-wrapper{
+      gap: 5.5px;
+      padding: 0;
+    }
+
+    .cart__upsell-atc-price {
+      width: 143px;
+      height: 34px;
+      font-size: 16px;
+    }
+
+    .cart__upsell-product-price {
+      font-size: 19px;
+      letter-spacing: 0.5px;
+    }
+
+    .slick-slide:not(.slick-center) .cart__upsell-product-price {
+      letter-spacing: 0.3px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .cart__upsell-select-wrapper{
+      width: 100%;
+      margin-bottom: 6px;
+      gap: 10px;
+      display: flex;
+      justify-content: flex-end;
+      flex-direction: column;
+    }
+    .cart__upsell-title {
+      font-size: 21px;
+      padding: 28px 0 17px;
+      letter-spacing: -0.3px
+    }
+
+    .slick-slide {
+      width: 207px;
+      margin: 0 10.5px;
+    }
+
+    .slick-slide:not(.slick-center) {
+      width: 200px;
+      translate: 0 -4px;
+    }
+
+    .slick-arrow {
+      top: 112px;
+      transform: scale(0.9);
+    }
+
+    .prev-arrow {
+      left: 15px;
+    }
+
+    .next-arrow {
+      right: 15px;
+      transform: scale(0.9) rotate(180deg);
+    }
+
+    .cart__upsell-product-image-wrapper {
+      height: 221px;
+    }
+
+    .slick-slide:not(.slick-center) .cart__upsell-product-image-wrapper {
+      height: 218px;
+    }
+
+    .cart__upsell-product-title {
+      font-size: 13px;
+      padding: 0 9.4px;
+      margin-top: 13px;
+      letter-spacing: 0.45px;
+    }
+
+    .slick-slide:not(.slick-center) .cart__upsell-product-title {
+      margin-top: 20px;
+      padding: 0px 8.5px;
+      font-size: 12px;
+      letter-spacing: 0.9px;
+      line-height: 1.4;
+    }
+
+    .cart__upsell-product-review {
+      padding: 0 8px;
+      gap: 5px;
+      margin-bottom: 10px;
+    }
+
+    .slick-slide:not(.slick-center) .cart__upsell-product-review {
+      padding: 0 8px;
+      gap: 4px;
+    }
+
+    .cart__upsell-product-review svg {
+      width: 55px;
+    }
+
+    .slick-slide:not(.slick-center) .cart__upsell-product-review svg {
+      width: 43px;
+    }
+
+    .cart__upsell-product-review span {
+      font-size: 10px;
+    }
+
+    .slick-slide:not(.slick-center) .cart__upsell-product-review span {
+      font-size: 8px;
+    }
+
+    .cart__upsell-atc-form {
+      padding: 0 8px;
+      margin-top: 1px;
+      margin-bottom: 0;
+      flex-direction: column;
+    }
+
+    .slick-slide:not(.slick-center) .cart__upsell-atc-form {
+      padding: 0 8px;
+      margin-top: 2px;
+      margin-bottom: 5px;
+    }
+
+    .cart__upsell-product-select {
+      font-size: 13px;
+      height: 28px;
+      padding: 0 20px 0 7px;
+      background-size: 10px;
+      background-position-x: 97%;
+    }
+
+    .slick-slide:not(.slick-center) .cart__upsell-product-select {
+      font-size: 10px;
+      padding: 0 12px 0 5px;
+    }
+
+    .cart__upsell-product-atc-wrapper {
+      gap: 3px;
+      width: 100%;
+    }
+
+    .cart__upsell-product-price-wrapper{
+      width: 100%;
+    }
+    .slick-slide:not(.slick-center) .cart__upsell-product-atc-wrapper {
+      gap: 3.4px;
+    }
+
+    .cart__upsell-product-price {
+      font-size: 16px;
+      letter-spacing: -0.6px;
+      padding-right: 0.7px;
+      width: 100%;
+      text-align: center;
+    }
+    .cart__upsell-atc-btn-wrapper{
+      width: 100%;
+      margin-bottom: 10px;
+    }
+    
+    .slick-slide:not(.slick-center) .cart__upsell-product-price {
+      letter-spacing: -0.3px;
+    }
+
+    .cart__upsell-atc-price {
+      width: 100%;
+      height: 34px;
+      font-size: 16px;
+      text-transform: uppercase;
+    }
+
+    .slick-slide:not(.slick-center) .cart__upsell-atc-price {
+      height: 30px;
+      width: 100%;
+      letter-spacing: -0.1px;
+    }
+  }
+</style>
+
+<div id="upsell-cart-template" class="wrapper cart__upsell {{ class_hide }}">
+  {% if settings.upsell_title != blank %}
+    <h3 class="cart__upsell-title upsell-title">{{ settings.upsell_title }}</h3>
+  {% endif %}
+
+  <div class="cart_upsell-list-items cart__upsell-slider">
+    {% for product in upsell_products limit: limit_products %}
+      <div class="cart__upsell-product" data-product-id="{{ product.id }}">
+        <div class="cart__upsell-product-image-wrapper">
+          <a class="cart__upsell-product-image-link" href="{{ product.url | default: '#' }}">
+            {%-
+              render 'responsive-image' with
+              image: product.featured_image,
+              width: 400,
+              height: 400,
+              class: 'cart__upsell-product-image',
+              lazyload: true,
+              alt: product.featured_image.alt
+            -%}
+          </a>
+        </div>
+
+        <div class="cart__upsell-product-info">
+          <div class="cart__upsell-product-title-wrapper">
+            <h2 class="cart__upsell-product-title">
+              <a class="cart__upsell-product-title-link" href="{{ product.url | default: '#' }}">
+                {{ product.title }}
+              </a>
+            </h2>
+          </div>
+
+          {% comment %}
+          UNCOMMENT THIS DIV WHEN THE REVIEWS APP IS DOWNLOADED
+          <div class="cart__upsell-product-review">
+            {%- render 'reviews-stars' with prod: product -%}
+          </div>
+          {% endcomment %}
+
+          {% comment %}
+          COMMENT THE DIV BELOW WHEN THE REVIEWS APP IS DOWNLOADED
+          {% endcomment %}
+
+          <div class="cart__upsell-product-review">
+            <svg width="114" height="22" viewBox="0 0 114 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M11.1938 0L13.707 7.60081H21.8398L15.2602 12.2984L17.7734 19.8992L11.1938 15.2016L4.61426 19.8992L7.12743 12.2984L0.547865 7.60081H8.68066L11.1938 0Z"
+                fill="#595959" />
+              <path
+                d="M34.5815 0L37.0947 7.60081H45.2275L38.6479 12.2984L41.1611 19.8992L34.5815 15.2016L28.002 19.8992L30.5151 12.2984L23.9356 7.60081H32.0684L34.5815 0Z"
+                fill="#595959" />
+              <path
+                d="M57.4604 0L59.8593 7.60081H67.6225L61.342 12.2984L63.7409 19.8992L57.4604 15.2016L51.1799 19.8992L53.5789 12.2984L47.2984 7.60081H55.0615L57.4604 0Z"
+                fill="#595959" />
+              <path
+                d="M80.3391 0L82.8523 7.60081H90.9851L84.4055 12.2984L86.9187 19.8992L80.3391 15.2016L73.7595 19.8992L76.2727 12.2984L69.6931 7.60081H77.8259L80.3391 0Z"
+                fill="#595959" />
+              <path
+                d="M102.903 0L105.394 7.60081H113.457L106.934 12.2984L109.426 19.8992L102.903 15.2016L96.3799 19.8992L98.8714 12.2984L92.3486 7.60081H100.411L102.903 0Z"
+                fill="#595959" />
+            </svg>
+            <span>(4.8 of 1000 Reviews)</span>
+          </div>
+
+          <div class="cart__upsell-atc-wrapper">
+            <form action="/cart/add" class="cart__upsell-atc-form">
+              {% if product.variants.size > 1 %}
+                <div class="cart__upsell-select-wrapper">
+                  {%- assign variants_options = product.options_with_values -%}
+
+                  {% assign values = '' %}
+                  {% for variant in product.variants %}
+                    {% if variant.available %}
+                      {% unless values contains variant.option1 %}
+                        {% assign values = values | join: ',' %}
+                        {% assign values = values | append: ',' | append: variant.option1 %}
+                        {% assign values = values | split: ',' %}
+                      {% endunless %}
+                    {% endif %}
+                  {% endfor %}
+
+                  {%- for option in variants_options -%}
+                    <select class="cart__upsell-product-select" data-index="{{ forloop.index }}">
+                      <option value="" selected disabled>{{ option.name }}:</option>
+
+                      {% if forloop.first %}
+                        {%- for value in values -%}
+                          {% if value == blank %}{% continue %}{% endif %}
+                          <option value="{{ value }}">{{ value }}</option>
+                        {%- endfor -%}
+                      {% endif %}
+                    </select>
+                  {%- endfor -%}
+
+                  <select
+                    id="upsell-all-product-variants"
+                    name="items[{{- forloop.index0 -}}][id]"
+                    class="cart__upsell-all-product-variants hide"
+                    data-productid="{{ product.id }}"
+                  >
+                    {%- for variant in product.variants -%}
+                      {% if variant.available %}
+                        <option value="{{ variant.id }}">{{- variant.title -}}</option>
+                      {% endif %}
+                    {%- endfor -%}
+                  </select>
+                </div>
+              {% else %}
+                <div class="cart__upsell-select-wrapper">
+                  <select
+                    id="upsell-all-product-variants"
+                    name="items[{{- forloop.index0 -}}][id]"
+                    class="cart__upsell-all-product-variants cart__upsell-product-select"
+                    data-productid="{{ product.id }}"
+                  >
+                    <option value="{{ product.variants[0].id }}">{{ product.variants[0].title }}</option>
+                  </select>
+                </div>
+              {% endif %}
+              <input type="hidden" name="items[{{- forloop.index0 -}}][quantity]" value="1">
+
+              <div class="cart__upsell-product-atc-wrapper">
+                <div class="cart__upsell-product-price-wrapper">
+                  <div class="cart__upsell-product-price">
+                    <span class="cart__upsell-price">{{ product.price | money }}</span>
+                  </div>
+                </div>
+
+                <span class="upsell-produce-atc___mask"></span>
+
+                <button
+                  id="upsell-atc-{{ product.id }}"
+                  class="cart__upsell-atc-price btn"
+                  {% if product.variants.size > 1 %}
+                    disabled="disabled"
+                  {% endif %}
+                  data-variant="{{ product.selected_or_first_available_variant.id }}"
+                >
+                  {{ settings.upsell_atc_btn_text }}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% if section.settings.enable_upsell_lazyload %}
+  {% comment %} Slick Script {% endcomment %}
+  <script type="lazyload_int">
+    setTimeout(function () {
+      $('.cart_upsell-list-items').slick({
+        prevArrow: '<button type="button" class="prev-arrow"></button>',
+        nextArrow: '<button type="button" class="next-arrow"></button>',
+        infinite: true,
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        centerPadding: '0px',
+        centerMode: true,
+        variableWidth: true,
+      });
+    });
+    $('.cart__upsel-wrapper').removeClass('hide');
+  </script>
+
+  {% comment %} Cart Script {% endcomment %}
+  <script type="lazyload_int">
+    setTimeout(async function () {
+      {%- if cart.items.size > 0 -%}
+        await CartAPI.buildCart();
+        let url = '/recommendations/products.json?product_id={{- cart.items[0].product.id -}}';
+      {% else %}
+        let url = '/collections/{{- upsell_collection -}}/products.json';
+      {% endif %}
+  
+      $.getJSON(url, async function (allProducts) {
+        window.ALLPRODUCTS = allProducts;
+  
+        $(document).on('change', '.cart__upsell-product-select', function () {
+          try {
+            const $input = $(this);
+            const selectedValue = $input.val();
+            const $lineItem = $input.closest('.cart__upsell-product');
+            const index = parseInt($input.attr('data-index') || 1);
+            const nextOptionIndex = index + 1;
+            const productID = $lineItem.attr('data-product-id');
+            const product = window.ALLPRODUCTS.products.find(function (p) {
+              return p.id == productID;
+            });
+  
+            if (!product) {
+              throw new Error('Product does not exist.');
+            }
+  
+            if (nextOptionIndex > product.options.length) {
+              /* Set the variant */
+              let variant = product.variants;
+  
+              $('.cart__upsell-product-select', $lineItem).each(function(i){
+                const value = $(this).val();
+  
+                variant = variant.filter(function(v) {
+                  return value == v['option' + (i + 1)];
+                });
+              });
+  
+              if (variant.length > 0) {
+                variant = variant[0];
+  
+                $('.cart__upsell-all-product-variants', $lineItem).prop('disabled', false).val(variant.id).trigger('change');
+                $('.cart__upsell-atc-price', $lineItem).prop('disabled', false);
+              }
+            } else {
+              $('.cart__upsell-atc-price', $lineItem).attr('disabled', true);
+  
+              /* Filter the variants based in the selected option */
+              let variants = product.variants.filter(function(variant) {
+                return variant.available && variant['option' + index] == selectedValue;
+              });
+  
+              /* Adjust the variants for the next option */
+              $input.nextAll('.cart__upsell-product-select').each(function(){
+                const options = $(this).find('option').not('[disabled]');
+  
+                $(options).remove();
+              });
+  
+              const optionsValues = [];
+              
+              variants.forEach(function(variant){
+                if (!optionsValues.includes(variant['option' + nextOptionIndex])) {
+                  optionsValues.push(variant['option' + nextOptionIndex]);
+                }
+              });
+  
+              const $nextInput = $input.next('.cart__upsell-product-select');
+              const $firstOption = $nextInput.find('option').first();
+  
+              optionsValues.forEach(function(value){
+                const newOption = document.createElement('option');
+                
+                newOption.setAttribute('value', value);
+                newOption.innerHTML = value;
+                
+                $nextInput.append(newOption);
+              });
+  
+              $nextInput.val($firstOption.val());
+            }
+          } catch (err) {
+            console.error(err);
+          }
+        });
+      });
+  
+      $(document).on('submit', 'form[action*="/cart/add"]', async function (e) {
+        const $form = $(this);
+        const quantity = $form.find('[name="quantity"]').val();
+        const id = $form.find('[name="id"]').val();
+  
+        e.preventDefault();
+  
+        await CartAPI.addItem($form.serialize());
+        await CartAPI.buildCart();
+      });
+    }, 1000);
+  </script>
+{% else %}
+  {% comment %} Slick Script {% endcomment %}
+  <script>
+    window.addEventListener('DOMContentLoaded', function () {
+      $('.cart__upsel-wrapper').removeClass('hide');
+      $('.cart_upsell-list-items').slick({
+        prevArrow: '<button type="button" class="prev-arrow"></button>',
+        nextArrow: '<button type="button" class="next-arrow"></button>',
+        infinite: true,
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        centerPadding: '0px',
+        centerMode: true,
+        variableWidth: true,
+      });
+    });
+  </script>
+
+  {% comment %} Cart Script {% endcomment %}
+  <script>
+    window.addEventListener('DOMContentLoaded', async function () {
+      {%- if cart.items.size > 0 -%}
+        await CartAPI.buildCart();
+        let url = '/recommendations/products.json?product_id={{- cart.items[0].product.id -}}';
+      {% else %}
+        let url = '/collections/{{- upsell_collection -}}/products.json';
+      {% endif %}
+  
+      $.getJSON(url, async function (allProducts) {
+        window.ALLPRODUCTS = allProducts;
+  
+        $(document).on('change', '.cart__upsell-product-select', function () {
+          try {
+            const $input = $(this);
+            const selectedValue = $input.val();
+            const $lineItem = $input.closest('.cart__upsell-product');
+            const index = parseInt($input.attr('data-index') || 1);
+            const nextOptionIndex = index + 1;
+            const productID = $lineItem.attr('data-product-id');
+            const product = window.ALLPRODUCTS.products.find(function (p) {
+              return p.id == productID;
+            });
+  
+            if (!product) {
+              throw new Error('Product does not exist.');
+            }
+  
+            if (nextOptionIndex > product.options.length) {
+              /* Set the variant */
+              let variant = product.variants;
+  
+              $('.cart__upsell-product-select', $lineItem).each(function(i){
+                const value = $(this).val();
+  
+                variant = variant.filter(function(v) {
+                  return value == v['option' + (i + 1)];
+                });
+              });
+  
+              if (variant.length > 0) {
+                variant = variant[0];
+  
+                $('.cart__upsell-all-product-variants', $lineItem).prop('disabled', false).val(variant.id).trigger('change');
+                $('.cart__upsell-atc-price', $lineItem).prop('disabled', false);
+              }
+            } else {
+              $('.cart__upsell-atc-price', $lineItem).attr('disabled', true);
+  
+              /* Filter the variants based in the selected option */
+              let variants = product.variants.filter(function(variant) {
+                return variant.available && variant['option' + index] == selectedValue;
+              });
+  
+              /* Adjust the variants for the next option */
+              $input.nextAll('.cart__upsell-product-select').each(function(){
+                const options = $(this).find('option').not('[disabled]');
+  
+                $(options).remove();
+              });
+  
+              const optionsValues = [];
+              
+              variants.forEach(function(variant){
+                if (!optionsValues.includes(variant['option' + nextOptionIndex])) {
+                  optionsValues.push(variant['option' + nextOptionIndex]);
+                }
+              });
+  
+              const $nextInput = $input.next('.cart__upsell-product-select');
+              const $firstOption = $nextInput.find('option').first();
+  
+              optionsValues.forEach(function(value){
+                const newOption = document.createElement('option');
+                
+                newOption.setAttribute('value', value);
+                newOption.innerHTML = value;
+                
+                $nextInput.append(newOption);
+              });
+  
+              $nextInput.val($firstOption.val());
+            }
+          } catch (err) {
+            console.error(err);
+          }
+        });
+      });
+  
+      $(document).on('submit', 'form[action*="/cart/add"]', async function (e) {
+        const $form = $(this);
+        const quantity = $form.find('[name="quantity"]').val();
+        const id = $form.find('[name="id"]').val();
+  
+        e.preventDefault();
+  
+        await CartAPI.addItem($form.serialize());
+        await CartAPI.buildCart();
+      });
+    });
+  </script>
+{% endif %}
+

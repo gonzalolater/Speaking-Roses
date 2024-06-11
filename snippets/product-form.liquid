@@ -1,0 +1,184 @@
+<!-- start product-form (SNIPPET) -->
+{% form 'product',
+  product,
+  id: 'AddToCartForm',
+  class: 'form-add-to-cart jq-cart-add-product',
+  enctype: 'multipart/form-data',
+  data-productid: product.id
+%}
+
+  <!-- Begin ReCharge code -->
+  {% if product.available and settings.product_enabled_recharge %}
+    {% render 'subscription-product' with product as product %}
+  {% endif %}
+  <!-- End ReCharge code -->
+
+  {%- assign variant = product.selected_or_first_available_variant -%}
+  {%- assign price = variant.price -%}
+  {%- assign show_swatch = true -%}
+
+  {%- if product.selected_or_first_available_selling_plan_allocation.selling_plan.id -%}
+    <input
+      id="product-selling-plan"
+      type="hidden"
+      name="selling_plan"
+      value="{{ product.selected_or_first_available_selling_plan_allocation.selling_plan.id }}"
+    >
+  {%- endif -%}
+
+  {%- if settings.enable_out_of_stock_button == false and product.available == false -%}
+    {%- assign show_swatch = false -%}
+  {%- endif -%}
+
+  <div class="product-variant-wrapper">
+    {% if show_swatch %}
+      {%- render 'swatch' with option -%}
+    {% endif %}
+  </div>
+
+
+  {%- for block in section.blocks -%}
+    {%- case block.type -%}
+      {%- when '@app' -%}
+        {% render block %}
+    {% endcase %}
+  {% endfor %}
+
+  <div class="product-form-buttons-wrapper {% if product.selected_or_first_available_variant.available == false %} hide {% endif %}">
+    <div class="product-quantity">
+      <div class="product-quantity-wrapper">
+        <button
+          id="ButtonMinus"
+          aria-label="ButtonMinus"
+          type="button"
+          class="btn btn-minus btn--minus"
+          {% unless product.variants.size != 1 %}
+            disabled="disabled"
+          {% endunless %}
+        >
+          {% render 'icon-minus' %}
+        </button>
+        <input
+          id="ProductQuantity"
+          aria-label="ProductQuantity"
+          class="quantity"
+          name="quantity"
+          value="1"
+          data-max="{% if product.selected_or_first_available_variant.inventory_policy == 'continue' or product.selected_or_first_available_variant.inventory_management == blank %}-1 {%else%}{{ product.selected_or_first_available_variant.inventory_quantity }}{% endif %}"
+          step="1"
+          type="number"
+          {% unless product.variants.size != 0 %}
+            disabled="disabled"
+          {% endunless %}
+        >
+        <button
+          id="ButtonPlus"
+          aria-label="ButtonPlus"
+          type="button"
+          class="btn btn-plus"
+          {% unless product.variants.size != 0 %}
+            disabled="disabled"
+          {% endunless %}
+        >
+          {% render 'icon-plus' %}
+        </button>
+      </div>
+      <span id="StockWarning" class="stock-wrn">
+        <span>Maximum Quantity</span>
+        <span>Available In Stock</span>
+      </span>
+    </div>
+
+    {% if section.settings.checkbox_upsell_product != blank and section.settings.checkbox_upsell_description != blank %}
+      {% comment %} Priority Processing {% endcomment %}
+      {%- 
+        render 'priority-processing' with 
+        id: "priority-processing-form",
+        pp_product: all_products[section.settings.checkbox_upsell_product],
+        description: section.settings.checkbox_upsell_description
+      -%}
+      {% comment %} End Priority Processing {% endcomment %}
+    {% endif %}
+    
+    <button
+      type="submit"
+      class="{% if settings.disable_cartDrawer != true %} cart-icon {% endif %} btn btn-add-tocart "
+      id="AddToCart"
+      {% if product.selected_or_first_available_variant.available == false %}
+        disabled
+      {% endif %}
+      {% unless product.selected_or_first_available_variant.available %}
+        style="display: none;"
+      {% endunless %}
+    >
+      {%- if variant.compare_at_price > price and section.settings.enable_new_layout -%}
+        <div class="compare-btn">
+          {%- assign temp = price | times: 100.0 -%}
+          {%- assign temp = temp | divided_by: variant.compare_at_price -%}
+          <span class="compare-add-price {% unless variant.compare_at_price > variant.price %}hide{%endunless%}">
+            {%- if variant.compare_at_price > variant.price -%}
+              {{ variant.compare_at_price | money }}
+            {%- endif -%}
+          </span>
+          <span class="compare_percent"> ({{ 100 | minus: temp | round: 2 }}%) </span>
+        </div>
+        <span class="line"></span>
+      {%- endif -%}
+      {%- if settings.enable_price_atc -%}
+        <span class="btn-money">{{ product.price | money }}</span>
+        <span class="divisor">|</span>
+      {%- endif -%}
+      <span class="btn-label">{{ settings.add_to_cart_label }}</span>
+      <span class="btn-svg">{%- render 'icon-cart-layout-03' -%}</span>
+      <span class="btn-items">1 {{ 'products.product.item' | t }}</span>
+
+      {%- if settings.atc_progress_bar -%}
+        <span class="btn-progress"></span>
+      {%- endif -%}
+    </button>
+    {%- if settings.enable_add_to_cart_sticky and product.available -%}
+      <button type="submit" class="cart-icon btn btn-add-tocart AddToCartFixed no-show" id="AddToCart3">
+        {%- if settings.enable_price_atc -%}
+          <span class="btn-money">{{ product.price | money }}</span>
+          <span class="divisor">|</span>
+        {%- endif -%}
+        <span class="btn-label">{{ settings.add_to_cart_label }}</span>
+        <span class="btn-svg">{%- render 'icon-cart-layout-03' -%}</span>
+        <span class="btn-items">1 {{ 'products.product.item' | t }}</span>
+
+        {%- if settings.atc_progress_bar -%}
+          <span class="btn-progress"></span>
+        {%- endif -%}
+      </button>
+    {%- endif -%}
+    <div id="add-to-cart-error" class="add-to-cart-errors add-to-cart--error hide"></div>
+  </div>
+
+  <div
+    id="button-out-of-stock"
+    class="btn btn-choose-variant {% if product.selected_or_first_available_variant.available %}hide{% endif %}"
+    {% unless product.selected_or_first_available_variant.available %}
+      style="display: block;"
+    {% endunless %}
+  >
+    <span class="btn-label">{{ settings.out_of_stock_label | default: '( out of stock )' | escape }}</span>
+  </div>
+  <span class="invetoryError"></span>
+
+  <div
+    class="shipping-calculate"
+    {% if section.settings.enable_shipping_calculate == false %}
+      style="display: none"
+    {% endif %}
+  >
+    {%- render 'shipping-calculate' -%}
+  </div>
+
+  <div class="trust-badges">
+    {%- render 'trust-badges' -%}
+  </div>
+
+  {% comment %} <div class="product-page__upsell-wrapper">
+    {%- render 'product-page-upsell' -%}
+  </div> {% endcomment %}
+{% endform %}

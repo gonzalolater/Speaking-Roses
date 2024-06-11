@@ -1,0 +1,25 @@
+<!-- start header-cart-new-layout.liquid (SNIPPET) -->
+<div class="header__cart-logo-new-layout">
+    {%- render 'header-logo-new-layout' -%}
+</div>
+
+<style scoped>
+	.header__cart-logo-new-layout {
+		width: 284px;
+		margin: 25px auto 0;
+		display: flex;
+	}
+	.header__logo-wrapper {
+		margin: 0 auto;
+	}
+	@media( max-width: 1019px){
+		.header__cart-logo-new-layout {
+			margin: 21px auto 0;
+		}
+	}
+	@media( max-width: 767px){
+		.header__cart-logo-new-layout {
+			margin: 20px auto 0;
+		}
+	}
+</style>

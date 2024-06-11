@@ -1,0 +1,99 @@
+<!-- start scrollbutton.liquid (SNIPPET) -->
+
+{%- assign vertical_offset_for_trigger = 300 -%}
+{%- assign position_from_bottom = '6em' -%}
+
+{%- capture css -%}
+<style>
+  .back-to-top-right {
+    position: fixed;
+    bottom: {{ position_from_bottom }};
+    right: 0px;
+  }
+
+  .back-to-top-left {
+    position: fixed;
+    bottom: {{ position_from_bottom }};
+    left: 0px;
+  }
+
+  .back-to-top {
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-decoration: none;
+    color:{{ settings.color_button_to_the_top }};
+    background-color:{{ settings.background_color_button_to_the_top }};
+    transition: ease-in-out .2s all;
+    opacity: 0;
+    visibility: hidden;
+    padding: 0.3em;
+    display: flex;
+    -webkit-border-top-left-radius: 3px;
+    -webkit-border-bottom-left-radius: 3px;
+    -moz-border-radius-topleft: 3px;
+    -moz-border-radius-bottomleft: 3px;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+    z-index: 100;
+  }
+
+  .back-to-top.displayed {
+    opacity: 1;
+    visibility: visible;
+    z-index:100;
+  }
+
+  .back-to-top svg {
+    width: 25px;
+    height: 25px;
+    fill: {{ settings.color_button_to_the_top_svg }};
+  }
+
+  .back-to-top i {
+    vertical-align: middle;
+  }
+
+  .back-to-top:hover,
+  .back-to-top:active {
+    text-decoration: none;
+    color:{{ settings.color_button_to_the_top_hover }};
+    fill:{{ settings.color_button_to_the_top_hover }};
+    background-color:{{ settings.background_color_button_to_the_top_hover }};
+  }
+</style>
+{%- endcapture -%}
+
+{{- css | strip_newlines | replace: '    ', ' ' | replace: '   ', ' ' | replace: '  ', ' ' -}}
+
+<a
+  href="#"
+  title="Back to the top"
+  class="back-to-top {% if settings.button_back_to_the_top_position == 'right' %} back-to-top-right {% else %} back-to-top-left {% endif %}"
+>
+  {%- render 'icon-arrow-up' -%}
+  <span>{{ settings.text_to_the_top }}</span>
+</a>
+
+<script type="lazyload_int">
+  setTimeout(function(){
+    jQuery(function($) {
+      var offset = {{ vertical_offset_for_trigger }};
+      var duration = 200;
+
+      $(window).scroll(function() {
+        if ($(this).scrollTop() > offset) {
+          $('.back-to-top').addClass('displayed');
+        } else {
+          $('.back-to-top').removeClass('displayed');
+        }
+      });
+
+      $('.back-to-top').unbind('click.smoothscroll').bind('click', function(e) {
+        e.preventDefault();
+        $('html, body').animate( { scrollTop: 0 }, duration);
+        return false;
+      });
+    });
+  });
+</script>

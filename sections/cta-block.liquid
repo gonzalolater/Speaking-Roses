@@ -1,0 +1,1286 @@
+<!-- start cta-block.liquid (SECTIONS) -->
+
+
+{%- comment -%} Start Shopify ID style{%- endcomment -%}
+<style>
+  #shopify-section-{{ section.id }} .call-to-action__image-wrapper img {
+    height: 100%;
+  }
+
+  #shopify-section-{{ section.id }} .call-to-action__button-wrapper a,
+  #shopify-section-{{ section.id }} .call-to-action__button-wrapper form {
+    justify-content: {{ section.settings.button_alignment }};
+  }
+
+  #shopify-section-{{ section.id }} .call-to-action__image-wrapper {
+    width: {{ section.settings.width_cta_image }}%;
+    max-width: 589px;
+    height: 404px;
+    overflow: hidden;
+    border-radius:
+    {{ section.settings.border_radius_top_left }}px
+    {{ section.settings.border_radius_top_right }}px
+    {{ section.settings.border_radius_bottom_right }}px
+    {{ section.settings.border_radius_bottom_left }}px;
+  }
+
+  #shopify-section-{{ section.id }} .call-to-action__form {
+    {% if section.settings.buy_now_line_direction == "row" %}
+      padding-right: 50px;
+    {% else %}
+      padding-left: 50px;
+    {% endif %}
+    max-width: 90%;
+    margin-top: 15px;
+  }
+
+  #shopify-section-{{ section.id }} .call-to-action__form-wrapper {
+    width: 50%;
+    justify-content: {{ section.settings.boxtext_button_alignment }};
+  }
+
+  #shopify-section-{{ section.id }} .call-to-action__headline {
+    color: {{ section.settings.headline_color }};
+    font-size: {{ section.settings.headline_font_size }}px;
+    text-transform: {{ section.settings.headline_transform_button }};
+    text-align:{{ section.settings.headline_text_align }};
+    letter-spacing: 0.35px;
+  }
+
+  #shopify-section-{{ section.id }} .call-to-action .buy-now .buy-now-bg-{{ section.id }} {
+    background-color: {{ section.settings.buy_now_background_color }};
+    top: {{ section.settings.buy_now_background_top_position }}%;
+    height: {{ section.settings.buy_nowbackgroung_height }}%;
+  }
+
+  #shopify-section-{{ section.id }} .call-to-action .buy-now .buy-now-wrapper-{{ section.id }} {
+    flex-direction:{{ section.settings.buy_now_line_direction }};
+  }
+
+  #shopify-section-{{ section.id }} .call-to-action .buy-now .buy-now-wrapper .buy-now-btn-{{ section.id }} {
+    color:{{ section.settings.button_text_color }} ;
+    background-color:{{ section.settings.button_background_color }};
+    font-size:{{ section.settings.buy_now_size_button }}px;
+    border-color: {{ section.settings.button_border_color }};
+    text-transform: {{ section.settings.text_transform_button }};
+  }
+
+  #shopify-section-{{ section.id }} .call-to-action .buy-now .buy-now-wrapper .buy-now-btn-{{ section.id }}:active {
+    color: {{ section.settings.button_hover_text_color }};
+    background: {{ section.settings.button_hover_background_color }};
+    border-color: {{ section.settings.button_hover_border_color }};
+  }
+
+  #shopify-section-{{ section.id }} .cta-content-rte {
+    margin-bottom: 10px;
+  }
+
+  #shopify-section-{{ section.id }} .call-to-action__text-above-button {
+    font-size:{{ section.settings.text_above_font_size }}px;
+    text-align:{{ section.settings.block_text_align }};
+    color: {{ section.settings.text_above_color }};
+    word-break: break-word;
+    padding-top: 5px;
+  }
+
+  #shopify-section-{{ section.id }} .call-to-action__button {
+    width: {{ section.settings.width_cta_botton }}%;
+    background-color: {{ section.settings.button_background_color }};
+    border-color: {{ section.settings.button_border_color }};
+    color:{{ section.settings.button_text_color }};
+    font-size: {{ section.settings.text_button_font_size }}px;
+    text-transform: {{ section.settings.text_transform_button }};
+    display: {{ section.settings.enable_button }};
+  }
+
+  #shopify-section-{{ section.id }} .call-to-action__button:hover {
+    color: {{ section.settings.button_hover_text_color }};
+    background: {{ section.settings.button_hover_background_color }};
+    border-color: {{ section.settings.button_hover_border_color }};
+  }
+
+  #shopify-section-{{ section.id }} .call-to-action__banner {
+    height: {{ section.settings.buy_nowbackgroung_height }}%;
+    top: {{ section.settings.buy_now_background_top_position }}%;
+    background-color: {{ section.settings.buy_now_background_color }};
+  }
+
+  #shopify-section-{{ section.id }} .call-to-action__button--error {
+    background: {{ settings.out_of_stock_background_color }};
+    color: {{ settings.out_of_stock_text_color }};
+    width: {{ section.settings.box_limit }}px;
+    max-width: {{ section.settings.width_cta_botton }}%;
+    font-size: {{ section.settings.text_button_font_size }}px;
+    text-transform: {{ section.settings.text_transform_button }};
+  }
+
+  @media (max-width: 1019px) {
+    #shopify-section-{{ section.id }} .call-to-action__headline {
+        font-size: {{ section.settings.headline_font_size_tablet }}px;
+        letter-spacing: 0.3px;
+        margin-bottom: 0;
+    }
+
+    #shopify-section-{{ section.id }} .call-to-action__form {
+      max-width: {{ section.settings.box_limit_tablet }}px;
+      {% if section.settings.buy_now_line_direction == "row" %}
+        padding-right: 27px;
+      {% else %}
+        padding-left: 27px;
+      {% endif %}
+      margin-top: 7.5%;
+    }
+
+    #shopify-section-{{ section.id }} .call-to-action__text-above-button {
+      {% if section.settings.block_text_align == 'left' %}
+        padding-right: 30px;
+      {% else %}        
+        padding-left: 30px;
+      {% endif %}
+      text-align: {{ section.settings.block_text_align_tablet }};
+      max-width: 100%;
+      padding-top: 0;  
+      letter-spacing: 0.18px;
+    }
+
+    #shopify-section-{{ section.id }} .call-to-action__text-above-button * {
+      font-size: {{ section.settings.text_above_font_size_tablet }}px;
+      line-height: 1.19;
+    }
+
+    #shopify-section-{{ section.id }} .call-to-action__image-wrapper {
+      width: {{ section.settings.width_cta_image_tablet }}%;
+      height: 252px;
+    }
+
+    #shopify-section-{{ section.id }} .call-to-action__form-wrapper {
+      width: 50%;
+    }
+  }
+
+  @media (max-width: 767px) {
+    #shopify-section-{{ section.id }} .call-to-action__button {
+      width: {{ section.settings.width_cta_botton_mobile }}%;
+    }
+
+    #shopify-section-{{ section.id }} .call-to-action__headline {
+      font-size: {{ section.settings.headline_font_size_mobile }}px;
+      text-align: {{ section.settings.block_text_align_mobile }};
+      letter-spacing: 0.2px;
+    }
+
+    #shopify-section-{{ section.id }} .call-to-action__form-wrapper {
+      width: 100%;
+    }
+
+    #shopify-section-{{ section.id }} .call-to-action__form {
+      max-width: {{ section.settings.box_limit_mobile }}px;
+      padding: 0;
+      margin-top: 7px;
+    }
+
+    #shopify-section-{{ section.id }} .call-to-action__content-button {
+      align-items: baseline;
+      padding: 0;
+      gap: 7px;
+    }
+
+    #shopify-section-{{ section.id }} .call-to-action__text-above-button {
+      text-align: {{ section.settings.block_text_align_mobile }};
+      max-width: 100%;
+      width: 100%;
+      padding: 0;
+      letter-spacing: 0.15px;
+    }
+    
+    #shopify-section-{{ section.id }} .call-to-action__text-above-button * {
+      font-size: {{ section.settings.text_above_font_size_mobile }}px;
+      line-height: 1.15;
+    }
+
+    #shopify-section-{{ section.id }} .call-to-action__image-wrapper {
+      width: {{ section.settings.width_cta_image_mobile }}%;
+      max-width: {{ section.settings.box_limit_mobile }}px;
+      height: 231px;
+      text-align: center;
+      border-radius: 15px;
+    }
+  }
+</style>
+{%- comment -%} End Shopify ID Styles{%- endcomment -%}
+
+<style scoped>
+  .call-to-action .cta-content-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2%;
+    max-width: 47%;
+  }
+  .call-to-action__wrappper {
+    align-items: center;
+    margin: 0 auto;
+    flex-wrap: wrap;
+    padding: 0 23px;
+  }
+  .call-to-action__title--hide {
+    display: none;
+  }
+  .call-to-action__block {
+    position: relative;
+    overflow: hidden;
+  }  
+  .call-to-action__block, 
+  .call-to-action__learn-more-button, 
+  .call-to-action__text-above-button,
+  .call-to-action__content-button,
+  .call-to-action__wrappper, 
+  .call-to-action__image-wrapper img, 
+  .call-to-action__banner {
+    width: 100%;
+  }
+  .call-to-action__banner {
+    position: absolute;
+    left: 0;
+    z-index: -1;
+  }
+  .call-to-action__content-button, .call-to-action__wrappper {
+    display: flex;
+    row-gap: 15px;
+  }
+  .call-to-action .buy-now {
+    position: relative;
+    width: 100%;
+  }
+  .call-to-action .buy-now .buy-now-bg {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    background: #9c2135;
+    z-index: -1;
+    transform: translateY(-50%);
+  }
+  .call-to-action .buy-now .buy-now-wrapper {
+    position: relative;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-around;
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+  .call-to-action .buy-now .buy-now-wrapper .buy-now-btn {
+    display: block;
+    background: #fff;
+    color: #9c2135;
+    padding: 15px;
+    border: 1px solid transparent;
+    text-align: center;
+  }
+  .call-to-action .buy-now .buy-now-wrapper .buy-now-btn:hover,
+  .call-to-action .buy-now .buy-now-wrapper .buy-now-btn:active {
+    color: #fff;
+    background: #9c2135;
+    border-color: #fff;
+  }
+  .call-to-action .buy-now .buy-now-wrapper img {
+    max-width: 400px;
+    flex: 1;
+  }
+  .call-to-action .cart-button {
+    height: 58px;
+  }
+  .call-to-action__button-wrapper {
+    width: 100%
+  }
+  .call-to-action__button-wrapper a,
+  .call-to-action__button-wrapper form {
+    display: flex;
+  }
+  .call-to-action__wrapper--row-reverse{
+    flex-direction: row-reverse;
+  }
+  .call-to-action__content-button{
+    flex-direction: column;
+    max-width: 100%;
+    justify-content: center;
+  }
+  .call-to-action__content-button,
+  .call-to-action__wrappper {
+    justify-content: center;
+  }
+  .call-to-action__form-wrapper {
+    display: flex;
+  }
+  .call-to-action__button,
+  .call-to-action__button--error {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    padding: 15px;
+    border: 1px solid;
+    text-align: center;
+    height: auto;
+  }
+  .call-to-action__headline {
+    font-weight: 400;
+    line-height: 36px;
+    margin: 2px 0 8px;
+  }
+  .call-to-action__text-above-button{
+    font-family: var(--auxiliarFont);
+    line-height: 21.98px;
+  }
+  .call-to-action__desktop {
+    display: block;
+  }
+  .call-to-action__tablet {
+    display: none;
+  }
+  .call-to-action__mobile {
+    display: none;
+  }
+  .clean-ingredients-content > p {
+    border-bottom: 1px solid #ff8836;
+    padding: 10px 0;
+  }
+  
+  @media (max-width: 1019px) {
+    .call-to-action .buy-now .buy-now-wrapper {
+      font-size: 16px;
+    }
+    body .call-to-action .buy-now .buy-now-wrapper .buy-now-btn {
+      padding: 15px 30px;
+      font-size: 30px;
+    }
+    .call-to-action__desktop {
+      display: none;
+    }
+
+    .call-to-action__wrappper {
+      align-items: flex-start;
+      padding: 0 20px;
+    }
+
+    .call-to-action__tablet {
+      display: block;
+    }
+    .call-to-action__content-button,
+    .call-to-action__wrappper {
+      row-gap: 5px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    body .call-to-action {
+      margin-bottom: 17px;
+    }
+    body .call-to-action .buy-now {
+      padding: 6px 0;
+    }
+    body .call-to-action .buy-now .buy-now-bg {
+      top: 0;
+      transform: translateY(0);
+      height: 100%;
+    }
+    body .call-to-action .buy-now .buy-now-wrapper {
+      flex-wrap: wrap;
+      justify-content: center;
+      flex-direction: column;
+    }
+    .call-to-action .cta-content-wrapper {
+      max-width: 95%;
+    }
+    body .call-to-action .buy-now .buy-now-wrapper form {
+      width: 75%;
+    }
+    body .call-to-action .buy-now .buy-now-wrapper img {
+      order: -1;
+      margin-bottom: 30px;
+    }
+    body .call-to-action .buy-now .buy-now-wrapper img,
+    body .call-to-action .buy-now .buy-now-wrapper .buy-now-btn {
+      width: 100%;
+    }
+    body .call-to-action .buy-now .buy-now-wrapper .buy-now-btn {
+      padding: 6px 0;
+      font-size: 1.8rem;
+    }
+    .call-to-action .cta-content-wrapper {
+      width: 100%;
+    }
+    .call-to-action__desktop {
+      display: none;
+    }
+    .call-to-action__tablet {
+      display: none;
+    }
+    .call-to-action__mobile {
+      display: block;
+    }
+    .call-to-action__wrappper {
+      flex-direction: column-reverse;
+      gap: 10px;
+    }
+    .call-to-action__content-button {
+      gap: 10px;
+    }
+    .call-to-action__learn-more-button,
+    .call-to-action__button,
+    .call-to-action__button--error {
+      display: flex;
+      height: 100%;
+    }
+    .call-to-action__wrapper--row {
+      flex-direction: column-reverse;
+    }
+    .call-to-action__button,
+    .call-to-action__button--error{
+      justify-content: center;
+      align-items: center;
+    }
+    .call-to-action__learn-more-button {
+      justify-content: center;
+    }
+  }
+</style>
+
+{%- if section.settings.buy_now_line_direction == 'row-reverse' -%}
+  {%- assign action_wrapper_class = 'call-to-action__wrapper--row-reverse' -%}
+{%- endif -%}
+
+<section class="call-to-action {{ section.settings.custom_class }}" data-section-type="cta-section">
+  <h2 class="call-to-action__title--hide">{{ section.settings.buy_now_text_button }}</h2>
+
+  <div class="call-to-action__block">
+    <div class="call-to-action__banner"></div>
+    <div class="call-to-action__wrappper wrapper {{ action_wrapper_class }}">
+      <div class="call-to-action__form-wrapper">
+        <div class="call-to-action__form" method="post" action="/cart/add">
+          {%- assign temp_product = all_products[section.settings.id_product_block] -%}
+          {%- assign variant = temp_product.selected_or_first_available_variant -%}
+
+          <div class="call-to-action__content-button">
+            <h3 class="call-to-action__headline">{{ section.settings.headline }}</h3>
+            <div class="call-to-action__text-above-button {% if section.settings.text_above_button_tablet != blank or section.settings.text_above_button_mobile != blank %}call-to-action__desktop{% endif %}">
+              {{ section.settings.text_above_button }}
+            </div>
+            {% if section.settings.text_above_button_tablet != blank %}
+              <div class="call-to-action__text-above-button call-to-action__tablet">
+                {{ section.settings.text_above_button_tablet }}
+              </div>
+            {% endif %}
+            {% if section.settings.text_above_button_mobile != blank %}
+              <div class="call-to-action__text-above-button call-to-action__mobile">
+                {{ section.settings.text_above_button_mobile }}
+              </div>
+            {% endif %}
+            <div class="call-to-action__button-wrapper">
+              {%- if section.settings.use_add_to_cart -%}
+                <form method="post" action="/cart/add">
+                  <input type="hidden" name="id" value="{{ variant.id }}" id="id-jq-cart-item">
+                  <input type="hidden" name="quantity" id="id-quantity" value="1">
+                  {%- if temp_product.available -%}
+                    <button class="call-to-action__button">Add to cart</button>
+                  {%- else -%}
+                    <div id="button-out-of-stock" class="call-to-action__button--error">
+                      <span class="btn-label">
+                        {{- settings.out_of_stock_label | default: '( out of stock )' | escape -}}
+                      </span>
+                    </div>
+                  {%- endif -%}
+                </form>
+              {%- else -%}
+                {%- if section.settings.buy_now_text_button != blank and section.settings.use_external_link == true -%}
+                  {%- assign product_link = section.settings.url_product -%}
+                  <a
+                    title="{{ section.settings.buy_now_text_button | strip_html | escape }}"
+                    href="{{ product_link | default: '#' }}"
+                  ><button
+                      id="BuyNowBtn-{{ section.id }}"
+                      class="call-to-action__button {{ section.settings.text_transform_button }}"
+                    >
+                      {{ section.settings.buy_now_text_button }}
+                    </button>
+                  </a>
+                {%- else -%}
+                  {%- if section.settings.buy_now_text_button != blank -%}
+                    <a
+                      title="{{ section.settings.buy_now_text_button | strip_html | escape }}"
+                      href="{{ variant.url | default: '#' }}"
+                      ><button
+                        id="BuyNowBtn-{{ section.id }}"
+                        class="call-to-action__button {{ section.settings.text_transform_button }}"
+                      >
+                        {{ section.settings.buy_now_text_button }}
+                      </button>
+                    </a>
+                  {%- endif -%}
+                {%- endif -%}
+              {%- endif -%}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="call-to-action__image-wrapper">
+        {%- assign videoUrl = section.settings.video.sources | last -%}
+        {% if section.settings.video %}
+          {% if section.settings.enable_controls %}
+            <video controls width="100%">
+              <source src="{{ videoUrl.url }}" type="video/mp4">
+            </video>
+          {% else %}
+            <video playsinline muted loop autoplay width="100%">
+              <source src="{{ videoUrl.url }}" type="video/mp4">
+            </video>
+          {% endif %}
+        {% else %}
+          {%-
+            render 'responsive-image' with
+            image: section.settings.url_call_to_action,
+            placeholder: 'product-1'
+            lazyload: section.settings.enable_lazy,
+            width: 580,
+            height: 405
+          -%}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<script type="lazyload_int">
+  setTimeout(function () {
+    (function () {
+      var _add_to_cart = jQuery('.js-atc-form');
+
+      _add_to_cart.submit(function () {
+        $('#add-to-cart-error').html('');
+        jQuery('.cart-button').prop('disabled', true);
+        jQuery('.cart-button .btn-progress').animate(
+          {
+            width: '30%',
+          },
+          250
+        );
+
+        $('#add-to-cart-error').empty().hide();
+
+        VastaShop.Cart.addItem(jQuery(this).serialize())
+          .then(function (prod, status) {
+            if ('success' == status) {
+              VastaShop.Cart.getAllItems()
+                .then(function (cart, status) {
+                  if ('success' === status) {
+                    jQuery('.btn-add-tocart .btn-progress').animate(
+                      {
+                        width: '100%',
+                      },
+                      250,
+                      function () {
+                        jQuery(this).css('width', '0').show();
+                      }
+                    );
+
+                    VastaShop.Cart.current = cart;
+
+                    jQuery('.cupom-text').show();
+                    render_cart_drawer(VastaShop.Cart.current, jQuery('.list-products'), 0, '');
+
+                    update_shipping_bar(cart);
+
+                    jQuery('.cart-button').prop('disabled', false);
+                    jQuery('body').addClass('cart-drawer-open cart-open');
+                    inventoryControl(prod.id);
+                  }
+                })
+                .catch(function (err) {
+                  console.log(err);
+                });
+            }
+          })
+          .catch(function (err) {
+            jQuery('.cart-button').prop('disabled', false).hide();
+
+            if (err.status === 422) {
+              $('#add-to-cart-error').html('Maximum Quantity Available In Stock.').show();
+            } else {
+              throw err;
+            }
+          });
+
+        return false;
+      });
+    })();
+  });
+</script>
+{% schema %}
+{
+  "name": "CTA Section",
+  "class": "cta-block",
+  "settings": [
+    {
+      "type": "header",
+      "content": "General Settings"
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom Class",
+      "info": "Custom class to apply css styles for specific sections"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_custom_margins_paddings",
+      "label": "Enable Custom Margins and Paddings",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "custom-margin-top",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Margin Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "custom-margin-bottom",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Margin Bottom",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "custom-padding-top",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "custom-padding-bottom",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 0
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_lazy",
+      "label": "Enable Lazyload",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "buy_now_line_direction",
+      "label": "Content and Image Position",
+      "options": [
+        {
+          "value": "row",
+          "label": "Content - Image"
+        },
+        {
+          "value": "row-reverse",
+          "label": "Image - Content"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "BACKGROUND"
+    },
+    {
+      "type": "color",
+      "id": "buy_now_background_color",
+      "label": "Section Background Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "buy_nowbackgroung_height",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Background Height",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "buy_now_background_top_position",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Background Position",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Box Text and Button Width"
+    },
+    {
+      "type": "paragraph",
+      "content": "Desktop"
+    },
+    {
+      "type": "range",
+      "id": "box_limit",
+      "min": 100,
+      "max": 500,
+      "step": 4,
+      "unit": "px",
+      "label": "Width",
+      "default": 400
+    },
+    {
+      "type": "paragraph",
+      "content": "Tablet"
+    },
+    {
+      "type": "range",
+      "id": "box_limit_tablet",
+      "min": 100,
+      "max": 500,
+      "step": 4,
+      "unit": "px",
+      "label": "Width",
+      "default": 400
+    },
+    {
+      "type": "paragraph",
+      "content": "Mobile"
+    },
+    {
+      "type": "range",
+      "id": "box_limit_mobile",
+      "min": 100,
+      "max": 500,
+      "step": 4,
+      "unit": "px",
+      "label": "Width",
+      "default": 400
+    },
+    {
+      "type": "select",
+      "id": "boxtext_button_alignment",
+      "label": "Box Text and Button Alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "label": "Title",
+      "id": "headline",
+      "default": "Headline"
+    },
+    {
+      "type": "richtext",
+      "id": "text_above_button",
+      "label": "Message Text",
+      "default": "<p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layou+ t. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.</p></p>"
+    },
+    {
+      "type": "richtext",
+      "id": "text_above_button_tablet",
+      "label": "Message Text Tablet",
+      "default": "<p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layou+ The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "text_above_button_mobile",
+      "label": "Message Text Mobile",
+      "default": "<p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layou+ t. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.</p></p>"
+    },
+    {
+      "type": "select",
+      "id": "headline_text_align",
+      "label": "Headline Position",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "block_text_align",
+      "label": "Text Position",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "block_text_align_tablet",
+      "label": "Text Position on Tablet",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "block_text_align_mobile",
+      "label": "Text Position on Mobile",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "headline_transform_button",
+      "label": "Headline Transform",
+      "options": [
+        {
+          "label": "Capitalize",
+          "value": "capitalize"
+        },
+        {
+          "label": "Lowercase",
+          "value": "lowercase"
+        },
+        {
+          "label": "Uppercase",
+          "value": "uppercase"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Font size to Headline"
+    },
+    {
+      "type": "paragraph",
+      "content": "Desktop"
+    },
+    {
+      "type": "range",
+      "id": "headline_font_size",
+      "min": 10,
+      "max": 48,
+      "step": 1,
+      "unit": "px",
+      "label": "Font Size",
+      "default": 20
+    },
+    {
+      "type": "paragraph",
+      "content": "Tablet"
+    },
+    {
+      "type": "range",
+      "id": "headline_font_size_tablet",
+      "min": 10,
+      "max": 48,
+      "step": 1,
+      "unit": "px",
+      "label": "Font Size",
+      "default": 24
+    },
+    {
+      "type": "paragraph",
+      "content": "Mobile"
+    },
+    {
+      "type": "range",
+      "id": "headline_font_size_mobile",
+      "min": 10,
+      "max": 48,
+      "step": 1,
+      "unit": "px",
+      "label": "Font Size",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Font size to Message Text"
+    },
+    {
+      "type": "paragraph",
+      "content": "Desktop"
+    },
+    {
+      "type": "range",
+      "id": "text_above_font_size",
+      "min": 10,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "label": "Font Size",
+      "default": 18
+    },
+    {
+      "type": "paragraph",
+      "content": "Tablet"
+    },
+    {
+      "type": "range",
+      "id": "text_above_font_size_tablet",
+      "min": 10,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "label": "Font Size",
+      "default": 16
+    },
+    {
+      "type": "paragraph",
+      "content": "Mobile"
+    },
+    {
+      "type": "range",
+      "id": "text_above_font_size_mobile",
+      "min": 10,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "label": "Font Size",
+      "default": 12
+    },
+    {
+      "type": "color",
+      "id": "headline_color",
+      "label": "Headline Color",
+      "default": "#000"
+    },
+    {
+      "type": "color",
+      "id": "text_above_color",
+      "label": "Text Color",
+      "default": "#000"
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "select",
+      "id": "enable_button",
+      "label": "Enable Button",
+      "options": [
+        {
+          "label": "Enable",
+          "value": "block"
+        },
+        {
+          "label": "Disable",
+          "value": "none"
+        }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "text",
+      "id": "buy_now_text_button",
+      "label": "Text",
+      "default": "buy now"
+    },
+    {
+      "type": "select",
+      "id": "text_transform_button",
+      "label": "Text Transform",
+      "options": [
+        {
+          "label": "Capitalize",
+          "value": "capitalize"
+        },
+        {
+          "label": "Lowercase",
+          "value": "lowercase"
+        },
+        {
+          "label": "Uppercase",
+          "value": "uppercase"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "button_alignment",
+      "label": "Button Position",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "text_button_font_size",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Font Size",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "width_cta_botton",
+      "min": 20,
+      "max": 100,
+      "step": 10,
+      "unit": "%",
+      "label": "Button Size",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "width_cta_botton_mobile",
+      "min": 20,
+      "max": 100,
+      "step": 10,
+      "unit": "%",
+      "label": "Button Size on Mobile",
+      "default": 100
+    },
+    {
+      "type": "color",
+      "id": "button_background_color",
+      "label": "Button Background Color",
+      "default": "#204A80"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_background_color",
+      "label": "Button Hover Background Color",
+      "default": "#204A80"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button Text Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_text_color",
+      "label": "Button Hover Text Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "button_border_color",
+      "label": "Button Border Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_border_color",
+      "label": "Button Hover Border Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Product & Image"
+    },
+    {
+      "type": "product",
+      "id": "id_product_block",
+      "label": "Product"
+    },
+    {
+      "type": "checkbox",
+      "id": "use_add_to_cart",
+      "label": "Add To Cart Button"
+    },
+    {
+      "type": "checkbox",
+      "id": "use_external_link",
+      "label": "Enable Custom Link"
+    },
+    {
+      "type": "url",
+      "id": "url_product",
+      "label": "Link"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_controls",
+      "label": "Enable Video Controls"
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Video"
+    },
+    {
+      "type": "image_picker",
+      "id": "url_call_to_action",
+      "label": "Image",
+      "info": "800x800"
+    },
+    {
+      "type": "paragraph",
+      "content": "Border Radius"
+    },
+    {
+      "type": "range",
+      "id": "border_radius_top_right",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Border Radius Top Right",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "border_radius_bottom_right",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Border Radius Bottom Right",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "border_radius_top_left",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Border Radius Top Left",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "border_radius_bottom_left",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Border Radius Bottom Left",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Image size"
+    },
+    {
+      "type": "paragraph",
+      "content": "Desktop"
+    },
+    {
+      "type": "range",
+      "id": "width_cta_image",
+      "min": 1,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Image Size",
+      "default": 50
+    },
+    {
+      "type": "paragraph",
+      "content": "Tablet"
+    },
+    {
+      "type": "range",
+      "id": "width_cta_image_tablet",
+      "min": 1,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Image Size",
+      "default": 50
+    },
+    {
+      "type": "paragraph",
+      "content": "Mobile"
+    },
+    {
+      "type": "range",
+      "id": "width_cta_image_mobile",
+      "min": 1,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Image Size",
+      "default": 100
+    }
+  ],
+  "presets": [
+    {
+      "name": "Call To Action",
+      "category": "Call To Action"
+    }
+  ]
+}
+{% endschema %}

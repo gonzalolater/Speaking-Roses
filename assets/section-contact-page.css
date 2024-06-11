@@ -1,0 +1,11 @@
+.contact-wrapper{margin:10px auto 55px;padding:10px;width:50%}
+.contact-wrapper .form-success{background:#dfd;border:1px solid #7a7;padding:10px;margin-bottom:10px;max-width:initial}
+.contact-wrapper .errors{background:#fdd;border:1px solid #eaa;padding:10px;margin-bottom:10px}
+.contact-wrapper .errors ul{display:block;padding-left:20px}
+.contact-wrapper .contact-title{margin-bottom:10px}
+.contact-wrapper .all-width{width:100%;border:1px solid #e5e5e5;border-radius:3px;padding:8px 10px;margin-bottom:10px}
+.contact-wrapper .half-width{width:49.5%}
+.contact-wrapper .position-left{float:left}
+.contact-wrapper .position-right{float:right}
+.contact-wrapper .contact-button{padding:10px;font-weight:700;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;-webkit-appearance:none;-moz-appearance:none;background-color:var(--color-secondary-buttons);color:var(--color-secondary-buttons-text);border:none;font-size:1rem;text-transform:uppercase}
+.contact-wrapper .contact-button:hover,.contact-wrapper .contact-button:active{background-color:var(--color-secondary-buttons-hover);color:var(--color-secondary-buttons-text-hover)}

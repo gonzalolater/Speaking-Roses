@@ -1,0 +1,64 @@
+{% comment %}
+  CSS code for elements that be contained in all pages.
+{% endcomment %}
+{% render 'custom-general' %}
+
+{%- if template contains 'index' -%}
+  {% comment %}
+    CSS code for elements that be contained in homepage only.
+  {% endcomment %}
+  {% render 'custom-index-css' %}
+{%- endif -%}
+
+{%- if template contains 'collection' -%}
+  {% comment %}
+    CSS code for elements that be contained in collection page only.
+  {% endcomment %}
+  {% render 'custom-collection-css' %}
+{%- endif -%}
+
+{%- if template contains 'product' -%}
+  {% comment %}
+    CSS code for elements that be contained in product page only.
+  {% endcomment %}
+  {% render 'custom-product-css' %}
+
+  {% comment %}
+    CSS code for elements that be contained in product customzed page only.
+  {% endcomment %}
+  {%- if template contains 'customized' -%}
+    {% render 'custom-product-customized-css' %}
+  {%- endif -%}
+{%- endif -%}
+
+{%- if template contains 'cart' -%}
+  {% comment %}
+    CSS code for elements that be contained in cart page only.
+  {% endcomment %}
+  {% render 'custom-cart-css' %}
+{%- endif -%}
+
+{%- if template contains 'page' -%}
+  {% comment %}
+    CSS code for elements that be contained in page landing only.
+  {% endcomment %}
+  {%- if template.suffix == 'landing' -%}
+    {% render 'custom-page-landing-css' %}
+  {%- elsif template.suffix == 'contact' -%}
+    {% render 'custom-page-contact-css' %}
+  {%- endif -%}
+{%- endif -%}
+
+{%- if template contains 'blog' -%}
+  {% comment %}
+    CSS code for elements that be contained in blog page only.
+  {% endcomment %}
+  {% render 'custom-blog-css' %}
+{%- endif -%}
+
+{%- if template contains 'article' -%}
+  {% comment %}
+    CSS code for elements that be contained in article page only.
+  {% endcomment %}
+  {% render 'custom-article-css' %}
+{%- endif -%}

@@ -1,0 +1,13 @@
+<div class="product-ajax__recently-viewed" id="recently-viewed-products__product-item">
+  {%
+    render 'product-card'
+    with
+    prod: product,
+    max_width: image_width,
+    width_large: image_width,
+    width_mobile: image_width,
+    width_desk: image_width,
+    show_price: true,
+    show_reviews: false,
+  %}
+</div>

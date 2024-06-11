@@ -1,0 +1,189 @@
+<!-- start product-tabs-accordion.liquid (SNIPPET) -->
+{% if section.settings.enabled_tabs %}
+  <section class="tabs-section" data-section-type="product-tabs">
+    <h2 class="hide">Product Description</h2>
+
+    {%- assign temp_index = 1 -%}
+
+    <div class="tabs-accordion">
+      {%- if section.settings.enabled_descp == true -%}
+        <div class="tabs-accordion-item">
+          <div class="tabs-accordion-title active">
+            {{ section.settings.product_description_title -}}
+
+            {% if section.settings.icon_style == "arrow" %}
+              {%- render 'icon-arrow-down' %}
+            {% endif %}
+          </div>
+          <div
+            class="tabs-accordion-content rte {% if section.settings.enabled_tabs_max_height %} accordion-max-height {% endif %}"
+            style="display: block;"
+          >
+            {{ product.description }}
+          </div>
+        </div>
+
+        {%- assign temp_index = temp_index | plus: 1 -%}
+      {%- endif -%}
+
+      {% for block in section.blocks %}
+        {% if 'tab' == block.type or 'tab-richtext' == block.type %}
+          {% assign show_tabs = false %}
+          {% if block.settings.enable_tab_by_tag %}
+            {% if product.tags contains block.settings.tag_name %}
+              {% assign show_tabs = true %}
+            {% endif %}
+          {% else %}
+            {% assign show_tabs = true %}
+          {% endif %}
+          {% if show_tabs == true %}
+            {%- assign tab_text = block.settings.tab_content -%}
+            {%- if block.settings.enable_metafield_content and block.settings.tab_metafield_content != blank -%}
+              {%- assign tab_text = block.settings.tab_metafield_content -%}
+            {%- endif -%}
+            {%- if block.settings.tab_title != blank and tab_text != blank -%}
+              <div class="tabs-accordion-item">
+                <div class="tabs-accordion-title {% if temp_index == 1 and section.settings.enabled_descp == false %}active{% endif %}">
+                  {{ block.settings.tab_title -}}
+
+                  {% if section.settings.icon_style == "arrow" %}
+                    {%- render 'icon-arrow-down' %}
+                  {% endif %}
+                </div>
+                {%- if block.settings.enable_metafield_content and block.settings.tab_metafield_content != blank -%}
+                  <div
+                    class="tabs-accordion-content {% if section.settings.enabled_tabs_max_height %} accordion-max-height {% endif %}"
+                    {% if temp_index > 1 %}
+                      style="display: none;"
+                    {% endif %}
+                  >
+                    {{ block.settings.tab_metafield_content }}
+                  </div>
+                {% else %}
+                  <div
+                    class="tabs-accordion-content {% if section.settings.enabled_tabs_max_height %} accordion-max-height {% endif %}"
+                    {% if temp_index > 1 %}
+                      style="display: none;"
+                    {% endif %}
+                  >
+                    {{ block.settings.tab_content }}
+                  </div>
+                {%- endif -%}
+              </div>
+
+              {%- assign temp_index = temp_index | plus: 1 -%}
+            {% endif %}
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+    </div>
+  </section>
+{% else %}
+  {%- if section.settings.enabled_descp == true -%}
+    <div class="no-product-tabs rte">
+      {{ product.description }}
+    </div>
+  {%- endif -%}
+{%- endif -%}
+{%- if settings.button_add_to_cart -%}
+  <div class="AddToCart2-div">
+    <button
+      class="btn btn-add-tocart"
+      {% if product.selected_or_first_available_variant.available %}
+      {% else %}
+        style="display: none;"
+      {% endif -%}
+      id="AddToCart2"
+    >
+      {%- if settings.enable_price_atc -%}
+        <span class="btn-money money">{{ product.price | money }}</span>
+        <span class="divisor">-</span>
+      {%- endif -%}
+      <span class="btn-label">{{ settings.add_to_cart_label }}</span>
+      <span class="btn-svg">
+        {%- render 'icon-cart' -%}
+      </span>
+      <span class="btn-items">1 {{ 'products.product.item' | t }}</span>
+      {%- if settings.atc_progress_bar -%}
+        <span class="btn-progress"></span>
+      {%- endif -%}
+    </button>
+    <div
+      id="button-out-of-stock-2"
+      class="btn btn-choose-variant button-out-of-stock-2"
+      {% if product.selected_or_first_available_variant.available %}
+        style="display: none;"
+      {% else %}
+        style="display: block;"
+      {% endif %}
+    >
+      <span class="btn-label">{{ settings.out_of_stock_label | default: '( out of stock )' | escape }}</span>
+    </div>
+  </div>
+{%- endif -%}
+
+<script type="lazyload_int">
+  setTimeout(function () {
+    (function ($) {
+      var $document = $(document);
+      $document.ready(function () {
+        $document.on('click', '.tabs', function () {
+          var tabs = $(this),
+            scope = tabs.parent().attr('data-tabs-scope');
+
+          tabs.addClass('active').siblings().removeClass('active');
+
+          $('.tabs-content[data-tabs-scope="' + scope + '"] .tab-content[data-identifier="' + tabs.attr('data-target') + '"]')
+            .addClass('active')
+            .siblings()
+            .removeClass('active');
+            
+          return false;
+        });
+
+        $(document).on('click', '.tabs-accordion-title', function () {
+          var self = $(this),
+            accordion = self.closest('.tabs-accordion'),
+            item = self.closest('.tabs-accordion-title'),
+            content = self.siblings('.tabs-accordion-content');
+
+          var allTitles = accordion.find('.tabs-accordion-title').not(item),
+            allContents = accordion.find('.tabs-accordion-content').not(content);
+
+          allTitles.removeClass('active');
+          allContents.stop().slideUp();
+
+          if (item.hasClass('active')) {
+            item.removeClass('active');
+          } else {
+            item.addClass('active');
+          }
+
+          content.stop().slideToggle();
+        });
+      });
+    })(jQuery);
+  });
+</script>
+<style scoped>
+  :root {
+  --product-tab-text-transform: {{ section.settings.product_tab_text_transform }};
+  --active-tab-color: {{ section.settings.active_tab_color }};
+  --active-tab-bullet-color: {{ section.settings.active_tab_bullet_color }};
+  --active-tab-text-color: {{ section.settings.active_tab_text_color }};
+  --active-tab-border-color: {{ section.settings.active_tab_border_color }};
+  --inactive-tab-color: {{ section.settings.inactive_tab_color }};
+  --inactive-tab-bullet-color: {{ section.settings.inactive_tab_bullet_color }};
+  --inactive-tab-text-color: {{ section.settings.inactive_tab_text_color }};
+  --active-arrow-tab-color: {{ section.settings.active_arrow_tab_color }};
+  --inactive-arrow-tab-color: {{ section.settings.inactive_arrow_tab_color }};
+  --tab-max-height: {{ section.settings.tabs_max_height }}px;
+  --enable-bullet-points: inline-block;
+  {% unless section.settings.enabled_bullet_points %}
+    --enable-bullet-points: none;
+  {% endunless %}
+  }
+  .flex-control-paging li a {
+      display: initial;
+  }
+</style>

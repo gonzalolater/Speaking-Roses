@@ -1,0 +1,446 @@
+<!-- start blog-sidebars.liquid (SNIPPET) -->
+<style>
+  {%- if section.settings.sidebar_left -%}
+    .grid.blog-grid {
+      flex-direction: row-reverse;
+    }
+  {%- endif -%}
+
+  {%- if section.settings.fixed_sidebar != true -%}
+    .blog-grid > .sidebar {
+      position: static;
+    }
+  {%- else -%}
+    .blog-grid > .sidebar {
+      position: -webkit-sticky;
+      position: sticky;
+      top: 38px;
+    }
+  {%- endif -%}
+
+  .sidebar {
+    width: 100%;
+    max-width: 240px;
+  }
+
+  .title-recents {
+    padding-bottom: 16px;
+  }
+
+  .sidebar_list_item, 
+  .sidebarrow3 .row-text {
+    text-align: {{ section.settings.sidebar_text_align }};
+    font-size: 16px;
+  }
+  
+  .sidebar-title {
+    height: fit-content;
+    display: block;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.7px;
+    margin: 0;
+    padding: 0 0 17.6px 0;
+    color: #595959;
+    background: transparent;
+    text-transform: uppercase;
+    text-align: {{ section.settings.sidebar_text_align }};
+  }
+
+  .sidebar_list_item {
+    list-style: none;
+    border-top: 1px solid #000;
+    padding: 8px 0 6.5px;
+  }
+
+  .sidebar_list_item:last-child {
+    border-bottom: 1px solid #000;
+  }
+
+  .sidebar_list_item a{
+    color:#858585;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 25.2px;
+  }
+
+  .sidebarrow5 .sidebar_list_item a {
+    line-height: 25.6px;
+  }
+
+  .sidebarrow5 .sidebar-title {
+    padding-bottom: 18px;
+  } 
+
+  .sidebar_list_item .list-link {
+    color: #858585;
+  }
+
+  .sidebarrow4 {
+    margin-bottom: 26px;
+  }
+  
+  .sidebarrow3 {
+    padding: 10px 6px 10px 10px;
+    background-color: #EDEDED;
+    overflow: hidden;
+    margin-bottom: 37px;
+    width: 100%;
+  }
+
+  .sidebarrow3 .sidebar-title {
+    padding: 0;
+    margin-bottom: 11px;
+    line-height: 1.2;
+  }
+
+  .sidebarrow3 .row-text {
+    text-transform: capitalize;
+    color: #858585;
+    margin-bottom: 9px;
+    letter-spacing: 0.1px;
+    word-spacing: -0.5px;
+    line-height: 1.65;
+    width: 90%;
+  }
+
+  .sidebarrow3 .email-signup-form {
+    background-color: #838383;
+    border-radius: 3px;
+    height: 31px;
+    padding: 2px 0;
+    margin: 0;
+    width: 98.4%;
+  }
+
+  .sidebarrow3 .klaviyo_condensed_styling .klaviyo_inputs_wrapper {
+    height: 100%;
+  }
+
+  .sidebarrow3 .klaviyo_condensed_styling .klaviyo_field_group {
+    width: 60%;
+    margin-right: 0;
+    display: inline-block;
+    float: left;
+  }
+
+  .sidebarrow3 .klaviyo_condensed_styling input[type=email] {
+    color: #D9D9D9;
+    height: 27px;
+    border: none;
+    background: transparent;
+    padding: 5px 5px 5px 11px;
+    letter-spacing: 0px;
+    font-size: 12px;
+  }
+
+  .sidebarrow3 .klaviyo_condensed_styling input[type=email]::placeholder {
+    color: #D9D9D9;
+    font-size: 12px;
+    letter-spacing: 0px;
+  }
+
+  .sidebarrow3 .klaviyo_form_actions {
+    width: 39%;
+    float: left;
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
+
+  .sidebarrow3 .newsletter-klaviyo .email-signup-form .klaviyo_form_actions button {
+    font-size: 0;
+    height: 100%;
+    border-radius: 3px;
+    padding: 0;
+  }
+
+  .sidebarrow3 .newsletter-klaviyo .email-signup-form .klaviyo_form_actions button::before {
+    content: 'SEND';
+    font-size: 12px;
+  }
+
+  .sidebarrow3 .newsletter-klaviyo form .klaviyo_messages .success_message {
+    margin-top: 5px;
+    text-align: center;
+    margin-bottom: 0;
+  }
+
+  .sidebarrow3 .newsletter-klaviyo form .klaviyo_messages .success_message .thank_you {
+    color: #858585;
+    margin-bottom: 5px;
+  }
+
+  .sidebarrow3 .newsletter-klaviyo form .klaviyo_messages .success_message .coupon_text {
+    font-size: 16px;
+  }
+
+  .sidebarrow3 .newsletter-klaviyo form .klaviyo_messages .error_message {
+    margin-top: 5px; 
+    margin-bottom: 0;
+  }
+
+  .sidebarrow5 .sidebar_list_item {
+    padding-bottom: 6.3px;
+  }
+
+  @media (max-width: 1279px) {
+    .blog-page__grid-item.grid-item--three-quarters {
+      width: 74.9%;
+    }
+  }
+
+  @media (max-width: 1019px) {
+    .sidebar {
+      max-width: unset;
+    }
+
+    .sidebar-title {
+      padding-bottom: 17px;
+    }
+
+    .sidebarrow3, .sidebarrow4, .sidebarrow5 {
+      margin-left: 0;
+    }
+
+    .sidebarrow4, .sidebarrow5 {
+      width: 100%;
+    }
+
+    .sidebarrow4 .sidebar-title {
+      line-height: 1.3;
+      padding-bottom: 14.3px;
+      padding-top: 6.1px;
+    }
+
+    .sidebar_list_item {
+      line-height: 165%;
+      padding: 8.1px 0 5.5px;
+    }
+
+    .sidebar_list_item a {
+      letter-spacing: 0;
+      line-height: 140%;
+    }
+
+    .sidebarrow3 {
+      padding-top: 11px;
+      padding-left: 10px;
+      margin-bottom: 36.9px;
+    }
+
+    .sidebarrow3 .row-text {
+      margin-bottom: 9.4px;
+      letter-spacing: .06px;
+    }
+
+    .sidebarrow3 .klaviyo_condensed_styling .klaviyo_field_group {
+      width: 58.7%;
+    }
+
+    .sidebarrow3 .newsletter-klaviyo .email-signup-form {
+      padding: 0;
+      margin-left: 1px;
+      transform: translateY(0.2px);
+      max-width: 62%;
+    }
+
+    .sidebarrow3 .klaviyo_condensed_styling input[type=email] {
+      line-height: 1;
+      display: block;
+      padding: 2px 5px 2px 10px;
+      height: 31px;
+    }
+
+    .sidebarrow3 .klaviyo_condensed_styling input[type=email]::placeholder {
+      letter-spacing: 0;
+    }
+
+    .sidebarrow3 .klaviyo_form_actions {
+      height: 27px;
+      margin-top: 1.8px;
+      width: 40%;
+    }
+
+    .sidebarrow5 .sidebar-title {
+      padding-bottom: 17.7px;
+    }
+
+    .sidebarrow5 .sidebar_list_item { 
+      line-height: 24.5px;
+      padding-bottom: 6.3px;
+    }
+
+  }
+
+  @media (max-width: 767px) {
+    .sidebar-title {
+      font-size: 18px;
+    }
+
+    .sidebarrow4 {
+      margin-bottom: 7px;
+    }
+
+    .sidebarrow4 .sidebar-title {
+      padding-bottom: 16px;
+      letter-spacing: 0.7px;
+      padding-top: 5px;
+    }
+
+    .sidebar_list_item {
+      font-size: 14px;
+      line-height: 1;
+      padding: 7px 0 8px;
+    }
+
+    .sidebar_list_item a {
+      line-height: 1.43;
+      font-size: 14px;
+      display: block;
+    }
+
+    .sidebarrow5 .sidebar_list_item a {
+      line-height: 25px;
+    }
+
+    .sidebarrow5 .sidebar_list_item {
+      line-height: 26.2px;
+    }
+
+    .sidebarrow3 {
+      padding: 14px 10px 11px 10px;
+      margin-bottom: 19px;
+    }
+
+    .sidebarrow3 .sidebar-title {
+      margin-bottom: 16px;
+      font-size: 14px;
+      letter-spacing: 0.5px;
+    }
+
+    .sidebarrow3 .row-text {
+      font-size: 14px;
+      margin-bottom: 11px;
+      letter-spacing: 0.08px;
+    }
+
+    .sidebarrow3 .klaviyo_condensed_styling .klaviyo_field_group {
+      width: 58.9%
+    }
+
+    .sidebarrow3 .klaviyo_form_actions {
+      width: 39.8%;
+      margin-top: 0;
+    }
+
+    .sidebarrow3 .newsletter-klaviyo .email-signup-form .klaviyo_form_actions button::before {
+      font-size: 13px;
+      letter-spacing: -0.5px;
+    }
+
+    .sidebarrow3 .newsletter-klaviyo .email-signup-form {
+      height: 31px;
+      width: 100%;
+      max-width: unset;
+    }
+
+    .sidebarrow3 .newsletter-klaviyo .klaviyo_inputs_wrapper {
+      height: 100%;
+      display: flex;
+      align-items: center;
+    }
+
+    .sidebarrow3 .klaviyo_condensed_styling input[type=email] {
+      padding: 1px 10px 0 12px;
+      font-size: 12px;
+    }
+
+    .sidebarrow3 .klaviyo_condensed_styling input[type=email]::placeholder {
+      letter-spacing: 0;
+      font-size: 12px;
+    }
+
+    .sidebarrow5 .sidebar-title {
+      letter-spacing: 0.7px;
+      padding-bottom: 18px;
+    }
+
+    .sidebarrow5 .sidebar_list_item {
+      padding-bottom: 5px;
+      padding-top: 5px;
+      line-height: 1.7;
+    }
+  }
+</style>
+
+{%- for block in section.blocks -%}
+  {%- if  block.type == "newsletter" and settings.enable_klaviyo_id -%}
+    <div class="sidebarrow3">
+      <h3 class="row-title sidebar-title"> {%- if block.settings.sidebar_title == blank -%}{{ shop.name }}{%- else -%}{{ block.settings.sidebar_title }}{%- endif -%}</h3>
+
+      <p class="row-text">{{ block.settings.sidebar_text }}</p>
+
+      {%- if block.settings.select_newsletter == "klaviyo" and settings.enable_klaviyo_id -%}
+        {%- render "newsletter-form-klaviyo" with klaviyo_id: settings.klaviyo_id, section_id: section.id -%}
+      {%- elsif block.settings.select_newsletter == "newsletter-default" -%}
+        {%- render "newsletter-form", section_id: section.id -%}
+      {%- elsif block.settings.select_newsletter == "newsletter-custom" -%}
+        <div class="custom-html">{{ settings.custom_newsletter_html }}</div>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
+  {%- if block.type == "recent_posts" -%}
+    <div class="sidebarrow4">
+      <h3 class="title-recents sidebar-title">{{ 'blogs.sidebar.recent_articles' | t }}</h3>
+
+      <ul class="no-bullets sidebar_list">
+        {%- for article in blogs[blog.handle].articles limit: 5 -%}
+          <li class="sidebar_list_item">
+            <a title="{{ article.title | strip_html | escape }}" id="sidebar-row4-link-{{ forloop.index }}" class="list-link" href="{{ article.url | default: '#' }}">{{ article.title }}</a>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </div>
+  {%- endif -%}
+
+  {%- if block.type == "categories" -%}
+    {%- if block.settings.filter_by_tags == blank -%}
+      {%- if blog.all_tags.size > 0 -%}
+        <div class="sidebarrow5">
+          <h3 class="title-recents sidebar-title">{{ 'blogs.sidebar.categories' | t }}</h3>
+          <ul class="no-bullets">
+            {%- for tag in blog.all_tags -%}
+              {%- if current_tags contains tag -%}
+                <li id="sidebar-row5-item-{{ forloop.index }}" class="sidebar_list_item">{{ tag }}</li>
+              {%- else -%}
+                <li id="sidebar-row5-link-{{ forloop.index }}" class="sidebar_list_item">{{ tag | link_to_tag: tag }}</li>
+              {%- endif -%}
+            {%- endfor -%}
+          </ul>
+        </div>
+      {%- endif -%}
+    {%- else -%}
+      {%- if blog.all_tags.size > 0 -%}
+        <div class="sidebarrow5">
+          <h3 class="title-recents sidebar-title">{{ 'blogs.sidebar.categories' | t }}</h3>
+
+          <ul class="no-bullets"> 
+            {%- assign list_filter_tags =  block.settings.filter_by_tags | split: ";" -%}
+            {%- for tag in blog.all_tags -%}
+              {%- if list_filter_tags contains tag -%}
+                <li id="sidebar-row5-link-{{ forloop.index }}" class="sidebar_list_item">{{ tag | link_to_tag: tag }}</li>
+                <li id="sidebar-row5-link-{{ forloop.index }}" class="sidebar_list_item">{{ tag | link_to_tag: tag }}</li>
+                <li id="sidebar-row5-link-{{ forloop.index }}" class="sidebar_list_item">{{ tag | link_to_tag: tag }}</li>
+                <li id="sidebar-row5-link-{{ forloop.index }}" class="sidebar_list_item">{{ tag | link_to_tag: tag }}</li>
+                <li id="sidebar-row5-link-{{ forloop.index }}" class="sidebar_list_item">{{ tag | link_to_tag: tag }}</li>
+              {%- endif -%}
+            {%- endfor -%}
+          </ul>
+        </div>
+      {%- endif -%}
+    {%- endif -%}
+  {%- endif -%}
+{%- endfor -%}

@@ -1,0 +1,29 @@
+.section-collection-list .section-title {
+	padding: 25px 0 25px;
+}
+.grid-uniform .stamped-product-reviews-badge,
+.grid-uniform .stamped-badge {
+	margin: 0;
+}
+.grid-uniform .grid-item {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	height: 100%;
+}
+.grid-uniform .no-price span {
+	display: none;
+}
+.featured .box-bottom-text {
+	width: 100%;
+	height: auto;
+	display: flex;
+	flex-grow: 1;
+	align-items: center;
+}
+
+@media (max-width: 767px) {
+	.section-collection-list .section-title {
+		padding: 15px 0 13px;
+	}
+}

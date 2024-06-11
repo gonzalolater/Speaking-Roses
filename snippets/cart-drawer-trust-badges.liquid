@@ -1,0 +1,50 @@
+<!-- snippets/cart-drawer-trust-badges -->
+
+{%- assign SIZE_WIDTH = 425 -%}
+
+{%- for block in section.blocks -%}
+  {%- if block.type == 'trust_badges_cart' -%}
+    {%- assign badges_per_row = section.settings.vasta_badges_size | plus: 0 -%}
+    {%- assign badges_width = SIZE_WIDTH | divided_by: badges_per_row | round: 0 -%}
+    {%- assign trustbadge_title = block.settings.title_trust_badges -%}
+    {%- assign image = 'icon-' | append: block.settings.svg_trust_badge_cart | append: '.svg' | asset_url -%}
+
+    <div class="cart-drawer__badge-wrapper">
+      {%- if block.settings.enable_custom_trust_badge_svg == true -%}
+        {%- assign image = block.settings.custom_trust_badge_svg_html -%}
+
+        {{ image }}
+        
+      {%- elsif block.settings.enable_img_trust_badge_cart -%}
+        {%- assign image = block.settings.img_trust_badges_cart | image_url: width: badges_width -%}
+
+        <img
+          width="{{ badges_width }}"
+          height="{{ badges_width }}"
+          class="cart-drawer__badge"
+          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAABhGlDQ1BJQ0MgcHJvZmlsZQAAKJF9kT1Iw0AcxV9Ta0UqDkYQcchQnSyIijhqFYpQIdQKrTqYXPohNGlIUlwcBdeCgx+LVQcXZ10dXAVB8APE0clJ0UVK/F9SaBHrwXE/3t173L0DhFqJ6XbHGKAbjpVKxKVMdkUKvyKETojoh6gw25yV5STajq97BPh6F+NZ7c/9OXq0nM2AgEQ8w0zLIV4nntp0TM77xCIrKhrxOfGoRRckfuS66vMb54LHAs8UrXRqjlgklgotrLYwK1o68SRxVNMNyhcyPmuctzjrpQpr3JO/MJIzlpe4TnMICSxgETIkqKhgAyU4iNFqkGIjRfvxNv5Bzy+TSyXXBhg55lGGDsXzg//B727t/MS4nxSJA6EX1/0YBsK7QL3qut/Hrls/AYLPwJXR9JdrwPQn6dWmFj0CereBi+umpu4BlzvAwJOpWIonBWkK+TzwfkbflAX6boHuVb+3xj5OH4A0dZW8AQ4OgZECZa+1eXdXa2//nmn09wMjG3KHDOS4EQAAAAlwSFlzAAAuIwAALiMBeKU/dgAAAAd0SU1FB+YFBhQWEhVMTaAAAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAADElEQVQI12O4f/8+AAU+Ap5GJPuHAAAAAElFTkSuQmCC"
+          data-src="{{ image }}"
+          alt="{{ block.settings.title_trust_badges | default: block.settings.title | escape }}"
+          loading="lazy"
+          data-class="LazyLoad"
+        >
+
+      {%- else -%}
+        <img
+          width="{{ badges_width }}"
+          height="{{ badges_width }}"
+          class="cart-drawer__badge"
+          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAABhGlDQ1BJQ0MgcHJvZmlsZQAAKJF9kT1Iw0AcxV9Ta0UqDkYQcchQnSyIijhqFYpQIdQKrTqYXPohNGlIUlwcBdeCgx+LVQcXZ10dXAVB8APE0clJ0UVK/F9SaBHrwXE/3t173L0DhFqJ6XbHGKAbjpVKxKVMdkUKvyKETojoh6gw25yV5STajq97BPh6F+NZ7c/9OXq0nM2AgEQ8w0zLIV4nntp0TM77xCIrKhrxOfGoRRckfuS66vMb54LHAs8UrXRqjlgklgotrLYwK1o68SRxVNMNyhcyPmuctzjrpQpr3JO/MJIzlpe4TnMICSxgETIkqKhgAyU4iNFqkGIjRfvxNv5Bzy+TSyXXBhg55lGGDsXzg//B727t/MS4nxSJA6EX1/0YBsK7QL3qut/Hrls/AYLPwJXR9JdrwPQn6dWmFj0CereBi+umpu4BlzvAwJOpWIonBWkK+TzwfkbflAX6boHuVb+3xj5OH4A0dZW8AQ4OgZECZa+1eXdXa2//nmn09wMjG3KHDOS4EQAAAAlwSFlzAAAuIwAALiMBeKU/dgAAAAd0SU1FB+YFBhQWEhVMTaAAAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAADElEQVQI12O4f/8+AAU+Ap5GJPuHAAAAAElFTkSuQmCC"
+          data-src="{{ image }}"
+          alt="{{ block.settings.title_trust_badges | default: block.settings.title | escape }}"
+          loading="lazy"
+          data-class="LazyLoad"
+        >
+      {%- endif -%}
+
+      {%- if trustbadge_title != blank and section.settings.enable_trust_badge_title == true -%}
+        <span class="cart-drawer__badge-title">{{ trustbadge_title }}</span>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+{%- endfor -%}

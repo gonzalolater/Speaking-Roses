@@ -1,0 +1,30 @@
+<!-- snippets/custom-blog-css -->
+{%- capture blog_css -%}
+  <style>
+    {% comment %} Blog Title {% endcomment %}
+    .template-blog .blog-page__title {
+      line-height: 40px;
+    }
+
+    {% comment %} Blog Breadcrumb {% endcomment %}
+    .template-blog .breadcrumbs {
+      margin-top: 9px;
+    }
+
+    {% comment %} Blog List Articles {% endcomment %}
+    .template-blog .blog-page__grid-wrapper {
+      margin: 38px auto 67px;
+    }
+    
+    {% comment %} Blog Article Item {% endcomment %}
+    .template-blog .blog-page__article-content {
+      align-items: flex-start;
+    }
+    .template-blog .blog-page__article-title,
+    .template-blog .blog-page__article-contents {
+      margin: 0 0 13px;
+    }
+
+  </style>
+{%- endcapture -%}
+{{- blog_css | strip_newlines | replace: '    ', ' ' | replace: '   ', ' ' | replace: '  ', ' ' -}}

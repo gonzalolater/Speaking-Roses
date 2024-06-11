@@ -1,0 +1,254 @@
+<!-- snippets/priority-processing.liquid -->
+{% comment %}
+  Priority Processing Widget
+
+  pp_product    Product to be added as priority processing
+  description   Description to be displayed
+  modal_image   Image to be displayed into modal
+  id            HTML ID
+  no_modal:     Disable the modal
+  no_css:       Disable the CSS
+{% endcomment %}
+
+{%- if pp_product -%}
+  {% comment %} Local Variables {% endcomment %}
+  {%- assign pp_variant = pp_product.selected_or_first_available_variant -%}
+  {%- assign pp_id = id | default: 'priority-processing' -%}
+  {% comment %} End Local Variables {% endcomment %}
+
+  {% comment %} Style {% endcomment %}
+  {%- unless no_css == true -%}
+    {%- capture css -%} 
+      <style scoped>
+        .priority-processing {
+          width: 100%;
+          margin: 13px 0 11.7px;
+          float: left;
+        }
+        .priority-processing a:hover {
+          text-decoration: underline;
+        }
+        .priority-processing__wrapper {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 11.66px;
+          width: 100%;
+          cursor: pointer;
+
+          border-radius: 7px;
+          border: 1px dashed #AAA;
+
+          padding: 4px;
+        }
+        .priority-processing__input {
+          display: none;
+        }
+        .priority-processing__box {
+          width: 16px;
+          height: 16px;
+          border: 1px solid #000;
+          flex-shrink: 0;
+        }
+        .priority-processing__box-fill {
+          display: block;
+          width: 100%;
+          height: 100%;
+          line-height: 1;
+        }
+        .priority-processing__box-fill svg {
+          max-width: 100%;
+          max-height: 100%;
+          fill: #fff;
+          padding: 2px;
+        }
+        .priority-processing__input:checked + .priority-processing__box .priority-processing__box-fill {
+          background: #000;
+        }
+        .priority-processing__label {
+          line-height: 1;
+          display: block;
+          padding: 2px 0 0;
+        }
+        #priority-processing-form .priority-processing__label *{
+          margin-bottom: 0px;
+          font-size: 16px;
+          line-height: 1;
+        }
+        .priority-processing__modal-wrapper {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          z-index: 152;
+          opacity: 0;
+          visibility: hidden;
+          transition: all .3s linear;
+        }
+        body.priority-processing__modal--opened {
+          overflow: hidden;
+        }
+        body.priority-processing__modal--opened .priority-processing__modal-wrapper {
+          opacity: 1;
+          visibility: visible;
+        }
+        .priority-processing__modal-overlay {
+          display: block;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0,0,0,0.4);
+          position: absolute;
+          top: 0;
+          left: 0;
+        }
+        .priority-processing__modal-box {
+          width: 640px;
+          background-color: #fff;
+          border-radius: 10px;
+          box-shadow: 0 2px 3px 5px rgba(0,0,0,0.3);
+          position: relative;
+          z-index: 1;
+          padding: 0;
+        }
+        .priority-processing__modal-content {
+          padding: 20px;
+          max-height: 95vh;
+          overflow-y: auto;
+        }
+        .priority-processing__modal-close {
+          position: absolute;
+          top: 0;
+          right: 0;
+          width: 30px;
+          height: 30px;
+          transform: translate(50%, -50%);
+          border-radius: 100%;
+          background-color: #fff;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          cursor: pointer;
+        }
+        .priority-processing__modal-close:before {
+          content: "\00d7";
+          font-size: 2.3rem;
+          line-height: 1;
+          display: inline-block;
+          padding-top: 4px;
+        }
+
+        @media (max-width: 1019px) {
+          .priority-processing {
+            width: auto;
+            margin-bottom: 11.1px;
+          }
+
+          .priority-processing__wrapper {
+            justify-content: flex-start;
+            padding: 4px 7px;
+            gap: 10px;
+          }
+
+          #priority-processing-form .priority-processing__label * {
+            font-size: 14px;
+          }
+        }
+
+        @media (max-width: 767px) {
+          .priority-processing {
+            width: 100%;
+            margin: 5px 0 12px;
+          }
+
+          .priority-processing__label {
+            padding: 0;
+          }
+
+          #priority-processing-form .priority-processing__label * {
+            font-size: 12px;
+          }
+
+          .priority-processing__wrapper {
+            padding: 2px;
+            gap: 3px;
+          }
+
+          .priority-processing__box {
+            width: 10px;
+            height: 10px;
+          }
+        }
+      </style>
+    {%- endcapture -%}
+    {{- css -}}
+  {%- endunless -%}
+  {% comment %} End Style {% endcomment %}
+
+  {% comment %} HTML Priority Procssing {% endcomment %}
+  {% if section.settings.enable_priority_processing %}
+    <div id="{{- pp_id -}}" class="priority-processing priority-processing--widget">
+      <label class="priority-processing__wrapper">
+        <input type="checkbox" class="priority-processing__input" style="display: none;" value="{{- pp_variant.id -}}"/>
+
+        <span class="priority-processing__box">
+          <span class="priority-processing__box-fill">
+            {%- render 'icon-check' -%}
+          </span>
+        </span>
+
+        {%- capture pp_description -%}
+          {%- capture pp_variant_price -%}
+            <span class="priority-processing__label-price">
+              {{- pp_variant.price | money -}}
+            </span>
+          {%- endcapture -%}
+
+          {%- capture pp_variant_compare_at_price -%}
+            <span class="priority-processing__label-compare-at-price">
+              {{- pp_variant.compare_at_price | money -}}
+            </span>
+          {%- endcapture -%}
+
+          {%- capture pp_variant_sku -%}
+            <span class="priority-processing__label-sku">
+              {{- pp_variant.sku -}}
+            </span>
+          {%- endcapture -%}
+          
+          {{-
+            description 
+            | replace: '[price]', pp_variant_price 
+            | replace: '[compare_at_price]', pp_variant_compare_at_price 
+            | replace: '[sku]', pp_variant_sku
+          -}}
+        {%- endcapture -%}
+
+        <span class="priority-processing__label">{{- pp_description -}}</span>
+      </label>
+    </div>
+  {% endif %}
+  {% comment %} End HTML Priority Procssing {% endcomment %}
+
+  {% comment %} Modal {% endcomment %}
+  {%- unless no_modal == true or modal_image == blank -%}
+    {%- assign pp_image = modal_image | image_url: width: 800 -%}
+    
+    <div id="modal-{{- pp_id -}}" class="priority-processing__modal-wrapper">
+      <div class="priority-processing__modal-overlay"></div>
+      
+      <div class="priority-processing__modal-box">
+        <span class="priority-processing__modal-close"></span>
+
+        <div id="priority-processing-content" class="priority-processing__modal-content">
+          {{- pp_image | image_tag: width: 800 -}}
+        </div>
+      </div>
+    </div>
+  {%- endunless -%}
+  {% comment %} End Modal {% endcomment %}
+{%- endif -%}
+

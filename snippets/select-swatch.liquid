@@ -1,0 +1,14 @@
+<!-- start select-swatch.liquid (SNIPPET) -->
+<select class="product-variant jq-product-variant uppercase" data-swatch-index="{{ swatch_index }}" required>
+    <option value="">Select {{ title_standard }}: </option>
+    {%- assign i = swatch_index | minus: 1 -%}
+
+    {%- for value in values -%}
+    {%- assign escaped_value = value | replace: '"' , '&quot;' | replace: "'" , '&apos;' -%}
+        <option 
+            value="{{ escaped_value }}" 
+            data-swatch="{{ escaped_value }}" 
+            {% if product.selected_or_first_available_variant.options[i] == value %}selected{% endif %}>{{ value }}</option> 
+    {%- endfor -%}
+</select>
+

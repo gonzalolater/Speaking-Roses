@@ -1,0 +1,24 @@
+<!-- start header-logo.liquid (SNIPPET) -->
+{%- assign title = section.settings.shop_logo_alt | strip_html | escape -%}
+{%- assign id = title | handleize -%}
+
+<div id="Header{{ section_title }}" class="header__logo">
+  <a class="header__logo__anchor" title="{{ title }}" href="/">
+    {%- if section.settings.enable_svg_logo -%}
+      {{ section.settings.logo_svg_html }}
+    {%- else -%}
+      {%- if section.settings.shop_logo != blank -%}
+        {%-
+          render 'responsive-image' with
+          id: id,
+          image: section.settings.shop_logo,
+          width: 400,
+          no_wrap: true,
+          alt: title
+        -%}
+      {%- else -%}
+        {{ shop.name }}
+      {%- endif -%}
+    {%- endif -%}
+  </a>
+</div>

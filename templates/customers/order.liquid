@@ -1,0 +1,459 @@
+<!-- start order.liquid (TEMPLATE) -->
+
+{%- capture css -%}
+<style>
+  .order__content-wrapper {
+    margin-top: 35px;
+  }
+
+  .order__detail-title {
+    color: #383838;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 38px;
+    text-decoration-line: underline;
+    text-transform: uppercase;
+  }
+
+  .order__products-ordered-title {
+    color: #000;
+    font-size: 32px;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .order__products-ordered-container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    max-width: 600px;
+    margin: 40px auto 0;
+  }
+
+  .order__products-ordered {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .order__product-ordered {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .order__product-ordered-image-wrapper {
+    width: 130px;
+    height: 130px;
+    overflow: hidden;
+    border-radius: 6px;
+  }
+
+  .order__product-ordered-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .order__product-ordered-info {
+    flex: 1;
+    display: flex;
+    gap: 17px;
+    flex-direction: column;
+  }
+
+  .order__product-ordered-title-wrapper {
+    background-color: #FAFAFA;
+
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+  }
+
+  .order__product-ordered-title {
+    color: #2C2C2C;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 140%;
+    text-align: center;
+  }
+
+  .order__product-ordered-unity {
+    color: #5E5E5E;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 140%;
+    text-align: center;
+  }
+
+  .order__product-ordered-price-wrapper {
+    background: #EEE;
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 20px;
+    line-height: 140%;
+    color: #2C2C2C;
+  }
+
+  .order__product-ordered-total-price {
+    font-weight: 700;
+  }
+
+  .order__summary-wrapper {
+    background-color: #FAFAFA;
+    padding: 20px;
+  }
+
+  .order__status-items {
+    display: flex;
+    justify-content: space-between;
+    color: #2C2C2C;
+    font-size: 16px;
+    line-height: 140%;
+    margin: 5px 0;
+    float: left;
+    width: 100%;
+  }
+
+  .order__status-text {
+    font-weight: 700;
+  }
+
+  .order__total {
+    padding-top: 10px;
+    border-top: 1px solid #A8A8A8;
+  }
+
+  .order__addresses-wrapper {
+    margin: 70px auto;
+  }
+
+  .order__shipping-address-title-wrapper {
+    text-align: center;
+  }
+
+  .order__secondary-title {
+    color: #2C2C2C;
+    font-size: 28px;
+    line-height: 140%;
+    text-transform: uppercase;
+    letter-spacing: -1px;
+  }
+
+  .order__address-subtitle {
+    color: #4D4C4C;
+    font-size: 22px;
+    line-height: 140%;
+    font-weight: 700;
+  }
+
+  .order__addresses-divisor-line {
+    max-width: 100%;
+    width: 1025px;
+    height: 2px;
+    margin: 35px auto;
+    background-color: #D9D9D933;
+  }
+
+  /* addresses table */
+
+  .order__address-table-wrapper {
+    width: 1025px;
+    max-width: 100%;
+    background-color: #FAFAFA;
+
+    padding: 20px 10px;
+    margin: 10px auto;
+  }
+  
+
+  .order__address-table-wrapper .account__address-table tbody tr:first-child {
+    display: none;
+  }
+
+  .account__address-table {
+    border-collapse: collapse;
+    width: 554px;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+
+  .account__address-table tr td {
+    color: #2C2C2C;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 140%;
+  }
+
+  .account__address-table tr td:first-child {
+    min-width: 115px;
+  }
+
+  .account__address-table tr td:last-child {
+    text-align: end;
+  }
+
+  .account__customer-addresses-link {
+    margin: 20px 0 40px;
+    text-align: center;
+  }
+
+  .account__customer-addresses {
+    color: #8D8D8D;
+    font-size: 14px;
+  }
+
+  @media (max-width: 1019px) {
+    .order__content-wrapper {
+      margin-top: 20px;
+    }
+    .order__detail-title,
+    .account__address-table tr td {
+      font-size: 16px;
+    }
+
+    .order__products-ordered-title {
+      font-size: 28px;
+    }
+
+    .order__secondary-title {
+      font-size: 22px;
+    }
+
+    .order__product-ordered-title,
+    .order__product-ordered-price-wrapper,
+    .order__address-subtitle {
+      font-size: 18px;
+    }
+
+    .order__product-ordered-unity {
+      font-size: 14px;
+    }
+
+    .order__products-ordered-container {
+      max-width: 450px;
+    }
+
+    .account__address-table {
+      width: 385px;
+    }
+
+    .order__addresses-divisor-line,
+    .order__address-table-wrapper {
+      width: 708px;
+    }
+
+    .order__products-ordered {
+      gap: 20px;
+    }
+
+    .order__addresses-wrapper {
+      margin: 50px auto;
+    }
+
+    .order__addresses-divisor-line {
+      margin: 25px auto;
+    }
+
+    .order__address-table-wrapper {
+      padding: 15px 10px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .order__detail-title,
+    .order__product-ordered-title,
+    .order__product-ordered-price-wrapper,
+    .order__address-subtitle {
+      font-size: 14px;
+    }
+
+    .order__product-ordered-image-wrapper {
+      width: 90px;
+      height: 90px;
+    }
+
+    .order__products-ordered-title {
+      font-size: 18px;
+    }
+
+    .order__product-ordered-unity,
+    .order__status-items,
+    .account__address-table tr td {
+      font-size: 12px;
+    }
+
+    .order__secondary-title {
+      font-size: 16px;
+    }
+
+    .order__products-ordered-container {
+      margin: 30px auto 0;
+    }
+
+    .order__addresses-wrapper {
+      margin: 40px auto;
+    }
+
+    .order__addresses-divisor-line {
+      margin: 10px auto;
+    }
+  }
+</style>
+{%- endcapture -%}
+
+{{- css | strip_newlines | replace: '    ', ' ' | replace: '   ', ' ' | replace: '  ', ' ' -}}
+
+<div class="order__wrapper wrapper">
+  <div class="order__container">
+    {% render 'account-header' %}
+
+    <div class="order__detail-title-wrapper">
+      <span class="order__detail-title">{{ 'customer.order.title' | t: name: order.name }} - {{ 'customer.order.date' | t: date: order.created_at | date: '%B %d, %Y %I:%M%p' }}</span>
+
+      {%- if order.cancelled -%}
+        {%- assign cancelled_at = order.cancelled_at | date: '%B %d, %Y %I:%M%p' -%}
+        <span class="order__cancelled-detail">({{ 'customer.order.cancelled' | t: date: cancelled_at }}. {{ 'customer.order.cancelled_reason' | t: reason: order.cancel_reason }})</span>
+      {%- endif -%}
+    </div>
+
+    <div class="order__content-wrapper">
+      <div class="order__products-ordered-wrapper">
+        <h2 class="order__products-ordered-title">Order Summary</h2>
+
+        <div class="order__products-ordered-container">
+          <div class="order__products-ordered">
+            {%- for line_item in order.line_items -%}
+              <div class="order__product-ordered">
+                {%- assign order_product_image = line_item.image -%}
+                {%- assign id_orders = 'order-' | append: forloop.index -%}
+
+                <div class="order__product-ordered-image-wrapper">
+                  <a
+                    class="order__product-ordered-link"
+                    href="{{ line_item.product.url }}"
+                    title="{{ line_item.title }}"
+                    target="_blank"
+                  >
+                    {%- render 'responsive-image',
+                      image: order_product_image,
+                      id: id_orders,
+                      lazyload: true,
+                      width: 200,
+                      no_wrap: true,
+                      alt: "Ordered Product Image",
+                      class: "order__product-ordered-image"
+                    -%}
+                  </a>
+                </div>
+
+                <div class="order__product-ordered-info">
+                  <div class="order__product-ordered-title-wrapper">
+                    <span class="order__product-ordered-title">{{ line_item.title }}</span>
+                    <span class="order__product-ordered-unity">
+                      {{ line_item.quantity }}
+                      {%- if line_item.quantity != 1 -%}
+                        {{ 'customer.order.units' | t }}
+                      {%- else -%}
+                        {{ 'customer.order.unit' | t }}
+                      {%- endif -%}
+                    </span>
+                  </div>
+
+                  <div class="order__product-ordered-price-wrapper">
+                    <span class="order__product-ordered-total-price">Total:</span>
+                    <span class="order__product-ordered-price money">{{ line_item.price | money }} {{ order.currency }}</span>
+                  </div>
+                </div>
+              </div>
+            {%- endfor -%}
+          </div>
+
+          <div class="order__summary-wrapper">
+            <div class="order__status-items">
+              <span class="order__status-text">{{ 'customer.order.subtotal' | t }}:</span>
+              <span data-label="{{ 'customer.order.subtotal' | t }}">{{ order.subtotal_price | money }}</span>
+            </div>
+  
+            {% if order.discounts.size > 0 %}
+              <div class="order__status-items order__discount">
+                {%- for discount in order.discounts -%}
+                  <span class="order__status-text">
+                    {{ 'customer.order.discount' | t }} ({{ discount.code }}):
+                  </span>
+                  <span data-label="{{ 'customer.order.discount' | t }}">{{ discount.savings | money }}</span>
+                {%- endfor -%}
+              </div>
+            {% endif %}
+  
+            {% if order.shipping_methods.size > 0 %}
+              <div class="order__status-items order__shipping-methods">
+                {%- for shipping_method in order.shipping_methods -%}
+                  <span class="order__status-text">{{ 'customer.order.shipping' | t }} ({{ shipping_method.title }}):</span>
+                  <span data-label="{{ 'customer.order.shipping' | t }} ({{ shipping_method.title }})">
+                    {{ shipping_method.price | money }}
+                  </span>
+                {%- endfor -%}
+              </div>
+            {% endif %}
+
+            {% if order.tax_lines.size > 0 %}
+              <div class="order__status-items  order__tax-lines">
+                {%- for tax_line in order.tax_lines -%}
+                  <span class="order__status-text">
+                    {{ 'customer.order.tax' | t }} ({{ tax_line.title }} {{ tax_line.rate | times: 100 }}%):
+                  </span>
+                  <span data-label="{{ 'customer.order.tax' | t }} ({{ tax_line.title }} {{ tax_line.rate | times: 100 }}%)">
+                    {{ tax_line.price | money }}
+                  </span>
+                {%- endfor -%}
+              </div>
+            {% endif %}
+  
+            <div class="order__status-items order__total">
+              <span class="order__status-text">{{ 'customer.order.total' | t }}:</span>
+              <span data-label="{{ 'customer.order.total' | t }}">
+                {{ order.total_price | money }}
+                {{ order.currency }}
+              </span>
+            </div>
+          </div>
+        </div> 
+      </div>
+
+      <div class="order__addresses-wrapper">
+        <div class="order__shipping-address">
+          <div class="order__shipping-address-title-wrapper">
+            <h2 class="order__shipping-address-title order__secondary-title">{{ 'customer.order.shipping_address' | t }}</h2>
+            <span class="order__address-subtitle">{{ 'customer.account.details' | t }}</span>
+          </div>
+
+          <div class="order__address-table-wrapper">
+            {%- render 'customer-address' with address: order.shipping_address -%}
+          </div>
+        </div>
+
+        <div class="order__addresses-divisor-line"></div>
+
+        <div class="order__billing-address">
+          <div class="order__shipping-address-title-wrapper">
+            <h2 class="order__billing-address-title order__secondary-title">{{ 'customer.order.billing_address' | t }}</h2>
+            <span class="order__address-subtitle">{{ 'customer.account.details' | t }}</span>
+          </div>
+
+          <div class="order__address-table-wrapper">
+            {%- render 'customer-address' with address: order.billing_address -%}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

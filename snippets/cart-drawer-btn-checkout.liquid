@@ -1,0 +1,6 @@
+<!-- start cart-drawer-btn-checkout.liquid (SNIPPET) -->
+<form class="cart-drawer-form" action="/checkout" method="post">
+    <button name="checkout" type="submit" id="ProceedToCheckout{{ position }}" class="btn-add-tocart proceed-to-checkout-{{ position }}">
+        {%- render 'icon-lock' -%}<span class="cart-atc">{{ 'cart.general.proceed_checkout' | t }} (<span class="jq_qtd_bt_proceed qtd_bt_proceed cart-atc">{{ cart.item_count }} {% if cart.item_count > 1 %}{{ 'products.product.items' | t }}{% else %}{{ 'products.product.item' | t }}{% endif %}</span>)  → </span>
+    </button>
+</form>

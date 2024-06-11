@@ -1,0 +1,123 @@
+<!-- start reviews-judgeme.liquid (SECTION) -->
+{% if settings.app_review == 'judgeme' %}
+  <section id="shopify-section-{{ section.id }}-content" data-section-type="reviews-judgeme">
+    <div class="wrapper jdgm-carousel-wrapper {{ section.settings.custom_class }}">
+      <h2 class="section-title">{{ section.settings.title | default: 'Let customers speak for us' }}</h2>
+      {{ shop.metafields.judgeme.featured_carousel }}
+    </div>
+  </section>
+{% endif %}
+<!-- start reviews home-page-judme -->
+<style scoped>
+  #shopify-section-{{ section.id }} {
+    {% if section.settings.enable_custom_margins_paddings %}
+      margin-top: {{ section.settings.custom-margin-top }}px;
+      margin-bottom: {{ section.settings.custom-margin-bottom }}px;
+      padding-top: {{ section.settings.custom-padding-top }}px;
+      padding-bottom: {{ section.settings.custom-padding-bottom }}px;
+    {% else %}
+      margin: 20px 0;
+    {% endif %}
+  }
+  .jdgm-carousel-wrapper {
+      position: relative;
+      width: 100%;
+      margin: auto;
+      padding: 0;
+      display: block;
+  }
+  .jdgm-carousel-wrapper .jdgm-carousel {
+    margin: auto;
+  }
+  .jdgm-carousel__left-arrow {
+      position: absolute;
+      top: 50%;
+      left: 0;
+  }
+  .jdgm-carousel__right-arrow {
+    position: absolute;
+    top: 50%;
+    right: 0;
+  }
+  @media (max-width: 1019px){
+    .jdgm-carousel__left-arrow {
+      position: absolute;
+      top: 50%;
+      left: 20px;
+    }
+    .jdgm-carousel__right-arrow {
+      position: absolute;
+      top: 50%;
+      right: 20px;
+    }
+  }
+</style>
+{% schema %}
+{
+  "name": "Reviews Judgeme",
+  "class": "reviews-judgeme",
+  "settings": [
+    {
+      "type": "header",
+      "content": "General Settings"
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom Class",
+      "info": "Custom class to apply css styles for specific sections"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_custom_margins_paddings",
+      "label": "Enable Custom Margins and Paddings",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "custom-margin-top",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Margin Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "custom-margin-bottom",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Margin Bottom",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "custom-padding-top",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "custom-padding-bottom",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 0
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title"
+    }
+  ]
+}
+{% endschema %}

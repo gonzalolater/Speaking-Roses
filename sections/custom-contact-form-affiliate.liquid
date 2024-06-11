@@ -1,0 +1,358 @@
+<!-- sections/custom-contact-form -->
+
+{%- capture section_css -%}
+<style>
+  .contact-form__section {
+    padding: 30px 0 2px;
+  }
+  .contact-form__section .form-success{
+    text-align: center;
+    margin: auto;
+    font-size: 14px;
+  }
+  .contact-form__title,
+  .contact-form__subtitle,
+  .all-width {
+    text-transform: capitalize;
+  }
+  .contact-form__input,
+  .contact-form__input[type="text"] {
+    border-radius: 5px;
+  }
+  .contact-form__title {
+    padding: 0;
+    margin: 36px 0 9px;
+  }
+  .contact-form__subtitle {
+    text-align: center;
+    font-size: 20px;
+    margin: 0 0 20px 3px;
+  }
+  .contact-form__headline-wrapper {
+    margin-bottom: 26px;
+  }
+  .contact-form__wrapper {
+    width: 100%;
+    padding: 0 20px;
+    max-width: 858px;
+    margin: 0 auto;
+  }
+  .contact-form__form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 17.2px 1.5%;
+  }
+  .contact-form__form-field--fullname {
+    width: 66.25%;
+  }
+  .contact-form__form-field--language {
+    width: 32.25%;
+  }
+  .contact-form__form-field--email {
+    width: 56.95%;
+  }
+  .contact-form__form-field--phone {
+    width: 41.55%;
+  }
+  .contact-form__form-field--country,
+  .contact-form__form-field--city {
+    width: 45.6%;
+  }
+  .contact-form__form-field--state,
+  .contact-form__form-field--description {
+    width: 52.9%;
+  }
+  .all-width {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 5px;
+  }
+  .all-width:after {
+    content: '*';
+  }
+  .contact-form__input {
+    border: 1px solid #000;
+    padding: 7px 10px;
+    font-size: 16px;
+    height: 35px;
+  }
+  .contact-form__form-buttons {
+    width: 100%;
+    text-align: center;
+    margin: 12px 0 0;
+  }
+  body .contact-form__form-button {
+    width: 192px;
+    height: 56px;
+    border-radius: 8px;
+    font-size: 21px;
+    font-weight: 500;
+    background-color: #A84F65;
+    color: #fff;
+    margin: auto;
+    border: unset;
+  }
+
+  {% comment %} Responsive 1019px {% endcomment %}
+  @media (max-width: 1019px) {
+    .contact-form__title {
+      font-size: 32px;
+      margin: 10.6px 0 9.5px;
+    }
+    .contact-form__subtitle {
+      font-size: 13.3px;
+      margin: 0;
+    }
+    .contact-form__headline-wrapper {
+      margin-bottom: 23.5px;
+    }
+    .contact-form__wrapper {
+      max-width: 673px;
+    }
+    .contact-form__form {
+      gap: 26px 1.4%;
+    }
+    .all-width {
+      font-size: 14px;
+      margin-bottom: 1px;
+      line-height: 13.9px;
+      padding: 0 0 0 0.5px;
+    }
+    .contact-form__input {
+      padding: 3px 6px;
+    }
+    .contact-form__input, 
+    .contact-form__input[type="text"] {
+      border-radius: 4px;
+    }
+    .contact-form__form-buttons {
+      margin: 0;
+      transform: translatey(-6px);
+    }
+    .contact-form__form-button {
+      width: 128px;
+      height: 37px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 400;
+      letter-spacing: 0.6px;
+      padding: 0;
+    }
+    .contact-form__section {
+      padding: 30px 0 34px;
+    }
+  }
+
+  {% comment %} Responsive 767px {% endcomment %}
+  @media (max-width: 767px) {
+    .contact-form__section {
+      padding: 24px 0 40px;
+    }
+    .contact-form__title {
+      font-size: 17.4px;
+      margin: 11.5px 0 0;
+      line-height: 20px;
+    }
+    .contact-form__subtitle {
+      font-size: 7.3px;
+      margin: 0;
+    }
+    .contact-form__wrapper {
+      padding: 0;
+    }
+    .contact-form__form {
+      gap: 15px 1.4%;
+    }  
+    .contact-form__headline-wrapper {
+      margin-bottom: 18px;
+    }
+    .all-width {
+      font-size: 12px;
+      margin-bottom: 10px;
+      line-height: 8px;
+    }
+    .contact-form__input {
+      font-size: 10.9px;
+    }
+    .contact-form__input, 
+    .contact-form__input[type="text"] {
+      border-radius: 3px;
+    }
+    .contact-form__form-field--fullname{
+      width: 52.55%;
+    }
+    .contact-form__form-field--email,
+    .contact-form__form-field--country {
+      width: 51.35%;
+    }
+    .contact-form__form-field--language {
+      width: 45.98%;
+    }
+    .contact-form__form-field--phone,
+    .contact-form__form-field--state {
+      width: 47.15%;
+    }
+    .contact-form__form-field--city {
+      width: 46.9%;
+    }
+    .contact-form__form-field--description {
+      width: 51.6%;
+    }
+    .contact-form__form-buttons {
+      transform: unset;
+      margin: 5px 0 0;
+    }
+    .contact-form__form-button {
+      width: 114px;
+      height: 31.5px;
+      font-size: 11.7px;
+    }
+  }
+</style>
+{%- endcapture -%}
+{{- section_css | strip_newlines | replace: '    ', ' ' | replace: '   ', ' ' | replace: '  ', ' ' -}}
+
+<!-- contact form -->
+<div class="wrapper">
+  <div class="contact-form">
+    {% if section.settings.title != blank %}
+      <div class="contact-form__headline-wrapper">
+        <h2 class="section-title contact-form__title">{{ section.settings.title }}</h2>
+        <p class="section-subtitle contact-form__subtitle">{{ section.settings.subtitle }}</p>
+      </div>
+    {% endif %}
+
+    <div class="contact-form__wrapper">
+      {%- form 'contact', class: 'contact-form__form' -%}
+        {%- if form.posted_successfully? -%}
+          <p class="form-success">
+            {{ 'contact.form.post_success' | t }}
+          </p>
+        {%- endif -%}
+      
+        {{ form.errors | default_errors }}
+      
+        <input
+          type="text"
+          name="contact[full_name]"
+          id="ContactFormFullName"
+          class="contact-form__form-field contact-form__form-field--fullname contact-form__input"
+          placeholder="Full Name"
+          value="{% if form[full_name] %}{{ form[full_name] }}{% elsif customer %}{{ customer.full_name }}{% endif %}"
+          required
+        >
+      
+        <input
+          name="contact[preferred_language]"
+          id="ContactFormPreferredLanguage"
+          class="contact-form__form-field contact-form__form-field--language contact-form__input"
+          value="{% if form[preferred_language] %}{{ form[preferred_language] }}{% endif %}"
+          placeholder="Preferred Language"
+          required
+        >
+      
+        <input
+          type="email"
+          name="contact[email]"
+          id="ContactFormEmail"
+          placeholder="Email Address"
+          class="contact-form__form-field contact-form__form-field--email contact-form__input"
+          value="{% if form[email] %}{{ form[email] }}{% elsif customer %}{{ customer.email }}{% endif %}"
+          spellcheck="false"
+          autocomplete="off"
+          autocapitalize="off"
+          required
+        >
+      
+        <input
+          type="tel"
+          name="contact[phone]"
+          id="ContactFormPhone"
+          placeholder="Phone"
+          class="contact-form__form-field contact-form__form-field--phone contact-form__input"
+          value="{% if form[phone] %}{{ form[phone] }}{% elsif customer %}{{ customer.phone }}{% endif %}"
+          pattern="[0-9\-]*"
+          required
+        >
+      
+        <input
+          type="text"
+          name="contact[country]"
+          id="ContactFormCountry"
+          placeholder="Country"
+          class="contact-form__form-field contact-form__form-field--country contact-form__input"
+          value="{% if form[country] %}{{ form[country] }}{% endif %}"
+          required
+        >
+      
+        <input
+          type="text"
+          name="contact[state]"
+          id="ContactFormState"
+          placeholder="State"
+          class="contact-form__form-field contact-form__form-field--state contact-form__input"
+          value="{% if form[state] %}{{ form[state] }}{% endif %}"
+          required
+        >
+      
+        <input
+          type="text"
+          name="contact[city]"
+          id="ContactFormCity"
+          placeholder="City"
+          class="contact-form__form-field contact-form__form-field--city contact-form__input"
+          value="{% if form[city] %}{{ form[city] }}{% endif %}"
+          required
+        >
+      
+        <textarea
+          rows="10"
+          name="contact[how_did_you_hear_about_us]"
+          id="ContactFormHowDidYouHear"
+          placeholder="How did your hear about us"
+          class="contact-form__form-field contact-form__form-field--description contact-form__input"
+          required
+        >
+          {%- if form.how_did_you_hear_about_us -%}
+            {{- form.how_did_you_hear_about_us -}}
+          {%- endif -%}
+        </textarea>
+      
+        <input
+          type="submit"
+          id="id-button"
+          name="{{ 'contact.form.send' | t }}"
+          class="buttom-change-id contact-form__form-buttons contact-form__form-button"
+          value="{{ 'contact.form.send' | t }}"
+        >
+      {%- endform -%}
+      
+    </div>
+  </div>
+</div>
+<!-- end contact form -->
+
+{% schema %}
+{
+  "name": "Custom Contact Form",
+  "class": "contact-form__section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Contact Form",
+      "category": "Form"
+    }
+  ]
+}
+{% endschema %}

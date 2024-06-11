@@ -1,0 +1,108 @@
+body .product-page .product-variant-wrapper,
+body .product-page #rc_container {
+	margin-bottom: 3px;
+}
+.ribbon {
+	width: 75px;
+	height: 75px;
+	overflow: hidden;
+	position: absolute;
+	z-index: 8;
+	pointer-events: none;
+}
+.ribbon::before,
+.ribbon::after {
+	position: absolute;
+	z-index: -1;
+	content: "";
+	display: block;
+	border: 5px solid var(--tagBadgeBackgroundColor);
+}
+.ribbon span {
+	background-color: var(--tagBadgeBackgroundColor);
+	color: var(--tagBadgeTextColor);
+	position: absolute;
+	width: 185px;
+	padding: 6px 0;
+	box-shadow: 0 5px 10px rgba(0, 0, 0, .1);
+	font-size: var(--tagBadgeTextSmallSize);
+	text-shadow: 0 1px 1px rgba(0, 0, 0, .2);
+	text-transform: uppercase;
+	text-align: center;
+	height: 27px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.ribbon-top-left {
+	top: -10px;
+	left: -10px;
+}
+.ribbon-top-left::before,
+.ribbon-top-left::after {
+	border-top-color: transparent;
+	border-left-color: transparent;
+}
+.ribbon-top-left::before {
+	top: 0;
+	right: 0;
+}
+.ribbon-top-left::after {
+	bottom: 0;
+	left: 0;
+}
+.ribbon-top-left span {
+	left: -62px;
+	top: 17px;
+	transform: rotate(-45deg);
+}
+.ribbon-top-right {
+	top: -10px;
+	right: -5px;
+}
+.ribbon-top-right::before,
+.ribbon-top-right::after {
+	border-top-color: transparent;
+	border-right-color: transparent;
+}
+.ribbon-top-right::before {
+	top: 0;
+	left: 0;
+}
+.ribbon-top-right::after {
+	bottom: 0;
+	right: 0;
+}
+.ribbon-top-right span {
+	left: -48px;
+	top: 17px;
+	transform: rotate(45deg);
+}
+.product-half .ribbon {
+	width: 120px;
+    height: 120px;
+}
+.product-half .ribbon span {
+	height: 45px;
+}
+.product-half .ribbon-top-left {
+    top: -4px;
+    left: 9px;
+}
+.product-half .ribbon-top-left span {
+	left: -47px;
+    top: 21px;
+    font-size: var(--tagBadgeTextSize);
+}
+.soldout {
+	margin: 0 auto;
+	color: #e00;
+	font-weight: bold;
+}
+.compare-price {
+	color: var(--color-sale);
+	font-size: var(--collectionProductComparePriceSize);
+	margin-right: 5px;
+	text-decoration: line-through;
+	font-weight: bold;
+}

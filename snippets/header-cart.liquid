@@ -1,0 +1,29 @@
+<!-- start header-cart.liquid (SNIPPET) -->
+{%- assign phone = settings.cartpage_phone -%}
+{%- assign email = settings.cartpage_email -%}
+{%- assign operating_message = settings.cartpage_operating_message -%}
+
+{%- if settings.enable_use_general_data -%}
+  {%- assign phone = settings.text_tel -%}
+  {%- assign email = settings.text_email -%}
+{%- endif -%}
+
+<div class="header__wrapper">
+ <div class="header__cartPage__wrapper ">
+    {%- render 'header-logo' with text_transform: text_transform, logo: logo, logo_alt: logo_alt, logo_max_width: logo_max_width, svg_code: svg_code, enable_svg_logo: enable_svg_logo, logo_max_height: logo_max_height, section_title: "Logo", header_logo: "main-logo", choose_custom_dimensions: choose_custom_dimensions -%}
+
+    <div class="header__cart__info">
+        {%- if phone != blank -%}
+          <a title="Telephone" href="tel:{{ phone | replace: ' ' , '' }}" id="phone-cart" class="header__info__icon__cart header__phone-color">{% render 'icon-phone' %} {{ phone }}</a>
+        {%- endif -%}
+
+        {%- if email != blank -%}
+            <a title="E-mail" href="mailto:{{ email }}" id="email-cart" class="header__info__icon__cart">{% render 'icon-envelope' %} {{ email }}</a>
+        {%- endif -%}
+
+        {%- if operating_message != blank -%}
+            <p class="content-cart-text">{{ operating_message }}</p>
+        {%- endif -%}
+    </div>
+  </div>
+</div>

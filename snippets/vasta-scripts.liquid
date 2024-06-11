@@ -1,0 +1,297 @@
+<!-- start vasta-scripts.liquid (SNIPPET) -->
+<script>
+  const money_format = '{{ shop.money_format | escape }}';
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="{{ 'option_selection.js' | shopify_asset_url }}"></script>
+<script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.3.0/model-viewer.min.js"></script>
+
+{%- if template contains 'product' -%}
+  <script src="{{ 'VastaShop.js' | asset_url }}"></script>
+
+  <script>
+    (function(){
+        VastaShop.Cart.current = {{ cart | json }};
+        VastaShop.Cart.total_price = {{ cart.total_price }};
+        VastaShop.Cart.total_quantity = {{ cart.item_count }};
+    })();
+  </script>
+{%- else -%}
+  <script type="lazyload_int" data-src="{{ 'VastaShop.js' | asset_url }}"></script>
+
+  <script type="lazyload_int">
+    (function(){
+        VastaShop.Cart.current = {{ cart | json }};
+        VastaShop.Cart.total_price = {{ cart.total_price }};
+        VastaShop.Cart.total_quantity = {{ cart.item_count }};
+    })();
+  </script>
+{%- endif -%}
+
+{%- unless template contains 'collection' -%}
+  <script src="{{ 'slick.min.js' | asset_url }}"></script>
+
+  <script type="lazyload_int" data-src="{{ 'jquery.tmpl.min.js' | asset_url }}"></script>
+  <script type="lazyload_int" data-src="{{ 'jquery.products.min.js' | asset_url }}"></script>
+{%- endunless -%}
+
+<script type="lazyload_int">
+  {%- if settings.recently_viewed_product_without_image != blank -%}
+      const product_without_image = '{{ settings.recently_viewed_product_without_image | image_url }}';
+  {%- else -%}
+      const product_without_image = 'https://cdn.shopify.com/shopifycloud/shopify/assets/no-image-2048-5e88c1b20e087fb7bbe9a3771824e743c244f437e4f8ba93bbf7b11b53f7824c.gif';
+  {%- endif -%}
+
+  var cart_page = cart_page || {},
+
+  cart_page = {
+      discount_in_cart_page:"{{ settings.enabled_discount_cart_page | escape }}",
+      text_cart_above_button_sucess:"{{ settings.cart_discount_text | escape }}",
+      cart_discount_value: {{ settings.cart_discount_value_range | times: 100 }},
+      cart_freeshipping_text: "{{ settings.freeshipping_msg }}",
+      text_cart_above_button: "{{ settings.text_cart_above_button }}",
+      enable_day_on_message: {{ settings.enable_day_on_message }}
+  };
+
+  VastaShop.config = {};
+  VastaShop.config.enable_freeshipping_msg = {{ settings.enable_freeshipping_msg | default: false }};
+  VastaShop.config.freeshipping_msg = '{{ settings.freeshipping_msg }}';
+
+  update_discount_cart({{ cart.total_price }}, {{ cart.item_count }});
+</script>
+
+{%- if template contains 'product' -%}
+  {%- if settings.enable_zoom_feature_for_desktop -%}
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/magnify/2.3.3/js/jquery.magnify.min.js"
+      integrity="sha512-YKxHqn7D0M5knQJO2xKHZpCfZ+/Ta7qpEHgADN+AkY2U2Y4JJtlCEHzKWV5ZE87vZR3ipdzNJ4U/sfjIaoHMfw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+  {%- endif -%}
+
+  <script>
+    VastaShop.Product.current = {{ product | json }};
+    VastaShop.Product.current.url = "{{ product.url }}";
+    VastaShop.Product.totalPrice = {{ product.price }};
+    VastaShop.Product.options = {{ product.selected_or_first_available_variant.options | json }};
+
+    VastaShop.Product.structureVariants();
+
+    var slideCounter = 0;
+
+    if (typeof Shopify.Products !== 'undefined') {
+      Shopify.Products.recordRecentlyViewed();
+    }
+  </script>
+
+  {%- unless template contains 'customized' -%}
+    <script src="{{ 'swatch.js' | asset_url }}"></script>
+
+    {%- render 'custom-product-js' -%}
+
+    {%- if settings.product_enabled_revenue_bump -%}
+      {%- render 'addon_app' -%}
+    {%- endif -%}
+  {%- endunless-%}
+{%- elsif template contains 'collection' -%}
+  {%- render 'collection-js' -%}
+{%- elsif template contains 'cart' -%}
+  {%- render 'cart-js' -%}
+{%- elsif template contains 'login' -%}
+  {%- render 'customer-login-js' -%}
+{%- elsif template contains 'customers' -%}
+  <script src="{{ 'shopify_common.js' | shopify_asset_url }}"></script>
+{%- endif -%}
+
+<script type="lazyload_int">
+  /**
+   * Swatch Item
+   */
+  const items = document.querySelectorAll('.template-collection .grid__item, .template-index .grid__item');
+
+  items.forEach(function (item) {
+    const swatchItems = item.querySelectorAll('.swatch-value-color');
+    const imageWrapper = item.querySelector('.grid__item-image-wrapper');
+
+    swatchItems.forEach(function (swatchItem) {
+      const image = swatchItem.dataset.img;
+
+      Shopify.Image.loadImage(Shopify.Image.getSizedImageUrl(image, '300x'));
+
+      swatchItem.addEventListener('mouseover', function () {
+        imageWrapper.classList.add('grid__item--hidden-image');
+        imageWrapper.style.backgroundImage = 'url("' + image + '")';
+      });
+
+      swatchItem.addEventListener('mouseleave', function () {
+        imageWrapper.classList.remove('grid__item--hidden-image');
+        imageWrapper.style.backgroundImage = 'unset';
+      });
+    });
+  });
+</script>
+
+{%- if settings.enable_klaviyo_id -%}
+  <script type="lazyload_int" data-src="https://www.klaviyo.com/media/js/public/klaviyo_subscribe.js"></script>
+  <script type="lazyload_int">
+    setTimeout(function () {
+      /** Begin Klaviyo Script */
+      KlaviyoSubscribe.attachToForms('.klaviyo_condensed_styling', {
+        hide_form_on_success: true,
+        custom_success_message: true,
+        success: function () {
+          $('.klaviyo_inputs_wrapper').hide();
+          $('.success_message').show();
+        },
+      });
+
+      /** End Klaviyo Script */
+    });
+  </script>
+{%- endif -%}
+
+<script type="lazyload_int">
+  setTimeout(function () {
+    function labnolIframe(div) {
+      var iframe = document.createElement('iframe');
+      iframe.setAttribute('src', 'https://www.youtube.com/embed/' + div.dataset.id + '?autoplay=1&rel=0');
+      iframe.setAttribute('frameborder', '0');
+      iframe.setAttribute('allowfullscreen', '1');
+      iframe.setAttribute('allow', 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture');
+      div.parentNode.replaceChild(iframe, div);
+    }
+
+    function initYouTubeVideos() {
+      var playerElements = document.getElementsByClassName('youtube-player');
+      for (var n = 0; n < playerElements.length; n++) {
+        var videoId = playerElements[n].dataset.id;
+        var div = document.createElement('div');
+        div.setAttribute('data-id', videoId);
+        var thumbNode = document.createElement('img');
+        thumbNode.src = '//i.ytimg.com/vi/ID/hqdefault.jpg'.replace('ID', videoId);
+        div.appendChild(thumbNode);
+        var playButton = document.createElement('div');
+        playButton.setAttribute('class', 'play');
+        div.appendChild(playButton);
+        var background = document.createElement('div');
+        background.setAttribute('class', 'play-background');
+        playButton.appendChild(background);
+        var icon = document.createElement('div');
+        icon.setAttribute('class', 'play-icon');
+        playButton.appendChild(icon);
+        var leftSide = document.createElement('div');
+        leftSide.setAttribute('class', 'play-left-side');
+        icon.appendChild(leftSide);
+        var rightSide = document.createElement('div');
+        rightSide.setAttribute('class', 'play-right-side');
+        icon.appendChild(rightSide);
+        div.onclick = function () {
+          labnolIframe(this);
+        };
+        playerElements[n].appendChild(div);
+      }
+    }
+    initYouTubeVideos();
+  });
+</script>
+
+<script type="lazyload_int" data-src="{{- 'priority-processing.js' | asset_url -}}"></script>
+<script>
+  function priority_processing_init() {
+    $('.priority-processing--widget').checkboxUpsell({
+      modal: '#modal-priority-processing-form',
+      properties: {
+        "Priority_Processing": "Priority Processing"
+      },
+      {%- unless template contains 'cart' -%}
+        onInit: function(priorityProduct) {
+          if (typeof window.selectedVariant !== 'undefined') {
+            const quantity = parseInt($('#ProductQuantity').val());
+            $('.btn-money').html(Shopify.formatMoney((quantity * selectedVariant.price) + priorityProduct.price));
+          }
+        },
+
+        onAddItem: function(priorityProduct) {
+          if (typeof window.selectedVariant !== 'undefined') {
+            const quantity = parseInt($('#ProductQuantity').val());
+            $('.btn-money').html(Shopify.formatMoney((quantity * selectedVariant.price) + priorityProduct.price));
+          }
+        },
+        onRemove: function() {
+          const quantity = parseInt($('#ProductQuantity').val());
+
+          $('.btn-money').html(Shopify.formatMoney(quantity * selectedVariant.price));
+        },
+      {%- endunless -%}
+      onFinally: function(cart) {
+        {%- unless template contains 'cart' -%}
+        if (typeof CartDrawerAPI !== 'undefined') {
+          CartDrawerAPI.buildCart(cart);
+        }
+        {%- else -%}
+        loadPage();
+        {%- endunless -%}
+      }
+    });
+  }
+</script>
+<script type="lazyload_int">
+  setTimeout(function () {
+    priority_processing_init();
+  });
+</script>
+
+{% comment %} Compare Price Product {% endcomment %}
+<script>
+function calculateDiscount(price, compareAtPrice) {
+  const priceWithDiscount = price / 100;
+  const discount = (1 - (priceWithDiscount * 100) / compareAtPrice) * 100;
+  return Number(discount.toFixed(2));
+}
+
+function createCompareButton(totalPrice, quantity, discount) {
+  const compareButton = document.createElement('div');
+  compareButton.className = 'compare-btn';
+
+  const priceElement = document.createElement('span');
+  priceElement.className = 'compare-add-price';
+  priceElement.textContent = `$${(totalPrice * parseInt(quantity)).toFixed(2)}`;
+
+  const discountElement = document.createElement('span');
+  discountElement.className = 'compare_percent';
+  discountElement.textContent = `(${discount}% OFF)`;
+
+  compareButton.appendChild(priceElement);
+  compareButton.appendChild(discountElement);
+
+  return compareButton;
+}
+
+function verifyComparePriceOfProduct(variantID, quantity) {
+  const product = {{ product | json }};
+  const variant = product.variants.find((variant) => variant.id == variantID);
+
+  const { compare_at_price, price } = variant;
+  const totalPrice = compare_at_price / 100;
+
+  const $buttonAddCart = document.querySelector('#AddToCart');
+  const compareBtnWrapper = document.querySelector('.compare-btn');
+
+  if (parseInt(compare_at_price) > parseInt(price)) {
+    const discount = calculateDiscount(price, compare_at_price);
+    const compareButton = createCompareButton(totalPrice, quantity, discount);
+
+    compareBtnWrapper.innerHTML = '';
+    compareBtnWrapper.appendChild(compareButton);
+    compareBtnWrapper.appendChild(document.createElement('span')).className = 'line';
+  } else {
+    compareBtnWrapper.innerHTML = '';
+  }
+}
+
+</script>
+
+{%- if settings.enable_custom_scripts -%}
+  {%- render 'custom_scripts' -%}
+{%- endif -%}

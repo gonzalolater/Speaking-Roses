@@ -1,0 +1,116 @@
+<!-- start custom-area.liquid (SECTION) -->
+<section
+  id="shopify-section-{{ section.id }}-content"
+  data-section-type="custom-area"
+  class="{{ section.settings.custom_class }} custom-area"
+>
+  {%- if section.settings.html_area != blank -%}
+    {%- if section.settings.title != blank -%}
+      <h2 class="section-title">{{ section.settings.title }}</h2>
+    {%- else -%}
+      <h2 class="hide">Custom Area</h2>
+    {%- endif -%}
+    {{ section.settings.html_area }}
+  {%- else -%}
+    <h2 class="hide" style="display: none;">Custom Area</h2>
+  {%- endif -%}
+</section>
+
+<style scoped>
+  #shopify-section-{{ section.id }} {
+    {% if section.settings.enable_custom_margins_paddings %}
+      margin-top: {{ section.settings.custom-margin-top }}px;
+      margin-bottom: {{ section.settings.custom-margin-bottom }}px;
+      padding-top: {{ section.settings.custom-padding-top }}px;
+      padding-bottom: {{ section.settings.custom-padding-bottom }}px;
+    {% else %}
+      margin: 20px 0;
+    {% endif %}
+  }
+  .wrapper.custom-area  .section-title {
+    padding: 17px 0 10px;
+    margin-bottom: 0;
+  }
+</style>
+{% schema %}
+{
+  "name": "Custom Area",
+  "class": "custom-area",
+  "settings": [
+    {
+      "type": "header",
+      "content": "General Settings"
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom Class",
+      "info": "Custom class to apply css styles for specific sections"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_custom_margins_paddings",
+      "label": "Enable Custom Margins and Paddings",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "custom-margin-top",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Margin Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "custom-margin-bottom",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Margin Bottom",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "custom-padding-top",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "custom-padding-bottom",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 0
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "Custom Area"
+    },
+    {
+      "type": "html",
+      "id": "html_area",
+      "label": "Custom Liquid",
+      "default": "<p style='text-align: center'>HTML Example</p>"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Area",
+      "category": "Custom HTML"
+    }
+  ]
+}
+{% endschema %}

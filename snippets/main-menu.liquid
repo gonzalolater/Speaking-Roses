@@ -1,0 +1,51 @@
+<!-- start main-menu (SNIPPET) -->
+<nav class="header__menu no-mobile">
+  <h3 class="hide">Main Menu</h3>
+
+  <ul class="header__list list--parent">
+    {%- for item in linklists[section.settings.menu].links -%}
+      {%- assign parent_item_index = forloop.index -%}
+
+      <li class="header__list__item">
+        <a id="hdr-nav-menu-{{ parent_item_index }}" href="{{ item.url | default: '#' }}" class="header__item__anchor">
+          {{- item.title }}
+          {%- if item.links != blank -%}
+            {%- render 'icon-arrow-down' -%}
+          {%- endif -%}
+        </a>
+        {%- if item.links != blank -%}
+          <ul class="header__list list--child">
+            {%- for child_item in item.links -%}
+              {%- assign child_item_index = forloop.index -%}
+              <li class="header__list__item">
+                <a
+                  id="hdr-nav-menu-{{ parent_item_index }}-{{ child_item_index }}"
+                  href="{{ child_item.url | default: '#' }}"
+                  class="header__item__anchor"
+                >
+                  {{- child_item.title -}}
+                </a>
+                {%- if child_item.links != blank -%}
+                  {%- render 'icon-arrow-down' -%}
+                  <ul class="header__list list--grandchild">
+                    {%- for grandchild_item in child_item.links -%}
+                      <li class="header__list__item">
+                        <a
+                          id="hdr-nav-menu-{{ parent_item_index }}-{{ child_item_index }}-{{ forloop.index }}"
+                          href="{{ grandchild_item.url | default: '#' }}"
+                          class="header__item__anchor"
+                        >
+                          {{- grandchild_item.title -}}
+                        </a>
+                      </li>
+                    {%- endfor -%}
+                  </ul>
+                {%- endif -%}
+              </li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+      </li>
+    {%- endfor -%}
+  </ul>
+</nav>

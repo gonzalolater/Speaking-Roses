@@ -1,0 +1,33 @@
+<!-- start custom-size-chart.liquid (SNIPPET) -->
+{%- assign selected_variant = product.selected_or_first_available_variant | default: product.variants.first -%}
+<div class="modal-container modal-container-{{ size_chart_id }} jq-sizechart-modal" data-id="{{ size_chart_id }}">
+    <div class="modal-box">
+      <span class="modal-close">x</span>
+      <div class="modal-content">
+              <div class="title modal-title">
+                <div class="modal-set"><span>BOX MATERIAL:</span>{{product.metafields.custom.product_box_material | metafield_tag}}</div>
+                <div id="modal-sku" class="modal-set"><span>SKU:</span><p>{{ selected_variant.sku | json }}</p></div>
+                <div class="modal-set"><span>BOX DIMENSIONS:</span>{{product.metafields.custom.product_box_dimensions | metafield_tag}}</div>
+                <div class="modal-set"><span>PRODUCT:</span>{{product.metafields.custom.product_stems | metafield_tag}}</div> 
+              </div>
+      </div>
+    </div>
+  </div>
+<script>
+  $(document).ready(function() {
+    const selectEl = document.querySelector('.size-chart-text');
+    const options = document.querySelectorAll('#all-product-variants option');
+    const elementsku = document.getElementById('modal-sku');
+
+    selectEl.addEventListener('click', function() {
+      options.forEach(variant => {
+        if (variant.selected) {
+          const dataSkuValue = variant.getAttribute('data-sku');
+          elementsku.innerHTML = `<span>SKU:</span><p>${dataSkuValue}</p>`;
+        } 
+      });
+    });
+    
+    
+  });
+</script>

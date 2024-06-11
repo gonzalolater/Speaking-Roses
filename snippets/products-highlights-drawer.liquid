@@ -1,0 +1,164 @@
+{% assign product_title = custom_title %}
+{% if custom_title == blank %}
+  {% assign product_title = productTarget.title %}
+{% endif %}
+{% assign product_link = productTarget.url %}
+{% assign product_description = productTarget.description %}
+{% assign product_metafield = productTarget.metafields.custom.custom_subtitle %}
+{%- assign product_image = custom_image -%}
+{% if custom_image == blank %}
+  {%- assign product_image = productTarget.selected_or_first_available_variant.image
+    | default: productTarget.featured_image
+  -%}
+{% endif %}
+{% assign productURL = productTarget.url %}
+
+{% capture drawerUvps %}
+    {%- for block in section.blocks -%}
+        {% if block.settings.product1_enable_this_icon == true and block.settings.product2_enable_this_icon == false %}
+            {% assign thisDrawer = 'product-1' %}
+        {% elsif block.settings.product2_enable_this_icon == true and block.settings.product1_enable_this_icon == false %}
+            {% assign thisDrawer = 'product-2' %}
+        {% elsif block.settings.product1_enable_this_icon == true and block.settings.product2_enable_this_icon == true %}
+            {% assign thisDrawer = 'both' %}
+        {% elsif block.settings.product1_enable_this_icon == false and block.settings.product2_enable_this_icon == false %}
+            {% assign thisDrawer = 'none' %}
+        {% endif %}
+
+        {%- if thisDrawer == source or thisDrawer == 'both' -%}
+            <div class="products-highlights__uvps-content">
+                <div class="uvp-text-container">
+                    {% if block.settings.title != blank %}
+                    <h3 class="products-highlights__uvps-title">{{ block.settings.title }}</h3>
+                    {% endif %}
+                    {% if block.settings.body_text != blank %}
+                    <p class="products-highlights__uvps-text">{{ block.settings.body_text }}</p>
+                    {% endif %}
+                </div>
+                {%- if block.settings.use_custom_svg -%}
+                    {{ block.settings.custom_svg_html }}
+                {%- elsif block.settings.use_custom_image -%}
+                    {%- assign idBlockIcon = 'blockIcon' | append: forloop.index -%}
+                    {%- render 'responsive-image',
+                        id_prefix: idBlockIcon,
+                        image: block.settings.custom_img, 
+                        active_lazy: true,
+                        image_class: 'products-highlights__custom-img-uvps',
+                        max_width: doubleSize,
+                        no_wrap: true, 
+                        alt_text: block.settings.title
+                    -%}
+                {%- endif -%}
+            </div>
+        {%- endif -%}
+    {%- endfor -%}
+{% endcapture %}
+
+<div>
+<div
+  id="products-highlights-drawer-item--{{ source }}"
+  class="products-highlights-drawer-item products-highlights-drawer-item__{{ source }}"
+  source="{{ source }}"
+  name="products-highlights-drawer-item"
+>
+    <div class="products-highlights__action">
+      <button
+        source="{{ source }}"
+        class="products-highlights__close customHeadline4"
+        type="button"
+        name="products-highlights__cta-close"
+        title="close"
+      >
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M18.5 1L1 18.5M1 1L18.5 18.5" stroke="#6E6E6E" stroke-width="2"/>
+        </svg>
+      </button>
+    </div>
+    <div class="products-highlights__hero-image-content">
+      <div class="products-highlights__hero-product">
+        <div class="products-highlights__hero-product-content">
+          {% if product_title != blank %}
+            <h2 class="products-highlights__product-title customHeadline3">
+              {{ product_title }}
+            </h2>
+          {% endif %}
+          {% if product_image != blank %}
+          <div class="products-highlights__product-image-content">
+            {%-
+              render 'responsive-image' with
+              image: product_image,
+              image_class: 'products-highlights__product-image',
+              active_lazy: lazy_load
+            -%}
+            <span class="grid_hero-image-shadow"></span>
+          </div>
+        {% endif %}
+          <a
+            href="{{ product_link }}"
+            class="products-highlights__cta-link products-highlights__cta-link--mobile customHeadline4 mobile"
+            aria-hidden="false"
+            title="{{ section.settings.enable_product_link_label }}"
+          >
+            {{ enable_product_link_label }}
+          </a>
+          <form action="/cart/add" method="post" class="products-highlights__add-to-cart-form">
+            <input type="hidden" name="quantity" value="1"/>
+            <input type="hidden" name="id" value="{{ productTarget.variants[0].id }}"/>
+            <button type="submit" class="products-highlights__add-to-cart products-highlights__add-to-cart--mobile" id="AddToCart-product-1"
+            {% unless productTarget.variants[0].available %} disabled {% endunless %}
+            >
+              Add To Cart
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="products-highlights__info-content products-highlights__info-content--floating">
+      {% if enable_description and enable_custom_description == false %}
+        <div class="products-highlights__description customBody4">
+          {{ product_description }}
+        </div>
+      {% elsif enable_custom_description %}
+        <div class="products-highlights__custom-description customBody4">
+          {{ custom_description }}
+        </div>
+      {% endif %}
+      {% if enable_product_link == true and enable_product_link_label != blank %}
+        <div class="products-highlights__link">
+          <a
+            href="{{ product_link }}"
+            class="products-highlights__cta-link customHeadline4"
+            aria-hidden="false"
+            title="{{ section.settings.enable_product_link_label }}"
+          >
+            {{ enable_product_link_label }}
+          </a>
+
+          <form action="/cart/add" method="post" class="products-highlights__add-to-cart-form">
+            <input type="hidden" name="quantity" value="1"/>
+            <input type="hidden" name="id" value="{{ productTarget.variants[0].id }}"/>
+            <button type="submit" class="products-highlights__add-to-cart" id="AddToCart-product-1"
+            {% unless productTarget.variants[0].available %} disabled {% endunless %}
+            >
+              Add To Cart
+            </button>
+          </form>
+        </div>     
+      {% endif %}
+      {%- if section.blocks.size > 0 -%}
+        <div class="products-highlights__uvps">
+          {{ drawerUvps }}
+        </div>
+      {% endif %}
+    </div>
+    {% if enable_badge and text_badge != blank %}
+      <div class="products-highlights__badge products-highlights__badge-{{ source }}">
+        <span class="products-highlights__badge-label customHeadline4">
+          {{ text_badge }}
+        </span>
+      </div>
+    {% endif %}
+</div>
+</div>
+

@@ -1,0 +1,291 @@
+<!-- sections/custom-contact-banner -->
+
+{%- assign css_selector = '#shopify-section-' | append: section.id -%}
+{%- if section.settings.custom_class != blank -%}
+  {%- assign css_selector = '.' | append: section.settings.custom_class -%}
+{%- endif -%}
+
+{%- capture section_css -%}
+{% comment %} Specific {% endcomment %}
+<style>
+  {{ css_selector }} .contact-banner__header-group {
+    top: {{ section.settings.banner_text_vertical_offset }}%;
+    left: {{ section.settings.banner_text_horizontal_offset }}%;
+  }
+  {{ css_selector }} .contact-banner__title *{
+    color: {{ section.settings.title_color }};
+  }
+  {{ css_selector }} .contact-banner__description {
+    color: {{ section.settings.description_color }};
+  }
+
+  {% comment %} Responsive 1019px {% endcomment %}
+  @media (max-width: 1019px) {
+    {{ css_selector }} .contact-banner__header-group {
+      top: {{ section.settings.banner_text_vertical_offset_tablet }}%;
+      left: {{ section.settings.banner_text_horizontal_offset_tablet }}%;
+    }
+  }
+
+  {% comment %} Responsive 767px {% endcomment %}
+  @media (max-width: 767px) {
+    {{ css_selector }} .contact-banner__header-group {
+      top: {{ section.settings.banner_text_vertical_offset_mobile }}%;
+      left: {{ section.settings.banner_text_horizontal_offset_mobile }}%;
+    }
+  }
+</style>
+
+{% comment %} Generical {% endcomment %}
+<style>
+  .contact-banner,
+  .contact-banner__wrapper {
+    position: relative;
+  }
+  .contact-banner__header-group,
+  .contact-banner__image {
+    position: absolute;
+  }
+  .contact-banner {
+    width: 100%;
+    height: 0;
+    padding-top: 31.389%;
+  }
+  .contact-banner__header-group {
+    padding: 3px 0 0 5.3px;
+  }
+  .contact-banner__image {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+  }
+  .contact-banner__title {
+    font-size: 22px;
+  }
+  .contact-2 .contact-banner__title h3{
+    font-weight: 300;
+    font-size: calc(14px + (22 - 14) * ((100vw - 375px) / (1440 - 375)));
+  }
+  .contact-banner__description {
+    font-size: 20px;
+  }
+  .contact-banner__description ul {
+    list-style: none;
+  }
+  .contact-banner__description ul > li {
+    line-height: 31px;
+  }
+
+  {% comment %} Responsive 1019px {% endcomment %}
+  @media (max-width: 1019px) {
+    .contact-banner__header-group {
+      padding: 2.5px 0 0 5.5px;
+    }
+    .contact-banner__title {
+      font-size: 20px;
+      margin: 0 0 3px;
+    }
+    .contact-banner__description {
+      font-size: 18px;
+    }
+    .contact-banner__description ul {
+      font-size: inherit;
+    }
+    .contact-banner__description ul > li {
+      line-height: 30px;
+      letter-spacing: 0px;
+      font-size: inherit;
+    }
+  }
+
+  {% comment %} Responsive 767px {% endcomment %}
+  @media (max-width: 767px) {
+    .contact-banner__title {
+      font-size: 16px;
+      margin-bottom: 0;
+    }
+    .contact-banner__header-group {
+      padding: 4.5px 0 0 8px;
+    }
+    .contact-banner__description {
+      max-width: 195px;
+    }
+    .contact-banner__description ul > li {
+      font-size: 14px;
+      line-height: 1;
+    }
+
+  }
+</style>
+{%- endcapture -%}
+{{- section_css | strip_newlines | replace: '    ', ' ' | replace: '   ', ' ' | replace: '  ', ' ' -}}
+
+<div class="contact-banner__wrapper {{ section.settings.custom_class }}">
+  {% if section.settings.image != blank %}
+    <div class="contact-banner">
+      {%- assign image_desktop_width = 1100 -%}
+      {%- assign image_desktop_height = image_desktop_width | times: 1 -%}
+
+      {%- if section.settings.collection_banner_image_checkbox -%}
+        {%- assign temp_height = section.settings.collection_banner_image | divided_by: 100.0 -%}
+        {%- assign image_desktop_height = image_desktop_width | times: temp_height | round: 0 -%}
+      {%- endif -%}
+
+      {{
+        section.settings.image
+        | image_url: width: image_desktop_width, height: image_desktop_height
+        | image_tag:
+          width: image_desktop_width,
+          height: image_desktop_height,
+          class: 'contact-banner__image',
+          sizes: '(max-width: 479px) 479px, (max-width: 767px) 767px, (max-width: 1019px) 1019px, (max-width: 1279px) 1279px, (min-width: 1280px) 1280px'
+      }}
+    </div>
+  {% endif %}
+
+  <div class="contact-banner__header-group">
+    <div class="contact-banner__title">{{section.settings.title}}</div>
+
+    <div class="contact-banner__description">
+      <ul>
+        <li>{{section.settings.subtitle}}</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+{% schema %}
+{
+  "name": "Custom Contact Banner",
+  "settings": [
+    {
+      "type": "header",
+      "content": "GENERAL SETTINGS"
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom Class"
+    },
+    {
+      "type": "header",
+      "content": "IMAGE"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "header",
+      "content": "TITLE"
+    },
+    {
+      "type": "richtext",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "richtext",
+      "id": "subtitle",
+      "label": "Sub-Title"
+    },
+    {
+      "type": "header",
+      "content": "TEXT POSITION"
+    },
+    {
+      "type": "paragraph",
+      "content": "DESKTOP"
+    },
+    {
+      "type": "range",
+      "id": "banner_text_vertical_offset",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 0,
+      "label": "Banner Text Vertical Offset"
+    },
+    {
+      "type": "range",
+      "id": "banner_text_horizontal_offset",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 0,
+      "label": "Banner Text Horizontal Offset"
+    },
+    {
+      "type": "paragraph",
+      "content": "TABLET"
+    },
+    {
+      "type": "range",
+      "id": "banner_text_vertical_offset_tablet",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 0,
+      "label": "Banner Text Vertical Offset"
+    },
+    {
+      "type": "range",
+      "id": "banner_text_horizontal_offset_tablet",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 0,
+      "label": "Banner Text Horizontal Offset"
+    },
+    {
+      "type": "paragraph",
+      "content": "MOBILE"
+    },
+    {
+      "type": "range",
+      "id": "banner_text_vertical_offset_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 0,
+      "label": "Banner Text Vertical Offset"
+    },
+    {
+      "type": "range",
+      "id": "banner_text_horizontal_offset_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 0,
+      "label": "Banner Text Horizontal Offset"
+    },
+    {
+      "type": "header",
+      "content": "COLOR"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "description_color",
+      "label": "Description Color",
+      "default": "#000000"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Contact Banner",
+      "category": "Banner"
+    }
+  ]
+}
+{% endschema %}

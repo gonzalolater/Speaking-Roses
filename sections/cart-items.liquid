@@ -1,0 +1,31 @@
+<!-- sections/cart-items -->
+
+{%- if cart.item_count > 0 -%}
+  <div id="CartItemsForm">
+    <form class="cart-items__form" action="/checkout">
+      <button class="cart__proceed-to-checkout cart__proceed-to-checkout--top">
+        {%- render 'icon-lock' -%} Proceed To Checkout
+        <span class="cart__item-count">
+          ({{ cart.item_count }}
+          {{ cart.item_count | pluralize: 'Item', 'Items' }})
+        </span>
+      </button>
+
+      {%- render 'cart-items' -%}
+
+      <div class="cart__total-price-wrapper">
+        <strong>Subtotal</strong>
+        <span class="cart__total-price">{{ cart.total_price | money }}</span>
+      </div>
+
+      <button class="cart__proceed-to-checkout cart__proceed-to-checkout--bottom">
+        {%- render 'icon-lock' -%} Proceed To Checkout
+        <span class="cart__item-count">
+          ({{ cart.item_count }}
+          {{ cart.item_count | pluralize: 'Item', 'Items' }})
+        </span>
+        <span class="cart__proceed-to-checkout-arrow">→</span>
+      </button>
+    </form>
+  </div>
+{%- endif -%}

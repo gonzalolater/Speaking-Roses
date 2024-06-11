@@ -1,0 +1,783 @@
+<!-- start relatedproducts.liquid (SECTION) -->
+
+{%- comment -%} Start Shopify ID styles {%- endcomment -%}
+<style>
+  #shopify-section-{{section.id }} {
+    background-color: {{ section.settings.bg_color_related_products }};
+    {% if section.settings.enable_custom_margins_paddings %}
+      margin-top: {{ section.settings.custom-margin-top }}px;
+      margin-bottom: {{ section.settings.custom-margin-bottom }}px;
+      padding-top: {{ section.settings.custom-padding-top }}px;
+      padding-bottom: {{ section.settings.custom-padding-bottom }}px;
+    {% else %}
+      margin: 20px 0;
+    {% endif %}
+  }
+  #shopify-section-{{section.id }} .product-card__grid-item {
+    border-radius: {{ section.settings.border_radius_related_products}}px;
+    {% if section.settings.enable_boxshadow_related_products %}
+      box-shadow: rgba(0, 0, 0, 0.3) 0 8px 16px 0;
+    {% endif %}
+    background-color: #FFF;
+  }
+  #shopify-section-{{section.id}} .product-card__grid-item-link {
+    font-size: {{ section.settings.center_card_product_name_font_size }}px;
+    border-radius: {{ section.settings.border_radius_related_products }}px;
+    {% if section.settings.enable_border_related_products %}
+      border: {{ section.settings.border_width_related_products }}px solid;
+      border-color: {{ section.settings.border_color_related_products}};
+    {% endif %}
+    height: 100%;
+  }
+  #shopify-section-{{section.id}} a,
+  #shopify-section-{{section.id}} .product-card__item-description span {
+    color: {{ section.settings.font_color_related_products }};
+  }
+  #shopify-section-{{section.id}} .product-card__item-title-link,
+  #shopify-section-{{section.id}} .product-card__item-description {
+    text-transform: {{ section.settings.text_transform_product_title }};
+  }
+  #shopify-section-{{section.id}} .slick-slide:not(.slick-center) .product-card__item-title,
+  #shopify-section-{{section.id}} .slick-slide:not(.slick-center) .product-card__item-description {
+    font-size: calc({{ section.settings.aside_card_product_name_font_size }}px/0.86728);
+  }
+  #shopify-section-{{section.id}} .slick-slide.slick-center .product-card__item-title-link,
+  #shopify-section-{{section.id}} .slick-slide.slick-center .product-card__item-description {
+    font-size: {{ section.settings.center_card_product_name_font_size }}px;
+    line-height: 119%;
+  }
+  #shopify-section-{{section.id}} .product-card__item-description-wrapper {
+    font-weight: {{ section.settings.font_weight_short_description }};
+  }
+  #shopify-section-{{section.id}} .product-card__item-price {
+    color: {{ section.settings.color_price_related_products }};
+  }
+
+  @media (max-width: 1019px) {
+    #shopify-section-{{section.id}} .slick-slide:not(.slick-center) .product-card__item-title,
+    #shopify-section-{{section.id}} .slick-slide:not(.slick-center) .product-card__item-description {
+      font-size: {{ section.settings.aside_card_product_name_font_size_tablet }}px;
+    }
+    #shopify-section-{{section.id}} .slick-slide.slick-center .product-card__item-title-link,
+    #shopify-section-{{section.id}} .slick-slide.slick-center .product-card__item-description {
+      font-size: {{ section.settings.center_card_product_name_font_size_tablet }}px;
+    }
+  }
+
+  @media (max-width:767px) {
+    #shopify-section-{{section.id}} .slick-slide:not(.slick-center) .product-card__item-title,
+    #shopify-section-{{section.id}} .slick-slide:not(.slick-center) .product-card__item-description {
+      font-size: {{ section.settings.aside_card_product_name_font_size_mobile }}px;
+    }
+    #shopify-section-{{section.id}} .slick-slide.slick-center .product-card__item-title-link,
+    #shopify-section-{{section.id}} .slick-slide.slick-center .product-card__item-description {
+      font-size: {{ section.settings.center_card_product_name_font_size_mobile }}px;
+    }
+  }
+</style>
+{%- comment -%} End Shopify ID styles {%- endcomment -%}
+
+<style scoped>
+  .related-products .slick-slide img {
+    display: block;
+    width: 100%;
+    margin: 0 auto;
+    border-radius: 10px 10px 19px 19px;
+  }
+  .relate-content .wrapper {
+    padding: 0;
+    max-width: 1074px;
+  }
+  .related_product .reviewtitle.section-title.section-header__title {
+    text-transform: {{ section.settings.text_transform_title}};
+    font-size: {{ section.settings.font_size_section_title }}px;
+    margin: 9.5px 0 5px;
+    letter-spacing:.4px;
+  }
+  .related-products {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    position: relative;
+    margin-top: 35px;
+    float: left;
+    clear: both;
+  }
+
+  .related-products .slick-arrow {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 218px;
+    z-index: 9;
+    transform: scale(2.2);
+  }
+
+  .related-products .prev-arrow {
+    left: 35px;
+  }
+
+  .related-products .next-arrow {
+    right: 35px;
+  }
+
+  .related-products .next-arrow::before,
+  .related-products .prev-arrow::before {
+    content: "";
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 9;
+    background-size: 10px;
+    background-position: center center;
+    background-repeat: no-repeat;
+  }
+
+  .related-products .prev-arrow::before {
+    background-image: url("{{ 'prev-arrow.svg' | asset_url }}");
+  }
+
+  .related-products .next-arrow::before {
+    background-image: url("{{ 'next-arrow.svg' | asset_url }}");
+  }
+
+  .related-products .grid__item {
+    width: 300px;
+    min-height: 455px;
+    max-height: 100%;
+  }
+
+  .related-products .slick-track {
+    display: flex;
+    align-items: flex-start;
+  }
+  .related-products .slick-slide {
+    margin: 0 26px;
+    transition: all 0.2s ease;
+    width: 324px;
+    height: auto;
+    max-height: 100%;
+  }
+  .product-card__reviews {
+    display: flex;
+    gap: 6.24px;
+    align-items: center;
+    padding: 0 12px;
+    margin: 7px 0 23px;
+  }
+  .product-card__reviews svg {
+    width: 78px;
+  }
+  .product-card__reviews span {
+    font-size: 10.37727px;
+  }
+  .related-products .slick-slide.slick-center .product-card__reviews {
+    margin: 6px 0 23px;
+  }  
+  .related-products .slick-slide:not(.slick-center) {
+    transform: scale(0.86728);
+  }
+  .related-products .slick-slide:not(.slick-center) .product-card__reviews path {
+    width: 10.9px;
+  }
+  .related-products .slick-slide.slick-center .product-card__item-description {
+    padding-left: 5px;
+  }
+  .related-products .slick-slide.slick-center .product-card__reviews path {
+    font-size: 12.58px;
+  }
+  .related-products .product-card__reviews path {
+    fill: #f9c52c;
+  }
+  .related-products .slick-slide.slick-center .product-card__reviews span {
+    font-size: 10px;
+  }
+  .related-products .slick-slide.slick-center {
+   transform: scale(1.0);
+  }
+  .related-products .slick-slide.slick-center .product-card__grid-item {
+    max-height: 100%;
+  }
+  .related-products .product-card__grid-item-link {
+    padding-bottom: 7.25px;
+  }
+  .related-products .slick-slide:not(.slick-center) .product-card__grid-item-link{
+    padding-bottom: 2.94px;
+  }
+  .related-products .slick-slide.slick-center .product-card__item-title {
+    padding: 0 13px;
+    line-height: 1.2;
+    margin: 20px 0 0 0;
+  }
+  .related-products .slick-slide.slick-center .product-card__item-description-wrapper {
+    padding-top: 0.4px;
+  }
+  
+  .related-products .slick-slide .product-card__item-price-wrapper span {
+    padding-left: 5.5px;
+  }
+  .related-products .slick-slide:not(.slick-center) .product-card__item-title,
+  .related-products .slick-slide:not(.slick-center) .product-card__item-description-wrapper {
+    padding: 0 13px;
+  }
+  .related-products .slick-slide .product-card__grid-item-image-wrapper {
+    padding-top: 108.3%;
+  }
+  .related-products .product-card__item-title {
+    line-height: 1.2;
+    text-align: left;
+    margin: 21px 0 0 0;
+  }
+  .related-products .slick-slide.slick-center .product-card__reviews svg {
+    width: 77.5px;
+    padding-bottom: 0.9px;    
+  }
+  .related-products .slick-slide:not(.slick-center) .product-card__reviews svg {
+    width: 78px;
+  }
+
+  @media (max-width: 1019px) {
+    .related-products {
+      margin-top: 36px;
+    }
+
+    .related_product .reviewtitle.section-title.section-header__title {
+      font-size: {{ section.settings.font_size_section_title_tablet }}px;
+      letter-spacing: 0.3px;
+    }
+
+    .related-products .slick-slide:not(.slick-center) {
+      margin-top: 1px;
+    }
+  
+    .related-products .slick-arrow {
+      top: 175px;
+      transform: scale(2);
+    }
+
+    .related-products .prev-arrow {
+      left: 20px;
+    }
+
+    .related-products .next-arrow {
+      right: 20px;
+    }
+
+    .related-products .product-card__item-title {
+      margin-top: 18px;
+    }
+
+    .related-products .slick-slide.slick-center .product-card__item-title {
+      margin-top: 19px;
+    }
+
+    .product-card__reviews {
+      margin: 7px 0 24px;
+    }
+
+    .related-products .slick-slide.slick-center .product-card__reviews {
+      margin: 7px 0 22px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .related-products {
+      margin-top: 23px;
+    }
+
+    .template-product .relate-content {
+      padding-top: 8px;
+    }
+
+    .related_product .reviewtitle.section-title.section-header__title {
+      font-size: {{ section.settings.font_size_section_title_mobile }}px;
+    }  
+  
+    .related-products .slick-arrow {
+      top: 35.2%;
+      transform: scale(1.3);
+    }
+
+    .related-products .prev-arrow {
+      left: 4.2%;
+    }
+
+    .related-products .next-arrow {
+      right: 4.2%;
+    }
+
+    .related-products .slick-slide {
+      width: 233px;
+      margin: 0 8px;
+    }
+
+    .related-products .slick-slide .product-card__grid-item-image-wrapper {
+      padding-top: 108%;
+    }
+
+    .related-products .product-card__item-title {
+      margin: 12px 0 0 0;
+    }
+
+    .related-products .slick-slide.slick-center .product-card__item-title {
+      padding: 0 10px;
+      margin: 11px 0 0px 0;
+      line-height: 1.1;
+    }        
+
+    .related-products .slick-slide:not(.slick-center) .product-card__item-title,
+    .related-products .slick-slide:not(.slick-center) .product-card__item-description-wrapper {
+      padding: 0 9px;
+    }
+
+    .related-products .slick-slide.slick-center .product-card__item-description {
+      padding-left: 0px;
+    }
+
+    .related-products .slick-slide .product-card__item-title-link,
+    .related-products .slick-slide .product-card__item-description {
+      line-height: 1;
+    }
+
+    .related-products .slick-slide .product-card__reviews {
+      padding: 0 8px;
+      margin: 6px 0 18px;
+      align-items: center;
+      gap: 4.14px;
+    }
+
+    .related-products .slick-slide.slick-center .product-card__reviews {
+      padding: 0 9px;
+      margin: 6px 0 15px;
+    }
+
+    .related-products .slick-slide.slick-center .product-card__reviews svg {
+      width: 55px;
+      height: 100%;
+    }
+
+    .related-products .slick-slide:not(.slick-center) .product-card__reviews svg {
+      width: 55px;
+      height: 100%;
+    }
+
+    .related-products .product-card__item-price-wrapper {
+      margin: 0;
+    }
+  }
+</style>
+
+{%- unless settings.product_disabled_other_fine_products_section -%}
+  {%- assign number_of_related_products_per_row = 4 -%}
+  {%- assign heading = section.settings.title_related_products -%}
+  {%- assign same_vendor = false -%}
+  {%- assign same_type = false -%}
+  {%- assign exclusions = 'frontpage,drawer,drawer-bump,todos' | split: ',' -%}
+
+  {%- if product.metafields.c_f['Related Products'] -%}
+    {%- assign collection = collections[product.metafields.c_f['Related Products']] -%}
+  {%- endif -%}
+
+  {%- assign found_a_collection = false -%}
+  {%- if collection and collection.all_products_count > 1 -%}
+    {%- unless exclusions contains collection.handle -%}
+      {%- assign found_a_collection = true -%}
+    {%- endunless -%}
+  {%- endif -%}
+
+  {%- unless found_a_collection -%}
+    {%- for c in product.collections -%}
+      {%- unless exclusions contains c.handle or c.all_products_count < 2 -%}
+        {%- assign found_a_collection = true -%}
+        {%- assign collection = c -%}
+        {%- break -%}
+      {%- endunless -%}
+    {%- endfor -%}
+  {%- endunless -%}
+
+  {%- if found_a_collection -%}
+    <div class="relate-content">
+      <div class="wrapper">
+        <div class="grid__item__fullsize">
+          {%- unless heading == blank -%}
+            <header class="section-header">
+              <h2 class="reviewtitle section-title section-header__title" id="related_product">{{ heading }}</h2>
+            </header>
+          {%- endunless -%}
+
+          {%- assign counter = 0 -%}
+          {%- assign current_product = product -%}
+
+          <div class="related-products">
+            {%- for product in collection.products -%}
+              {%- unless product.handle == current_product.handle -%}
+                {%- unless same_vendor and current_product.vendor != product.vendor -%}
+                  {%- unless same_type and current_product.type != product.type -%}
+                    {% if product.available or settings.enable_out_of_stock_button == true %}
+                      {%-
+                          render 'product-card' with
+                        prod: product,
+                        enable_lazy: true,
+                        max_width: 300,
+                        show_description: section.settings.show_description,
+                        show_reviews: true,
+                        show_price: section.settings.show_price -%}
+                      {%- assign counter = counter | plus: 1 -%}
+                    {%- endif -%}
+                    {%- if counter == number_of_related_products_per_row -%}
+                      {%- break -%}
+                    {%- endif -%}
+                  {%- endunless -%}
+                {%- endunless -%}
+              {%- endunless -%}
+            {%- endfor -%}
+          </div>
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+{% endunless %}
+
+<script type="lazyload_int">
+  setTimeout(async function () {
+    $('.related-products').slick({
+      infinite: true,
+      slidesToShow: 3,
+      slidesToScroll: 1,
+      prevArrow: '<button type="button" class="prev-arrow"></button>',
+      nextArrow: '<button type="button" class="next-arrow"></button>',
+      centerMode: true,
+      variableWidth: true,
+      responsive: [
+        {
+          breakpoint: 768,
+          settings: {
+            slidesToShow: 1
+          }
+        }
+      ]
+    });
+  });
+</script>
+
+{% schema %}
+  {
+    "name": "Related Products",
+    "class": "related_product",
+    "settings": [
+      {
+        "type": "header",
+        "content": "General Settings"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_custom_margins_paddings",
+        "label": "Enable Custom Margins and Paddings",
+        "default": false
+      },
+      {
+        "type": "range",
+        "id": "custom-margin-top",
+        "min": 0,
+        "max": 50,
+        "step": 1,
+        "unit": "px",
+        "label": "Margin Top",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "custom-margin-bottom",
+        "min": 0,
+        "max": 50,
+        "step": 1,
+        "unit": "px",
+        "label": "Margin Bottom",
+        "default": 0
+      }, 
+      {
+        "type": "range",
+        "id": "custom-padding-top",
+        "min": 0,
+        "max": 50,
+        "step": 1,
+        "unit": "px",
+        "label": "Padding Top",
+        "default": 0
+      }, 
+      {
+        "type": "range",
+        "id": "custom-padding-bottom",
+        "min": 0,
+        "max": 50,
+        "step": 1,
+        "unit": "px",
+        "label": "Padding Bottom",
+        "default": 0
+      }, 
+      {
+        "type": "range",
+        "id": "top_margin_featured_products",
+        "info": "Only works if section above is the banner",
+        "min": 0,
+        "max": 500,
+        "step": 5,
+        "unit": "px",
+        "label": "Position On/Off Banner",
+        "default": 0
+      }, 
+      {
+        "type": "text",
+        "id": "title_related_products",
+        "label": "Headline Text",
+        "default": "Related Products"
+      }, 
+      {
+        "type": "select",
+        "id": "text_transform_title",
+        "label": "Headline Text Transform",
+        "options": [
+          {
+            "value": "capitalize",
+            "label": "Capitalize"
+          }, 
+          {
+            "value": "none",
+            "label": "Same as Input"
+          }, 
+          {
+            "value": "uppercase",
+            "label": "Uppercase"
+          }, 
+          {
+            "value": "lowercase",
+            "label": "Lowercase"
+          }
+        ],
+        "default": "none"
+      }, 
+      {
+        "type": "select",
+        "id": "text_transform_product_title",
+        "label": "Product Title Text Transform",
+        "options": [
+          {
+            "value": "capitalize",
+            "label": "Capitalize"
+          }, 
+          {
+            "value": "lowercase",
+            "label": "Lowercase"
+          }, 
+          {
+            "value": "none",
+            "label": "Same as Input"
+          }, 
+          {
+            "value": "uppercase",
+            "label": "Uppercase"
+          }
+        ],
+        "default": "none"
+      }, 
+      {
+        "type": "range",
+        "id": "font_size_section_title",
+        "label": "Font Size Section Title",
+        "min": 15,
+        "max": 50,
+        "step": 1,
+        "default": 38
+      }, 
+      {
+        "type": "range",
+        "id": "font_size_section_title_tablet",
+        "label": "Font Size Section Title on Tablet",
+        "min": 10,
+        "max": 50,
+        "step": 1,
+        "default": 38
+      }, 
+      {
+        "type": "range",
+        "id": "font_size_section_title_mobile",
+        "label": "Font Size Section Title on Mobile",
+        "min": 10,
+        "max": 50,
+        "step": 1,
+        "default": 20
+      }, 
+      {
+        "type": "range",
+        "id": "font_size_short_description",
+        "label": "Font Size Short Description",
+        "min": 12,
+        "max": 25,
+        "step": 1,
+        "default": 20
+      }, 
+      {
+        "type": "select",
+        "id": "font_weight_short_description",
+        "label": "Font Weight Short Description",
+        "options": [
+          {
+            "value": "600",
+            "label": "Bold"
+          }, 
+          {
+            "value": "400",
+            "label": "Thin"
+          }
+        ],
+        "default": "600"
+      }, 
+      {
+        "type": "range",
+        "id": "border_radius_related_products",
+        "min": 0,
+        "max": 30,
+        "step": 5,
+        "unit": "px",
+        "label": "Border Radius",
+        "default": 10
+      }, 
+      {
+        "type": "checkbox",
+        "id": "enable_boxshadow_related_products",
+        "label": "Enable Box Shadow",
+        "default": false
+      }, 
+      {
+        "type": "checkbox",
+        "id": "enable_border_related_products",
+        "label": "Enable Border",
+        "default": false
+      }, 
+      {
+        "type": "checkbox",
+        "id": "show_description",
+        "label": "Show Description Related Products",
+        "default": true
+      }, 
+      {
+        "type": "checkbox",
+        "id": "show_price",
+        "label": "Show Price Related Products",
+        "default": true
+      }, 
+      {
+        "type": "range",
+        "id": "border_width_related_products",
+        "min": 1,
+        "max": 3,
+        "step": 1,
+        "unit": "px",
+        "label": "Border Width",
+        "default": 1
+      }, 
+      {
+        "type": "color",
+        "id": "border_color_related_products",
+        "label": "Collections Border Color",
+        "default": "#444"
+      }, 
+      {
+        "type": "color",
+        "id": "bg_color_related_products",
+        "label": "Featured Collection Background Color",
+        "default": "#E8E8E8"
+      },
+      {
+        "type": "color",
+        "id": "font_color_related_products",
+        "label": "Related Products Font Color",
+        "default": "#252525"
+      },
+      {
+        "type": "color",
+        "id": "color_price_related_products",
+        "label": "Related Products Font Color",
+        "default": "#252525"
+      },
+      {
+        "type": "header",
+        "content": "Font Sizes"
+      },
+      {
+        "type": "paragraph",
+        "content": "Desktop"
+      },
+      {
+        "type": "range",
+        "id": "center_card_product_name_font_size",
+        "min": 10,
+        "max": 30,
+        "step": 1,
+        "unit": "px",
+        "label": "Product Name Font Size on center card",
+        "default": 20
+      },
+      {
+        "type": "range",
+        "id": "aside_card_product_name_font_size",
+        "min": 10,
+        "max": 30,
+        "step": 1,
+        "unit": "px",
+        "label": "Product Name Font Size on other cards",
+        "default": 20
+      },
+      {
+        "type": "paragraph",
+        "content": "Tablet"
+      },
+      {
+        "type": "range",
+        "id": "center_card_product_name_font_size_tablet",
+        "min": 10,
+        "max": 30,
+        "step": 1,
+        "unit": "px",
+        "label": "Product Name Font Size on center card",
+        "default": 20
+      },
+      {
+        "type": "range",
+        "id": "aside_card_product_name_font_size_tablet",
+        "min": 10,
+        "max": 30,
+        "step": 1,
+        "unit": "px",
+        "label": "Product Name Font Size on other cards",
+        "default": 18
+      },
+      {
+        "type": "paragraph",
+        "content": "Mobile"
+      },
+      {
+        "type": "range",
+        "id": "center_card_product_name_font_size_mobile",
+        "min": 10,
+        "max": 30,
+        "step": 1,
+        "unit": "px",
+        "label": "Product Name Font Size on center card",
+        "default": 14
+      },
+      {
+        "type": "range",
+        "id": "aside_card_product_name_font_size_mobile",
+        "min": 10,
+        "max": 30,
+        "step": 1,
+        "unit": "px",
+        "label": "Product Name Font Size on other cards",
+        "default": 14
+      }
+    ]
+  }
+{% endschema %}

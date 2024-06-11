@@ -1,0 +1,211 @@
+.owl-carousel .owl-wrapper:after{
+    content:".";
+    display:block;
+    clear:both;
+    visibility:hidden;
+    line-height:0;
+    height:0
+}
+.owl-carousel{
+    display:none;
+    position:relative;
+    width:100%;
+    -ms-touch-action:pan-y
+}
+.owl-carousel .owl-wrapper{
+    display:none;
+    position:relative;
+    -webkit-transform:translate3d(0px,0px,0px)
+}
+.owl-carousel .owl-wrapper-outer{
+    overflow:hidden;
+    position:relative;
+    width:100%
+}
+.owl-carousel .owl-wrapper-outer.autoHeight{
+    -webkit-transition:height 500ms ease-in-out;
+    -moz-transition:height 500ms ease-in-out;
+    -ms-transition:height 500ms ease-in-out;
+    -o-transition:height 500ms ease-in-out;
+    transition:height 500ms ease-in-out
+}
+.owl-carousel .owl-item{
+    float:left
+}
+.owl-controls .owl-page,.owl-controls .owl-buttons div{
+    cursor:pointer
+}
+.owl-controls{
+    -webkit-user-select:none;
+    -khtml-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    user-select:none;
+    -webkit-tap-highlight-color:rgba(0,0,0,0)
+}
+.grabbing{
+    cursor:url(grabbing.png) 8 8,move
+}
+.owl-carousel .owl-wrapper,.owl-carousel .owl-item{
+    -webkit-backface-visibility:hidden;
+    -moz-backface-visibility:hidden;
+    -ms-backface-visibility:hidden;
+    -webkit-transform:translate3d(0,0,0);
+    -moz-transform:translate3d(0,0,0);
+    -ms-transform:translate3d(0,0,0)
+}
+.addonimage{
+    width:100%;
+    cursor:pointer;
+}
+p.addprice{
+    text-align:center;
+    margin:0;
+    font-weight:700;
+    font-size:12px
+}
+p.proaddcheck{
+    text-align:center;
+    margin:0
+}
+p.productaddtitle{
+    font-size:11px;
+    text-align:center;
+    margin:0
+}
+#containeraddon{
+    display:block;
+    position:relative;
+    cursor:pointer;
+    text-align:center;
+    font-size:22px;
+    -webkit-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    user-select:none;
+    background:#fff!important
+}
+#containeraddon input{
+    position:relative;
+    opacity:0
+}
+.checkmark{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%)
+}
+.checkmark:after{
+    content:"";
+    position:absolute;
+    display:none
+}
+#containeraddon input:checked ~ .checkmark:after{
+    display:block
+}
+p.addonadded{
+    text-align:center;
+    margin:0!important;
+    font-size:12px;
+    font-weight:700;
+    display:none
+}
+.owl-next{
+    position:absolute;
+    right:0;
+    top:44%
+}
+.owl-prev{
+    position:absolute;
+    top:44%;
+    z-index:99
+}
+p.addontitle{
+    margin:0;
+    text-align:center;
+    padding-top:2%;
+    padding-bottom:2%;
+}
+.owl-item{
+    padding:14px;
+    box-sizing:border-box
+}
+div#demoaddon{
+    width:100%;
+    float:left;
+    position:relative;
+    overflow:hidden;
+}
+span.tooltiptext label{
+    width:100%;
+    float:left;
+    text-align:center;
+    font-size:13px;
+    font-weight:400;
+    margin:0!important
+}
+span.tooltiptext select{
+    width:96%!important;
+    padding:1px;
+    margin:0 auto!important;
+    text-align:center;
+    border:1px solid!important;
+    border-radius:0!important;
+    font-size:11px!important;
+    min-height:26px!important;
+    max-height:26px!important;
+    display:block;
+    opacity:1!important
+}
+span.tooltiptext{
+    position:absolute;
+    top:0;
+    bottom:0;
+    right:0;
+    left:0;
+    overflow:auto;
+    display:none;
+    z-index:999999999;
+}
+.item-addon{
+    position:relative
+}
+button.addon_variant_btn {
+    width: 100% !important;
+    z-index: 99999;
+    position: relative;
+    padding: 2px !important;
+    border: 0;
+    font-size: 12px !important;
+    margin-top: 10px;
+    float: left;
+	height:31px;
+}
+.tooltiptext .jumpstart-selector{ 
+    display:inline !important; 
+}
+ ul.selectlistresult li {
+    list-style-type: none;
+    text-align: center;
+    padding: 0px !important;
+    margin: 0px !important;
+}
+ul.selectlistresult {
+    margin: 0px !important;
+    padding: 0px !important;
+    font-size: 12px !important;
+    font-weight: normal !important;
+}
+.select_smar_btn {
+    width: 100%  !important;
+    overflow: hidden  !important;
+    background: #60a9af  !important;
+    padding: 4px  !important;
+    color: white;
+	border:0px;
+    text-transform: uppercase;
+    margin-top: 5px;
+    font-size: 0.7em;
+    box-sizing: border-box;
+	 text-align:center;
+}

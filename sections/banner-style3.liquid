@@ -1,0 +1,740 @@
+<!-- start banner-style3.liquid (SECTION) -->
+
+{%- assign imageDesktop = section.settings.homepage_banner_style_3 -%}
+{%- assign paddingTopDesktop = imageDesktop.height | plus: 0.0 | divided_by: imageDesktop.width | times: 100.0 -%}
+{%- assign imageMobile = section.settings.mobile_banner_style_3 -%}
+{%- assign paddingTopMobile = imageMobile.height | plus: 0.0 | divided_by: imageMobile.width | times: 100.0 -%}
+
+{%- if section.settings.homepage_banner_style_3 == blank -%}
+  {%- assign paddingTopDesktop = 40 -%}
+{%- endif -%}
+
+{%- if section.settings.mobile_banner_style_3 == blank -%}
+  {%- assign paddingTopMobile = 55 -%}
+{%- endif -%}
+
+{%- assign image_desktop_width = 1440 -%}
+{%- assign image_desktop_height = image_desktop_width | divided_by: imageDesktop.aspect_ratio -%}
+{% capture banner_content %}
+    <section class="homepage-style-3 banner-style-3-{{ section.id }} {{ section.settings.custom_class }} ">
+      <div class="title-banner-3-{{ section.id }} banner-style-3-titles">
+        <a href="{{ section.settings.homepage_banner_link | default: '#' }}" class="banner-style-3-titles-link"></a>
+        {%- assign enable_lazy = section.settings.enable_lazy_load -%}
+        {%- if section.settings.enable_h1 -%}
+          {% if section.settings.homepage_banner_text != blank %}
+              <h1 class="banner-title">{{ section.settings.homepage_banner_text }}</h1>
+          {% else %}
+              <h1 class="banner-title hide">Banner-Desktop-{{ section.id }}</h1>
+          {% endif %}
+        {%- else -%}
+          {% if section.settings.homepage_banner_text != blank %}
+              <h2 class="banner-title">{{ section.settings.homepage_banner_text }}</h2>
+          {% else %}
+              <h2 class="banner-title hide">{{ section.settings.homepage_banner_text }}</h2>
+          {% endif %}
+        {%- endif -%}
+          <div class="banner-sub-title" >{{ section.settings.main_banner_sub_title }}</div>
+      </div>
+
+      <a class="banner-img background-banner-style-3-{{ section.id }} {% if section.settings.enable_custom_banner_height == false %} banner-padding-top-desktop{% endif %}{% if section.settings.enable_custom_banner_height == false %} banner-padding-top-mobile{% endif %}" href="{{ section.settings.homepage_banner_link | default: '#' }}">
+
+        {%- if section.settings.homepage_banner_style_3.alt != blank -%}
+          {%- assign banner_alt = section.settings.homepage_banner_style_3.alt | strip_html | escape -%}
+        {%- endif -%}
+
+        {% if section.settings.homepage_banner_style_3 != blank %}
+          <picture>
+            {%- assign default_image = section.settings.homepage_banner_style_3 -%}
+            {%- assign desktop_widths = '1500,1400,1300,1200,1100,1000,900,800' | split: ',' -%}
+            {%- assign mobile_widths = '700,600,500,400' | split: ',' -%}
+
+            <source data-class="LazyLoad" media="(min-width: 768px)" {% if enable_lazy %}data-{% endif %}srcset="
+              {%- for desktop_width in desktop_widths -%}
+                https:{{- default_image | image_url: width: desktop_width }} {{ desktop_width }}w,
+              {%- endfor -%}
+            "/>
+
+            {%- if section.settings.mobile_banner_style_3 != blank -%}
+              {%- assign default_image = section.settings.mobile_banner_style_3 -%}
+            {%- endif -%}
+
+            <source data-class="LazyLoad" media="(max-width: 767px)" {% if enable_lazy %}data-{% endif %}srcset="
+              {%- for mobile_width in mobile_widths -%}
+                https:{{- default_image | image_url: width: mobile_width }} {{ mobile_width }}w,
+              {%- endfor -%}
+            "/>
+            <img  class="banner-link__image" width="{{ image_desktop_width }}" height="{{ image_desktop_height }}" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" alt="Banner"/>
+          </picture>
+        {% else %}
+          {%-
+            render 'responsive-image' with
+            placeholder: 'lifestyle-2',
+            class: 'banner-link__image'
+          -%}
+        {% endif %}
+      </a>
+    </section>
+{% endcapture %}
+
+{% if section.settings.vasta_banner_width == 'full_width' %}
+  {{ banner_content }}
+{% else %}
+  {% if section.settings.vasta_banner_width == 'keep_image_size' %}
+    {{ banner_content }}
+  {% else %}
+    <div class="wrapper">
+      {{ banner_content }}
+    </div>
+  {% endif %}
+{% endif %}
+
+<style scoped>
+  #shopify-section-{{ section.id }} {
+    {% if section.settings.enable_custom_margins_paddings %}
+      margin-top: {{ section.settings.custom-margin-top }}px;
+      margin-bottom: {{ section.settings.custom-margin-bottom }}px;
+      padding-top: {{ section.settings.custom-padding-top }}px;
+      padding-bottom: {{ section.settings.custom-padding-bottom }}px;
+    {% else %}
+      margin: 20px 0;
+    {% endif %}
+  }
+  #shopify-section-{{ section.id }} .homepage-style-3 {
+    width: 100%;
+  }
+  .homepage-style-3 .title-banner-3-{{ section.id }} {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    text-align: {{ section.settings.vasta_headline_align }};
+    left:{{ section.settings.vasta_title_horizontal_position }}%;
+    top:{{ section.settings.vasta_title_vertical_position }}%;
+    z-index: 2;
+    width: inherit;
+  }
+  .homepage-style-3 .title-banner-3-{{ section.id }} .banner-title,
+  .homepage-style-3 .title-banner-3-{{ section.id }} .banner-title *{
+    font-size: {{ section.settings.desktop_text_size }}px;
+    color: {{ section.settings.banner_text_color }};
+    font-weight: {{ section.settings.font_weight }};
+  }
+  .homepage-style-3 .title-banner-3-{{ section.id }} .banner-sub-title,
+  .homepage-style-3 .title-banner-3-{{ section.id }} .banner-sub-title *{
+    color: {{ section.settings.banner_text_color }};
+    font-size: {{ section.settings.main_banner_sub_headline_size }}px;
+    font-weight: {{ section.settings.font_weight }};
+  }
+  #shopify-section-{{ section.id }} .homepage-style-3 .banner-style-3-titles-link{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    z-index: 999;
+  }
+  #shopify-section-{{ section.id }} .banner-img.banner-padding-top-desktop{
+    padding-top: {{ paddingTopDesktop }}%;
+  }
+  #shopify-section-{{ section.id }} .banner-img.banner-padding-top-desktop .banner-link__image {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 100%;
+    width: 100%;
+    object-fit: cover;
+    height: 100%;
+  }
+  {% if section.settings.vasta_banner_width == 'keep_image_size' %}
+    #shopify-section-{{ section.id }} .banner-img.banner-padding-top-desktop{
+      padding-top: 0;
+    }
+    #shopify-section-{{ section.id }} .banner-img.banner-padding-top-desktop .banner-link__image {
+      position: relative;
+      top: 0;
+      left: 0;
+      transform: none;
+      max-width: 100%;
+      width: 100%;
+      object-fit: cover;
+      height: 100%;
+    }
+  {% endif %}
+  {% if section.settings.enable_custom_banner_height %}
+    #shopify-section-{{ section.id }} .homepage-style-3 .banner-img img{
+      height: {{ section.settings.banner_max_height }}px;
+      width: 100%;
+      object-fit: cover;
+    }
+    @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+      #shopify-section-{{ section.id }} .homepage-style-3 .banner-img img{
+        height: auto;
+      }
+    }
+    @media (max-width: 1019px) {
+      #shopify-section-{{ section.id }} .homepage-style-3 .banner-img img{
+        height: {{ section.settings.banner_max_height_tablet }}px;
+      }
+    }
+    @media (max-width: 767px) {
+      #shopify-section-{{ section.id }} .homepage-style-3 .banner-img img{
+        height: {{ section.settings.banner_max_height_mobile }}px;
+      }
+    }
+  {% endif %}
+  @media (max-width: 1019px) {
+    .homepage-style-3 .title-banner-3-{{ section.id }} .banner-title,
+    .homepage-style-3 .title-banner-3-{{ section.id }} .banner-title *{
+      font-size: {{ section.settings.tablet_text_size }}px;
+    }
+    .homepage-style-3 .title-banner-3-{{ section.id }} .banner-sub-title,
+    .homepage-style-3 .title-banner-3-{{ section.id }} .banner-sub-title *{
+      font-size: {{ section.settings.main_banner_sub_headline_size_tablet }}px;
+    }
+    .homepage-style-3 .title-banner-3-{{ section.id }} {
+      left:{{ section.settings.vasta_title_horizontal_position_tablet }}%;
+      top:{{ section.settings.vasta_title_vertical_position_tablet }}%;
+      width: inherit;
+    }
+  }
+  @media(max-width: 479px) {
+    .homepage-style-3 .title-banner-3-{{ section.id }} .banner-title,
+    .homepage-style-3 .title-banner-3-{{ section.id }} .banner-title *{
+      font-size: {{ section.settings.mobile_text_size }}px;
+    }
+    .homepage-style-3 .title-banner-3-{{ section.id }} .banner-sub-title,
+    .homepage-style-3 .title-banner-3-{{ section.id }} .banner-sub-title *{
+      font-size: {{ section.settings.main_banner_sub_headline_size_mobile }}px;
+    }
+  }
+  @media(max-width: 767px){
+    .homepage-style-3 .background-banner-style-3-{{ section.id }}{
+      height:auto;
+    }
+    .homepage-style-3 .title-banner-3-{{ section.id }} .banner-title,
+    .homepage-style-3 .title-banner-3-{{ section.id }} .banner-title *{
+      font-size: {{ section.settings.mobile_text_size }}px;
+    }
+    .homepage-style-3 .title-banner-3-{{ section.id }} .banner-sub-title,
+    .homepage-style-3 .title-banner-3-{{ section.id }} .banner-sub-title *{
+      font-size: {{ section.settings.main_banner_sub_headline_size_mobile }}px;
+    }
+    .homepage-style-3 .title-banner-3-{{ section.id }} {
+      left:{{ section.settings.vasta_title_horizontal_position_mobile }}%;
+      top:{{ section.settings.vasta_title_vertical_position_mobile }}%;
+      text-align: {{ section.settings.vasta_headline_align_mobile }};
+    }
+    #shopify-section-{{ section.id }} .homepage-style-3 .banner-style-3-titles{
+      height: {{ section.settings.banner_mobile_height }}px;
+      width: {{ section.settings.banner_mobile_width }}%;
+    }
+    {% if section.settings.mobile_banner_style_3 != blank %}
+      #shopify-section-{{ section.id }} .banner-img.banner-padding-top-mobile{
+        padding-top: {{ paddingTopMobile }}%;
+      }
+    {% endif %}
+    {% if section.settings.vasta_banner_width == 'keep_image_size' %}
+      #shopify-section-{{ section.id }} .banner-img.banner-padding-top-mobile{
+        padding-top: 0;
+      }
+    {% endif %}
+  }
+  .homepage-style-3 .banner-img {
+    padding: 0;
+    background-size: contain;
+    background-color: #fff;
+    background-repeat: no-repeat;
+    background-position: center top;
+    position: relative;
+    overflow: hidden;
+  }
+  .homepage-style-3 .banner-img,
+  .homepage-style-3 .banner-link {
+    display: block;
+  }
+  .homepage-style-3 .banner-img,
+  .homepage-style-3 .banner-link,
+  .homepage-style-3 .banner-text {
+    width: 100%;
+  }
+  .homepage-style-3 .banner-link {
+    position: absolute;
+    left: 0;
+  }
+  .homepage-style-3 .banner-text {
+    display: flex;
+    height: 100%;
+    position: relative;
+    padding: 0 2.5%;
+  }
+  .homepage-style-3 .banner-text p {
+    color: var(--banner-text-color, #000);
+    font-size: var(--banner-text-size);
+  }
+  .homepage-style-3 .banner-text.font_light p {
+    font-weight: 300;
+  }
+  .homepage-style-3 .banner-text.font_normal p {
+    font-weight: normal;
+  }
+  .homepage-style-3 .banner-text.bold p {
+    font-weight: bold;
+  }
+  .homepage-style-3 .banner-text.top_center {
+    justify-content: center;
+  }
+  .homepage-style-3 .banner-text.top_right {
+    justify-content: flex-end;
+  }
+  .homepage-style-3 .banner-text.middle_left {
+    align-items: center;
+  }
+  .homepage-style-3 .banner-text.middle_center {
+    justify-content: center;
+    align-items: center;
+  }
+  .homepage-style-3 .banner-text.middle_right {
+    justify-content: flex-end;
+    align-items: center;
+  }
+  .homepage-style-3 .banner-text.bottom_left {
+    align-items: flex-end;
+  }
+  .homepage-style-3 .banner-text.bottom_center {
+    justify-content: center;
+    align-items: flex-end;
+  }
+  .homepage-style-3 .banner-text.bottom_right {
+    justify-content: flex-end;
+    align-items: flex-end;
+  }
+  .banner {
+    float: left;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+  .banner .banner-img {
+    margin: 0 auto;
+  }
+  .banner .banner-img img {
+    width: 100%;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Banner(Link)",
+  "class": "banner",
+  "settings": [
+    {
+      "type": "header",
+      "content": "General settings"
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom Class",
+      "info": "Custom class to apply css styles for specific sections"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_custom_margins_paddings",
+      "label": "Enable Custom Margins and Paddings",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "custom-margin-top",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Margin Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "custom-margin-bottom",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Margin Bottom",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "custom-padding-top",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "custom-padding-bottom",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 0
+    },
+    {
+      "type": "image_picker",
+      "id": "homepage_banner_style_3",
+      "label": "Banner Image Desktop and Tablet",
+      "info": "1440x500"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_banner_style_3",
+      "label": "Banner Mobile Image",
+      "info": "750x300"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_custom_banner_height",
+      "label": "Enable Custom Banner Height",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "banner_max_height",
+      "min": 200,
+      "max": 800,
+      "step": 10,
+      "unit": "px",
+      "label": "Desktop Banner Height",
+      "default": 500
+    },
+    {
+      "type": "range",
+      "id": "banner_max_height_tablet",
+      "min": 200,
+      "max": 800,
+      "step": 10,
+      "unit": "px",
+      "label": "Tablet Banner Height",
+      "default": 430
+    },
+    {
+      "type": "range",
+      "id": "banner_max_height_mobile",
+      "min": 180,
+      "max": 800,
+      "step": 10,
+      "unit": "px",
+      "label": "Mobile Banner Height",
+      "default": 210
+    },
+    {
+      "type": "select",
+      "id": "vasta_banner_width",
+      "label": "Banner Alignment",
+      "options": [
+        {
+          "value": "full_width",
+          "label": "Full Width"
+        },
+        {
+          "value": "wrapper",
+          "label": "Wrapper"
+        },
+        {
+          "value": "keep_image_size",
+          "label": "Keep Image Size"
+        }
+      ],
+      "default": "full_width"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_lazy_load",
+      "label": "Enable Lazy Load",
+      "info": "If this is the first section of the homepage, you have to keep this field unchecked for Google Pagespeed score improvements.",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Headline"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_h1",
+      "label": "Enable H1 tag",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "homepage_banner_text",
+      "label": "Headline Text",
+      "default": "Headline Example"
+    },
+    {
+      "type": "textarea",
+      "id": "main_banner_sub_title",
+      "label": "Sub Headline Text",
+      "default": "Sub Headline Example",
+      "placeholder": "Sub Headline text"
+    },
+    {
+      "type": "text",
+      "id": "homepage_banner_link",
+      "label": "Link"
+    },
+    {
+      "type": "select",
+      "id": "vasta_headline_align",
+      "label": "Headline Alignment on Desktop",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "vasta_headline_align_mobile",
+      "label": "Headline Alignment on Mobile",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "font_weight",
+      "label": "Font Weight",
+      "options": [
+        {
+          "value": "300",
+          "label": "Light"
+        },
+        {
+          "value": "normal",
+          "label": "Normal"
+        },
+        {
+          "value": "bold",
+          "label": "Bold"
+        }
+      ],
+      "default": "normal"
+    },
+    {
+      "type": "color",
+      "id": "banner_text_color",
+      "label": "Headline Text Color",
+      "default": "#000"
+    },
+    {
+      "type": "header",
+      "content": "Font Size"
+    },
+    {
+      "type": "header",
+      "content": "Desktop"
+    },
+    {
+      "type": "range",
+      "id": "desktop_text_size",
+      "min": 10,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Headline Font Size on Desktop",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "main_banner_sub_headline_size",
+      "min": 10,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Sub Headline Font Size on Desktop",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Tablet"
+    },
+    {
+      "type": "range",
+      "id": "tablet_text_size",
+      "min": 10,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Headline Font Size on Tablet",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "main_banner_sub_headline_size_tablet",
+      "min": 10,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Sub Headline Font Size on Tablet",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Mobile"
+    },
+    {
+      "type": "range",
+      "id": "mobile_text_size",
+      "min": 10,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Headline Font Size on Mobile",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "main_banner_sub_headline_size_mobile",
+      "min": 10,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Sub Headline Font Size on Mobile",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Headline Position"
+    },
+    {
+      "type": "header",
+      "content": "Desktop"
+    },
+    {
+      "type": "range",
+      "id": "vasta_title_horizontal_position",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Desktop Horizontal Headline Position",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "vasta_title_vertical_position",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Desktop Vertical Headline Position",
+      "default": 30
+    },
+    {
+      "type": "header",
+      "content": "Tablet"
+    },
+    {
+      "type": "range",
+      "id": "vasta_title_horizontal_position_tablet",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Tablet Horizontal Headline Position",
+      "default": 23
+    },
+    {
+      "type": "range",
+      "id": "vasta_title_vertical_position_tablet",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Tablet Vertical Headline Position",
+      "default": 18
+    },
+    {
+      "type": "header",
+      "content": "Mobile"
+    },
+    {
+      "type": "range",
+      "id": "vasta_title_horizontal_position_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Mobile Horizontal Headline Position",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "vasta_title_vertical_position_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Mobile Vertical Headline Position",
+      "default": 30
+    },
+    {
+      "type": "header",
+      "content": "Text Box Size"
+    },
+    {
+      "type": "range",
+      "id": "banner_mobile_width",
+      "min": 0,
+      "max": 100,
+      "step": 10,
+      "unit": "%",
+      "label": "Banner Text Content Width",
+      "info": "Only works on mobile resolution",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "banner_mobile_height",
+      "min": 0,
+      "max": 300,
+      "step": 10,
+      "unit": "px",
+      "label": "Banner Text Content Height",
+      "info": "Only works on mobile resolution",
+      "default": 200
+    }
+  ],
+  "presets": [
+    {
+      "name": "Banner (Link)",
+      "category": "Banner"
+    }
+  ]
+}
+{% endschema %}
+<!-- end banner-style3.liquid -->

@@ -1,0 +1,40 @@
+<!-- start product-info-mobile.liquid (SNIPPET) -->
+{%- capture prodcut_info_mobile_content -%}
+  <div class="product-info--mobile mobile" >
+    {% assign splitedTitle = product.title | split: '" ' -%}
+
+    {% if splitedTitle.size == 2 %}
+      <p class="product-title">
+        {{ splitedTitle | first }}
+      </p>
+      <p class="product-sub-title">{{ splitedTitle | last }}</p>
+    {% else %}
+      <p class="product-title">
+        {{ splitedTitle | first }}
+      </p>
+    {% endif %}
+
+    <div class="product-half__reviews">
+      <svg width="114" height="22" viewBox="0 0 114 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M11.1938 0L13.707 7.60081H21.8398L15.2602 12.2984L17.7734 19.8992L11.1938 15.2016L4.61426 19.8992L7.12743 12.2984L0.547865 7.60081H8.68066L11.1938 0Z" fill="#595959"/>
+        <path d="M34.5815 0L37.0947 7.60081H45.2275L38.6479 12.2984L41.1611 19.8992L34.5815 15.2016L28.002 19.8992L30.5151 12.2984L23.9356 7.60081H32.0684L34.5815 0Z" fill="#595959"/>
+        <path d="M57.4604 0L59.8593 7.60081H67.6225L61.342 12.2984L63.7409 19.8992L57.4604 15.2016L51.1799 19.8992L53.5789 12.2984L47.2984 7.60081H55.0615L57.4604 0Z" fill="#595959"/>
+        <path d="M80.3391 0L82.8523 7.60081H90.9851L84.4055 12.2984L86.9187 19.8992L80.3391 15.2016L73.7595 19.8992L76.2727 12.2984L69.6931 7.60081H77.8259L80.3391 0Z" fill="#595959"/>
+        <path d="M102.903 0L105.394 7.60081H113.457L106.934 12.2984L109.426 19.8992L102.903 15.2016L96.3799 19.8992L98.8714 12.2984L92.3486 7.60081H100.411L102.903 0Z" fill="#595959"/>
+      </svg>
+      <span>(854 Reviews)</span>
+    </div>
+
+    {%- if product.metafields.field.short_description != blank and section.settings.select_position_short_description == "before" -%}
+      <div class="meta-short-description"{%- if section.settings.enable_short_description == false -%} style="display: none;"{%- endif -%}>  {{ product.metafields.field.short_description }} </div>
+    {%- endif -%}
+    {%- if settings.product_enabled_app_reviews -%}
+      <div class="products-reviews-stars">
+        {%- render 'reviews-stars' -%}
+      </div>
+    {%- endif -%}
+
+    {%- render 'product-price-new-layout' -%}
+  </div>
+{%- endcapture -%}
+{{- prodcut_info_mobile_content -}}

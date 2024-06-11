@@ -1,0 +1,384 @@
+<!-- start custom-header.liquid (SECTION) -->
+<h3 class="hide">Header</h3>
+{%- if section.settings.layout_select == 'layout01' -%}
+  {%- render 'header-layout01' -%}
+{%- elsif section.settings.layout_select == 'layout02' -%}
+  {%- render 'header-layout02' -%}
+{%- else -%}
+  {%- render 'custom-header-layout03' -%}
+{%- endif -%}
+
+{% schema %}
+  {
+    "name": "Header (Sitewide)",
+    "class": "main-header",
+    "settings": [
+      {
+        "type": "header",
+        "content": "General Settings"
+      },
+      {
+        "type": "text",
+        "label": "Custom Class",
+        "id": "custom_class"
+      },
+      {
+        "type": "header",
+        "content": "Layout Settings"
+      },
+      {
+        "type": "select",
+        "id": "layout_select",
+        "label": "Select Header Layout",
+        "options": [
+          {
+            "value": "layout01",
+            "label": "Layout 01"
+          }, {
+            "value": "layout02",
+            "label": "Layout 02"
+          }, {
+            "value": "layout03",
+            "label": "Layout 03"
+          }
+        ],
+        "default": "layout01"
+      }, {
+        "type": "checkbox",
+        "id": "enabled_search_bar",
+        "label": "Enable Search Bar",
+        "default": true
+      }, {
+        "type": "checkbox",
+        "id": "enable_menu_into_header",
+        "label": "Menu Between Logo And Cart Icon",
+        "info": "This option only works when search bar isn't enable."
+      }, {
+        "type": "checkbox",
+        "id": "enabled_search_bar_mobile",
+        "label": "Enable Search Bar on Mobile",
+        "default": true
+      }, {
+        "type": "checkbox",
+        "id": "enabled_main_menu",
+        "label": "Enable Main Menu",
+        "default": true
+      }, {
+        "type": "image_picker",
+        "id": "shop_logo",
+        "label": "Logo Image",
+        "info": "400x160"
+      }, {
+        "type": "checkbox",
+        "id": "enable_svg_logo",
+        "label": "Enable SVG Logo",
+        "default": false
+      }, {
+        "type": "html",
+        "id": "logo_svg_html",
+        "label": "Custom SVG Logo"
+      }, {
+        "type": "text",
+        "id": "shop_logo_alt",
+        "label": "Logo Alt Text"
+      }, {
+        "type": "select",
+        "id": "choose_custom_dimensions",
+        "label": "Choose Custom Dimensions",
+        "options": [
+          {
+            "label": "Custom Logo Max-Width",
+            "value": "width"
+          }, {
+            "label": "Custom Logo Max-Height",
+            "value": "height"
+          }
+        ]
+      }, {
+        "type": "header",
+        "content": "Desktop"
+      }, {
+        "type": "range",
+        "id": "logo_max_width",
+        "min": 50,
+        "max": 250,
+        "step": 2,
+        "unit": "px",
+        "label": "Custom Logo Max-Width",
+        "default": 180
+      }, {
+        "type": "range",
+        "id": "logo_max_height",
+        "min": 30,
+        "max": 230,
+        "step": 2,
+        "unit": "px",
+        "label": "Custom Logo Max-Height",
+        "default": 50
+      }, {
+        "type": "header",
+        "content": "Mobile"
+      }, {
+        "type": "range",
+        "id": "mobile_logo_max_width",
+        "min": 50,
+        "max": 150,
+        "step": 2,
+        "unit": "px",
+        "label": "Custom Logo Max-Width Mobile",
+        "default": 140
+      }, {
+        "type": "range",
+        "id": "mobile_logo_max_height",
+        "min": 30,
+        "max": 150,
+        "step": 5,
+        "unit": "px",
+        "label": "Custom Logo Max-Height Mobile",
+        "default": 90
+      }, {
+        "type": "header",
+        "content": "Search Bar"
+      }, {
+        "type": "text",
+        "id": "header_searchbar_placeholder",
+        "label": "Search Bar Placeholder Text"
+      }, 
+      {
+        "type": "select",
+        "id": "header_searchbar_btn_text_transform",
+        "label": "Search Bar Button Text Transform",
+        "default": "capitalize",
+        "options": [
+          {
+            "label": "None",
+            "value": "none"
+          },
+          {
+            "label": "Capitalize",
+            "value": "capitalize"
+          },
+          {
+            "label": "Uppercase",
+            "value": "uppercase"
+          },
+          {
+            "label": "Lowercase",
+            "value": "lowercase"
+          }
+        ]
+      },
+      {
+        "type": "color",
+        "id": "vasta_search_button_color",
+        "label": "Search Button Color",
+        "default": "#3c3c3c"
+      }, {
+        "type": "color",
+        "id": "vasta_search_button_hover_color",
+        "label": "Search Button Hover Color",
+        "default": "#006ba2"
+      }, {
+        "type": "color",
+        "id": "vasta_search_text_button_color",
+        "label": "Search Button Text Color",
+        "default": "#ffffff"
+      }, {
+        "type": "color",
+        "id": "vasta_search_text_button_hover_color",
+        "label": "Search Button Hover Text Color",
+        "default": "#000000"
+      }, {
+        "type": "color",
+        "id": "vasta_search_border_color",
+        "label": "Search Border Color",
+        "default": "#e5e5e5"
+      }, {
+        "type": "color",
+        "id": "vasta_border_color_on_mobile",
+        "label": "Header Border Color On Mobile",
+        "default": "#000000",
+        "info": "Only works in Layout 01"
+      }, {
+        "type": "header",
+        "content": "Navigation"
+      }, {
+        "type": "link_list",
+        "id": "menu",
+        "label": "Primary Menu",
+        "default": "main-menu"
+      }, {
+        "type": "select",
+        "id": "header_menu_caps",
+        "label": "Navigation Text Transform",
+        "options": [
+          {
+            "label": "Capitalize",
+            "value": "capitalize"
+          }, {
+            "label": "Uppercase",
+            "value": "uppercase"
+          }, {
+            "label": "Lowercase",
+            "value": "lowercase"
+          }, {
+            "label": "Same As Input",
+            "value": "none"
+          }
+        ]
+      }, {
+        "type": "color",
+        "id": "nav_back_color",
+        "label": "Menu Background Color",
+        "default": "#ffffff"
+      }, {
+        "type": "color",
+        "id": "vasta_dropdown_menu_color",
+        "label": "Menu Background Hover Color",
+        "default": "#7c7c7c"
+      }, {
+        "type": "color",
+        "id": "nav_text_color",
+        "label": "Menu Text Color",
+        "default": "#383838"
+      }, {
+        "type": "color",
+        "id": "vasta_menu_hover_text_color",
+        "label": "Menu Text Hover Color",
+        "default": "#ffffff"
+      }, {
+        "type": "color",
+        "id": "nav_drpback_color",
+        "label": "Dropdown Item Background Color",
+        "default": "#626262"
+      }, {
+        "type": "color",
+        "id": "nav_drphover_color",
+        "label": "Dropdown Item Background Hover Color",
+        "default": "#f9f9f9"
+      }, {
+        "type": "color",
+        "id": "vasta_dropdown_menu_text_color",
+        "label": "Dropdown Item Text Color",
+        "default": "#F5F5F5"
+      }, {
+        "type": "color",
+        "id": "vasta_dropdown_menu_hover_text_color",
+        "label": "Dropdown Item Text Hover Color",
+        "default": "#ffffff"
+      }, {
+        "type": "color",
+        "id": "vasta_dropdown_menu_border_color",
+        "label": "Dropdown Item Border Color",
+        "default": "#ffffff"
+      }, {
+        "type": "header",
+        "content": "HEADER ICONS"
+      }, {
+        "type": "select",
+        "id": "header_title_icons",
+        "label": "Text Transform",
+        "options": [
+          {
+            "label": "Capitalize",
+            "value": "capitalize"
+          }, {
+            "label": "Uppercase",
+            "value": "uppercase"
+          }, {
+            "label": "Lowercase",
+            "value": "lowercase"
+          }, {
+            "label": "Same As Input",
+            "value": "none"
+          }
+        ]
+      }, {
+        "type": "checkbox",
+        "id": "enable_custom_icon_cart_svg",
+        "label": "Enable Custom SVG Icon Cart",
+        "default": false
+      }, {
+        "type": "html",
+        "id": "custom_icon_cart_svg_html",
+        "label": "Custom SVG Icon Cart"
+      }, {
+        "type": "checkbox",
+        "id": "enable_img_custom_icon_cart",
+        "label": "Enable Custom Icon Cart Image",
+        "default": false
+      }, {
+        "type": "image_picker",
+        "id": "img_icon_cart",
+        "label": "Icon Cart Image"
+      }, {
+        "type": "checkbox",
+        "id": "enable_cart_title",
+        "label": "Enable Desktop Cart Title",
+        "default": false
+      }, {
+        "type": "text",
+        "id": "cart_title_text",
+        "label": "Cart Title Text",
+        "default": "Cart"
+      }, {
+        "type": "color",
+        "id": "vasta_cart_color",
+        "label": "Cart Icon Color",
+        "default": "#3c3c3c"
+      }, {
+        "type": "color",
+        "id": "cart_title_color",
+        "label": "Cart Title Color",
+        "default": "#3c3c3c"
+      }, {
+        "type": "color",
+        "id": "vasta_icon_color_text",
+        "label": "Cart Number Color",
+        "default": "#ffffff"
+      }, {
+        "type": "color",
+        "id": "vasta_icon_color_text_hover",
+        "label": "Cart Number Hover Color",
+        "default": "#ffffff"
+      }, {
+        "type": "color",
+        "id": "vasta_icon_color",
+        "label": "Cart Number Background Color",
+        "default": "#26B522"
+      }, {
+        "type": "color",
+        "id": "vasta_icon_color_hover",
+        "label": "Cart Number Background Hover Color",
+        "default": "#204A80"
+      }, {
+        "type": "color",
+        "id": "vasta_icon_background_color",
+        "label": "Cart Icon Background Color",
+        "default": "#26B522",
+        "info": "Only works in Layout 02"
+      }, {
+        "type": "color",
+        "id": "vasta_icon_background_hover_color",
+        "label": "Cart Icon Background Hover Color",
+        "default": "#204A80",
+        "info": "Only works in Layout 02"
+      }, {
+        "type": "header",
+        "content": "Menu Mobile Color"
+      }, {
+        "type": "color",
+        "id": "vasta_menu_title_color",
+        "label": "Menu Title Color",
+        "default": "#3c3c3c",
+        "info": "These fields are only available for mobile view."
+      }, {
+        "type": "color",
+        "id": "vasta_menu_color",
+        "label": "Menu Icon Color",
+        "default": "#3c3c3c",
+        "info": "These fields are only available for mobile view."
+      }
+    ]
+  }
+{% endschema %}

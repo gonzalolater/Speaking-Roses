@@ -1,0 +1,18 @@
+<!-- start cart-drawer-header.liquid (SNIPPET) -->
+<div class="cart_drawer__header">
+    <div class="cartrow first_cart_row">
+        <span class="drawer-title">
+            {%- if cart.item_count < 1 -%}
+                {{ section_settings.cartDrawer_empty }}
+            {%- else -%}
+                {%- render 'icon-check' -%} {{ section_settings.text__head_cartDrawer }}
+            {%- endif -%}
+        </span>
+
+        <span class="fallback-text">
+            <span class="drawer-close">
+                {%- render 'icon-close' -%}
+            </span>
+        </span>
+    </div>
+</div>

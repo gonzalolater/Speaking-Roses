@@ -1,0 +1,156 @@
+<!-- start collection-filter.liquid (SNIPPET) -->
+<input type="hidden" name="filter.v.availability" value="1">
+<input type="hidden" name="filter.v.price.gte" value="">
+<input type="hidden" name="filter.v.price.lte" value="">
+{%- if settings.filter_collection == "dropdown" or settings.collection_enabled_filter_orderby -%}
+  {%- assign handles_list = settings.collection_filter_excluded_tags -%}
+  {%- assign collections_title = handles_list | split: ';' -%}
+  {%- assign handle_array = '' -%}
+
+  {%- for title in collections_title -%}
+    {%- assign handled_title = title | handleize -%}
+    {%- assign handle_array = handle_array | join: ';' -%}
+    {%- assign handle_array = handle_array | append: ';' | append: handled_title -%}
+    {%- assign handle_array = handle_array | split: ';' -%}
+  {%- endfor -%}
+
+  {%- case position -%}
+    {%- when 'left' -%}
+      {%- assign filter_position = 'filter-left' -%}
+
+    {%- when 'right' -%}
+      {%- assign filter_position = 'filter-right' -%}
+
+    {%- else -%}
+      {%- assign filter_position = 'filter-width' -%}
+  {%- endcase -%}
+
+  {%- assign sticky_position = '' -%}
+  {%- if settings.collection_enabled_filter_sticky -%}
+    {%- assign sticky_position = 'sticky' -%}
+  {%- endif -%}
+
+  {%- assign below_position = '' -%}
+  {%- if settings.breadcrumb_position == 'below' -%}
+    {%- assign below_position = 'below' -%}
+  {%- endif -%}
+  <div class="content-collection {{ below_position }} {{ filter_position }} {{ sticky_position }}">
+    <div class="collection-filter">
+      {%- if settings.filter_collection == "dropdown" -%}
+        <div class="collection-filter__item filter-by-interest">
+          <span class="collection-filter__item-label filter">{{ 'collections.label.filter_by_interest' | t }}</span>
+
+          <select aria-label="BrowseBy" id="filter-by-interest" class="collection-filter__dropdown filter-select">
+            <option value="{{ collection.url }}" selected="" data-handle="all">All</option>
+            {%- for tag in collection.all_tags -%}
+              {%- assign handle_tag = tag | handleize -%}
+
+              {%- if settings.collection_filter_select_tags == 'remove' -%}
+                {%- unless handle_array contains handle_tag -%}
+                  {% capture new_url %}{{ tag | link_to_tag: tag | split: 'href="' | last | split: '"' | first }}{% endcapture %}
+                  <option
+                    {% if current_tags contains tag %}
+                      selected
+                    {% endif %}
+                    value="{{ new_url }}"
+                    data-handle="{{ tag | handleize }}"
+                  >
+                    {{ tag | capitalize | replace: '-', ' ' }}
+                  </option>
+                {%- endunless -%}
+              {%- else -%}
+                {%- if handle_array contains handle_tag -%}
+                  {% capture new_url %}{{ tag | link_to_tag: tag | split: 'href="' | last | split: '"' | first }}{% endcapture %}
+                  <option
+                    {% if current_tags contains tag %}
+                      selected
+                    {% endif %}
+                    value="{{ new_url }}"
+                    data-handle="{{ tag | handleize }}"
+                  >
+                    {{ tag | capitalize | replace: '-', ' ' }}
+                  </option>
+                {%- endif -%}
+              {%- endif -%}
+            {%- endfor -%}
+          </select>
+        </div>
+      {%- endif -%}
+
+      {%- if settings.collection_enabled_filter_orderby -%}
+        <div class="collection-filter__item filter-by-order">
+          <span class="collection-filter__item-label filter">{{ 'collections.label.sort_by' | t }}</span>
+
+          <select aria-label="SortBy" id="filter-sort-by" class="collection-filter__dropdown sort-by filter-select">
+            {%- assign sort_by_collection = collection.sort_by | default: collection.default_sort_by -%}
+
+            <option
+              value="manual"
+              {% if 'manual' == sort_by_collection or sort_by_collection == '' %}
+                selected
+              {% endif %}
+            >
+              {{ 'collections.general.sorting.featured' | t }}
+            </option>
+            <option
+              value="best-selling"
+              {% if 'best-selling' == sort_by_collection %}
+                selected
+              {% endif %}
+            >
+              {{ 'collections.general.sorting.best_selling' | t }}
+            </option>
+            <option
+              value="title-ascending"
+              {%- if 'title-ascending' == sort_by_collection -%}
+                selected
+              {%- endif -%}
+            >
+              {{ 'collections.general.sorting.az' | t }}
+            </option>
+            <option
+              value="title-descending"
+              {%- if 'title-descending' == sort_by_collection -%}
+                selected
+              {%- endif -%}
+            >
+              {{ 'collections.general.sorting.za' | t }}
+            </option>
+            <option
+              value="price-ascending"
+              {%- if 'price-ascending' == sort_by_collection -%}
+                selected
+              {%- endif -%}
+            >
+              {{ 'collections.general.sorting.price_ascending' | t }}
+            </option>
+            <option
+              value="price-descending"
+              {%- if 'price-descending' == sort_by_collection -%}
+                selected
+              {%- endif -%}
+            >
+              {{ 'collections.general.sorting.price_descending' | t }}
+            </option>
+            <option
+              value="created-ascending"
+              {%- if 'created-ascending' == sort_by_collection -%}
+                selected
+              {%- endif -%}
+            >
+              {{ 'collections.general.sorting.date_ascending' | split: ', ' | reverse | join: ', ' | t }}
+            </option>
+            <option
+              value="created-descending"
+              {%- if 'created-descending' == sort_by_collection -%}
+                selected
+              {%- endif -%}
+            >
+              {{ 'collections.general.sorting.date_descending' | t }}
+            </option>
+          </select>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+{%- endif -%}

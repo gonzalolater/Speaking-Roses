@@ -1,0 +1,168 @@
+<!-- start product-tabs.liquid (SNIPPET) -->
+{%- if section.settings.enabled_tabs -%}
+  <section
+    id="shopify-section-product-tabs"
+    class="tabs-section product-tabs"
+    data-section-type="product-tabs">
+    <h2 class="hide">Product Description</h2>
+    <ul class="product-tabs__nav" data-tabs-scope="a">
+      {%- if section.settings.enabled_descp == true -%}
+        <li class="product-tabs__nav-item {% if section.settings.enable_tabs_border_radius %}product-tabs--radius{% endif %} {% if section.settings.enable_tabs_shadow %}product-tabs--shadow{% endif %} product-tabs__nav-item--active" data-target="tab0">
+          <span id="prod-tab-{{ section.settings.product_description_title | handleize }}" class="product-tabs__nav-link tabs-link">{{ section.settings.product_description_title }}</span>
+        </li>
+      {%- endif -%}
+
+      {%- assign temp_index = 1 -%}
+      {%- for block in section.blocks -%}
+        {%- if "tab" == block.type -%}
+          {%- assign show_tabs = false -%}
+          {%- if block.settings.enable_tab_by_tag -%}
+            {%- if product.tags contains block.settings.tag_name -%}
+              {%- assign show_tabs = true -%}
+            {%- endif -%}
+          {%- else -%}
+            {%- assign show_tabs = true -%}
+          {%- endif -%}
+          {%- if show_tabs == true -%}
+            {%- assign tab_text = block.settings.tab_content -%}
+            {%- if block.settings.enable_metafield_content and block.settings.tab_metafield_content != blank -%}
+              {%- assign tab_text = block.settings.tab_metafield_content -%}
+            {%- endif -%}
+            {%- if block.settings.tab_title != blank and tab_text != blank -%}
+              <li class="product-tabs__nav-item {% if temp_index == 1 and section.settings.enabled_descp == false %} product-tabs__nav-item--active {% endif %} {% if section.settings.enable_tabs_border_radius %}product-tabs--radius{% endif %} {% if section.settings.enable_tabs_shadow %}product-tabs--shadow{% endif %}" data-target="tab{{ forloop.index }}">
+                <span id="prod-tab-{{ block.settings.tab_title | handleize }}" class="product-tabs__nav-link tabs-link">{{ block.settings.tab_title }}</span>
+              </li>
+              {%- assign temp_index = temp_index | plus: 1 -%}
+            {% endif %}
+          {%- endif -%}
+        {%- endif -%}
+      {%- endfor -%}
+
+    </ul>
+    <div class="product-tabs__content-wrapper rte tabs-content" data-tabs-scope="a">
+      {%- if section.settings.enabled_descp == true -%}
+        <div class="product-tabs__content product-tabs__content--active border {% if section.settings.enabled_tabs_max_height %} product-tabs__content--max-height{% endif %}" data-identifier="tab0">
+          <h2 class="hide">Description</h2>
+          {{ product.description }}
+        </div>
+      {%- endif -%}
+
+      {%- assign temp_index = 1 -%}
+      {%- for block in section.blocks -%}
+        {%- if "tab" == block.type -%}
+          {%- assign show_tabs = false -%}
+          {%- if block.settings.enable_tab_by_tag -%}
+            {%- if product.tags contains block.settings.tag_name -%}
+              {%- assign show_tabs = true -%}
+            {%- endif -%}
+          {%- else -%}
+            {%- assign show_tabs = true -%}
+          {%- endif -%}
+          {%- if show_tabs == true -%}
+            <div class="product-tabs__content border {% if temp_index == 1 and section.settings.enabled_descp == false %} product-tabs__content--active {% endif %} {% if section.settings.enabled_tabs_max_height %} tabs-max-height {% endif %}" data-identifier="tab{{ forloop.index }}">
+              <h2 class="hide">{{ block.settings.tab_title }}</h2>
+              {% if block.settings.enable_metafield_content and block.settings.tab_metafield_content != blank %}
+                {{ block.settings.tab_metafield_content }}
+              {% else %}
+                {{ block.settings.tab_content }}
+              {% endif %}
+            </div>
+            {%- assign temp_index = temp_index | plus: 1 -%}
+          {%- endif -%}
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </section>
+{%- else -%}
+  {%- if section.settings.enabled_descp == true -%}
+    <div class="no-product-tabs rte">
+      {{ product.description }}
+    </div>
+  {%- endif -%}
+{%- endif -%}
+
+{%- if settings.button_add_to_cart -%}
+  <div class="AddToCart2-div">
+    <button class="btn btn-add-tocart" {% if product.selected_or_first_available_variant.available %}{% else %}style="display: none;"{% endif %}id="AddToCart2">
+      {%- if settings.enable_price_atc -%}
+        <span class="btn-money money">{{ product.price | money }}</span>
+        <span class="divisor">-</span>
+      {%- endif -%}
+      <span class="btn-label">{{ settings.add_to_cart_label }}</span>
+      <span class="btn-svg">
+        {%- render 'icon-cart' -%}
+      </span>
+      <span class="btn-items">1 {{ 'products.product.item' | t }}</span>
+      {%- if settings.atc_progress_bar -%}
+        <span class="btn-progress"></span>
+      {%- endif -%}
+    </button>
+    <div
+      id="button-out-of-stock-2"
+      class="btn btn-choose-variant button-out-of-stock-2"
+      {% if product.selected_or_first_available_variant.available %}style="display: none;"{% else %}style="display: block;"{% endif %}>
+      <span class="btn-label">{{ settings.out_of_stock_label | default: '( out of stock )' | escape }}</span>
+    </div>
+  </div>
+{%- endif -%}
+
+<script type="lazyload_int">
+  setTimeout(function(){
+    const $document = $(document);
+
+    $('.tabs-accordion-content').each(function(index){
+        if(index==0){
+            $(this).css('display', 'block');
+        }
+    });
+    
+    $document.on('click', '.product-tabs__nav-item', function(){
+        var tabs = $(this), scope = tabs.parent().attr('data-tabs-scope');
+
+        tabs.addClass('product-tabs__nav-item--active').siblings().removeClass('product-tabs__nav-item--active');
+
+        $('.product-tabs__content-wrapper[data-tabs-scope="' + scope + '"] .product-tabs__content[data-identifier="' + tabs.attr('data-target') + '"]').addClass('product-tabs__content--active').siblings().removeClass('product-tabs__content--active');
+
+        return false;
+    });
+    
+    $document.find('.tabs-accordion-content').hide();
+
+    $document.on('click', '.tabs-accordion-title', function(){
+        var self = $(this),
+          accordion = self.closest('.tabs-accordion'),
+          item = self.closest('.tabs-accordion-title'),
+          content = self.siblings('.tabs-accordion-content');
+      var allTitles = accordion.find('.tabs-accordion-title').not(item),
+          allContents = accordion.find('.tabs-accordion-content').not(content);
+      allTitles.removeClass('active');
+      allContents.slideUp();
+
+      if (item.hasClass('active')){
+        item.removeClass('active');
+      } else {
+        item.addClass('active');
+      }
+        
+      content.slideToggle();
+    })
+  })
+</script>
+
+<style scoped>
+  :root {
+  --product-tab-text-transform: {{ section.settings.product_tab_text_transform }};
+  --active-tab-color: {{ section.settings.active_tab_color }};
+  --active-tab-bullet-color: {{ section.settings.active_tab_bullet_color }};
+  --active-tab-text-color: {{ section.settings.active_tab_text_color }};
+  --active-tab-border-color: {{ section.settings.active_tab_border_color }};
+  --inactive-tab-color: {{ section.settings.inactive_tab_color }};
+  --inactive-tab-bullet-color: {{ section.settings.inactive_tab_bullet_color }};
+  --inactive-tab-text-color: {{ section.settings.inactive_tab_text_color }};
+  --tab-max-height: {{ section.settings.tabs_max_height }}px;
+  --enable-bullet-points: inline-block;
+  {% unless section.settings.enabled_bullet_points %}
+    --enable-bullet-points: none;
+  {% endunless %}
+  }
+</style>

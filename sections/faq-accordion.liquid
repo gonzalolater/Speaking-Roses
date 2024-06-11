@@ -1,0 +1,852 @@
+<!-- start faq-accordion.liquid (SECTION) -->
+
+{%- comment -%} Start Shopify ID Styles {%- endcomment -%}
+<style>
+  #shopify-section-{{ section.id }} {
+    {% if section.settings.enable_custom_margins_paddings %}
+      margin-top: {{ section.settings.custom-margin-top }}px;
+      margin-bottom: {{ section.settings.custom-margin-bottom }}px;
+      padding-top: {{ section.settings.custom-padding-top }}px;
+      padding-bottom: {{ section.settings.custom-padding-bottom }}px;
+    {% else %}
+      margin: 20px 0;
+    {% endif %}
+  }
+
+  #shopify-section-{{ section.id }} .faq-section__headline-titles {
+    width: {{ section.settings.headline_text_box_width }}%;
+  }
+  
+  #shopify-section-{{ section.id }} .faq-section__title {
+    font-size: {{ section.settings.headline_font_size }}px;
+    text-align: {{ section.settings.section_title_alignment }};
+  }
+
+  #shopify-section-{{ section.id }} .faq-section__subtitle {
+    text-align: {{ section.settings.section_title_alignment }};
+    font-size: {{ section.settings.subheadline_font_size }}px;
+  }
+
+  #shopify-section-{{ section.id }} .faq-section__container {
+    background-color: {{ section.settings.background_color_accordion }};
+  }
+
+  #shopify-section-{{ section.id }} .faq-section__accordion.active .faq-section__accordion-title-wrapper {
+    background-color: {{ section.settings.active_tab_color }};
+  }
+
+  #shopify-section-{{ section.id }} .faq-section__accordion.active .faq-section__accordion-title {
+    color: {{ section.settings.active_tab_text_color }};
+  }
+
+  #shopify-section-{{ section.id }} .faq-section__accordion .faq-section__accordion-title-wrapper {
+    background-color: {{ section.settings.inactive_tab_color }};
+  }
+
+  #shopify-section-{{ section.id }} .faq-section__accordion .faq-section__accordion-title {
+    color: {{ section.settings.inactive_tab_text_color }};
+    font-size: {{ section.settings.title_font_size }}px;
+    text-transform: {{ section.settings.row_title_text_transform }};
+  }
+
+  #shopify-section-{{ section.id }} .faq-section__accordion .faq-section__accordion-title svg {
+    width: {{ section.settings.arrow_size }}px;
+  }
+
+  #shopify-section-{{ section.id }} .faq-section__subtitle {
+    font-size: {{ section.settings.subheadline_font_size }}px;
+  }
+
+  #shopify-section-{{ section.id }} .faq-section__accordion-container {
+    width: {{ section.settings.accordion_width }}%;
+  }
+
+  #shopify-section-{{ section.id }} .faq-section__accordion:not(.active):hover .faq-section__accordion-title-wrapper {
+    background-color: {{ section.settings.hover_tab_color }};
+  }
+
+  #shopify-section-{{ section.id }} .faq-section__accordion:not(.active):hover .faq-section__accordion-title {
+    color: {{ section.settings.hover_text_color }};
+  }
+
+  #shopify-section-{{ section.id }} .faq-section__accordion {
+    border-bottom: 1px solid {{ section.settings.border_color_accordion }};
+  }
+  
+  #shopify-section-{{ section.id }} .faq-section__accordion-content *{
+    color: {{ section.settings.content_text_color }};
+    font-size: {{ section.settings.content_font_size }}px;
+  }
+
+  {% if section.settings.icon_style == "plus" %}
+    #shopify-section-{{ section.id }} .faq-section__accordion-title-wrapper::before,
+    #shopify-section-{{ section.id }} .faq-section__accordion-title-wrapper::after {
+      content: '';
+      position: absolute;
+      background-color: {{ section.settings.inactive_tab_text_color }};
+      transition: ease all 0.6s;
+    }
+
+    #shopify-section-{{ section.id }} .faq-section__accordion:not(.active):hover .faq-section__accordion-title-wrapper::before,
+    #shopify-section-{{ section.id }} .faq-section__accordion:not(.active):hover .faq-section__accordion-title-wrapper::after {
+      background-color: {{ section.settings.hover_text_color }};
+    }
+
+    #shopify-section-{{ section.id }} .faq-section__accordion-title-wrapper::before {
+      right: 23px;
+      height: 17px;
+      width: 2px;
+      top: 32%;
+    }
+
+    #shopify-section-{{ section.id }} .faq-section__accordion-title-wrapper::after {
+      right: 15px;
+      width: 17px;
+      height: 2px;
+      top: 48%;
+    }
+
+    #shopify-section-{{ section.id }} .faq-section__accordion.active .faq-section__accordion-title-wrapper::before {
+      transform: rotate(-90deg);
+      background-color: {{ section.settings.active_tab_text_color }};
+    }
+
+    #shopify-section-{{ section.id }} .faq-section__accordion.active .faq-section__accordion-title-wrapper::after {
+      transform: none;
+      background-color: {{ section.settings.active_tab_text_color }};
+    }
+  {% endif %}
+
+  @media (max-width: 1019px) {
+    #shopify-section-{{ section.id }} .faq-section__headline-titles {
+      width: {{ section.settings.headline_text_box_width_tablet }}%;
+    }
+    #shopify-section-{{ section.id }} .faq-section__title {
+      font-size: {{ section.settings.headline_font_size_tablet }}px;
+    }
+
+
+    #shopify-section-{{ section.id }} .faq-section__subtitle {
+      font-size: {{ section.settings.subheadline_font_size_tablet }}px;
+    }
+
+    #shopify-section-{{ section.id }} .faq-section__accordion .faq-section__accordion-title {
+      font-size: {{ section.settings.title_font_size_tablet }}px;
+    }
+
+    {% comment %} #shopify-section-{{ section.id }}  {
+      width: {{ section.settings.title_font_size_tablet }}px;
+    } {% endcomment %}
+
+    #shopify-section-{{ section.id }} .faq-section__accordion-content *{
+      font-size: {{ section.settings.content_font_size_tablet }}px;
+    }
+    
+    #shopify-section-{{ section.id }} .faq-section__accordion-container {
+      width: {{ section.settings.accordion_width_tablet }}%;
+    }
+  }
+
+  @media (max-width: 767px) {
+    #shopify-section-{{ section.id }} .faq-section__headline-titles {
+      width: {{ section.settings.headline_text_box_width_mobile }}%;
+    }
+    
+    #shopify-section-{{ section.id }} .faq-section__title {
+      font-size: {{ section.settings.headline_font_size_mobile }}px;
+    }
+
+    #shopify-section-{{ section.id }} .faq-section__subtitle {
+      font-size: {{ section.settings.subheadline_font_size_mobile }}px;
+    }
+
+    #shopify-section-{{ section.id }} .faq-section__accordion-container {
+      width: {{ section.settings.accordion_width_mobile }}%;
+    }
+
+    #shopify-section-{{ section.id }} .faq-section__accordion .faq-section__accordion-title {
+      font-size: {{ section.settings.title_font_size_mobile }}px;
+    }
+
+    #shopify-section-{{ section.id }} .faq-section__accordion .faq-section__accordion-title svg {
+      width: {{ section.settings.arrow_size_mobile }}px;
+    }
+
+    #shopify-section-{{ section.id }} .faq-section__accordion-content *{
+      font-size: {{ section.settings.content_font_size_mobile }}px;
+    }
+  }
+</style>
+{%- comment -%} End Shopify ID Styles {%- endcomment -%}
+
+<style scoped>
+
+  .faq-section__wrapper {
+    padding: 0 0 66px;
+  }
+
+  .faq-section__headline-titles {
+    margin: 0 auto 35px;
+  }
+
+  .faq-section__title {
+    padding: 0;
+    letter-spacing: 0;
+    line-height: 1.5;
+    margin-bottom: 10.4px;
+  }
+
+  .faq-section__subtitle {
+    letter-spacing: 0.5px;
+    line-height: 1.5;
+    color: #555;
+    text-transform: capitalize;
+  }
+
+  .faq-section__accordion-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    letter-spacing: 0.35px;
+    line-height: 28px;
+  }
+
+  .faq-section__accordion.active .faq-section__accordion-title svg {
+    transform: rotate(90deg);
+  }
+
+  .faq-section__accordion-title svg {
+    transition: transform 0.5s ease-out;
+    transform: rotate(0deg);
+  }
+
+  .faq-section__accordion-container {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+  }
+
+  .faq-section__accordion-title-wrapper {
+    cursor: pointer;
+    position: relative;
+    padding: 20px 14px 19px;
+    transition: all .3s;
+  }
+
+  .faq-section__accordion-content-wrapper {
+    padding: 6px 15px 21px;
+  }
+
+  .faq-section__accordion .faq-section__accordion-title svg {
+    position: relative;
+    right: 0.65%;
+  }
+  @media (max-width: 1019px) {
+    .faq-section__headline-titles {
+      margin: 0 auto 29px;
+    }
+
+    .faq-section__title {
+      margin-bottom: 11px;
+      letter-spacing: 0.3px;
+    }
+
+    .faq-section__subtitle {
+      line-height: 1;
+      letter-spacing: 0.2px;
+    }
+
+    .faq-section__accordion .faq-section__accordion-title {
+      letter-spacing: 0;
+    }
+
+    .faq-section__accordion-content-wrapper {
+      padding: 7px 16px 20px;
+    }
+
+    .faq-section__accordion-content *{
+      letter-spacing: 0.2px;
+    }
+
+    .faq-section__accordion-title-wrapper {
+      padding: 19px 15px 20px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .faq-section__wrapper {
+      padding: 0 12px 17px;
+    }
+
+    .faq-section__headline-titles {
+      margin: 0 auto 25px;
+    }
+
+    .faq-section__title {
+      margin-bottom: 8px;
+      letter-spacing: 0.5px;
+    }
+
+    .faq-section__subtitle {
+      line-height: 13.672px;
+      letter-spacing: 1px;
+    }
+
+    .faq-section__accordion .faq-section__accordion-title {
+      letter-spacing: 0.5px;
+      line-height: 1.2;
+    }
+
+    .faq-section__accordion-content *{
+      letter-spacing: 0.1px;
+      line-height: 1.1;
+    }    
+
+    .faq-section__accordion-title-wrapper {
+      padding: 10px 7px;
+    }
+
+    .faq-section__accordion-content-wrapper {
+      padding: 2px 7px 10px;
+    }
+
+    .faq-section__accordion-content-wrapper {
+      line-height: 1.1;
+    }
+  }
+</style>
+
+<section class="faq-section__wrapper wrapper">
+  <div class="faq-section__container">
+    {% if section.settings.title != blank %}
+      <div class="faq-section__headline-titles faq-section__headline-wrapper">
+        <h2 class="faq-section__title section-title">{{ section.settings.title }}</h2>
+        <p class="faq-section__subtitle section-subtitle">{{ section.settings.subtitle }}</p>
+      </div>
+    {% endif %}
+
+    <div class="faq-section__accordion-container">
+      {%- for block in section.blocks -%}
+        <div class="faq-section__accordion {% if forloop.first %} active {% endif  %}">
+          <div class="faq-section__accordion-title-wrapper">
+            <h4 class="faq-section__accordion-title">
+              {{ block.settings.title_column -}}
+
+              {% if section.settings.icon_style == "arrow" %}
+                {% render 'icon-arrow-down' %}
+              {% endif %}
+            </h4>
+          </div>
+
+          <div class="faq-section__accordion-content-wrapper" style="display: none">
+            <div class="faq-section__accordion-content-container">
+              <div class="faq-section__accordion-content">{{ block.settings.content_column }}</div>
+            </div>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+<script type="lazyload_int">
+  const accordion = (function () {
+    const $accordion = $('.faq-section__accordion');
+    const $accordionTitle = $('.faq-section__accordion-title-wrapper');
+
+    const settings = {
+      speed: 400,
+      oneOpen: true,
+    };
+
+    return {
+      init: function ($settings) {
+        $accordionTitle.on('click', function () {
+          accordion.toggle($(this));
+          setTimeout(() => {
+            $('body').animate({scrollTop: $(this).offset().top}, 500);
+          }, 100);
+        });
+
+        $.extend(settings, $settings);
+
+        $('.faq-section__accordion.active').find('> .faq-section__accordion-content-wrapper').show();
+      },
+
+      toggle: function ($this) {
+        if (settings.oneOpen && $this[0] != $this.closest('.faq-section__accordion-container').find('> .faq-section__accordion.active > .faq-section__accordion-title-wrapper')[0]) {
+          $this
+            .closest('.faq-section__accordion-container')
+            .find('> .faq-section__accordion')
+            .removeClass('active')
+            .find('.faq-section__accordion-content-wrapper')
+            .slideUp();
+        }
+
+        $this.closest('.faq-section__accordion').toggleClass('active');
+        $this.next().stop().slideToggle(settings.speed);
+      },
+    };
+  })();
+
+  $(document).ready(function () {
+    accordion.init({ speed: 500, oneOpen: true });
+  });
+</script>
+
+{% schema %}
+  {
+    "name": "FAQ Accordion",
+    "class": "faq-accordion",
+    "settings": [
+      {
+        "type": "text",
+        "id": "custom_class",
+        "label": "Custom Class",
+        "info": "Custom class to apply css styles for specific sections"
+      },
+        {
+        "type": "checkbox",
+        "id": "enable_custom_margins_paddings",
+        "label": "Enable Custom Margins and Paddings",
+        "default": false
+      },
+      {
+        "type": "range",
+        "id": "custom-margin-top",
+        "min": 0,
+        "max": 50,
+        "step": 1,
+        "unit": "px",
+        "label": "Margin Top",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "custom-margin-bottom",
+        "min": 0,
+        "max": 50,
+        "step": 1,
+        "unit": "px",
+        "label": "Margin Bottom",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "custom-padding-top",
+        "min": 0,
+        "max": 50,
+        "step": 1,
+        "unit": "px",
+        "label": "Padding Top",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "custom-padding-bottom",
+        "min": 0,
+        "max": 50,
+        "step": 1,
+        "unit": "px",
+        "label": "Padding Bottom",
+        "default": 0
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Section Title",
+        "default": "Frequently Asked Questions"
+      },
+      {
+        "type": "text",
+        "id": "subtitle",
+        "label": "Section subtitle",
+        "default": "Pellentesque cras adipiscing tempus libero vel nullam mauris tellus. Aliquam ultrices tellus consequat amet, lectus aliquam est in neque."
+      },
+      {
+        "type": "select",
+        "id": "section_title_alignment",
+        "label": "Section Title Alignment",
+        "options": [
+          {
+            "value": "left",
+            "label": "Left"
+          }, 
+          {
+            "value": "center",
+            "label": "Center"
+          }, 
+          {
+            "value": "right",
+            "label": "Right"
+          }
+        ],
+        "default": "center"
+      },
+      {
+        "type": "select",
+        "id": "row_title_text_transform",
+        "label": "Row Title Text Transform",
+        "options": [
+          {
+            "value": "capitalize",
+            "label": "Capitalize"
+          }, 
+          {
+            "value": "uppercase",
+            "label": "Uppercase"
+          }, 
+          {
+            "value": "lowercase",
+            "label": "Lowercase"
+          },
+          {
+            "value": "none",
+            "label": "None"
+          }
+        ],
+        "default": "capitalize"
+      },
+      {
+        "type": "select",
+        "id": "icon_style",
+        "label": "Icon Style",
+        "options": [
+          {
+            "value": "arrow",
+            "label": "Arrow"
+          }, 
+          {
+            "value": "plus",
+            "label": "Plus"
+          }
+        ],
+        "default": "plus"
+      },      
+      {
+        "type": "header",
+        "content": "Sizing"
+      },
+      {
+        "type": "paragraph",
+        "content": "Desktop"
+      },
+      {
+        "type": "range",
+        "id": "headline_text_box_width",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "%",
+        "label": "Headline text box width on Desktop",
+        "default": 67
+      },
+      {
+        "type": "range",
+        "id": "accordion_width",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "%",
+        "label": "Rows' width on Desktop",
+        "default": 69
+      },
+      {
+        "type": "paragraph",
+        "content": "Tablet"
+      },
+      {
+        "type": "range",
+        "id": "headline_text_box_width_tablet",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "%",
+        "label": "Headline text box width on Tablet",
+        "default": 61
+      },
+      {
+        "type": "range",
+        "id": "accordion_width_tablet",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "%",
+        "label": "Rows' width on Tablet",
+        "default": 95
+      },
+      {
+        "type": "paragraph",
+        "content": "Mobile"
+      },
+      {
+        "type": "range",
+        "id": "headline_text_box_width_mobile",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "%",
+        "label": "Headline text box width on Mobile",
+        "default": 100
+      },
+      {
+        "type": "range",
+        "id": "accordion_width_mobile",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "%",
+        "label": "Rows' width on Mobile",
+        "default": 95
+      },
+      {
+        "type": "header",
+        "content": "Font Size"
+      },
+      {
+        "type": "paragraph",
+        "content": "Desktop"
+      },
+      {
+        "type": "range",
+        "id": "headline_font_size",
+        "min": 5,
+        "max": 50,
+        "step": 1,
+        "unit": "px",
+        "label": "Headline Font Size",
+        "default": 22
+      },
+      {
+        "type": "range",
+        "id": "subheadline_font_size",
+        "min": 5,
+        "max": 50,
+        "step": 1,
+        "unit": "px",
+        "label": "Sub-headline Font Size",
+        "default": 22
+      },
+      {
+        "type": "range",
+        "id": "title_font_size",
+        "min": 8,
+        "max": 28,
+        "step": 1,
+        "unit": "px",
+        "label": "Title Row Font Size",
+        "default": 22
+      },
+      {
+        "type": "range",
+        "id": "content_font_size",
+        "min": 8,
+        "max": 26,
+        "step": 1,
+        "unit": "px",
+        "label": "Content Font Size",
+        "default": 18
+      },
+      {
+        "type": "range",
+        "id": "arrow_size",
+        "min": 8,
+        "max": 26,
+        "step": 1,
+        "unit": "px",
+        "label": "Arrow Size",
+        "default": 15
+      },
+      {
+        "type": "paragraph",
+        "content": "Tablet"
+      },
+      {
+        "type": "range",
+        "id": "headline_font_size_tablet",
+        "min": 5,
+        "max": 50,
+        "step": 1,
+        "unit": "px",
+        "label": "Headline Font Size on Tablet",
+        "default": 22
+      },
+      {
+        "type": "range",
+        "id": "subheadline_font_size_tablet",
+        "min": 5,
+        "max": 50,
+        "step": 1,
+        "unit": "px",
+        "label": "Sub-headline Font Size on Tablet",
+        "default": 22
+      },
+      {
+        "type": "range",
+        "id": "title_font_size_tablet",
+        "min": 8,
+        "max": 28,
+        "step": 1,
+        "unit": "px",
+        "label": "Title Row Font Size on Tablet",
+        "default": 20
+      },
+      {
+        "type": "range",
+        "id": "content_font_size_tablet",
+        "min": 8,
+        "max": 26,
+        "step": 1,
+        "unit": "px",
+        "label": "Content Font Size on Tablet",
+        "default": 16
+      },
+      {
+        "type": "paragraph",
+        "content": "Mobile"
+      },
+      {
+        "type": "range",
+        "id": "headline_font_size_mobile",
+        "min": 5,
+        "max": 50,
+        "step": 1,
+        "unit": "px",
+        "label": "Headline Font Size on Mobile",
+        "default": 22
+      },
+      {
+        "type": "range",
+        "id": "subheadline_font_size_mobile",
+        "min": 5,
+        "max": 50,
+        "step": 1,
+        "unit": "px",
+        "label": "Sub-headline Font Size on Mobile",
+        "default": 22
+      },
+      {
+        "type": "range",
+        "id": "title_font_size_mobile",
+        "min": 8,
+        "max": 28,
+        "step": 1,
+        "unit": "px",
+        "label": "Title Row Font Size on Mobile",
+        "default": 18
+      },
+      {
+        "type": "range",
+        "id": "content_font_size_mobile",
+        "min": 8,
+        "max": 26,
+        "step": 1,
+        "unit": "px",
+        "label": "Content Font Size on Mobile",
+        "default": 14
+      },
+      {
+        "type": "range",
+        "id": "arrow_size_mobile",
+        "min": 5,
+        "max": 26,
+        "step": 1,
+        "unit": "px",
+        "label": "Arrow Size on Mobile",
+        "default": 5
+      },
+      {
+        "type": "header",
+        "content": "Colors"
+      },
+      {
+        "type": "color",
+        "id": "background_color_accordion",
+        "label": "Background Color",
+        "default": "#FFF"
+      }, 
+      {
+        "type": "color",
+        "id": "border_color_accordion",
+        "label": "Background Color",
+        "default": "#555555"
+      }, 
+      {
+        "type": "color",
+        "id": "active_tab_color",
+        "label": "Active Row Color",
+        "default": "#BCBCBC"
+      }, 
+      {
+        "type": "color",
+        "id": "active_tab_text_color",
+        "label": "Active Text Row Color",
+        "default": "#FFFFFF"
+      }, 
+      {
+        "type": "color",
+        "id": "inactive_tab_color",
+        "label": "Inactive Row Color",
+        "default": "#f5f7fa"
+      }, 
+      {
+        "type": "color",
+        "id": "inactive_tab_text_color",
+        "label": "Inactive Text Row Color",
+        "default": "#000000"
+      }, 
+      {
+        "type": "color",
+        "id": "hover_tab_color",
+        "label": "Hover Row Color",
+        "default": "#000"
+      },
+      {
+        "type": "color",
+        "id": "hover_text_color",
+        "label": "Hover Text Color",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "id": "content_text_color",
+        "label": "Content Color",
+        "default": "#000"
+      }
+    ],
+    "blocks": [
+      {
+        "name": "Row",
+        "type": "text_column",
+        "settings": [
+          {
+            "type": "html",
+            "label": "Title",
+            "id": "title_column",
+            "default": "Row Title"
+          }, 
+          {
+            "type": "richtext",
+            "label": "Content",
+            "id": "content_column"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "FAQ Accordion",
+        "category": "Accordion",
+        "blocks": 
+        [
+          {
+            "type": "text_column"
+          }, 
+          {
+            "type": "text_column"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

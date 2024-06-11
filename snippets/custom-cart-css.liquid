@@ -1,0 +1,20 @@
+<!-- snippets/custom-cart-css -->
+{%- capture cart_css -%}
+<style>
+  {% comment %} Header {% endcomment %}
+ 
+
+  {% comment %} Tablet {% endcomment %}
+  @media (max-width: 1019px) {
+    {% comment %} Reviews {% endcomment %}
+    
+  }
+
+  {% comment %} Mobile {% endcomment %}
+  @media (max-width: 767px) {
+    {% comment %} Reviews {% endcomment %}
+    
+  }
+</style>
+{%- endcapture -%}
+{{- cart_css | strip_newlines | replace: '    ', ' ' | replace: '   ', ' ' | replace: '  ', ' ' -}}

@@ -1,0 +1,21 @@
+<!-- start header-logo-new-layout.liquid (SNIPPET) -->
+<a class="header__logo-wrapper" title="{{ logo_alt | default: shop.name | strip_html | escape }}" href="/">
+  {%- if section.settings.enable_svg_logo -%}
+    {{ section.settings.logo_svg_html }}
+  {%- elsif section.settings.shop_logo != blank -%}
+    {%- assign logo = section.settings.shop_logo -%}
+    {%- assign logo_alt = section.settings.shop_logo_alt | default: logo.alt -%}
+
+    {%-
+      render 'responsive-image' with
+      image: logo,
+      id: logo_alt,
+      width: 400,
+      lazyload: false,
+      no_wrap: true,
+      alt: logo_alt
+    -%}
+  {%- else -%}
+    {{ shop.name }}
+  {%- endif -%}
+</a>

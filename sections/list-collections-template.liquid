@@ -1,0 +1,247 @@
+<!-- start list-collections-template.liquid (SECTION) -->
+
+{%- assign floating_items_class = '' -%}
+
+{%- if section.settings.product_title_position == 'center' -%}
+  {%- assign floating_items_class = 'list-collections__list--floating-items' -%}
+{%- endif -%}
+
+{%- assign collections_handles = '' -%}
+{%- assign collections_titles = section.settings.custom_list_collections | split: ',' -%}
+{%- for title in collections_titles -%}
+  {%- assign handleized_title = title | handleize -%}
+  {%- assign collections_handles = collections_handles | append: handleized_title -%}
+  {%- unless forloop.last -%}
+    {%- assign collections_handles = collections_handles | append: ',' -%}
+  {%- endunless -%}
+{%- endfor -%}
+
+<div class="wrapper">
+  {%- if settings.enable_breadcrumbs_list and settings.breadcrumb_position == 'above' -%}
+    <div class="breadcrumb-wrapper">
+      {%- render 'breadcrumb' -%}
+    </div>
+  {%- endif -%}
+
+  {%- if section.settings.collection_list_page_title != blank -%}
+    <h1 class="list-collections__page-title">{{ section.settings.collection_list_page_title }}</h1>
+  {%- endif -%}
+
+  {%- if settings.enable_breadcrumbs_list and settings.breadcrumb_position == 'below' -%}
+    <div class="breadcrumb-wrapper">
+      {%- render 'breadcrumb' -%}
+    </div>
+  {%- endif -%}
+</div>
+
+<div class="list-collections">
+  <div class="wrapper">
+    <div class="list-collections__list {{ floating_items_class }}">
+      {%- assign collections_handles = collections_handles | split: ',' -%}
+      {%- for collection in collections -%}
+        {%- assign enabled_filter = section.settings.enable_custom_list_collections -%}
+        {%- if enabled_filter == 'remove' -%}
+          {%- assign show_item = true -%}
+          {%- for handle in collections_handles -%}
+            {%- if handle == collection.handle -%}
+              {%- assign show_item = false -%}
+            {%- endif -%}
+          {%- endfor -%}
+        {%- else -%}
+          {%- assign show_item = false -%}
+          {%- for handle in collections_handles -%}
+            {%- if handle == collection.handle -%}
+              {%- assign show_item = true -%}
+            {%- endif -%}
+          {%- endfor -%}
+        {%- endif -%}
+
+        {%- if show_item -%}
+          {%- assign product = collection.products | first -%}
+          {%- assign image = product.featured_image | default: section.settings.share_imag -%}
+          {%- assign image_alt = image.alt | default: 'Collection Image' -%}
+
+          <div class="list-collections__item">
+            <div
+              id="CollectionLink-{{ forloop.index }}"
+              class="list-collections__link"
+              title="Collection {{ collection.title | escape -}}"
+            >
+              <div class="list-collections__image-wrapper">
+                <a href="{{- collection.url | default: '#' -}}" class="list-collections__link">
+                  {%- assign image_id = 'collection-' | append: forloop.index -%}
+
+                  {%-
+                    render 'responsive-image' with
+                    id: image_id,
+                    image: image,
+                    class: "list-collections__image",
+                    width: 300,
+                    alt: image_alt
+                  -%}
+                </a>
+              </div>
+
+              <h3>
+                <a href="{{- collection.url | default: '#' -}}" class="list-collections__title">
+                  {{- collection.title -}}
+                </a>
+              </h3>
+            </div>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+<style scoped>
+  #shopify-section-{{ section.id }} .list-collections__title {
+    background-color: {{ section.settings.collection_list_background_color }};
+    color: {{ section.settings.collection_list_font_color }};
+    font-size: {{ section.settings.collection_list_font_size | plus: 0.0 | divided_by: 16 }}rem;
+  }
+
+  .list-collections,
+  .list-collections__list,
+  .list-collections__title {
+    width: 100%;
+  }
+
+  .list-collections__page-title {
+    font-weight: 400;
+    text-transform: uppercase;
+    clear: both;
+    width: 100%;
+  }
+
+  .list-collections__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px 2%;
+    margin: 30px 0;
+  }
+
+  .list-collections__item {
+    width: 23.5%;
+  }
+  .list-collections__link{
+    color: #000;
+  }
+
+  .list-collections__title {
+    display: block;
+    text-align: center;
+    padding: 5px 0;
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+
+  .list-collections__item,
+  .list-collections__image-wrapper {
+    position: relative;
+  }
+
+  .list-collections__image-wrapper {
+    padding-top: 100%;
+    height: 0;
+  }
+
+  .list-collections__list--floating-items .list-collections__title,
+  .list-collections__image {
+    position: absolute;
+    left: 0;
+  }
+
+  .list-collections__list--floating-items .list-collections__title {
+    top: 50%;
+    transform: translatey(-50%);
+  }
+
+  .list-collections__image {
+    height: 100%;
+    width: 100%;
+    top: 0;
+    object-fit: cover;
+  }
+
+  @media (max-width: 767px) {
+    .list-collections__item {
+      width: 49%;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "List Collections Template",
+  "settings": [
+    {
+      "type": "header",
+      "content": "General Settings"
+    },
+    {
+      "type": "text",
+      "id": "collection_list_page_title",
+      "label": "Page Title"
+    },
+    {
+      "type": "select",
+      "id": "enable_custom_list_collections",
+      "label": "Choose whether or not to display collections",
+      "options": [
+        {
+          "value": "remove",
+          "label": "Collections won't be visible containing"
+        },
+        {
+          "value": "visible",
+          "label": "Collections will only be visible containing"
+        }
+      ]
+    },
+    {
+      "type": "textarea",
+      "id": "custom_list_collections",
+      "label": "List of Collections",
+      "info": "Use ',' to separate items. Don't use space."
+    },
+    {
+      "type": "color",
+      "id": "collection_list_font_color",
+      "label": "Font Color",
+      "default": "#000"
+    },
+    {
+      "type": "color",
+      "id": "collection_list_background_color",
+      "label": "Background Color",
+      "default": "transparent"
+    },
+    {
+      "type": "range",
+      "id": "collection_list_font_size",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Font Size",
+      "default": 16
+    },
+    {
+      "type": "select",
+      "id": "product_title_position",
+      "label": "Collection Title Position",
+      "options": [
+        {
+          "value": "center",
+          "label": "Image Center"
+        },
+        {
+          "value": "bellow",
+          "label": "Below the Image"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

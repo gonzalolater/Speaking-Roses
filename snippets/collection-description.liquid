@@ -1,0 +1,45 @@
+<!-- start collection-description.liquid (SNIPPET) -->
+
+{%- assign handles_list = settings.custom_description -%}
+{%- assign collections_title = handles_list | split: ';' -%}
+{%- assign handle_array = '' -%}
+
+{%- for title in collections_title -%}
+  {%- assign handled_title = title | handleize -%}
+  {%- assign handle_array = handle_array | join: ';' -%}
+  {%- assign handle_array = handle_array | append: ';' | append: handled_title -%}
+  {%- assign handle_array = handle_array | split: ';' -%}
+{%- endfor -%}
+
+{%- assign show_description = true -%}
+
+{%- if handle_array contains collection.handle and settings.enable_description -%}
+  {%- assign show_description = false -%}
+{%- endif -%}
+
+{%- assign button_underline_class = '' -%}
+{%- if settings.enable_seemore_decoration -%}
+  {%- assign button_underline_class = 'underline' -%}
+{%- endif -%}
+
+{%- if collection.description != blank and settings.announcement_show_description and show_description -%}
+  <div class="collection-description">
+    <div class="collection-description__wrapper">
+      <div
+        id="collection-description__text"
+        class="collection-description__text rte {% if settings.enable_see_more %}see-more{% endif %}"
+      >
+        {{- collection.description -}}
+      </div>
+
+      {%- if settings.enable_see_more -%}
+        <div class="collection-description__button-wrapper">
+          <span id="collection-description__button" class="collection-description__button {{ button_underline_class }}">
+            {{ 'collections.general.see_more' | t }}
+          </span>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+{%- endif -%}
+<!-- End snippet for collection description -->

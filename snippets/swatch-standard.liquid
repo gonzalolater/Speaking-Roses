@@ -1,0 +1,32 @@
+<!-- start swatch-standard.liquid (SNIPPET) -->
+
+{% assign i = swatch_index | plus: 0 | minus: 1 %}
+
+{%- for val in values -%}
+  {%- assign value = val | replace: '"', '&quot;' | replace: "'", '&apos;' -%}
+
+  <label
+    class="swatch-element swatch-element-standard {% if settings.swatch_round_size_product_page %} round-standard {% endif %}"
+    data-swatch="{{ value }}"
+  >
+    <input
+      type="radio"
+      id="id-swatch-variant-value-{{ forloop.index }}-{{ swatch_index }}"
+      class="swatch-variant-value jq-swatch-element"
+      value="{{ value }}"
+      data-swatch-index="{{ swatch_index }}"
+      name="swatch_element_standard_option_{{ swatch_index }}"
+
+      {% if value == variant.options[i] and swatch_index == 1  %}
+        checked
+      {% endif %}
+      required
+    >
+    <span class="swatch-value">{{ value }}</span>
+    <span
+      class="{% if settings.swatch_round_size_product_page %}swatch-value-circle-checked{% else %}swatch-value-checked{% endif %}"
+    >
+    </span>
+    <span class="tooltip-standard">{{ val }}</span>
+  </label>
+{%- endfor -%}
