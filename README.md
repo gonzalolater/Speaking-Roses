@@ -1,4 +1,4 @@
-## Free Shopify Templete, leave me a star please.
+## Free Shopify Template, leave me a star please.
 
 ## Speaking-Roses
 
