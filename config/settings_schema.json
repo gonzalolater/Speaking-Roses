@@ -517,7 +517,7 @@
         "type": "range",
         "id": "vasta_wrapper_width",
         "min": 1000,
-        "max": 1400,
+        "max": 1399,
         "step": 10,
         "unit": "px",
         "label": "Width",
