@@ -1,3 +1,5 @@
+## Free Shopify Templete, leave me a star please.
+
 ## Speaking-Roses
 
 1. Create a new repository on GitHub:
