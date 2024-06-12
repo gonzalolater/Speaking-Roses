@@ -51,3 +51,5 @@ Once you've committed your changes, you can push them to GitHub with git push.
 - Follow the instructions to enter your Shopify store's name and your private API password
 4. Once done, your Visual Studio Code will be connected to your Shopify store and you can start working with your code.
 - Now your Visual Studio Code is connected to your Shopify store. You can start working with your code.
+
+- Make the repository public, because the client don't pay.
