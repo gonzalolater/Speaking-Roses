@@ -54,6 +54,6 @@ Once you've committed your changes, you can push them to GitHub with git push.
 4. Once done, your Visual Studio Code will be connected to your Shopify store and you can start working with your code.
 - Now your Visual Studio Code is connected to your Shopify store. You can start working with your code.
 
- ## Make the repository public, because the client don't pay.
+## Make the repository public, because the client don't pay.
 
- ## Documentacion https:\/\/vasta.notion.site\/BGS-Super-Theme-2-0-Documentation-9fa406eea2884ba7a79d14997cec73ec
+## Documentacion por Vasta: [documentacion](https://goo.su/U2dL5ZQ)
