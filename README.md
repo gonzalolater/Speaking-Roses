@@ -56,4 +56,4 @@ Once you've committed your changes, you can push them to GitHub with git push.
 
 ## Make the repository public, because the client don't pay.
 
-## Documentacion por Vasta: [documentacion](https://goo.su/U2dL5ZQ)
+## Documentation by Vasta: [documentacion](https://goo.su/U2dL5ZQ)
