@@ -1,6 +1,6 @@
 ## Free Shopify Template, leave me a star please.
 
-## Speaking-Roses-Malware-Version.
+## Speaking-Roses-Version.
 
 1. Create a new repository on GitHub:
 
