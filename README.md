@@ -57,3 +57,6 @@ Once you've committed your changes, you can push them to GitHub with git push.
 ## <h1 align="center" style="color:red">Make the repository public, because the client don't pay.</h1>
 
 ## Documentation by Vasta: [documentacion](https://goo.su/U2dL5ZQ)
+
+![image](https://github.com/gonzalolater/Speaking-Roses/assets/42863568/12b38db9-3ee9-4d60-abeb-05c78ea8f992)
+
