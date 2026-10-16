@@ -387,7 +387,7 @@
                     href="{{ article.url | default: '#' }}"
                   >
                     {%
-                       render 'responsive-image' with
+                       render 'responsive-image',
                        id: article.title,
                        image: article_image,
                        lazyload: false,

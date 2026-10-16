@@ -72,7 +72,7 @@
                   {%- assign image_id = 'collection-' | append: forloop.index -%}
 
                   {%-
-                    render 'responsive-image' with
+                    render 'responsive-image',
                     id: image_id,
                     image: image,
                     class: "list-collections__image",

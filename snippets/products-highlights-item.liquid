@@ -43,7 +43,7 @@
       {% if product_image != blank %}
         <div class="products-highlights__product-image-content">
           {%-
-            render 'responsive-image' with
+            render 'responsive-image',
             image: product_image,
             image_class: 'products-highlights__product-image',
             active_lazy: lazy_load

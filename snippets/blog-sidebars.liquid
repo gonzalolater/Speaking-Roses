@@ -383,7 +383,7 @@
       <p class="row-text">{{ block.settings.sidebar_text }}</p>
 
       {%- if block.settings.select_newsletter == "klaviyo" and settings.enable_klaviyo_id -%}
-        {%- render "newsletter-form-klaviyo" with klaviyo_id: settings.klaviyo_id, section_id: section.id -%}
+        {%- render "newsletter-form-klaviyo", klaviyo_id: settings.klaviyo_id, section_id: section.id -%}
       {%- elsif block.settings.select_newsletter == "newsletter-default" -%}
         {%- render "newsletter-form", section_id: section.id -%}
       {%- elsif block.settings.select_newsletter == "newsletter-custom" -%}

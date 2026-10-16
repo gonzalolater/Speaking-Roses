@@ -1,0 +1,31 @@
+{%- if section.settings.custom_liquid != blank -%}
+  <div class="custom-liquid-section{% unless section.settings.full_width %} wrapper{% endunless %}">
+    {{ section.settings.custom_liquid }}
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Custom Liquid",
+  "tag": "section",
+  "class": "section-custom-liquid",
+  "settings": [
+    {
+      "type": "liquid",
+      "id": "custom_liquid",
+      "label": "Liquid code"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full width",
+      "default": false
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Liquid"
+    }
+  ]
+}
+{% endschema %}

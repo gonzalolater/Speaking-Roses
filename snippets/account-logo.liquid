@@ -6,7 +6,7 @@
       {%- else -%}
         {%- if settings.login_logo_url != blank -%}
           {%-
-            render 'responsive-image' with
+            render 'responsive-image',
             id: id,
             image: settings.login_logo_url,
             width: 400,

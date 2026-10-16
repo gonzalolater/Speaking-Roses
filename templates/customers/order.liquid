@@ -437,7 +437,7 @@
           </div>
 
           <div class="order__address-table-wrapper">
-            {%- render 'customer-address' with address: order.shipping_address -%}
+            {%- render 'customer-address', address: order.shipping_address -%}
           </div>
         </div>
 
@@ -450,7 +450,7 @@
           </div>
 
           <div class="order__address-table-wrapper">
-            {%- render 'customer-address' with address: order.billing_address -%}
+            {%- render 'customer-address', address: order.billing_address -%}
           </div>
         </div>
       </div>

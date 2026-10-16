@@ -272,7 +272,7 @@
                   <div class="reviews__author-content">
                     <div class="reviews__image-athor">
                       {%-
-                        render 'responsive-image' with
+                        render 'responsive-image',
                         image: block.settings.author_image,
                         width: 50,
                         height: 50,
@@ -316,7 +316,7 @@
                   {%- if img != blank -%}
                     {%- for img in item.images -%}
                       {%-
-                        render 'responsive-image' with
+                        render 'responsive-image',
                         image: img,
                         width: 600,
                         height: 600,

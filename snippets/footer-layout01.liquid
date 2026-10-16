@@ -37,7 +37,7 @@
                   {% endif %}
                 >
                   {%-
-                    render 'responsive-image' with
+                    render 'responsive-image',
                     image: block.settings.logo_url,
                     width: 250,
                     alt: block.settings.shop_logo_alt
@@ -65,7 +65,7 @@
           {%- if block.settings.footer_newsletter_enable -%}
             <div class="grid__item {{ column_width }}">
               {%- if block.settings.select_newsletter == 'klaviyo' and settings.enable_klaviyo_id -%}
-                {%- render "newsletter-form-klaviyo" with settings: settings, klaviyo_id: settings.klaviyo_id, section_id: section.id -%}
+                {%- render "newsletter-form-klaviyo", settings: settings, klaviyo_id: settings.klaviyo_id, section_id: section.id -%}
               {%- elsif block.settings.select_newsletter == 'newsletter-default' -%}
                 {%- render 'newsletter-form', section_id: section.id -%}
               {%- elsif block.settings.select_newsletter == 'newsletter-custom' -%}
@@ -90,7 +90,7 @@
               href="{{ block.settings.link_popular_collection | default: '#' }}"
             >
               {%-
-                render 'responsive-image' with
+                render 'responsive-image',
                 image: block.settings.url_popular_collection,
                 width: 300,
                 lazyload : true,
@@ -195,7 +195,7 @@
                     href="{{ social_link | default: '#' }}"
                     target="_blank"
                   >
-                    {%- render 'icon-media-social' with icon: block.settings.social_media -%}
+                    {%- render 'icon-media-social', icon: block.settings.social_media -%}
                   </a>
                 </div>
               {%- endif -%}
@@ -300,7 +300,7 @@
                 {% endif %}
               >
                 {%-
-                  render 'responsive-image' with
+                  render 'responsive-image',
                   image: block.settings.logo_url,
                   alt: block.settings.logo_url.alt,
                   width: 100
@@ -404,7 +404,7 @@
                   href="{{ social_link | default: '#' }}"
                   target="_blank"
                 >
-                  {%- render 'icon-media-social' with icon: block.settings.social_media -%}
+                  {%- render 'icon-media-social', icon: block.settings.social_media -%}
                 </a>
               {%- endif -%}
             {%- endfor -%}
@@ -438,7 +438,7 @@
               <div class="footer__trust-badge" id="trust-badges-img{{ block.id }}">
                 {% if block.settings.enable_img_trust_badge %}
                   {%-
-                    render 'responsive-image' with
+                    render 'responsive-image',
                     image: block.settings.img_trust_badges_footer,
                     width: 250,
                     lazyload: true,

@@ -30,7 +30,7 @@
 
         {%- for product in collection.products -%}
           {%-
-            render 'product-card' with
+            render 'product-card',
             prod: product,
             enable_lazy: true,
             max_width: image_width,
@@ -46,7 +46,7 @@
         {%- endfor -%}
 
         {%- if collection_style == 'paginator' -%}
-          {%- render 'pagination' with paginate: paginate -%}
+          {%- render 'pagination', paginate: paginate -%}
         {%- elsif collection_style == 'loading-more' -%}
           {%- if paginate.current_page < paginate.pages %}
             <div class="collection-page__loading-more-wrapper">

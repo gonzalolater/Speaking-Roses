@@ -115,14 +115,14 @@
                         {%- assign option_name = product_option.name | downcase -%}
 
                         {%- if option_name contains 'color' -%}
-                          {%- render 'swatch-color' with values: product_option.values, title_standard: 'Swatch Color', swatch_index: swatch_index, type: "color", variant: variant -%}
+                          {%- render 'swatch-color', values: product_option.values, title_standard: 'Swatch Color', swatch_index: swatch_index, type: "color", variant: variant -%}
                         {%- elsif option_name contains 'style' -%}
-                          {%- render 'swatch-style' with values: product_option.values, title_standard: 'Swatch Style', swatch_index: swatch_index, type: "style", variant: variant -%}
+                          {%- render 'swatch-style', values: product_option.values, title_standard: 'Swatch Style', swatch_index: swatch_index, type: "style", variant: variant -%}
                         {%- else  -%}
-                          {%- render 'swatch-standard' with values: product_option.values, title_standard: 'Swatch Standard', swatch_index: swatch_index, variant: variant -%}
+                          {%- render 'swatch-standard', values: product_option.values, title_standard: 'Swatch Standard', swatch_index: swatch_index, variant: variant -%}
                         {%- endif -%}
                       {%- else -%}
-                        {%- render 'select-swatch' with values: product_option.values, swatch_index: swatch_index, title_standard: product_option.name -%}
+                        {%- render 'select-swatch', values: product_option.values, swatch_index: swatch_index, title_standard: product_option.name -%}
                       {%- endunless -%}
                     </div>
                 </div>

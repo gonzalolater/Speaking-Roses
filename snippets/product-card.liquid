@@ -28,7 +28,7 @@
             {%- if settings.option_hover_product_card != 'hover_change_image' -%}
               {%- assign image = prod.featured_media | default: settings.recently_viewed_product_without_image -%}
               {%-
-                render 'responsive-image' with
+                render 'responsive-image',
                 image: image,
                 width: max_width_large,
                 height: max_height_large,
@@ -39,7 +39,7 @@
               {%- assign main_image = prod.images[0] | default: settings.recently_viewed_product_without_image -%}
 
               {%-
-                render 'responsive-image' with
+                render 'responsive-image',
                 image: main_image,
                 width: max_width_large,
                 height: max_height_large,
@@ -49,7 +49,7 @@
               {%- if prod.images.size > 1 -%}
                 {%- assign secondary_image = prod.images[1] | default: main_image -%}
                 {%-
-                  render 'responsive-image' with
+                  render 'responsive-image',
                   image: secondary_image,
                   width: max_width_large,
                   height: max_height_large,
@@ -77,7 +77,7 @@
           {% comment %}
             {%- if show_reviews -%}
             <div class="product-card__item-reviews-wrapper">
-            {%- render 'reviews-stars' with prod: prod -%}
+            {%- render 'reviews-stars', prod: prod -%}
             </div>
             {%- endif -%}
           {% endcomment %}
@@ -107,7 +107,7 @@
           {%- if show_swatch -%}
             <div class="product-card__item-swatch-wrapper">
               {%-
-                render 'swatch_collection' with
+                render 'swatch_collection',
                 prod: prod,
                 type: settings.select_swatch_collection
               -%}
@@ -136,7 +136,7 @@
     
   {% else %}
     <div class="product-card__grid-item-image-wrapper">
-      <img src="{{ 'icon-default-placeholder.svg' |  asset_url }}" class="grid__item-image">
+      <img src="{{ 'icon-default-placeholder.svg' |  asset_url }}" class="grid__item-image" width="300" height="300">
     </div>
     <h3 class="product-card__item-title product-card__item-title-link">
       Lorem ipsum dolor <br>

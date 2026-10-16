@@ -92,7 +92,7 @@
     {% if section.settings.checkbox_upsell_product != blank and section.settings.checkbox_upsell_description != blank %}
       {% comment %} Priority Processing {% endcomment %}
       {%- 
-        render 'priority-processing' with 
+        render 'priority-processing', 
         id: "priority-processing-form",
         pp_product: all_products[section.settings.checkbox_upsell_product],
         description: section.settings.checkbox_upsell_description

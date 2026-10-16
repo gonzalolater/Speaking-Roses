@@ -19,17 +19,17 @@
   <div class="shipping-bar__wrapper wrapper">
     {%- for block in section.blocks -%}
       {% if template contains 'cart' and section.settings.enable_discount_in_cart %}
-        {%- render 'shipping-bar-discount' with block: block -%}
+        {%- render 'shipping-bar-discount', block: block -%}
         {% break %}
       {% else %}
         {%- if shipping_bar_style == 'sections_style' and block.type == 'sections-style' -%}
-          {%- render 'shipping-bar-sections' with block: block -%}
+          {%- render 'shipping-bar-sections', block: block -%}
           {%- break -%}
         {%- elsif shipping_bar_style == 'info_style' and block.type == 'info-style' -%}
-          {%- render 'shipping-bar-informational' with message: block.settings.shipping_bar_info_text -%}
+          {%- render 'shipping-bar-informational', message: block.settings.shipping_bar_info_text -%}
           {%- break -%}
         {%- elsif shipping_bar_style == 'dicount_style' and block.type == 'discount-style' -%}
-          {%- render 'shipping-bar-discount' with block: block -%}
+          {%- render 'shipping-bar-discount', block: block -%}
           {%- break -%}
         {%- endif -%}
       {% endif %}

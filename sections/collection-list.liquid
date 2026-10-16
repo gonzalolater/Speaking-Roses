@@ -32,7 +32,7 @@
 
             <a href="{{- item.url | default: '#' -}}" class="collection-list__link" title="{{- title | escape -}}">
               {%-
-                render 'responsive-image' with
+                render 'responsive-image',
                 image: image,
                 class: 'collection-list__image',
                 width: 300,
@@ -43,7 +43,7 @@
             {% assign image_placeholder = 'collection-' | append: forloop.rindex %}
             
             {%-
-              render 'responsive-image' with
+              render 'responsive-image',
               placeholder: image_placeholder,
               class: 'collection-list__image',
               width: 300,

@@ -1,0 +1,84 @@
+{% assign featured_collection = section.settings.collection %}
+<section class="sr-featured">
+  <div class="sr-shell">
+    <div class="sr-featured__head">
+      <div>
+        {% if section.settings.eyebrow != blank %}<p class="sr-kicker">{{ section.settings.eyebrow }}</p>{% endif %}
+        {% if section.settings.heading != blank %}<h2 class="sr-heading">{{ section.settings.heading }}</h2>{% endif %}
+        {% if section.settings.text != blank %}<div class="sr-intro">{{ section.settings.text }}</div>{% endif %}
+      </div>
+      {% if featured_collection != blank %}
+        <a class="sr-text-link" href="{{ featured_collection.url }}">View collection</a>
+      {% endif %}
+    </div>
+    <div class="sr-product-grid">
+      {% if featured_collection != blank %}
+        {% for product in featured_collection.products limit: section.settings.products_to_show %}
+          <article class="sr-product-card">
+            <a href="{{ product.url }}" class="sr-product-card__media">
+              {% if product.featured_image != blank %}
+                {{ product.featured_image | image_url: width: 900 | image_tag:
+                  class: 'sr-product-card__image',
+                  loading: 'lazy',
+                  widths: '360, 540, 720, 900',
+                  sizes: '(min-width: 990px) 25vw, (min-width: 600px) 50vw, 100vw'
+                }}
+              {% else %}
+                {{ 'product-2' | placeholder_svg_tag: 'sr-product-card__image' }}
+              {% endif %}
+            </a>
+            <div class="sr-product-card__body">
+              <h3><a href="{{ product.url }}">{{ product.title }}</a></h3>
+              {% if section.settings.show_price %}<p>{{ product.price | money }}</p>{% endif %}
+            </div>
+          </article>
+        {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<style>
+  #shopify-section-{{ section.id }} .sr-featured { padding:88px 0; background:{{ section.settings.background }}; color:{{ section.settings.text_color }}; }
+  #shopify-section-{{ section.id }} .sr-shell { width:min(1420px,calc(100% - 40px)); margin:0 auto; }
+  #shopify-section-{{ section.id }} .sr-featured__head { display:flex; justify-content:space-between; align-items:flex-end; gap:30px; margin-bottom:34px; }
+  #shopify-section-{{ section.id }} .sr-kicker { margin:0 0 9px; text-transform:uppercase; letter-spacing:.18em; font-size:11px; font-weight:700; }
+  #shopify-section-{{ section.id }} .sr-heading { margin:0; font:400 clamp(34px,4vw,54px)/1.05 Georgia,'Times New Roman',serif; letter-spacing:-.02em; }
+  #shopify-section-{{ section.id }} .sr-intro { max-width:650px; margin-top:15px; opacity:.72; line-height:1.6; }
+  #shopify-section-{{ section.id }} .sr-intro p { margin:0; }
+  #shopify-section-{{ section.id }} .sr-product-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:18px; }
+  #shopify-section-{{ section.id }} .sr-product-card__media { display:block; aspect-ratio:1/1.12; overflow:hidden; background:#f3f0ee; }
+  #shopify-section-{{ section.id }} .sr-product-card__image { width:100%; height:100%; object-fit:cover; display:block; transition:transform .45s ease; }
+  #shopify-section-{{ section.id }} .sr-product-card:hover .sr-product-card__image { transform:scale(1.025); }
+  #shopify-section-{{ section.id }} .sr-product-card__body { padding:14px 2px 0; }
+  #shopify-section-{{ section.id }} .sr-product-card__body h3 { margin:0; font-size:14px; font-weight:500; line-height:1.35; }
+  #shopify-section-{{ section.id }} .sr-product-card__body h3 a, #shopify-section-{{ section.id }} .sr-text-link { color:inherit; text-decoration:none; }
+  #shopify-section-{{ section.id }} .sr-product-card__body p { margin:7px 0 0; font-size:13px; opacity:.68; }
+  #shopify-section-{{ section.id }} .sr-text-link { flex:0 0 auto; text-transform:uppercase; letter-spacing:.1em; font-size:11px; border-bottom:1px solid currentColor; padding-bottom:4px; }
+  @media (max-width:989px) { #shopify-section-{{ section.id }} .sr-product-grid { grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:599px) {
+    #shopify-section-{{ section.id }} .sr-featured { padding:62px 0; }
+    #shopify-section-{{ section.id }} .sr-shell { width:min(100% - 28px,1420px); }
+    #shopify-section-{{ section.id }} .sr-featured__head { display:block; }
+    #shopify-section-{{ section.id }} .sr-featured__head .sr-text-link { display:inline-block; margin-top:20px; }
+    #shopify-section-{{ section.id }} .sr-product-grid { gap:12px; }
+  }
+</style>
+
+{% schema %}
+{
+  "name":"SR | Featured collection",
+  "tag":"section",
+  "settings":[
+    {"type":"collection","id":"collection","label":"Collection"},
+    {"type":"text","id":"eyebrow","label":"Eyebrow","default":"Freshly selected"},
+    {"type":"text","id":"heading","label":"Heading","default":"New and noteworthy"},
+    {"type":"richtext","id":"text","label":"Text","default":"<p>Discover recently added pieces and current favorites.</p>"},
+    {"type":"range","id":"products_to_show","label":"Products to show","min":2,"max":8,"step":1,"default":4},
+    {"type":"checkbox","id":"show_price","label":"Show prices","default":true},
+    {"type":"color","id":"background","label":"Background","default":"#ffffff"},
+    {"type":"color","id":"text_color","label":"Text color","default":"#171515"}
+  ],
+  "presets":[{"name":"SR | Featured collection"}]
+}
+{% endschema %}

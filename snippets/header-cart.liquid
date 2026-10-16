@@ -10,7 +10,7 @@
 
 <div class="header__wrapper">
  <div class="header__cartPage__wrapper ">
-    {%- render 'header-logo' with text_transform: text_transform, logo: logo, logo_alt: logo_alt, logo_max_width: logo_max_width, svg_code: svg_code, enable_svg_logo: enable_svg_logo, logo_max_height: logo_max_height, section_title: "Logo", header_logo: "main-logo", choose_custom_dimensions: choose_custom_dimensions -%}
+    {%- render 'header-logo', text_transform: text_transform, logo: logo, logo_alt: logo_alt, logo_max_width: logo_max_width, svg_code: svg_code, enable_svg_logo: enable_svg_logo, logo_max_height: logo_max_height, section_title: "Logo", header_logo: "main-logo", choose_custom_dimensions: choose_custom_dimensions -%}
 
     <div class="header__cart__info">
         {%- if phone != blank -%}

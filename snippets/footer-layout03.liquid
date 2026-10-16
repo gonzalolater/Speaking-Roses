@@ -19,7 +19,7 @@
                 {% elsif block.settings.logo_url != blank %}
                   <a title="{{ block.settings.shop_logo_alt }}" class="footer__logo-image" href="/">
                     {%-
-                      render 'responsive-image' with
+                      render 'responsive-image',
                       image: block.settings.logo_url,
                       alt: block.settings.logo_url.alt,
                       width: 100,
@@ -112,7 +112,7 @@
                     class="footer__social-icons-link"
                     target="_blank"
                   >
-                    {%- render 'icon-media-social' with icon: block.settings.social_media -%}
+                    {%- render 'icon-media-social', icon: block.settings.social_media -%}
                   </a>
                 </div>
               {%- endif -%}
@@ -222,7 +222,7 @@
                   <div class="footer__trust-badge-image" id="trust-badges-img{{ block.id }}">
                     {% if block.settings.enable_img_trust_badge %}
                       {%-
-                        render 'responsive-image' with
+                        render 'responsive-image',
                         image: block.settings.img_trust_badges_footer,
                         width: 250,
                         lazyload: true
@@ -289,7 +289,7 @@
                 {% elsif block.settings.logo_url != blank %}
                   <a title="{{ block.settings.shop_logo_alt }}" class="footer__logo-image" href="/">
                     {%-
-                      render 'responsive-image' with
+                      render 'responsive-image',
                       image: block.settings.logo_url,
                       alt: block.settings.logo_url.alt,
                       width: 100,
@@ -312,7 +312,7 @@
               <div class="footer__newsletter-wrapper">
                 <div class="footer__newsletter">
                   {%- if block.settings.select_newsletter == 'klaviyo' and settings.enable_klaviyo_id -%}
-                    {%- render "newsletter-form-klaviyo" with settings: settings, klaviyo_id: settings.klaviyo_id, section_id: section.id -%}
+                    {%- render "newsletter-form-klaviyo", settings: settings, klaviyo_id: settings.klaviyo_id, section_id: section.id -%}
                   {%- elsif block.settings.select_newsletter == 'newsletter-default' -%}
                     {%- render 'newsletter-form', section_id: section.id -%}
                   {%- elsif block.settings.select_newsletter == 'newsletter-custom' -%}
@@ -340,7 +340,7 @@
                   class="footer__popular-widget-link"
                 >
                   {%
-                    render 'responsive-image' with
+                    render 'responsive-image',
                     image: block.settings.url_popular_collection,
                     class: "footer__popular-widget-image",
                     width: 300,
@@ -385,7 +385,7 @@
               <div class="footer__trust-badge-image" id="trust-badges-img{{ block.id }}">
                 {% if block.settings.enable_img_trust_badge %}
                   {%
-                    render 'responsive-image' with
+                    render 'responsive-image',
                     image: block.settings.img_trust_badges_footer,
                     width: 250,
                     lazyload: true

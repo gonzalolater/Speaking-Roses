@@ -4,7 +4,7 @@
         <!--Start Stamped.io Auto Installation--><div id="stamped-main-widget" class="stamped-main-widget" data-widget-style="standard" data-product-id="{{ product.id }}" data-name="{{ product.title | escape }}" data-url="{{ shop.url }}{{ product.url }}" data-image-url="{{ product.featured_image | product_img_url: "large" | replace: '?' , '%3F' | replace: '&' , '%26' }}" data-description="{{ product.description | escape }}" data-product-sku="{{ product.handle }}" data-product-type="{{ product.type }}">{{ product.metafields.stamped.reviews }}</div><!--End Stamped.io Auto Installation-->
 
     {% when 'judgeme' %}
-        {% render 'judgeme_widgets' with widget_type: 'judgeme_review_widget', concierge_install: false, product: product %}
+        {% render 'judgeme_widgets', widget_type: 'judgeme_review_widget', concierge_install: false, product: product %}
 
     {% when 'loox' %}
         <div id="looxReviews" data-product-id="{{ product.id }}" >{{ product.metafields.loox.reviews }}</div>

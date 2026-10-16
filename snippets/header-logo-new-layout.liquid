@@ -7,7 +7,7 @@
     {%- assign logo_alt = section.settings.shop_logo_alt | default: logo.alt -%}
 
     {%-
-      render 'responsive-image' with
+      render 'responsive-image',
       image: logo,
       id: logo_alt,
       width: 400,

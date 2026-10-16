@@ -10,7 +10,7 @@
     },
     "404": {
       "title": "404 Página não encontrada",
-      "subtext_html": "A página solicitada não existe. Clique <a href=\"\/collections\/all\">aqui<\/a> para voltar para a loja."
+      "subtext_html": "A página solicitada não existe. Clique <a href=\"/collections/all\">aqui</a> para voltar para a loja."
     },
     "password_page": {
       "opening_soon": "Abertura em breve",
@@ -24,7 +24,7 @@
       "signup_form_email_placeholder": "Seu e-mail",
       "signup_form_submit": "Enviar",
       "signup_form_success": "Nós lhe enviaremos um e-mail logo antes de lançar a loja!",
-      "admin_link_html": "É o(a) dono(a) da loja? <a href=\"\/admin\">Entre aqui<\/a>",
+      "admin_link_html": "É o(a) dono(a) da loja? <a href=\"/admin\">Entre aqui</a>",
       "password_link": "Entre usando a palavra-passe",
       "powered_by_shopify_html": "Esta loja será lançada com a tecnologia da {{ shopify }}",
       "store_protected": "TODO"
@@ -51,7 +51,7 @@
         "one": "{{ count }} resultado para \"{{ terms }}\"",
         "other": "{{ count }} resultados para \"{{ terms }}\""
       },
-      "no_results_html": "Por favor, tente um termo de pesquisa diferente ou volte para a <a href=\"\/\">página inicial<\/a>."
+      "no_results_html": "Por favor, tente um termo de pesquisa diferente ou volte para a <a href=\"/\">página inicial</a>."
     },
     "newsletter_form": {
       "newsletter_email": "Esteja por dentro",
@@ -81,12 +81,18 @@
       "moderated": "Os comentários devem ser aprovados antes de serem publicados",
       "success_moderated": "Seu comentário foi postado com sucesso. Nós o publicaremos em alguns instantes, já que o nosso blog é moderado.",
       "success": "Seu comentário foi postado com sucesso! Obrigado!",
-      "comments_with_count": "TODO"
+      "comments_with_count": {
+        "one": "{{ count }} Comment",
+        "other": "{{ count }} Comments"
+      }
     },
     "general": {
       "categories": "Categorias"
     },
-    "sidebar": "TODO"
+    "sidebar": {
+      "recent_articles": "Recent Posts",
+      "categories": "Categories"
+    }
   },
   "cart": {
     "general": {
@@ -99,7 +105,7 @@
       "checkout": "Finalizar pedido",
       "empty": "Seu carrinho está vazio no momento.",
       "cookies_required": "Habilite os cookies para usar o carrinho de compras",
-      "continue_browsing_html": "Continue navegando <a href=\"\/collections\/all\">aqui<\/a> .",
+      "continue_browsing_html": "Continue navegando <a href=\"/collections/all\">aqui</a> .",
       "item_quantity": "Quantidade de produtos",
       "savings": "Está poupando",
       "note_placeholder": "TODO",
@@ -123,9 +129,21 @@
       "see_more": "TODO",
       "showing_products": "TODO",
       "showing_of": "TODO",
-      "sorting": "TODO"
+      "sorting": {
+        "featured": "Featured",
+        "best_selling": "Best Selling",
+        "az": "Alphabetically, A-Z",
+        "za": "Alphabetically, Z-A",
+        "price_ascending": "Price, low to high",
+        "price_descending": "Price, high to low",
+        "date_ascending": "Date, old to new",
+        "date_descending": "Date, new to old"
+      }
     },
-    "label": "TODO"
+    "label": {
+      "filter_by_interest": "Choose By Interest",
+      "sort_by": "Sort By"
+    }
   },
   "contact": {
     "form": {
@@ -167,8 +185,8 @@
       "address2": "Endereço 2",
       "city": "Cidade",
       "country": "País",
-      "province": "Província\/Estado",
-      "zip": "Código postal\/CEP",
+      "province": "Província/Estado",
+      "zip": "Código postal/CEP",
       "phone": "Telefone",
       "set_default": "Definir como endereço padrão",
       "add": "Adicionar endereço",
@@ -316,5 +334,67 @@
   "date_formats": {
     "month_day_year": "%d de %B de %Y"
   },
-  "structured_data": "TODO"
+  "structured_data": {
+    "breadcrumbs": {
+      "cart": "Cart",
+      "collections": "Collections",
+      "page": "Page {{ page }}",
+      "products": "Products",
+      "search": "Search",
+      "tags": "Tagged \"{{ tags }}\""
+    }
+  },
+  "collection": {
+    "general": {
+      "mobile_filter_label": "Filter"
+    }
+  },
+  "shopify": {
+    "checkout": {
+      "contact": {
+        "email_label": "Email (for order confirmation + updates)",
+        "optional_phone_label": "Phone (for shipping updates & offers)",
+        "email_or_phone_label": "Email (for order confirmation)",
+        "phone_label": "Phone (for shipping updates & offers)"
+      },
+      "marketing": {
+        "accept_marketing_checkbox_label": "Sign up for exclusive offers and news via text messages & email"
+      }
+    }
+  },
+  "gempages": {
+    "Carousel": {
+      "no_slider": "No Slider"
+    },
+    "Newsletter": {
+      "err_msg_default": "Can’t send email. Please try again later.",
+      "success_msg_default": "Thanks for contacting us. We'll get back to you as soon as possible."
+    },
+    "IconListV2": {
+      "icons_not_found": "Icons not found"
+    },
+    "IconList": {
+      "icons_not_found": "Icons not found"
+    },
+    "IconListHoz": {
+      "icons_not_found": "Icons not found"
+    },
+    "Product": {
+      "product_not_found": "Product not found"
+    },
+    "ProductList": {
+      "product_not_found": "Product Not Found!",
+      "no_products_found": "No products found!",
+      "no_related_products": "No related products!"
+    },
+    "ProductTitle": {
+      "product_not_found": "Product Not Found"
+    },
+    "ProductVariants": {
+      "please_select": "Please select an option"
+    },
+    "StockCounter": {
+      "let_buy_now": "<mark>HURRY!</mark> LET BUY NOW"
+    }
+  }
 }

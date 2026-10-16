@@ -1,0 +1,152 @@
+{% liquid
+  assign hero_collection = section.settings.collection
+  assign hero_image = section.settings.image
+  if hero_image == blank and hero_collection != blank
+    assign hero_image = hero_collection.image
+    if hero_image == blank and hero_collection.products.first != blank
+      assign hero_image = hero_collection.products.first.featured_image
+    endif
+  endif
+%}
+
+<section class="sr-hero" aria-labelledby="sr-hero-title-{{ section.id }}">
+  <div class="sr-hero__media">
+    {% if hero_image != blank %}
+      {{ hero_image | image_url: width: 2400 | image_tag:
+        class: 'sr-hero__image',
+        loading: 'eager',
+        fetchpriority: 'high',
+        widths: '750, 1100, 1500, 2000, 2400',
+        sizes: '100vw'
+      }}
+    {% else %}
+      {{ 'lifestyle-2' | placeholder_svg_tag: 'sr-hero__image sr-hero__placeholder' }}
+    {% endif %}
+  </div>
+  <div class="sr-hero__veil"></div>
+  <div class="sr-hero__content sr-hero__content--{{ section.settings.alignment }}">
+    {% if section.settings.eyebrow != blank %}
+      <p class="sr-hero__eyebrow">{{ section.settings.eyebrow }}</p>
+    {% endif %}
+    {% if section.settings.heading != blank %}
+      <h2 id="sr-hero-title-{{ section.id }}" class="sr-hero__title">{{ section.settings.heading }}</h2>
+    {% endif %}
+    {% if section.settings.text != blank %}
+      <div class="sr-hero__text">{{ section.settings.text }}</div>
+    {% endif %}
+    {% if section.settings.button_label != blank %}
+      <a class="sr-button sr-button--light" href="{{ section.settings.button_link | default: hero_collection.url | default: routes.all_products_collection_url }}">
+        {{ section.settings.button_label }}
+      </a>
+    {% endif %}
+  </div>
+</section>
+
+<style>
+  #shopify-section-{{ section.id }} .sr-hero {
+    position: relative;
+    min-height: {{ section.settings.desktop_height }}px;
+    overflow: hidden;
+    background: #171515;
+    color: {{ section.settings.text_color }};
+  }
+  #shopify-section-{{ section.id }} .sr-hero__media,
+  #shopify-section-{{ section.id }} .sr-hero__veil {
+    position: absolute;
+    inset: 0;
+  }
+  #shopify-section-{{ section.id }} .sr-hero__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  #shopify-section-{{ section.id }} .sr-hero__veil {
+    background: linear-gradient(90deg, rgba(0,0,0,{{ section.settings.overlay | divided_by: 100.0 }}) 0%, rgba(0,0,0,0.18) 65%, rgba(0,0,0,0.08) 100%);
+  }
+  #shopify-section-{{ section.id }} .sr-hero__content {
+    position: relative;
+    z-index: 2;
+    min-height: inherit;
+    max-width: 1420px;
+    margin: 0 auto;
+    padding: 72px clamp(24px, 5vw, 76px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  #shopify-section-{{ section.id }} .sr-hero__content--center { align-items: center; text-align: center; }
+  #shopify-section-{{ section.id }} .sr-hero__content--right { align-items: flex-end; text-align: right; }
+  #shopify-section-{{ section.id }} .sr-hero__eyebrow {
+    margin: 0 0 14px;
+    text-transform: uppercase;
+    letter-spacing: .18em;
+    font-size: 12px;
+    font-weight: 700;
+  }
+  #shopify-section-{{ section.id }} .sr-hero__title {
+    max-width: 780px;
+    margin: 0;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: clamp(42px, 6vw, 86px);
+    line-height: .98;
+    font-weight: 400;
+    letter-spacing: -.035em;
+  }
+  #shopify-section-{{ section.id }} .sr-hero__text {
+    max-width: 620px;
+    margin-top: 22px;
+    font-size: clamp(16px, 1.4vw, 20px);
+    line-height: 1.55;
+  }
+  #shopify-section-{{ section.id }} .sr-hero__text p { margin: 0; }
+  #shopify-section-{{ section.id }} .sr-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    margin-top: 30px;
+    padding: 14px 28px;
+    border: 1px solid currentColor;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: .11em;
+    font-size: 12px;
+    font-weight: 700;
+    transition: background .2s ease, color .2s ease;
+  }
+  #shopify-section-{{ section.id }} .sr-button--light { color: {{ section.settings.text_color }}; }
+  #shopify-section-{{ section.id }} .sr-button--light:hover {
+    background: {{ section.settings.text_color }};
+    color: #171515;
+  }
+  @media (max-width: 749px) {
+    #shopify-section-{{ section.id }} .sr-hero { min-height: {{ section.settings.mobile_height }}px; }
+    #shopify-section-{{ section.id }} .sr-hero__content { padding: 48px 24px; justify-content: flex-end; }
+    #shopify-section-{{ section.id }} .sr-hero__title { font-size: clamp(38px, 12vw, 58px); }
+    #shopify-section-{{ section.id }} .sr-hero__veil { background: linear-gradient(0deg, rgba(0,0,0,.68) 0%, rgba(0,0,0,.18) 72%); }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "SR | Hero",
+  "tag": "section",
+  "class": "sr-home-section",
+  "settings": [
+    {"type":"image_picker","id":"image","label":"Hero image"},
+    {"type":"collection","id":"collection","label":"Fallback collection"},
+    {"type":"text","id":"eyebrow","label":"Eyebrow","default":"Discover something remarkable"},
+    {"type":"text","id":"heading","label":"Heading","default":"Objects with a story"},
+    {"type":"richtext","id":"text","label":"Text","default":"<p>Curated pieces for collectors, interiors, and unforgettable gifts.</p>"},
+    {"type":"text","id":"button_label","label":"Button label","default":"Shop now"},
+    {"type":"url","id":"button_link","label":"Button link"},
+    {"type":"select","id":"alignment","label":"Content alignment","default":"left","options":[{"value":"left","label":"Left"},{"value":"center","label":"Center"},{"value":"right","label":"Right"}]},
+    {"type":"color","id":"text_color","label":"Text color","default":"#ffffff"},
+    {"type":"range","id":"overlay","label":"Overlay strength","min":0,"max":80,"step":5,"unit":"%","default":45},
+    {"type":"range","id":"desktop_height","label":"Desktop height","min":480,"max":900,"step":20,"unit":"px","default":720},
+    {"type":"range","id":"mobile_height","label":"Mobile height","min":480,"max":800,"step":20,"unit":"px","default":620}
+  ],
+  "presets": [{"name":"SR | Hero"}]
+}
+{% endschema %}

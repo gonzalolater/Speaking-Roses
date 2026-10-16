@@ -536,7 +536,7 @@
           {% endif %}
         {% else %}
           {%-
-            render 'responsive-image' with
+            render 'responsive-image',
             image: section.settings.url_call_to_action,
             placeholder: 'product-1'
             lazyload: section.settings.enable_lazy,

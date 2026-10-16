@@ -16,7 +16,7 @@
         <div class="new-banner__block-reviews__head">
           {% if block.settings.review_image != blank %}
             <div class="new-banner__block-reviews__author-img">
-              {%- render 'responsive-image' with
+              {%- render 'responsive-image',
                 image: block.settings.review_image,
                 lazyload: enable_lazy,
                 width: 200,

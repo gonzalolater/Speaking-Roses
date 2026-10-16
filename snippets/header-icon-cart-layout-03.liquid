@@ -12,7 +12,7 @@
   {%- elsif section.settings.enable_img_custom_icon_cart -%}
     <div class="header__item-cart-custom">
       {%-
-        render 'responsive-image' with
+        render 'responsive-image',
         image: section.settings.img_icon_cart,
         width: 200,
         lazyload: false,

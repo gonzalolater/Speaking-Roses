@@ -29,7 +29,7 @@
                 title="{{- article.image.alt | default: 'Article Image' -}}"
               >
                 {%-
-                  render 'responsive-image' with
+                  render 'responsive-image',
                   image: article.image,
                   lazyload: true,
                   width: 110,
@@ -46,7 +46,7 @@
               >
                 {%- if section.settings.blog_rewrite_image_home == 'placeholder' -%}
                   {%-
-                    render 'responsive-image' with
+                    render 'responsive-image',
                     image: section.settings.blog_article_placeholder_home,
                     lazyload: true,
                     width: 110,
@@ -97,7 +97,7 @@
         <article class="post {{ col }}">
           <div class="img-post-home">
             {%-
-              render 'responsive-image' with
+              render 'responsive-image',
               placeholder: 'product-6',
               width: 110,
               height: 110

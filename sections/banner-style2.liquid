@@ -65,7 +65,7 @@
             </picture>
           {% else %}
             {%-
-              render 'responsive-image' with
+              render 'responsive-image',
               placeholder: 'collection-2'
             -%}
           {% endif %}
@@ -109,7 +109,7 @@
           {% endif %}
         {% else %}
           {%-
-            render 'responsive-image' with
+            render 'responsive-image',
             placeholder: 'collection-6',
             class: 'no-mobile banner-2-image'
           -%}

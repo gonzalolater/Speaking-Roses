@@ -78,14 +78,14 @@
     <div class="image-whith-accordion_content">
       <div class="image-whith-accordion_image">
         {% if section.settings.image != blank %}
-          {%- render 'responsive-image' with 
+          {%- render 'responsive-image', 
             image: section.settings.image,
             lazyload: enable_lazy,
             width: 600,
             no_wrap: true,
             alt: section.settings.image.alt -%}
         {% else %}
-          {%- render 'responsive-image' with 
+          {%- render 'responsive-image', 
             placeholder: 'collection-1',
             width: 600
           -%}

@@ -1,0 +1,42 @@
+name: Shopify Theme Check
+
+on:
+  push:
+    branches:
+      - shopify-os2-compat
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  checks: write
+
+jobs:
+  theme-check:
+    name: Theme Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout theme
+        uses: actions/checkout@v4
+
+      - name: Run Shopify Theme Check annotations
+        uses: shopify/theme-check-action@v2
+        with:
+          theme_root: '.'
+          token: ${{ github.token }}
+          base: main
+
+      - name: Export full Theme Check JSON
+        if: always()
+        run: |
+          npx shopify theme check --output json > theme-check.json || true
+          cat theme-check.json
+
+      - name: Upload Theme Check report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: theme-check-report
+          path: theme-check.json
+          retention-days: 7

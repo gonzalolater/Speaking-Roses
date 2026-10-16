@@ -218,7 +218,7 @@
 <div class="account__wrapper">
   <div class="account__container">
     <div class="account__header-wrapper wrapper">
-      {% render 'account-header' with accountPage: true %}
+      {% render 'account-header', accountPage: true %}
     </div>
 
     <div class="account__info-wrapper wrapper">
@@ -261,7 +261,7 @@
           </div>
 
           {%- if paginate.pages > 1 -%}
-            {%- render 'pagination' with paginate: paginate -%}
+            {%- render 'pagination', paginate: paginate -%}
           {%- endif -%}
           
         {%- endpaginate -%}
@@ -272,7 +272,7 @@
       {%- endif -%}
 
       <div class="account__address-wrapper">
-        {%- render 'customer-address' with address: customer.default_address -%}
+        {%- render 'customer-address', address: customer.default_address -%}
 
         <div class="account__customer-addresses-link">
           <a class="account__customer-addresses" title="Addresses" id="id-addresses" href="/account/addresses">

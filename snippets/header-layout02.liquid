@@ -437,7 +437,7 @@
 
         <div class="header__item-search desktop">
           {%- if section.settings.enabled_search_bar -%}
-            {%- render 'header-searchbar-new-layout' with search_id: 'desktop' -%}
+            {%- render 'header-searchbar-new-layout', search_id: 'desktop' -%}
           {%- elsif section.settings.enable_menu_into_header and section.settings.enabled_main_menu -%}
             <div class="header__menu-wrapper desktop">
               {%- render 'main-menu-new-layout' -%}
@@ -468,7 +468,7 @@
 
       <div class="header__item-search no-desktop">
         {%- if section.settings.enabled_search_bar_mobile -%}
-          {%- render 'header-searchbar-new-layout' with search_id: 'no-desktop' -%}
+          {%- render 'header-searchbar-new-layout', search_id: 'no-desktop' -%}
         {%- endif -%}
       </div>
 

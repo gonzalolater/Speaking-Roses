@@ -3,9 +3,9 @@
   <div class="swatch-type swatch-type-collection">
     <div class="swatch-elements-wrapper">
       {%- if type == 'color' -%}
-        {%- render 'swatch_color_collection' with custom_colors: settings.enable_custom_colors, swatch_index: swatch_index, prod: prod -%}
+        {%- render 'swatch_color_collection', custom_colors: settings.enable_custom_colors, swatch_index: swatch_index, prod: prod -%}
       {%- elsif type == 'size' -%}
-        {%- render 'swatch_standard_collection' with swatch_index: swatch_index, prod: prod -%}
+        {%- render 'swatch_standard_collection', swatch_index: swatch_index, prod: prod -%}
       {%- endif -%}
     </div>
   </div>

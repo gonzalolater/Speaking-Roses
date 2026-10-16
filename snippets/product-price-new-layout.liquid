@@ -32,9 +32,9 @@
                 {%- endif -%}
             </span>
 
-            {%- render 'you-save' with variant: variant, enable_you_save: settings.enable_you_save -%}
+            {%- render 'you-save', variant: variant, enable_you_save: settings.enable_you_save -%}
 
-            {%- render 'price-per-unit' with variant: variant -%}
+            {%- render 'price-per-unit', variant: variant -%}
         </span>
     </div>
 
@@ -51,9 +51,9 @@
 
         <span class="current-price price recharger-price" id="product-price" data-product-price="{{ variant.price }}">{{ variant.price | money }}</span>
 
-        {%- render 'price-per-unit' with variant: variant -%}
+        {%- render 'price-per-unit', variant: variant -%}
 
-        {%- render 'you-save' with variant: variant, enable_you_save: settings.enable_you_save -%}
+        {%- render 'you-save', variant: variant, enable_you_save: settings.enable_you_save -%}
         
     </div>
     {%- if product.metafields.field.short_description != blank and section.settings.select_position_short_description == "after" -%}

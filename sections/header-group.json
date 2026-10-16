@@ -1,0 +1,13 @@
+{
+  "type": "header",
+  "name": "Header group",
+  "sections": {
+    "custom-header": {
+      "type": "custom-header",
+      "settings": {}
+    }
+  },
+  "order": [
+    "custom-header"
+  ]
+}

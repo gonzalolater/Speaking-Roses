@@ -218,7 +218,7 @@
     </div>
     <!-- Search-bar -->
     {%- if section.settings.enable_mobile_search == true -%}
-      {%- render 'search-bar' with placeholder: section.settings.menu_mobile_searchbar_placeholder -%}
+      {%- render 'search-bar', placeholder: section.settings.menu_mobile_searchbar_placeholder -%}
     {%- endif -%}
   </div>
 
@@ -250,7 +250,7 @@
                     {%- assign icon_id = 'menu-mobile-icon-' | append: forloop.index -%}
 
                     {%-
-                      render 'responsive-image' with
+                      render 'responsive-image',
                       class: 'sidenav__item__img',
                       id: icon_id,
                       image: url_icon,
@@ -350,7 +350,7 @@
                 {%- assign icon_id = 'menu-mobile-icon-' | append: forloop.index -%}
 
                 {%-
-                  render 'responsive-image' with
+                  render 'responsive-image',
                   class: icon_id,
                   id: 'menu-mobile',
                   image: url_icon,

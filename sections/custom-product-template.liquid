@@ -3664,7 +3664,7 @@
       {% render 'breadcrumb' %}
     {% endif %}
     {%- if settings.product_info_mobile_position == 'above' -%}
-      {%- render 'custom-product-info-mobile', product -%}
+      {%- render 'custom-product-info-mobile', product: product -%}
     {%- endif -%}
 
     <div class="products-info">
@@ -3675,7 +3675,7 @@
       </div>
 
       {%- if settings.product_info_mobile_position == 'below' -%}
-        {%- render 'custom-product-info-mobile', product -%}
+        {%- render 'custom-product-info-mobile', product: product -%}
       {%- endif -%}
 
       <div class="product-half rte">
@@ -3735,7 +3735,7 @@
           </div>
         </div>
 
-        {%- render 'custom-product-form' with settings: settings, product: product, section.id: section.id -%}
+        {%- render 'custom-product-form', settings: settings, product: product -%}
 
         {%  comment %}
         <div class="product-page__upsell-wrapper">
@@ -3747,14 +3747,14 @@
           {%- render 'social-sharing' -%}
         {%- endif -%}
 
-        {%- render 'product-video' with settings: settings, product: product, section.id: section.id -%}
+        {%- render 'product-video', settings: settings, product: product -%}
 
         {%  comment %}
           {%- unless settings.product_tab_full_width -%}
             {%- if section.settings.enabled_tabs_accordion -%}
-              {%- render 'product-tabs-accordion' with settings: settings, product: product, section.id: section.id -%}
+              {%- render 'product-tabs-accordion', settings: settings, product: product -%}
             {% else %}
-              {%- render 'product-tabs' with settings: settings, product: product, section.id: section.id -%}
+              {%- render 'product-tabs', settings: settings, product: product -%}
             {%- endif -%}
   
             {%- if settings.enabled_social_share and settings.social_share_position == 'below' -%}
@@ -3766,9 +3766,9 @@
 
       {%- if settings.product_tab_full_width -%}
         {%- if section.settings.enabled_tabs_accordion -%}
-          {%- render 'product-tabs-accordion' with settings: settings, product: product, section.id: section.id -%}
+          {%- render 'product-tabs-accordion', settings: settings, product: product -%}
         {% else %}
-          {%- render 'product-tabs' with settings: settings, product: product, section.id: section.id -%}
+          {%- render 'product-tabs', settings: settings, product: product -%}
         {%- endif -%}
 
         {%- if settings.enabled_social_share and settings.social_share_position == 'below' -%}
@@ -3778,7 +3778,7 @@
     </div>
     <div class="products-info" style="margin-top: 80px">
       <div class="product-half">
-      {%- render 'product-tabs-accordion' with settings: settings, product: product, section.id: section.id -%}
+      {%- render 'product-tabs-accordion', settings: settings, product: product -%}
       </div>
       <div class="product-half">
         <img src="https://cdn.shopify.com/s/files/1/0593/2892/1759/files/i_love_you_0abe16bc-cf92-4a3f-b282-6e704acf021d.png?v=1716937798" style="width: 100%; height: auto" />

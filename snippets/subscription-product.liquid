@@ -112,7 +112,7 @@
   {% assign popup_background_color = widget_settings.popup_background_color | default: '#474747' %}
   {% assign popup_text_color = widget_settings.popup_text_color | default: '#FFFFFF' %}
   {% assign popup_link_color = widget_settings.popup_link_color | default: '#4DD6B7' %}
-  {% assign recharge_custom_css = widget_settings.custom_css | defalut: '' %}
+  {% assign recharge_custom_css = widget_settings.custom_css | default: '' %}
   {% comment %}Learn more link{% endcomment %}
   {% if widget_settings.learnmore_url %}
     {% if widget_settings.learnmore_url contains 'rechargepayments.com/subscribe-with-recharge' %}

@@ -10,7 +10,7 @@
     },
     "404": {
       "title": "404 Siden findes ikke",
-      "subtext_html": "Siden du leder efter findes ikke. Klik <a href=\"\/collections\/all\">her<\/a> for at fortsætte med at handle."
+      "subtext_html": "Siden du leder efter findes ikke. Klik <a href=\"/collections/all\">her</a> for at fortsætte med at handle."
     },
     "password_page": {
       "opening_soon": "Åbner Snart",
@@ -24,7 +24,7 @@
       "signup_form_email_placeholder": "Din email",
       "signup_form_submit": "Send",
       "signup_form_success": "Vi sender dig en email lige inden vi åbner!",
-      "admin_link_html": "Ejer du denne butik? <a href=\"\/admin\">Log ind her<\/a>",
+      "admin_link_html": "Ejer du denne butik? <a href=\"/admin\">Log ind her</a>",
       "password_link": "Åben ved brug af adgangskode",
       "powered_by_shopify_html": "Denne butik vil blive drevet af {{ shopify }}",
       "store_protected": "TODO"
@@ -51,7 +51,7 @@
         "one": "{{ count }} resultat for \"{{ terms }}\"",
         "other": "{{ count }} resultat for \"{{ terms }}\""
       },
-      "no_results_html": "Prøv et andet søgeord eller gå tilbage til <a href=\"\/\">hjemmesiden<\/a>."
+      "no_results_html": "Prøv et andet søgeord eller gå tilbage til <a href=\"/\">hjemmesiden</a>."
     },
     "newsletter_form": {
       "newsletter_email": "Deltag i vores mailingliste",
@@ -81,12 +81,18 @@
       "moderated": "Bemærk venligst at, kommentarer skal godkendes inden de vises",
       "success_moderated": "Din kommentar er modtaget. Vi offentliggør den inden længe.",
       "success": "Din kommentar er modtaget! Mange tak!",
-      "comments_with_count": "TODO"
+      "comments_with_count": {
+        "one": "{{ count }} Comment",
+        "other": "{{ count }} Comments"
+      }
     },
     "general": {
       "categories": "Kategorier"
     },
-    "sidebar": "TODO"
+    "sidebar": {
+      "recent_articles": "Recent Posts",
+      "categories": "Categories"
+    }
   },
   "cart": {
     "general": {
@@ -99,7 +105,7 @@
       "checkout": "Gå til betaling",
       "empty": "Din kurv er i øjeblikket tom.",
       "cookies_required": "Slå cookies til for at bruge indkøbskurven",
-      "continue_browsing_html": "Fortsæt med at handle <a href=\"\/collections\/all\">her<\/a>.",
+      "continue_browsing_html": "Fortsæt med at handle <a href=\"/collections/all\">her</a>.",
       "item_quantity": "Produkt antal",
       "savings": "Du sparer",
       "note_placeholder": "TODO",
@@ -123,9 +129,21 @@
       "see_more": "TODO",
       "showing_products": "TODO",
       "showing_of": "TODO",
-      "sorting": "TODO"
+      "sorting": {
+        "featured": "Featured",
+        "best_selling": "Best Selling",
+        "az": "Alphabetically, A-Z",
+        "za": "Alphabetically, Z-A",
+        "price_ascending": "Price, low to high",
+        "price_descending": "Price, high to low",
+        "date_ascending": "Date, old to new",
+        "date_descending": "Date, new to old"
+      }
     },
-    "label": "TODO"
+    "label": {
+      "filter_by_interest": "Choose By Interest",
+      "sort_by": "Sort By"
+    }
   },
   "contact": {
     "form": {
@@ -316,5 +334,67 @@
   "date_formats": {
     "month_day_year": "%d. %B, %Y"
   },
-  "structured_data": "TODO"
+  "structured_data": {
+    "breadcrumbs": {
+      "cart": "Cart",
+      "collections": "Collections",
+      "page": "Page {{ page }}",
+      "products": "Products",
+      "search": "Search",
+      "tags": "Tagged \"{{ tags }}\""
+    }
+  },
+  "collection": {
+    "general": {
+      "mobile_filter_label": "Filter"
+    }
+  },
+  "shopify": {
+    "checkout": {
+      "contact": {
+        "email_label": "Email (for order confirmation + updates)",
+        "optional_phone_label": "Phone (for shipping updates & offers)",
+        "email_or_phone_label": "Email (for order confirmation)",
+        "phone_label": "Phone (for shipping updates & offers)"
+      },
+      "marketing": {
+        "accept_marketing_checkbox_label": "Sign up for exclusive offers and news via text messages & email"
+      }
+    }
+  },
+  "gempages": {
+    "Carousel": {
+      "no_slider": "No Slider"
+    },
+    "Newsletter": {
+      "err_msg_default": "Can’t send email. Please try again later.",
+      "success_msg_default": "Thanks for contacting us. We'll get back to you as soon as possible."
+    },
+    "IconListV2": {
+      "icons_not_found": "Icons not found"
+    },
+    "IconList": {
+      "icons_not_found": "Icons not found"
+    },
+    "IconListHoz": {
+      "icons_not_found": "Icons not found"
+    },
+    "Product": {
+      "product_not_found": "Product not found"
+    },
+    "ProductList": {
+      "product_not_found": "Product Not Found!",
+      "no_products_found": "No products found!",
+      "no_related_products": "No related products!"
+    },
+    "ProductTitle": {
+      "product_not_found": "Product Not Found"
+    },
+    "ProductVariants": {
+      "please_select": "Please select an option"
+    },
+    "StockCounter": {
+      "let_buy_now": "<mark>HURRY!</mark> LET BUY NOW"
+    }
+  }
 }

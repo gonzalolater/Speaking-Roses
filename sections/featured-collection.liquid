@@ -40,7 +40,7 @@
   <div class="featured-collection__grid-uniform {{ items_qtd_per_row_desktop }} {{ items_qtd_per_row_mobile }}">
     {%- for temp_product in temp_collection limit: item_count -%}
       {%-
-          render 'product-card' with
+          render 'product-card',
         prod: temp_product,
         max_width: max_width,
         max_height: max_height,

@@ -26,7 +26,7 @@
               href="{{ block.settings.link_Image_slide_promotional | default: '#' }}"
             >
               {%-
-                render 'responsive-image' with
+                render 'responsive-image',
                 image: block.settings.image_slide_promotional,
                 width: 250,
                 lazyload: true,

@@ -1,0 +1,92 @@
+<section class="sr-trust-faq">
+  <div class="sr-shell">
+    <div class="sr-trust">
+      {% for block in section.blocks %}
+        {% if block.type == 'trust' %}
+          <div class="sr-trust__item" {{ block.shopify_attributes }}>
+            <span class="sr-trust__mark">{{ block.settings.symbol }}</span>
+            <div>
+              <strong>{{ block.settings.heading }}</strong>
+              <p>{{ block.settings.text }}</p>
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    <div class="sr-faq">
+      <div class="sr-faq__title">
+        {% if section.settings.eyebrow != blank %}<p class="sr-kicker">{{ section.settings.eyebrow }}</p>{% endif %}
+        <h2>{{ section.settings.heading }}</h2>
+        {% if section.settings.text != blank %}<div>{{ section.settings.text }}</div>{% endif %}
+      </div>
+      <div class="sr-faq__items">
+        {% for block in section.blocks %}
+          {% if block.type == 'faq' %}
+            <details class="sr-faq__item" {{ block.shopify_attributes }}>
+              <summary>{{ block.settings.question }} <span aria-hidden="true">+</span></summary>
+              <div class="sr-faq__answer">{{ block.settings.answer }}</div>
+            </details>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  #shopify-section-{{ section.id }} .sr-trust-faq { padding:0 0 90px; background:{{ section.settings.background }}; color:{{ section.settings.text_color }}; }
+  #shopify-section-{{ section.id }} .sr-shell { width:min(1420px,calc(100% - 40px)); margin:0 auto; }
+  #shopify-section-{{ section.id }} .sr-trust { display:grid; grid-template-columns:repeat(3,1fr); border-top:1px solid rgba(0,0,0,.13); border-bottom:1px solid rgba(0,0,0,.13); }
+  #shopify-section-{{ section.id }} .sr-trust__item { display:flex; align-items:center; gap:17px; padding:28px 22px; border-right:1px solid rgba(0,0,0,.13); }
+  #shopify-section-{{ section.id }} .sr-trust__item:last-child { border-right:0; }
+  #shopify-section-{{ section.id }} .sr-trust__mark { display:grid; place-items:center; flex:0 0 44px; width:44px; height:44px; border:1px solid currentColor; border-radius:50%; font:400 20px/1 Georgia,serif; }
+  #shopify-section-{{ section.id }} .sr-trust__item strong { display:block; font-size:13px; }
+  #shopify-section-{{ section.id }} .sr-trust__item p { margin:5px 0 0; font-size:12px; opacity:.65; }
+  #shopify-section-{{ section.id }} .sr-faq { display:grid; grid-template-columns:.8fr 1.2fr; gap:80px; padding-top:88px; }
+  #shopify-section-{{ section.id }} .sr-kicker { margin:0 0 10px; text-transform:uppercase; letter-spacing:.18em; font-size:11px; font-weight:700; }
+  #shopify-section-{{ section.id }} .sr-faq__title h2 { margin:0; font:400 clamp(34px,4vw,54px)/1.05 Georgia,'Times New Roman',serif; }
+  #shopify-section-{{ section.id }} .sr-faq__title > div { max-width:480px; margin-top:16px; line-height:1.6; opacity:.7; }
+  #shopify-section-{{ section.id }} .sr-faq__title > div p { margin:0; }
+  #shopify-section-{{ section.id }} .sr-faq__item { border-top:1px solid rgba(0,0,0,.14); }
+  #shopify-section-{{ section.id }} .sr-faq__item:last-child { border-bottom:1px solid rgba(0,0,0,.14); }
+  #shopify-section-{{ section.id }} .sr-faq__item summary { display:flex; justify-content:space-between; gap:20px; list-style:none; cursor:pointer; padding:21px 0; font-size:15px; font-weight:600; }
+  #shopify-section-{{ section.id }} .sr-faq__item summary::-webkit-details-marker { display:none; }
+  #shopify-section-{{ section.id }} .sr-faq__item summary span { transition:transform .2s ease; }
+  #shopify-section-{{ section.id }} .sr-faq__item[open] summary span { transform:rotate(45deg); }
+  #shopify-section-{{ section.id }} .sr-faq__answer { padding:0 34px 22px 0; line-height:1.6; opacity:.75; }
+  #shopify-section-{{ section.id }} .sr-faq__answer p { margin:0; }
+  @media(max-width:799px){
+    #shopify-section-{{ section.id }} .sr-trust { grid-template-columns:1fr; }
+    #shopify-section-{{ section.id }} .sr-trust__item { border-right:0; border-bottom:1px solid rgba(0,0,0,.13); }
+    #shopify-section-{{ section.id }} .sr-trust__item:last-child { border-bottom:0; }
+    #shopify-section-{{ section.id }} .sr-faq { grid-template-columns:1fr; gap:36px; padding-top:62px; }
+  }
+  @media(max-width:599px){#shopify-section-{{ section.id }} .sr-shell{width:min(100% - 28px,1420px);}}
+</style>
+
+{% schema %}
+{
+  "name":"SR | Trust + FAQ",
+  "tag":"section",
+  "settings":[
+    {"type":"text","id":"eyebrow","label":"Eyebrow","default":"Need to know"},
+    {"type":"text","id":"heading","label":"Heading","default":"How can we help?"},
+    {"type":"richtext","id":"text","label":"Intro text","default":"<p>Answers to common questions about shopping and ordering.</p>"},
+    {"type":"color","id":"background","label":"Background","default":"#ffffff"},
+    {"type":"color","id":"text_color","label":"Text color","default":"#171515"}
+  ],
+  "blocks":[
+    {"type":"trust","name":"Trust item","settings":[
+      {"type":"text","id":"symbol","label":"Symbol","default":"✓"},
+      {"type":"text","id":"heading","label":"Heading","default":"Shop with confidence"},
+      {"type":"text","id":"text","label":"Text","default":"Clear details and secure checkout"}
+    ]},
+    {"type":"faq","name":"FAQ item","settings":[
+      {"type":"text","id":"question","label":"Question","default":"How do I track my order?"},
+      {"type":"richtext","id":"answer","label":"Answer","default":"<p>When an order ships, the tracking information is sent to the email used at checkout.</p>"}
+    ]}
+  ],
+  "presets":[{"name":"SR | Trust + FAQ","blocks":[{"type":"trust"},{"type":"trust"},{"type":"trust"},{"type":"faq"},{"type":"faq"},{"type":"faq"}]}]
+}
+{% endschema %}

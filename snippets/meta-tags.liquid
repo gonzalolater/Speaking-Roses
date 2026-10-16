@@ -429,7 +429,7 @@
               {%- if product.description != blank -%}
               "description" : {{ product.description | strip_html | json }},
               {%- endif -%}
-            "priceValidUntil": "{{ 'now' | date: '%s' | plus: 31536000 | date: '%Y-%m-%d' | uri_encode | replace: '+' , '%20' }}"
+            "priceValidUntil": "{{ 'now' | date: '%s' | plus: 31536000 | date: '%Y-%m-%d' }}"
         }{%- if product.variants.size != 1 -%},{%- endif -%}
         {%- for variant in product.variants -%}
         {%- if variant != product.selected_or_first_available_variant -%}
@@ -469,7 +469,7 @@
                 {%- if product.description != blank -%}
                 "description" : {{ product.description | strip_html | json }},
                 {%- endif -%}
-                "priceValidUntil": "{{ 'now' | date: '%s' | plus: 31536000 | date: '%Y-%m-%d' | uri_encode | replace: '+' , '%20' }}"
+                "priceValidUntil": "{{ 'now' | date: '%s' | plus: 31536000 | date: '%Y-%m-%d' }}"
             }
             {%- if fa_count < fa_variant_count -%}
             {%- unless forloop.last -%},{%- endunless -%}

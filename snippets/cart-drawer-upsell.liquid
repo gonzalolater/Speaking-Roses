@@ -406,7 +406,7 @@
           <a class="cart-drawer__upsell-product-image-link" href="{{ product.url | default: '#' }}">
             {% assign image_alt = 'Upsell Product Image-' | append: forloop.index %}
             {%
-              render 'responsive-image' with
+              render 'responsive-image',
               image: product.featured_image,
               width: 140,
               height: 140,

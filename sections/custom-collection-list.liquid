@@ -253,7 +253,7 @@
           <div class="new-collection-list__image-wrapper">
             <a href="{{- item.url | default: '#' -}}" class="new-collection-list__link" title="{{- title | escape -}}">
               {%-
-                render 'responsive-image' with
+                render 'responsive-image',
                 image: image,
                 class: 'new-collection-list__image',
                 width: 300,

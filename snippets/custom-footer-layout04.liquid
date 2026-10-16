@@ -37,7 +37,7 @@
                   {% endif %}
                 >
                   {%-
-                    render 'responsive-image' with
+                    render 'responsive-image',
                     image: block.settings.logo_url,
                     alt: block.settings.logo_url.alt,
                     width: 200,
@@ -88,7 +88,7 @@
                 {% endif %}
               >
                 {%-
-                  render 'responsive-image' with
+                  render 'responsive-image',
                   image: block.settings.logo_url,
                   alt: block.settings.logo_url.alt,
                   width: 200,
@@ -117,7 +117,7 @@
           {%- if block.settings.footer_newsletter_enable -%}
             <div class="grid__item {{ column_width }}">
               {%- if block.settings.select_newsletter == 'klaviyo' and settings.enable_klaviyo_id -%}
-                {%- render "newsletter-form-klaviyo" with settings: settings, klaviyo_id: settings.klaviyo_id, section_id: section.id -%}
+                {%- render "newsletter-form-klaviyo", settings: settings, klaviyo_id: settings.klaviyo_id, section_id: section.id -%}
               {%- elsif block.settings.select_newsletter == 'newsletter-default' -%}
                 {%- render 'newsletter-form', section_id: section.id -%}
               {%- elsif block.settings.select_newsletter == 'newsletter-custom' -%}
@@ -143,7 +143,7 @@
               href="{{ block.settings.link_popular_collection | default: '#' }}"
             >
               {%-
-                render 'responsive-image' with
+                render 'responsive-image',
                 image: block.settings.url_popular_collection,
                 width: 200,
                 lazyload: true,
@@ -253,7 +253,7 @@
                     href="{{ social_link | default: '#' }}"
                     target="_blank"
                   >
-                    {%- render 'icon-media-social' with icon: block.settings.social_media -%}
+                    {%- render 'icon-media-social', icon: block.settings.social_media -%}
                   </a>
                 </div>
               {%- endif -%}
@@ -360,7 +360,7 @@
                 {%- if block.type == 'trust_badges_footer' -%}
                   <div class="footer__trust-badge" id="trust-badges-img{{ block.id }}">
                     {% if block.settings.enable_img_trust_badge %}
-                      {% render 'responsive-image' with image: block.settings.img_trust_badges_footer, custom_class: true, max_width: 250, active_lazy : true, id_prefix: index, size_large: 128, size_mobile: 30, size_desk: 10 %}
+                      {% render 'responsive-image', image: block.settings.img_trust_badges_footer, custom_class: true, max_width: 250, active_lazy : true, id_prefix: index, size_large: 128, size_mobile: 30, size_desk: 10 %}
                     {% else %}
                       {%- if block.settings.enable_custom_trust_badge_svg -%}
                         {{ block.settings.custom_trust_badge_svg_html }}
@@ -486,7 +486,7 @@
                   href="{{ social_link | default: '#' }}"
                   target="_blank"
                 >
-                  {%- render 'icon-media-social' with icon: block.settings.social_media -%}
+                  {%- render 'icon-media-social', icon: block.settings.social_media -%}
                 </a>
               {%- endif -%}
             {%- endfor -%}
@@ -519,7 +519,7 @@
             {%- if block.type == 'trust_badges_footer' -%}
               <div class="footer__trust-badge" id="trust-badges-img{{ block.id }}">
                 {% if block.settings.enable_img_trust_badge %}
-                  {% render 'responsive-image' with image: block.settings.img_trust_badges_footer, custom_class: true, max_width: 250, active_lazy : true, id_prefix: index, size_large: 128, size_mobile: 30, size_desk: 10 %}
+                  {% render 'responsive-image', image: block.settings.img_trust_badges_footer, custom_class: true, max_width: 250, active_lazy : true, id_prefix: index, size_large: 128, size_mobile: 30, size_desk: 10 %}
                 {% else %}
                   {%- if block.settings.enable_custom_trust_badge_svg -%}
                     {{ block.settings.custom_trust_badge_svg_html }}

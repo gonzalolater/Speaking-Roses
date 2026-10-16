@@ -37,7 +37,7 @@
                   {% endif %}
                 >
                   {%-
-                    render 'responsive-image' with
+                    render 'responsive-image',
                     image: block.settings.logo_url,
                     alt: block.settings.logo_url.alt,
                     width: 200,
@@ -88,7 +88,7 @@
                 {% endif %}
               >
                 {%-
-                  render 'responsive-image' with
+                  render 'responsive-image',
                   image: block.settings.logo_url,
                   alt: block.settings.logo_url.alt,
                   width: 200,
@@ -117,7 +117,7 @@
           {%- if block.settings.footer_newsletter_enable -%}
             <div class="grid__item {{ column_width }}">
               {%- if block.settings.select_newsletter == 'klaviyo' and settings.enable_klaviyo_id -%}
-                {%- render "newsletter-form-klaviyo" with settings: settings, klaviyo_id: settings.klaviyo_id, section_id: section.id -%}
+                {%- render "newsletter-form-klaviyo", settings: settings, klaviyo_id: settings.klaviyo_id, section_id: section.id -%}
               {%- elsif block.settings.select_newsletter == 'newsletter-default' -%}
                 {%- render 'newsletter-form', section_id: section.id -%}
               {%- elsif block.settings.select_newsletter == 'newsletter-custom' -%}
@@ -129,36 +129,30 @@
       {%- endfor -%}
 
       <div class="popular-collection-links">
-        {%- for block in section.blocks -%}
-          {%- if 'popular_collection' == block.type -%}
-            {%- assign pop = pop | plus: 1 -%}
-
-            {%- if pop == 1 -%}
-              <h4 class="popular_collections_title">{{ section.settings.collection_title }}</h4>
-              <div class="popular_collections_links">
-            {%- endif -%}
-
-            <a
-              title="{{ block.settings.text_editable | strip_html | escape }}"
-              id="ftr-pop_col-link-{{ block.id }}"
-              href="{{ block.settings.link_popular_collection | default: '#' }}"
-            >
-              {%-
-                render 'responsive-image' with
-                image: block.settings.url_popular_collection,
-                width: 200,
-                lazyload: true,
-                id: index
-              -%}
-              {% if block.settings.text_editable != blank %}
-                <h5 class="popular_collections_text">{{ block.settings.text_editable }}</h5>
-              {% endif %}
-            </a>
-          {%- endif -%}
-        {%- endfor -%}
-        {%- comment -%} Start Closing of the "popular_collections_links" tag {%- endcomment -%}
-        </div>
-        {%- comment -%} End Closing of the "popular_collections_links" tag {%- endcomment -%}
+        {%- assign popular_collection_blocks = section.blocks | where: 'type', 'popular_collection' -%}
+        {%- if popular_collection_blocks.size > 0 -%}
+          <h4 class="popular_collections_title">{{ section.settings.collection_title }}</h4>
+          <div class="popular_collections_links">
+            {%- for block in popular_collection_blocks -%}
+              <a
+                title="{{ block.settings.text_editable | strip_html | escape }}"
+                id="ftr-pop_col-link-{{ block.id }}"
+                href="{{ block.settings.link_popular_collection | default: '#' }}"
+              >
+                {%-
+                  render 'responsive-image',
+                  image: block.settings.url_popular_collection,
+                  width: 200,
+                  lazyload: true,
+                  id: index
+                -%}
+                {% if block.settings.text_editable != blank %}
+                  <h5 class="popular_collections_text">{{ block.settings.text_editable }}</h5>
+                {% endif %}
+              </a>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
       </div>
 
       {%- assign has_info_social = false -%}
@@ -255,7 +249,7 @@
                     href="{{ social_link | default: '#' }}"
                     target="_blank"
                   >
-                    {%- render 'icon-media-social' with icon: block.settings.social_media -%}
+                    {%- render 'icon-media-social', icon: block.settings.social_media -%}
                   </a>
                 </div>
               {%- endif -%}
@@ -359,7 +353,7 @@
                 {%- if block.type == 'trust_badges_footer' -%}
                   <div class="footer__trust-badge" id="trust-badges-img{{ block.id }}">
                     {% if block.settings.enable_img_trust_badge %}
-                      {% render 'responsive-image' with image: block.settings.img_trust_badges_footer, custom_class: true, max_width: 250, active_lazy : true, id_prefix: index, size_large: 128, size_mobile: 30, size_desk: 10 %}
+                      {% render 'responsive-image', image: block.settings.img_trust_badges_footer, custom_class: true, max_width: 250, active_lazy : true, id_prefix: index, size_large: 128, size_mobile: 30, size_desk: 10 %}
                     {% else %}
                       {%- if block.settings.enable_custom_trust_badge_svg -%}
                         {{ block.settings.custom_trust_badge_svg_html }}
@@ -485,7 +479,7 @@
                   href="{{ social_link | default: '#' }}"
                   target="_blank"
                 >
-                  {%- render 'icon-media-social' with icon: block.settings.social_media -%}
+                  {%- render 'icon-media-social', icon: block.settings.social_media -%}
                 </a>
               {%- endif -%}
             {%- endfor -%}
@@ -518,7 +512,7 @@
             {%- if block.type == 'trust_badges_footer' -%}
               <div class="footer__trust-badge" id="trust-badges-img{{ block.id }}">
                 {% if block.settings.enable_img_trust_badge %}
-                  {% render 'responsive-image' with image: block.settings.img_trust_badges_footer, custom_class: true, max_width: 250, active_lazy : true, id_prefix: index, size_large: 128, size_mobile: 30, size_desk: 10 %}
+                  {% render 'responsive-image', image: block.settings.img_trust_badges_footer, custom_class: true, max_width: 250, active_lazy : true, id_prefix: index, size_large: 128, size_mobile: 30, size_desk: 10 %}
                 {% else %}
                   {%- if block.settings.enable_custom_trust_badge_svg -%}
                     {{ block.settings.custom_trust_badge_svg_html }}

@@ -9,7 +9,7 @@
     {%- else -%}
       {%- if section.settings.shop_logo != blank -%}
         {%-
-          render 'responsive-image' with
+          render 'responsive-image',
           id: id,
           image: section.settings.shop_logo,
           width: 400,

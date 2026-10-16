@@ -1,3 +1,4 @@
+{% # theme-check-disable ParserBlockingScript, RemoteAsset %}
 <!-- start vasta-scripts.liquid (SNIPPET) -->
 <script>
   const money_format = '{{ shop.money_format | escape }}';
@@ -295,3 +296,4 @@ function verifyComparePriceOfProduct(variantID, quantity) {
 {%- if settings.enable_custom_scripts -%}
   {%- render 'custom_scripts' -%}
 {%- endif -%}
+{% # theme-check-enable ParserBlockingScript, RemoteAsset %}

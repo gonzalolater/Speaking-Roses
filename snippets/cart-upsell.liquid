@@ -506,7 +506,7 @@
         <div class="cart__upsell-product-image-wrapper">
           <a class="cart__upsell-product-image-link" href="{{ product.url | default: '#' }}">
             {%-
-              render 'responsive-image' with
+              render 'responsive-image',
               image: product.featured_image,
               width: 400,
               height: 400,
@@ -529,7 +529,7 @@
           {% comment %}
           UNCOMMENT THIS DIV WHEN THE REVIEWS APP IS DOWNLOADED
           <div class="cart__upsell-product-review">
-            {%- render 'reviews-stars' with prod: product -%}
+            {%- render 'reviews-stars', prod: product -%}
           </div>
           {% endcomment %}
 

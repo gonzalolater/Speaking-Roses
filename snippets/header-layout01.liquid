@@ -476,7 +476,7 @@
     {%- render 'header-logo' -%}
 
     {%- if section.settings.enabled_search_bar -%}
-      {%- render 'header-searchbar' with search_id: 'desktop', mobile: false -%}
+      {%- render 'header-searchbar', search_id: 'desktop', mobile: false -%}
     {%- endif -%}
 
     {%- if section.settings.enabled_search_bar == false
@@ -509,7 +509,7 @@
   </div>
 
   {%- if section.settings.enabled_search_bar_mobile -%}
-    {%- render 'header-searchbar' with search_id: 'mobile', mobile: true -%}
+    {%- render 'header-searchbar', search_id: 'mobile', mobile: true -%}
   {%- endif -%}
 
   {%- unless section.settings.enabled_main_menu == false

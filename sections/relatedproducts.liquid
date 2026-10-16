@@ -417,7 +417,7 @@
                   {%- unless same_type and current_product.type != product.type -%}
                     {% if product.available or settings.enable_out_of_stock_button == true %}
                       {%-
-                          render 'product-card' with
+                          render 'product-card',
                         prod: product,
                         enable_lazy: true,
                         max_width: 300,

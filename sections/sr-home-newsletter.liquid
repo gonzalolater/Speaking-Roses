@@ -1,0 +1,48 @@
+<section class="sr-newsletter">
+  <div class="sr-newsletter__inner">
+    {% if section.settings.eyebrow != blank %}<p class="sr-kicker">{{ section.settings.eyebrow }}</p>{% endif %}
+    {% if section.settings.heading != blank %}<h2>{{ section.settings.heading }}</h2>{% endif %}
+    {% if section.settings.text != blank %}<div class="sr-newsletter__text">{{ section.settings.text }}</div>{% endif %}
+    {% form 'customer', class: 'sr-newsletter__form' %}
+      <input type="hidden" name="contact[tags]" value="newsletter">
+      <label class="sr-visually-hidden" for="NewsletterEmail-{{ section.id }}">Email address</label>
+      <input id="NewsletterEmail-{{ section.id }}" type="email" name="contact[email]" value="{{ form.email }}" autocorrect="off" autocapitalize="off" autocomplete="email" placeholder="{{ section.settings.placeholder }}" required>
+      <button type="submit">{{ section.settings.button_label }}</button>
+      {% if form.posted_successfully? %}<p class="sr-newsletter__status">Thank you for joining us.</p>{% endif %}
+      {% if form.errors %}<div class="sr-newsletter__status">{{ form.errors | default_errors }}</div>{% endif %}
+    {% endform %}
+  </div>
+</section>
+
+<style>
+  #shopify-section-{{ section.id }} .sr-newsletter { padding:86px 20px; background:{{ section.settings.background }}; color:{{ section.settings.text_color }}; text-align:center; }
+  #shopify-section-{{ section.id }} .sr-newsletter__inner { width:min(760px,100%); margin:0 auto; }
+  #shopify-section-{{ section.id }} .sr-kicker { margin:0 0 10px; text-transform:uppercase; letter-spacing:.18em; font-size:11px; font-weight:700; }
+  #shopify-section-{{ section.id }} h2 { margin:0; font:400 clamp(34px,4vw,52px)/1.08 Georgia,'Times New Roman',serif; }
+  #shopify-section-{{ section.id }} .sr-newsletter__text { max-width:610px; margin:17px auto 0; line-height:1.6; opacity:.8; }
+  #shopify-section-{{ section.id }} .sr-newsletter__text p { margin:0; }
+  #shopify-section-{{ section.id }} .sr-newsletter__form { display:grid; grid-template-columns:1fr auto; width:min(590px,100%); margin:30px auto 0; border-bottom:1px solid currentColor; }
+  #shopify-section-{{ section.id }} .sr-newsletter__form input { border:0; background:transparent; color:inherit; padding:15px 3px; min-width:0; outline:none; font:inherit; }
+  #shopify-section-{{ section.id }} .sr-newsletter__form input::placeholder { color:currentColor; opacity:.6; }
+  #shopify-section-{{ section.id }} .sr-newsletter__form button { border:0; background:transparent; color:inherit; cursor:pointer; padding:15px 3px 15px 22px; text-transform:uppercase; letter-spacing:.11em; font-size:11px; font-weight:700; }
+  #shopify-section-{{ section.id }} .sr-newsletter__status { grid-column:1 / -1; margin:12px 0 0; font-size:13px; }
+  #shopify-section-{{ section.id }} .sr-visually-hidden { position:absolute!important; width:1px!important; height:1px!important; padding:0!important; margin:-1px!important; overflow:hidden!important; clip:rect(0,0,0,0)!important; white-space:nowrap!important; border:0!important; }
+  @media(max-width:599px){#shopify-section-{{ section.id }} .sr-newsletter{padding:66px 20px;}}
+</style>
+
+{% schema %}
+{
+  "name":"SR | Newsletter",
+  "tag":"section",
+  "settings":[
+    {"type":"text","id":"eyebrow","label":"Eyebrow","default":"Stay in the loop"},
+    {"type":"text","id":"heading","label":"Heading","default":"A first look at new finds"},
+    {"type":"richtext","id":"text","label":"Text","default":"<p>Join the list for collection updates, stories, and newly listed pieces.</p>"},
+    {"type":"text","id":"placeholder","label":"Email placeholder","default":"Email address"},
+    {"type":"text","id":"button_label","label":"Button label","default":"Subscribe"},
+    {"type":"color","id":"background","label":"Background","default":"#171515"},
+    {"type":"color","id":"text_color","label":"Text color","default":"#ffffff"}
+  ],
+  "presets":[{"name":"SR | Newsletter"}]
+}
+{% endschema %}

@@ -5,12 +5,12 @@
     {%- if section.settings.enable_link_shippingbar_text_phone -%}
       <a href="tel:{{- phone | remove: ' ' | remove: '-' | remove: '(' | remove: ')' -}}" title="Store Phone" class="shipping-bar__link">
         {%- render 'icon-phone' -%}
-        <span class="no-mobile">{{- phone -}}<span>
+        <span class="no-mobile">{{- phone -}}</span>
       </a>
     {%- else -%}
       <div class="shipping-bar__item--wrapper no-mobile">
         {%- render 'icon-phone' -%}
-        <span>{{- phone -}}<span>
+        <span>{{- phone -}}</span>
       </div>
     {%- endif -%}
   {%- endunless -%}

